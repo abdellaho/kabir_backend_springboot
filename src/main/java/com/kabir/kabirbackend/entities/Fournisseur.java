@@ -3,12 +3,18 @@ package com.kabir.kabirbackend.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "fournisseur")
 public class Fournisseur {
@@ -24,7 +30,7 @@ public class Fournisseur {
 
     @NotNull
     @Column(name = "type", nullable = false)
-    private Integer type;
+    private int type;
 
     @Size(max = 191)
     @NotNull
@@ -52,104 +58,14 @@ public class Fournisseur {
     @NotNull
     @ColumnDefault("0")
     @Column(name = "archiver", nullable = false)
-    private Boolean archiver = false;
+    private boolean archiver = false;
 
     @NotNull
     @ColumnDefault("0")
     @Column(name = "supprimer", nullable = false)
-    private Boolean supprimer = false;
+    private boolean supprimer = false;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.SET_NULL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "villeId")
     private Ville ville;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDesignation() {
-        return designation;
-    }
-
-    public void setDesignation(String designation) {
-        this.designation = designation;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
-    public String getTel1() {
-        return tel1;
-    }
-
-    public void setTel1(String tel1) {
-        this.tel1 = tel1;
-    }
-
-    public String getTel2() {
-        return tel2;
-    }
-
-    public void setTel2(String tel2) {
-        this.tel2 = tel2;
-    }
-
-    public String getIce() {
-        return ice;
-    }
-
-    public void setIce(String ice) {
-        this.ice = ice;
-    }
-
-    public String getAdresse() {
-        return adresse;
-    }
-
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
-    }
-
-    public LocalDate getDateSuppression() {
-        return dateSuppression;
-    }
-
-    public void setDateSuppression(LocalDate dateSuppression) {
-        this.dateSuppression = dateSuppression;
-    }
-
-    public Boolean getArchiver() {
-        return archiver;
-    }
-
-    public void setArchiver(Boolean archiver) {
-        this.archiver = archiver;
-    }
-
-    public Boolean getSupprimer() {
-        return supprimer;
-    }
-
-    public void setSupprimer(Boolean supprimer) {
-        this.supprimer = supprimer;
-    }
-
-    public Ville getVille() {
-        return ville;
-    }
-
-    public void setVille(Ville ville) {
-        this.ville = ville;
-    }
-
 }

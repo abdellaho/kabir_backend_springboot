@@ -3,11 +3,19 @@ package com.kabir.kabirbackend.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "personnel")
 public class Personnel {
@@ -38,7 +46,7 @@ public class Personnel {
 
     @NotNull
     @Column(name = "typePersonnel", nullable = false)
-    private Integer typePersonnel;
+    private int typePersonnel;
 
     @NotNull
     @ColumnDefault("0")
@@ -74,7 +82,7 @@ public class Personnel {
 
     @NotNull
     @Column(name = "salaire", nullable = false, precision = 10, scale = 2)
-    private BigDecimal salaire;
+    private double salaire;
 
     @NotNull
     @ColumnDefault("0")
@@ -125,197 +133,4 @@ public class Personnel {
     @ColumnDefault("0")
     @Column(name = "supprimerRepertoire", nullable = false)
     private boolean supprimerRepertoire = false;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDesignation() {
-        return designation;
-    }
-
-    public void setDesignation(String designation) {
-        this.designation = designation;
-    }
-
-    public String getCin() {
-        return cin;
-    }
-
-    public void setCin(String cin) {
-        this.cin = cin;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Integer getTypePersonnel() {
-        return typePersonnel;
-    }
-
-    public void setTypePersonnel(Integer typePersonnel) {
-        this.typePersonnel = typePersonnel;
-    }
-
-    public boolean getEtatComptePersonnel() {
-        return etatComptePersonnel;
-    }
-
-    public void setEtatComptePersonnel(boolean etatComptePersonnel) {
-        this.etatComptePersonnel = etatComptePersonnel;
-    }
-
-    public String getTel1() {
-        return tel1;
-    }
-
-    public void setTel1(String tel1) {
-        this.tel1 = tel1;
-    }
-
-    public String getTel2() {
-        return tel2;
-    }
-
-    public void setTel2(String tel2) {
-        this.tel2 = tel2;
-    }
-
-    public String getAdresse() {
-        return adresse;
-    }
-
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public LocalDate getDateEntrer() {
-        return dateEntrer;
-    }
-
-    public void setDateEntrer(LocalDate dateEntrer) {
-        this.dateEntrer = dateEntrer;
-    }
-
-    public LocalDate getDateSuppression() {
-        return dateSuppression;
-    }
-
-    public void setDateSuppression(LocalDate dateSuppression) {
-        this.dateSuppression = dateSuppression;
-    }
-
-    public BigDecimal getSalaire() {
-        return salaire;
-    }
-
-    public void setSalaire(BigDecimal salaire) {
-        this.salaire = salaire;
-    }
-
-    public boolean getArchiver() {
-        return archiver;
-    }
-
-    public void setArchiver(boolean archiver) {
-        this.archiver = archiver;
-    }
-
-    public boolean getSupprimer() {
-        return supprimer;
-    }
-
-    public void setSupprimer(boolean supprimer) {
-        this.supprimer = supprimer;
-    }
-
-    public boolean getConsulterStock() {
-        return consulterStock;
-    }
-
-    public void setConsulterStock(boolean consulterStock) {
-        this.consulterStock = consulterStock;
-    }
-
-    public boolean getAjouterStock() {
-        return ajouterStock;
-    }
-
-    public void setAjouterStock(boolean ajouterStock) {
-        this.ajouterStock = ajouterStock;
-    }
-
-    public boolean getModifierStock() {
-        return modifierStock;
-    }
-
-    public void setModifierStock(boolean modifierStock) {
-        this.modifierStock = modifierStock;
-    }
-
-    public boolean getSupprimerStock() {
-        return supprimerStock;
-    }
-
-    public void setSupprimerStock(boolean supprimerStock) {
-        this.supprimerStock = supprimerStock;
-    }
-
-    public boolean getConsulterRepertoire() {
-        return consulterRepertoire;
-    }
-
-    public void setConsulterRepertoire(boolean consulterRepertoire) {
-        this.consulterRepertoire = consulterRepertoire;
-    }
-
-    public boolean getAjouterRepertoire() {
-        return ajouterRepertoire;
-    }
-
-    public void setAjouterRepertoire(boolean ajouterRepertoire) {
-        this.ajouterRepertoire = ajouterRepertoire;
-    }
-
-    public boolean getModifierRepertoire() {
-        return modifierRepertoire;
-    }
-
-    public void setModifierRepertoire(boolean modifierRepertoire) {
-        this.modifierRepertoire = modifierRepertoire;
-    }
-
-    public boolean getSupprimerRepertoire() {
-        return supprimerRepertoire;
-    }
-
-    public void setSupprimerRepertoire(boolean supprimerRepertoire) {
-        this.supprimerRepertoire = supprimerRepertoire;
-    }
-
 }

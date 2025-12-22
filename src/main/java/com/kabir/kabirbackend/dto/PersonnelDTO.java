@@ -29,7 +29,7 @@ public class PersonnelDTO implements Serializable {
     @Size(max = 191)
     String password;
     @NotNull
-    Integer typePersonnel;
+    int typePersonnel;
     @NotNull
     boolean etatComptePersonnel;
     @NotNull
@@ -47,7 +47,7 @@ public class PersonnelDTO implements Serializable {
     LocalDate dateEntrer;
     LocalDate dateSuppression;
     @NotNull
-    BigDecimal salaire;
+    double salaire;
     @NotNull
     boolean archiver;
     @NotNull

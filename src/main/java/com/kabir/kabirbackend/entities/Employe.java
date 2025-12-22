@@ -3,10 +3,18 @@ package com.kabir.kabirbackend.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "employe")
 public class Employe {
@@ -60,7 +68,7 @@ public class Employe {
     @NotNull
     @ColumnDefault("0")
     @Column(name = "etatCompte", nullable = false)
-    private Boolean etatCompte = false;
+    private boolean etatCompte = false;
 
     @NotNull
     @Column(name = "validationMnt", nullable = false, precision = 10, scale = 2)
@@ -74,209 +82,41 @@ public class Employe {
     @NotNull
     @ColumnDefault("0")
     @Column(name = "commercial", nullable = false)
-    private Boolean commercial = false;
+    private boolean commercial = false;
 
     @NotNull
     @ColumnDefault("0")
     @Column(name = "pvLibre", nullable = false)
-    private Boolean pvLibre = false;
+    private boolean pvLibre = false;
 
     @NotNull
     @ColumnDefault("0")
     @Column(name = "gerant", nullable = false)
-    private Boolean gerant = false;
+    private boolean gerant = false;
 
     @NotNull
     @ColumnDefault("0")
     @Column(name = "magasinier", nullable = false)
-    private Boolean magasinier = false;
+    private boolean magasinier = false;
 
     @NotNull
     @ColumnDefault("0")
     @Column(name = "bulltinPaie", nullable = false)
-    private Boolean bulltinPaie = false;
+    private boolean bulltinPaie = false;
 
     @NotNull
     @ColumnDefault("0")
     @Column(name = "imprimStockSimple", nullable = false)
-    private Boolean imprimStockSimple = false;
+    private boolean imprimStockSimple = false;
 
     @NotNull
     @ColumnDefault("0")
     @Column(name = "livraisonLimite", nullable = false)
-    private Boolean livraisonLimite = false;
+    private boolean livraisonLimite = false;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "repertoireId", nullable = false)
     private Repertoire repertoire;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Integer getNumEmp() {
-        return numEmp;
-    }
-
-    public void setNumEmp(Integer numEmp) {
-        this.numEmp = numEmp;
-    }
-
-    public Integer getLivrerNonLivrerDroit() {
-        return livrerNonLivrerDroit;
-    }
-
-    public void setLivrerNonLivrerDroit(Integer livrerNonLivrerDroit) {
-        this.livrerNonLivrerDroit = livrerNonLivrerDroit;
-    }
-
-    public String getCodeEmp() {
-        return codeEmp;
-    }
-
-    public void setCodeEmp(String codeEmp) {
-        this.codeEmp = codeEmp;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getPrenom() {
-        return prenom;
-    }
-
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getMotpass() {
-        return motpass;
-    }
-
-    public void setMotpass(String motpass) {
-        this.motpass = motpass;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Integer getTypeUser() {
-        return typeUser;
-    }
-
-    public void setTypeUser(Integer typeUser) {
-        this.typeUser = typeUser;
-    }
-
-    public Boolean getEtatCompte() {
-        return etatCompte;
-    }
-
-    public void setEtatCompte(Boolean etatCompte) {
-        this.etatCompte = etatCompte;
-    }
-
-    public BigDecimal getValidationMnt() {
-        return validationMnt;
-    }
-
-    public void setValidationMnt(BigDecimal validationMnt) {
-        this.validationMnt = validationMnt;
-    }
-
-    public String getMotPassFake() {
-        return motPassFake;
-    }
-
-    public void setMotPassFake(String motPassFake) {
-        this.motPassFake = motPassFake;
-    }
-
-    public Boolean getCommercial() {
-        return commercial;
-    }
-
-    public void setCommercial(Boolean commercial) {
-        this.commercial = commercial;
-    }
-
-    public Boolean getPvLibre() {
-        return pvLibre;
-    }
-
-    public void setPvLibre(Boolean pvLibre) {
-        this.pvLibre = pvLibre;
-    }
-
-    public Boolean getGerant() {
-        return gerant;
-    }
-
-    public void setGerant(Boolean gerant) {
-        this.gerant = gerant;
-    }
-
-    public Boolean getMagasinier() {
-        return magasinier;
-    }
-
-    public void setMagasinier(Boolean magasinier) {
-        this.magasinier = magasinier;
-    }
-
-    public Boolean getBulltinPaie() {
-        return bulltinPaie;
-    }
-
-    public void setBulltinPaie(Boolean bulltinPaie) {
-        this.bulltinPaie = bulltinPaie;
-    }
-
-    public Boolean getImprimStockSimple() {
-        return imprimStockSimple;
-    }
-
-    public void setImprimStockSimple(Boolean imprimStockSimple) {
-        this.imprimStockSimple = imprimStockSimple;
-    }
-
-    public Boolean getLivraisonLimite() {
-        return livraisonLimite;
-    }
-
-    public void setLivraisonLimite(Boolean livraisonLimite) {
-        this.livraisonLimite = livraisonLimite;
-    }
-
-    public Repertoire getRepertoire() {
-        return repertoire;
-    }
-
-    public void setRepertoire(Repertoire repertoire) {
-        this.repertoire = repertoire;
-    }
 
 }

@@ -3,7 +3,15 @@ package com.kabir.kabirbackend.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "voiture")
 public class Voiture {
@@ -19,30 +27,6 @@ public class Voiture {
 
     @NotNull
     @Column(name = "kmMax", nullable = false)
-    private Integer kmMax;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNumVoiture() {
-        return numVoiture;
-    }
-
-    public void setNumVoiture(String numVoiture) {
-        this.numVoiture = numVoiture;
-    }
-
-    public Integer getKmMax() {
-        return kmMax;
-    }
-
-    public void setKmMax(Integer kmMax) {
-        this.kmMax = kmMax;
-    }
+    private int kmMax;
 
 }

@@ -19,7 +19,7 @@ public class AbsenceDTO implements Serializable {
     boolean apresMidi;
     @NotNull
     Instant dateOperation;
-    PersonnelDTO personnelOperation;
+    Long personnelOperationId;
     @NotNull
-    PersonnelDTO personnel;
+    Long personnelId;
 }

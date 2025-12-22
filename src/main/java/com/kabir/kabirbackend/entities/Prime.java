@@ -2,9 +2,17 @@ package com.kabir.kabirbackend.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "prime")
 public class Prime {
@@ -15,34 +23,10 @@ public class Prime {
 
     @NotNull
     @Column(name = "montant", nullable = false, precision = 10, scale = 2)
-    private BigDecimal montant;
+    private double montant;
 
     @NotNull
     @Column(name = "prime", nullable = false, precision = 10, scale = 2)
-    private BigDecimal prime;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public BigDecimal getMontant() {
-        return montant;
-    }
-
-    public void setMontant(BigDecimal montant) {
-        this.montant = montant;
-    }
-
-    public BigDecimal getPrime() {
-        return prime;
-    }
-
-    public void setPrime(BigDecimal prime) {
-        this.prime = prime;
-    }
+    private double prime;
 
 }

@@ -2,6 +2,10 @@ package com.kabir.kabirbackend.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -9,6 +13,10 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.time.Instant;
 import java.time.LocalDate;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "absence")
 public class Absence {
@@ -43,61 +51,4 @@ public class Absence {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "personnelId", nullable = false)
     private Personnel personnel;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public LocalDate getDateAbsence() {
-        return dateAbsence;
-    }
-
-    public void setDateAbsence(LocalDate dateAbsence) {
-        this.dateAbsence = dateAbsence;
-    }
-
-    public Boolean getMatin() {
-        return matin;
-    }
-
-    public void setMatin(Boolean matin) {
-        this.matin = matin;
-    }
-
-    public Boolean getApresMidi() {
-        return apresMidi;
-    }
-
-    public void setApresMidi(Boolean apresMidi) {
-        this.apresMidi = apresMidi;
-    }
-
-    public Instant getDateOperation() {
-        return dateOperation;
-    }
-
-    public void setDateOperation(Instant dateOperation) {
-        this.dateOperation = dateOperation;
-    }
-
-    public Personnel getPersonnelOperation() {
-        return personnelOperation;
-    }
-
-    public void setPersonnelOperation(Personnel personnelOperation) {
-        this.personnelOperation = personnelOperation;
-    }
-
-    public Personnel getPersonnel() {
-        return personnel;
-    }
-
-    public void setPersonnel(Personnel personnel) {
-        this.personnel = personnel;
-    }
-
 }

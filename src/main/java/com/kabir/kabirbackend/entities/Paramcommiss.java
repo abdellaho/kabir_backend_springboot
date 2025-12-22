@@ -2,9 +2,15 @@ package com.kabir.kabirbackend.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.math.BigDecimal;
-
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "paramcommiss")
 public class Paramcommiss {
@@ -15,46 +21,14 @@ public class Paramcommiss {
 
     @NotNull
     @Column(name = "mntDepart", nullable = false, precision = 10, scale = 2)
-    private BigDecimal mntDepart;
+    private double mntDepart;
 
     @NotNull
     @Column(name = "mntFin", nullable = false, precision = 10, scale = 2)
-    private BigDecimal mntFin;
+    private double mntFin;
 
     @NotNull
     @Column(name = "pourc", nullable = false, precision = 10, scale = 2)
-    private BigDecimal pourc;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public BigDecimal getMntDepart() {
-        return mntDepart;
-    }
-
-    public void setMntDepart(BigDecimal mntDepart) {
-        this.mntDepart = mntDepart;
-    }
-
-    public BigDecimal getMntFin() {
-        return mntFin;
-    }
-
-    public void setMntFin(BigDecimal mntFin) {
-        this.mntFin = mntFin;
-    }
-
-    public BigDecimal getPourc() {
-        return pourc;
-    }
-
-    public void setPourc(BigDecimal pourc) {
-        this.pourc = pourc;
-    }
+    private double pourc;
 
 }

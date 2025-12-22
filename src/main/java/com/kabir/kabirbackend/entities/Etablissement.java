@@ -3,13 +3,18 @@ package com.kabir.kabirbackend.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
-import java.math.BigDecimal;
 import java.time.Instant;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "etablissement")
 public class Etablissement {
@@ -100,7 +105,7 @@ public class Etablissement {
 
     @NotNull
     @Column(name = "port", nullable = false)
-    private Integer port;
+    private int port;
 
     @Size(max = 191)
     @NotNull
@@ -129,11 +134,11 @@ public class Etablissement {
 
     @NotNull
     @Column(name = "capitale", nullable = false)
-    private Integer capitale;
+    private int capitale;
 
     @NotNull
     @Column(name = "pourcentageLiv", nullable = false, precision = 10, scale = 2)
-    private BigDecimal pourcentageLiv;
+    private double pourcentageLiv;
 
     @Size(max = 191)
     @NotNull
@@ -148,37 +153,37 @@ public class Etablissement {
     @NotNull
     @ColumnDefault("0")
     @Column(name = "lundi", nullable = false)
-    private Boolean lundi = false;
+    private boolean lundi = false;
 
     @NotNull
     @ColumnDefault("0")
     @Column(name = "mardi", nullable = false)
-    private Boolean mardi = false;
+    private boolean mardi = false;
 
     @NotNull
     @ColumnDefault("0")
     @Column(name = "mercredi", nullable = false)
-    private Boolean mercredi = false;
+    private boolean mercredi = false;
 
     @NotNull
     @ColumnDefault("0")
     @Column(name = "jeudi", nullable = false)
-    private Boolean jeudi = false;
+    private boolean jeudi = false;
 
     @NotNull
     @ColumnDefault("0")
     @Column(name = "vendredi", nullable = false)
-    private Boolean vendredi = false;
+    private boolean vendredi = false;
 
     @NotNull
     @ColumnDefault("0")
     @Column(name = "samedi", nullable = false)
-    private Boolean samedi = false;
+    private boolean samedi = false;
 
     @NotNull
     @ColumnDefault("0")
     @Column(name = "dimanche", nullable = false)
-    private Boolean dimanche = false;
+    private boolean dimanche = false;
 
     @NotNull
     @Column(name = "dateTime", nullable = false)
@@ -186,319 +191,14 @@ public class Etablissement {
 
     @NotNull
     @Column(name = "typeExec", nullable = false)
-    private Integer typeExec;
+    private int typeExec;
 
     @NotNull
     @Column(name = "numJour", nullable = false)
-    private Integer numJour;
+    private int numJour;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.SET_NULL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "villeId")
     private Ville ville;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getCheminBD() {
-        return cheminBD;
-    }
-
-    public void setCheminBD(String cheminBD) {
-        this.cheminBD = cheminBD;
-    }
-
-    public String getTel1() {
-        return tel1;
-    }
-
-    public void setTel1(String tel1) {
-        this.tel1 = tel1;
-    }
-
-    public String getTel2() {
-        return tel2;
-    }
-
-    public void setTel2(String tel2) {
-        this.tel2 = tel2;
-    }
-
-    public String getTel3() {
-        return tel3;
-    }
-
-    public void setTel3(String tel3) {
-        this.tel3 = tel3;
-    }
-
-    public String getFax() {
-        return fax;
-    }
-
-    public void setFax(String fax) {
-        this.fax = fax;
-    }
-
-    public String getGsm() {
-        return gsm;
-    }
-
-    public void setGsm(String gsm) {
-        this.gsm = gsm;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getSiteweb() {
-        return siteweb;
-    }
-
-    public void setSiteweb(String siteweb) {
-        this.siteweb = siteweb;
-    }
-
-    public String getCnss() {
-        return cnss;
-    }
-
-    public void setCnss(String cnss) {
-        this.cnss = cnss;
-    }
-
-    public String getPatente() {
-        return patente;
-    }
-
-    public void setPatente(String patente) {
-        this.patente = patente;
-    }
-
-    public String getAdresse() {
-        return adresse;
-    }
-
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
-    }
-
-    public String getRaisonSocial() {
-        return raisonSocial;
-    }
-
-    public void setRaisonSocial(String raisonSocial) {
-        this.raisonSocial = raisonSocial;
-    }
-
-    public String getIce() {
-        return ice;
-    }
-
-    public void setIce(String ice) {
-        this.ice = ice;
-    }
-
-    public String getIfe() {
-        return ife;
-    }
-
-    public void setIfe(String ife) {
-        this.ife = ife;
-    }
-
-    public String getRc() {
-        return rc;
-    }
-
-    public void setRc(String rc) {
-        this.rc = rc;
-    }
-
-    public Integer getPort() {
-        return port;
-    }
-
-    public void setPort(Integer port) {
-        this.port = port;
-    }
-
-    public String getHostMail() {
-        return hostMail;
-    }
-
-    public void setHostMail(String hostMail) {
-        this.hostMail = hostMail;
-    }
-
-    public String getPaswordMail() {
-        return paswordMail;
-    }
-
-    public void setPaswordMail(String paswordMail) {
-        this.paswordMail = paswordMail;
-    }
-
-    public String getPaswordMailFake() {
-        return paswordMailFake;
-    }
-
-    public void setPaswordMailFake(String paswordMailFake) {
-        this.paswordMailFake = paswordMailFake;
-    }
-
-    public String getFromMail() {
-        return fromMail;
-    }
-
-    public void setFromMail(String fromMail) {
-        this.fromMail = fromMail;
-    }
-
-    public String getUserMail() {
-        return userMail;
-    }
-
-    public void setUserMail(String userMail) {
-        this.userMail = userMail;
-    }
-
-    public Integer getCapitale() {
-        return capitale;
-    }
-
-    public void setCapitale(Integer capitale) {
-        this.capitale = capitale;
-    }
-
-    public BigDecimal getPourcentageLiv() {
-        return pourcentageLiv;
-    }
-
-    public void setPourcentageLiv(BigDecimal pourcentageLiv) {
-        this.pourcentageLiv = pourcentageLiv;
-    }
-
-    public String getLienDbDump() {
-        return lienDbDump;
-    }
-
-    public void setLienDbDump(String lienDbDump) {
-        this.lienDbDump = lienDbDump;
-    }
-
-    public String getLienBackupDB() {
-        return lienBackupDB;
-    }
-
-    public void setLienBackupDB(String lienBackupDB) {
-        this.lienBackupDB = lienBackupDB;
-    }
-
-    public Boolean getLundi() {
-        return lundi;
-    }
-
-    public void setLundi(Boolean lundi) {
-        this.lundi = lundi;
-    }
-
-    public Boolean getMardi() {
-        return mardi;
-    }
-
-    public void setMardi(Boolean mardi) {
-        this.mardi = mardi;
-    }
-
-    public Boolean getMercredi() {
-        return mercredi;
-    }
-
-    public void setMercredi(Boolean mercredi) {
-        this.mercredi = mercredi;
-    }
-
-    public Boolean getJeudi() {
-        return jeudi;
-    }
-
-    public void setJeudi(Boolean jeudi) {
-        this.jeudi = jeudi;
-    }
-
-    public Boolean getVendredi() {
-        return vendredi;
-    }
-
-    public void setVendredi(Boolean vendredi) {
-        this.vendredi = vendredi;
-    }
-
-    public Boolean getSamedi() {
-        return samedi;
-    }
-
-    public void setSamedi(Boolean samedi) {
-        this.samedi = samedi;
-    }
-
-    public Boolean getDimanche() {
-        return dimanche;
-    }
-
-    public void setDimanche(Boolean dimanche) {
-        this.dimanche = dimanche;
-    }
-
-    public Instant getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(Instant dateTime) {
-        this.dateTime = dateTime;
-    }
-
-    public Integer getTypeExec() {
-        return typeExec;
-    }
-
-    public void setTypeExec(Integer typeExec) {
-        this.typeExec = typeExec;
-    }
-
-    public Integer getNumJour() {
-        return numJour;
-    }
-
-    public void setNumJour(Integer numJour) {
-        this.numJour = numJour;
-    }
-
-    public Ville getVille() {
-        return ville;
-    }
-
-    public void setVille(Ville ville) {
-        this.ville = ville;
-    }
 
 }
