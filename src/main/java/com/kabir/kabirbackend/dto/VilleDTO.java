@@ -11,7 +11,7 @@ import java.io.Serializable;
  * DTO for {@link com.kabir.kabirbackend.entities.Ville}
  */
 @Data
-public class VilleDto implements Serializable {
+public class VilleDTO implements Serializable {
     Long id;
     @NotNull
     @Size(max = 191)

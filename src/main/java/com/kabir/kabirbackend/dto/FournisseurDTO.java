@@ -35,5 +35,5 @@ public class FournisseurDTO implements Serializable {
     boolean archiver;
     @NotNull
     boolean supprimer;
-    VilleDto ville;
+    VilleDTO ville;
 }
