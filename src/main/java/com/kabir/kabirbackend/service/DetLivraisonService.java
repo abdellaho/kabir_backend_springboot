@@ -72,6 +72,19 @@ public class DetLivraisonService implements IDetLivraisonService {
     }
 
     @Override
+    public List<DetLivraisonDTO> DetLivraisonByLivraisonId(Long idLivraison) {
+        logger.info("Finding DetLivraison by LivraisonId: {}", idLivraison);
+        try {
+            return detLivraisonRepository.findByLivraisonId(idLivraison).stream()
+                    .map(detLivraisonMapper::toDetLivraisonDTO)
+                    .toList();
+        } catch (Exception e) {
+            logger.error("Error finding DetLivraison by LivraisonId", e);
+            throw new RuntimeException("Error finding DetLivraison by LivraisonId", e);
+        }
+    }
+
+    @Override
     public List<DetLivraisonDTO> search(DetLivraisonDTO detLivraisonDTO) {
         logger.info("Searching DetLivraison by DetLivraisonDTO: {}", detLivraisonDTO);
         try {

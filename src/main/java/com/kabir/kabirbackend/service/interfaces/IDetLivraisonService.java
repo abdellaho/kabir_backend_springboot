@@ -10,5 +10,6 @@ public interface IDetLivraisonService {
     public DetLivraisonDTO findById(Long id);
     public List<DetLivraisonDTO> findAll();
     public void delete(Long id);
+    public List<DetLivraisonDTO> DetLivraisonByLivraisonId(Long idLivraison);
     public List<DetLivraisonDTO> search(DetLivraisonDTO detLivraisonDTO);
 }

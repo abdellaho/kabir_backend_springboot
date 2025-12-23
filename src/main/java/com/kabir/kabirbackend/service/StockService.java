@@ -1,6 +1,8 @@
 package com.kabir.kabirbackend.service;
 
 
+import com.kabir.kabirbackend.config.enums.TypeQteToUpdate;
+import com.kabir.kabirbackend.config.requests.RequestStockQte;
 import com.kabir.kabirbackend.dto.StockDTO;
 import com.kabir.kabirbackend.entities.Stock;
 import com.kabir.kabirbackend.mapper.StockMapper;
@@ -76,5 +78,91 @@ public class StockService implements IStockService {
     public List<StockDTO> search(StockDTO stockDTO) {
         logger.info("Searching stocks: {}", stockDTO);
         return stockRepository.findAll(StockSpecification.builder().stockDTO(stockDTO).build()).stream().map(stockMapper::toStockDTO).toList();
+    }
+
+    @Override
+    public void updateQteStock(Long id, RequestStockQte requestStockQte) {
+        logger.info("Updating stock qte stock: {}", requestStockQte);
+        try {
+            if (null != id) {
+                StockDTO stockDTO = findById(id);
+                if(null != stockDTO && null != stockDTO.getId()) {
+                    updateStock(TypeQteToUpdate.QTE_STOCK, stockDTO, requestStockQte);
+                } else {
+                    throw new RuntimeException("Stock not found");
+                }
+            } else {
+                throw new RuntimeException("Id is null");
+            }
+        } catch (Exception e) {
+            logger.error("Error updating stock qte stock", e);
+            throw new RuntimeException("Error updating stock qte stock", e);
+        }
+    }
+
+    @Override
+    public void updateQteStockImport(Long id, RequestStockQte requestStockQte) {
+        logger.info("Updating stock qte stock import: {}", requestStockQte);
+        try {
+            if (null != id) {
+                StockDTO stockDTO = findById(id);
+                if(null != stockDTO && null != stockDTO.getId()) {
+                    updateStock(TypeQteToUpdate.QTE_STOCK_IMPORT, stockDTO, requestStockQte);
+                } else {
+                    throw new RuntimeException("Stock not found");
+                }
+            } else {
+                throw new RuntimeException("Id is null");
+            }
+        } catch (Exception e) {
+            logger.error("Error updating stock qte stock import", e);
+            throw new RuntimeException("Error updating stock qte stock import", e);
+        }
+    }
+
+    @Override
+    public void updateQteStockFacturer(Long id, RequestStockQte requestStockQte) {
+        logger.info("Updating stock qte stock facturer: {}", requestStockQte);
+        try {
+            if (null != id) {
+                StockDTO stockDTO = findById(id);
+                if(null != stockDTO && null != stockDTO.getId()) {
+                    updateStock(TypeQteToUpdate.QTE_STOCK_FACTURER, stockDTO, requestStockQte);
+                } else {
+                    throw new RuntimeException("Stock not found");
+                }
+            } else {
+                throw new RuntimeException("Id is null");
+            }
+        } catch (Exception e) {
+            logger.error("Error updating stock qte stock facturer", e);
+            throw new RuntimeException("Error updating stock qte stock facturer", e);
+        }
+    }
+
+
+
+    public void updateStock(TypeQteToUpdate typeQteToUpdate, StockDTO stockDTO, RequestStockQte requestStockQte) {
+        if(typeQteToUpdate.equals(TypeQteToUpdate.QTE_STOCK)) {
+            if(requestStockQte.typeOperation() == 1) {
+                stockDTO.setQteStock(stockDTO.getQteStock() - requestStockQte.qte());
+            } else if(requestStockQte.typeOperation() == 2) {
+                stockDTO.setQteStock(stockDTO.getQteStock() + requestStockQte.qte());
+            }
+        } else if(typeQteToUpdate.equals(TypeQteToUpdate.QTE_STOCK_IMPORT)) {
+            if(requestStockQte.typeOperation() == 1) {
+                stockDTO.setQteStockImport(stockDTO.getQteStockImport() - requestStockQte.qte());
+            } else if(requestStockQte.typeOperation() == 2) {
+                stockDTO.setQteStockImport(stockDTO.getQteStockImport() + requestStockQte.qte());
+            }
+        } else if(typeQteToUpdate.equals(TypeQteToUpdate.QTE_STOCK_FACTURER)) {
+            if(requestStockQte.typeOperation() == 1) {
+                stockDTO.setQteFacturer(stockDTO.getQteFacturer() - requestStockQte.qte());
+            } else if(requestStockQte.typeOperation() == 2) {
+                stockDTO.setQteFacturer(stockDTO.getQteFacturer() + requestStockQte.qte());
+            }
+        }
+
+        save(stockDTO);
     }
 }

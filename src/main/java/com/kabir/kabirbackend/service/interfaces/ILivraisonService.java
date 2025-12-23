@@ -11,4 +11,5 @@ public interface ILivraisonService {
     public List<LivraisonDTO> findAll();
     public void delete(Long id);
     public List<LivraisonDTO> search(LivraisonDTO livraisonDTO);
+    public int getLastNumLivraison(LivraisonDTO livraisonDTO);
 }

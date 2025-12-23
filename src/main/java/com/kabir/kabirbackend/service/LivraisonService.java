@@ -75,4 +75,9 @@ public class LivraisonService implements ILivraisonService {
     public List<LivraisonDTO> search(LivraisonDTO livraisonDTO) {
         return livraisonRepository.findAll(LivraisonSpecification.builder().livraisonDTO(livraisonDTO).build()).stream().map(livraisonMapper::toLivraisonDTO).toList();
     }
+
+    @Override
+    public int getLastNumLivraison(LivraisonDTO livraisonDTO) {
+        return livraisonRepository.findMaxNumLivraisonInYearDateBL(livraisonDTO.getDateBl().getYear()).map(l -> l + 1).orElse(0);
+    }
 }
