@@ -98,6 +98,18 @@ class StockController {
         }
     }
 
+    @PostMapping
+    public ResponseEntity<StockDTO> save(@RequestBody StockDTO stockDTO) {
+        logger.info("Saving stock: {}", stockDTO);
+        try {
+            StockDTO savedStock = stockService.save(stockDTO);
+            return ResponseEntity.ok(savedStock);
+        } catch (Exception e) {
+            logger.error("Error saving stock: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
     @PatchMapping("/{id}")
     public ResponseEntity<StockDTO> create(@PathVariable Long id, @RequestBody StockDTO stockDTO) {
         logger.info("Creating stock: {}", stockDTO);
@@ -124,7 +136,7 @@ class StockController {
 
     @PostMapping("/exist")
     public ResponseEntity<Boolean> exist(@RequestBody StockDTO stockDTO) {
-        logger.info("Checking if stock exists: " + stockDTO);
+        logger.info("Checking if stock exists: {}", stockDTO);
         try {
             List<StockDTO> stocks = stockService.search(stockDTO);
             return ResponseEntity.ok(CollectionUtils.isNotEmpty(stocks));
@@ -136,9 +148,9 @@ class StockController {
 
     @PostMapping("/search")
     public ResponseEntity<List<StockDTO>> search(@RequestBody StockDTO stockDTO) {
-        logger.info("Searching stocks: " + stockDTO);
+        logger.info("Searching stocks: {}", stockDTO);
         try {
-            List<StockDTO> stocks = stockService.search(stockDTO);
+            List<StockDTO> stocks = stockService.searchBySupprimerOrArchiver(stockDTO);
             return ResponseEntity.ok(stocks);
         } catch (Exception e) {
             logger.error("Error searching stocks: {}", e.getMessage());

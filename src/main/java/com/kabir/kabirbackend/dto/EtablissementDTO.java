@@ -2,7 +2,7 @@ package com.kabir.kabirbackend.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Value;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -11,7 +11,7 @@ import java.time.Instant;
 /**
  * DTO for {@link com.kabir.kabirbackend.entities.Etablissement}
  */
-@Value
+@Data
 public class EtablissementDTO implements Serializable {
     Long id;
     @NotNull

@@ -11,4 +11,6 @@ public interface IPersonnelService {
     public List<PersonnelDTO> findAll();
     public void delete(Long id);
     public List<PersonnelDTO> search(PersonnelDTO personnelDTO);
+
+    List<PersonnelDTO> searchBySupprimerOrArchiver(PersonnelDTO personnelDTO);
 }

@@ -2,7 +2,7 @@ package com.kabir.kabirbackend.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Value;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 /**
  * DTO for {@link com.kabir.kabirbackend.entities.Employe}
  */
-@Value
+@Data
 public class EmployeDTO implements Serializable {
     Long id;
     @NotNull

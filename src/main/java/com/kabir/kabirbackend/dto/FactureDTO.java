@@ -2,7 +2,7 @@ package com.kabir.kabirbackend.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Value;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -11,7 +11,7 @@ import java.time.LocalDate;
 /**
  * DTO for {@link com.kabir.kabirbackend.entities.Facture}
  */
-@Value
+@Data
 public class FactureDTO implements Serializable {
     Long id;
     int numFacture;

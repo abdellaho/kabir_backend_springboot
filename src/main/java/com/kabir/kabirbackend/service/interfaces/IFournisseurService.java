@@ -11,4 +11,6 @@ public interface IFournisseurService {
     public List<FournisseurDTO> findAll();
     public void delete(Long id);
     public List<FournisseurDTO> search(FournisseurDTO fournisseurDTO);
+
+    List<FournisseurDTO> searchBySupprimerOrArchiver(FournisseurDTO fournisseurDTO);
 }

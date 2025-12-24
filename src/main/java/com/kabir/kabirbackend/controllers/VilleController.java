@@ -56,14 +56,26 @@ class VilleController {
         }
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<VilleDTO> create(@PathVariable Long id, @RequestBody VilleDTO villeDTO) {
+    @PostMapping
+    public ResponseEntity<VilleDTO> create(@RequestBody VilleDTO villeDTO) {
         logger.info("Creating ville: {}", villeDTO);
         try {
             VilleDTO createdVille = villeService.save(villeDTO);
             return ResponseEntity.ok(createdVille);
         } catch (Exception e) {
             logger.error("Error creating ville: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<VilleDTO> update(@PathVariable Long id, @RequestBody VilleDTO villeDTO) {
+        logger.info("Updating ville: {}", villeDTO);
+        try {
+            VilleDTO createdVille = villeService.save(villeDTO);
+            return ResponseEntity.ok(createdVille);
+        } catch (Exception e) {
+            logger.error("Error updating ville: {}", e.getMessage());
             return ResponseEntity.badRequest().body(null);
         }
     }
@@ -82,7 +94,7 @@ class VilleController {
 
     @PostMapping("/exist")
     public ResponseEntity<Boolean> exist(@RequestBody VilleDTO villeDTO) {
-        logger.info("Checking if ville exists: " + villeDTO);
+        logger.info("Checking if ville exists: {}", villeDTO);
         try {
             List<VilleDTO> villes = villeService.search(villeDTO);
             return ResponseEntity.ok(CollectionUtils.isNotEmpty(villes));
@@ -94,7 +106,7 @@ class VilleController {
 
     @PostMapping("/search")
     public ResponseEntity<List<VilleDTO>> search(@RequestBody VilleDTO villeDTO) {
-        logger.info("Searching villes: " + villeDTO);
+        logger.info("Searching villes: {}", villeDTO);
         try {
             List<VilleDTO> villes = villeService.search(villeDTO);
             return ResponseEntity.ok(villes);

@@ -93,7 +93,7 @@ class PrimeController {
         }
     }
 
-    @PostMapping("/exist")
+    @PatchMapping("/exist")
     public ResponseEntity<Boolean> exist(@RequestBody PrimeDTO primeDTO) {
         logger.info("Checking if prime exists: {}", primeDTO);
         try {
@@ -105,12 +105,12 @@ class PrimeController {
         }
     }
 
-    @PostMapping("/search")
-    public ResponseEntity<List<PrimeDTO>> search(@RequestBody PrimeDTO primeDTO) {
+    @PatchMapping("/search")
+    public ResponseEntity<Boolean> search(@RequestBody PrimeDTO primeDTO) {
         logger.info("Searching primes: {}", primeDTO);
         try {
             List<PrimeDTO> primes = primeService.search(primeDTO);
-            return ResponseEntity.ok(primes);
+            return ResponseEntity.ok(CollectionUtils.isNotEmpty(primes));
         } catch (Exception e) {
             logger.error("Error searching primes: {}", e.getMessage());
             return ResponseEntity.badRequest().body(null);

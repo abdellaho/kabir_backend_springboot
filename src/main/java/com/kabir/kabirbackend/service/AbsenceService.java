@@ -5,6 +5,7 @@ import com.kabir.kabirbackend.entities.Absence;
 import com.kabir.kabirbackend.mapper.AbsenceMapper;
 import com.kabir.kabirbackend.repository.AbsenceRepository;
 import com.kabir.kabirbackend.service.interfaces.IAbsenceService;
+import com.kabir.kabirbackend.specifications.AbsenceSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -59,8 +60,8 @@ public class AbsenceService implements IAbsenceService {
 
     @Override
     public List<AbsenceDTO> search(AbsenceDTO absenceDTO) {
-        logger.info("Searching absence by date and personnel id");
-        return absenceRepository.findAll().stream()
+        logger.info("Searching absence by date and personnel id with AbsenceSpecification builder {}", absenceDTO);
+        return absenceRepository.findAll(AbsenceSpecification.builder().absenceDTO(absenceDTO).build()).stream()
                 .map(absenceMapper::toAbsenceDTO)
                 .toList();
     }

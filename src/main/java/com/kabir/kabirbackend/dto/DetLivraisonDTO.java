@@ -1,15 +1,15 @@
 package com.kabir.kabirbackend.dto;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.Value;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
- * DTO for {@link com.kabir.kabirbackend.entities.Detlivraison}
+ * DTO for {@link com.kabir.kabirbackend.entities.DetLivraison}
  */
-@Value
+@Data
 public class DetLivraisonDTO implements Serializable {
     Long id;
     @NotNull

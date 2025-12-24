@@ -151,7 +151,7 @@ class PersonnelController {
     public ResponseEntity<List<PersonnelDTO>> search(@RequestBody PersonnelDTO personnelDTO) {
         logger.info("Searching personnel: " + personnelDTO);
         try {
-            List<PersonnelDTO> personnel = personnelService.search(personnelDTO);
+            List<PersonnelDTO> personnel = personnelService.searchBySupprimerOrArchiver(personnelDTO);
             return ResponseEntity.ok(personnel);
         } catch (Exception e) {
             logger.error("Error searching personnel: {}", e.getMessage());

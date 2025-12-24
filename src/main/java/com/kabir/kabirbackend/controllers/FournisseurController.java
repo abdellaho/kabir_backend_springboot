@@ -80,7 +80,7 @@ class FournisseurController {
         }
     }
 
-    @PatchMapping("/{id}/update")
+    @PatchMapping("/{id}")
     public ResponseEntity<FournisseurDTO> update(@PathVariable Long id, @RequestBody FournisseurDTO fournisseurDTO) {
         logger.info("Updating fournisseur: {}, with ID {}: ", fournisseurDTO, id);
         try {
@@ -94,7 +94,7 @@ class FournisseurController {
 
     @PostMapping("/exist")
     public ResponseEntity<Boolean> exist(@RequestBody FournisseurDTO fournisseurDTO) {
-        logger.info("Checking if fournisseur exists: " + fournisseurDTO);
+        logger.info("Checking if fournisseur exists: {}", fournisseurDTO);
         try {
             List<FournisseurDTO> fournisseurs = fournisseurService.search(fournisseurDTO);
             return ResponseEntity.ok(CollectionUtils.isNotEmpty(fournisseurs));
@@ -106,9 +106,9 @@ class FournisseurController {
 
     @PostMapping("/search")
     public ResponseEntity<List<FournisseurDTO>> search(@RequestBody FournisseurDTO fournisseurDTO) {
-        logger.info("Searching fournisseur: " + fournisseurDTO);
+        logger.info("Searching fournisseur: {}", fournisseurDTO);
         try {
-            List<FournisseurDTO> fournisseurs = fournisseurService.search(fournisseurDTO);
+            List<FournisseurDTO> fournisseurs = fournisseurService.searchBySupprimerOrArchiver(fournisseurDTO);
             return ResponseEntity.ok(fournisseurs);
         } catch (Exception e) {
             logger.error("Error searching fournisseur: {}", e.getMessage());

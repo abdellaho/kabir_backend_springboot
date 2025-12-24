@@ -82,4 +82,9 @@ public class PersonnelService implements IPersonnelService {
     public List<PersonnelDTO> search(PersonnelDTO personnelDTO) {
         return personnelRepository.findAll(PersonnelSpecification.builder().personnelDTO(personnelDTO).build()).stream().map(personnelMapper::toDTO).toList();
     }
+
+    @Override
+    public List<PersonnelDTO> searchBySupprimerOrArchiver(PersonnelDTO personnelDTO) {
+        return personnelRepository.findAll(PersonnelSpecification.searchBySupprimerOrArchiver(personnelDTO)).stream().map(personnelMapper::toDTO).toList();
+    }
 }

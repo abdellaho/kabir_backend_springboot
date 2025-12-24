@@ -2,16 +2,16 @@ package com.kabir.kabirbackend.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Value;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
 
 /**
- * DTO for {@link com.kabir.kabirbackend.entities.Achatfacture}
+ * DTO for {@link com.kabir.kabirbackend.entities.AchatFacture}
  */
-@Value
+@Data
 public class AchatFactureDTO implements Serializable {
     Long id;
     @NotNull

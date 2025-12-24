@@ -74,6 +74,6 @@ public class PrimeService implements IPrimeService {
 
     @Override
     public List<PrimeDTO> search(PrimeDTO primeDTO) {
-        return primeRepository.findAll().stream().map(primeMapper::toPrimeDTO).toList();
+        return List.of();
     }
 }

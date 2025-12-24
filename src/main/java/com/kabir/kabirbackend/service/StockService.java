@@ -81,6 +81,11 @@ public class StockService implements IStockService {
     }
 
     @Override
+    public List<StockDTO> searchBySupprimerOrArchiver(StockDTO stockDTO) {
+        return stockRepository.findAll(StockSpecification.searchBySupprimerOrArchiver(stockDTO)).stream().map(stockMapper::toStockDTO).toList();
+    }
+
+    @Override
     public void updateQteStock(Long id, RequestStockQte requestStockQte) {
         logger.info("Updating stock qte stock: {}", requestStockQte);
         try {

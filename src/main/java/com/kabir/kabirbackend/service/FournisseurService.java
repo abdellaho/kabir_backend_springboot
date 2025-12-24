@@ -76,4 +76,9 @@ public class FournisseurService implements IFournisseurService {
         return fournisseurRepository.findAll(FournisseurSpecification.builder().fournisseurDTO(fournisseurDTO).build()).stream().map(fournisseurMapper::toFournisseurDTO).toList();
     }
 
+    @Override
+    public List<FournisseurDTO> searchBySupprimerOrArchiver(FournisseurDTO fournisseurDTO) {
+        return fournisseurRepository.findAll(FournisseurSpecification.searchBySupprimerOrArchiver(fournisseurDTO)).stream().map(fournisseurMapper::toFournisseurDTO).toList();
+    }
+
 }

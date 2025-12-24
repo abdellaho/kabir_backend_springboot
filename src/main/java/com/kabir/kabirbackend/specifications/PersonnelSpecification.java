@@ -17,6 +17,16 @@ public class PersonnelSpecification implements Specification<Personnel> {
 
     private PersonnelDTO personnelDTO;
 
+    public static Specification<Personnel> searchBySupprimerOrArchiver(PersonnelDTO personnelDTO) {
+        return (root, query, criteriaBuilder) -> {
+            
+            return criteriaBuilder.and(
+                criteriaBuilder.equal(root.get("supprimer"), personnelDTO.isSupprimer()),
+                criteriaBuilder.equal(root.get("archiver"), personnelDTO.isArchiver())
+            );
+        };
+    }
+    
     @Override
     public Predicate toPredicate(Root<Personnel> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 
@@ -51,4 +61,6 @@ public class PersonnelSpecification implements Specification<Personnel> {
 
         return predicate;
     }
+
+
 }

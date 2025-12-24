@@ -1,14 +1,13 @@
 package com.kabir.kabirbackend.dto;
 
-import jakarta.validation.constraints.NotNull;
-import lombok.Value;
+import lombok.Data;
 
 import java.io.Serializable;
 
 /**
  * DTO for {@link com.kabir.kabirbackend.entities.Droit}
  */
-@Value
+@Data
 public class DroitDTO implements Serializable {
     Long id;
     

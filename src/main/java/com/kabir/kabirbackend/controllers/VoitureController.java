@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -43,79 +42,79 @@ class VoitureController {
             List<VoitureDTO> voitures = voitureService.findAll();
             return ResponseEntity.ok(voitures);
         } catch (Exception e) {
-            logger.error("Error fetching all voitures: " + e.getMessage());
+            logger.error("Error fetching all voitures: {}", e.getMessage());
             return ResponseEntity.badRequest().body(null);
         }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<VoitureDTO> getById(@PathVariable Long id) {
-        logger.info("Fetching voiture with id: " + id);
+        logger.info("Fetching voiture with id: {}", id);
         try {
             VoitureDTO voiture = voitureService.findById(id);
             return ResponseEntity.ok(voiture);
         } catch (Exception e) {
-            logger.error("Error fetching voiture with id: " + id + ": " + e.getMessage());
+            logger.error("Error fetching voiture with id: {}: {}", id, e.getMessage());
             return ResponseEntity.badRequest().body(null);
         }
     }
 
     @PostMapping
     public ResponseEntity<VoitureDTO> create(@RequestBody VoitureDTO voitureDTO) {
-        logger.info("Creating voiture: " + voitureDTO);
+        logger.info("Creating voiture: {}", voitureDTO);
         try {
             VoitureDTO createdVoiture = voitureService.save(voitureDTO);
             return ResponseEntity.ok(createdVoiture);
         } catch (Exception e) {
-            logger.error("Error creating voiture: " + e.getMessage());
+            logger.error("Error creating voiture: {}", e.getMessage());
             return ResponseEntity.badRequest().body(null);
         }
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<VoitureDTO> update(@PathVariable Long id, @RequestBody VoitureDTO voitureDTO) {
-        logger.info("Updating voiture with id: " + id);
+        logger.info("Updating voiture with id: {}", id);
         try {
             VoitureDTO updatedVoiture = voitureService.save(voitureDTO);
             return ResponseEntity.ok(updatedVoiture);
         } catch (Exception e) {
-            logger.error("Error updating voiture with id: " + id + ": " + e.getMessage());
+            logger.error("Error updating voiture with id: {}: {}", id, e.getMessage());
             return ResponseEntity.badRequest().body(null);
         }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<VoitureDTO> delete(@PathVariable Long id) {
-        logger.info("Deleting voiture with id: " + id);
+        logger.info("Deleting voiture with id: {}", id);
         try {
             voitureService.delete(id);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            logger.error("Error deleting voiture with id: " + id + ": " + e.getMessage());
+            logger.error("Error deleting voiture with id: {}: {}", id, e.getMessage());
             return ResponseEntity.badRequest().body(null);
         }
     }
 
     @PostMapping("/exist")
     public ResponseEntity<Boolean> exist(@RequestBody VoitureDTO voitureDTO) {
-        logger.info("Checking if voiture exists: " + voitureDTO);
+        logger.info("Checking if voiture exists: {}", voitureDTO);
         try {
             List<VoitureDTO> voitures = voitureService.search(voitureDTO);
             return ResponseEntity.ok(CollectionUtils.isNotEmpty(voitures));
         } catch (Exception e) {
-            logger.error("Error checking if voiture exists: " + e.getMessage());
+            logger.error("Error checking if voiture exists: {}", e.getMessage());
             return ResponseEntity.badRequest().body(null);
         }
     }
 
     @PostMapping("/search")
     public ResponseEntity<List<VoitureDTO>> search(@RequestBody VoitureDTO voitureDTO) {
-        logger.info("Searching voitures: " + voitureDTO);
+        logger.info("Searching voitures: {}", voitureDTO);
         try {
             List<VoitureDTO> voitures = voitureService.search(voitureDTO);
             return ResponseEntity.ok(voitures);
         } catch (Exception e) {
-            logger.error("Error searching voitures: " + e.getMessage());
+            logger.error("Error searching voitures: {}", e.getMessage());
             return ResponseEntity.badRequest().body(null);
         }
     }

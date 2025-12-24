@@ -1,7 +1,9 @@
 package com.kabir.kabirbackend.specifications;
 
 import com.kabir.kabirbackend.dto.FournisseurDTO;
+import com.kabir.kabirbackend.dto.PersonnelDTO;
 import com.kabir.kabirbackend.entities.Fournisseur;
+import com.kabir.kabirbackend.entities.Personnel;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
@@ -17,6 +19,16 @@ import org.springframework.data.jpa.domain.Specification;
 public class FournisseurSpecification implements Specification<Fournisseur> {
 
     private FournisseurDTO fournisseurDTO;
+
+    public static Specification<Fournisseur> searchBySupprimerOrArchiver(FournisseurDTO fournisseurDTO) {
+        return (root, query, criteriaBuilder) -> {
+
+            return criteriaBuilder.and(
+                    criteriaBuilder.equal(root.get("supprimer"), fournisseurDTO.isSupprimer()),
+                    criteriaBuilder.equal(root.get("archiver"), fournisseurDTO.isArchiver())
+            );
+        };
+    }
 
     @Override
     public Predicate toPredicate(Root<Fournisseur> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {

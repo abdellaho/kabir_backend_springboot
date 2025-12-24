@@ -105,13 +105,11 @@ public class Repertoire {
     @Column(name = "plafond", nullable = false, precision = 10)
     private double plafond;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.SET_NULL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "personnelId")
     private Personnel personnel;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.SET_NULL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "villeId")
     private Ville ville;
 

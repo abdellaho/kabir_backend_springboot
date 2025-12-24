@@ -12,6 +12,9 @@ public interface IStockService {
     public List<StockDTO> findAll();
     public void delete(Long id);
     public List<StockDTO> search(StockDTO absenceDTO);
+
+    List<StockDTO> searchBySupprimerOrArchiver(StockDTO stockDTO);
+
     void updateQteStock(Long id, RequestStockQte requestStockQte);
     void updateQteStockImport(Long id, RequestStockQte requestStockQte);
     void updateQteStockFacturer(Long id, RequestStockQte requestStockQte);
