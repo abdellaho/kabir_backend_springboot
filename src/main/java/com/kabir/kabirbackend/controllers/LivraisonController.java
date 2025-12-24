@@ -131,7 +131,7 @@ class LivraisonController {
     public ResponseEntity<LivraisonDTO> create(@Valid @RequestBody LivraisonResponse livraisonResponse) {
         logger.info("Creating livraison: {}", livraisonResponse);
         try {
-            LivraisonDTO createdLivraison = livraisonService.save(livraisonResponse.livraisonDTO());
+            LivraisonDTO createdLivraison = livraisonService.save(livraisonResponse.livraison());
             Optional<Livraison> livraisonOptional = livraisonRepository.findById(createdLivraison.getId());
             Livraison livraison = livraisonOptional.orElse(null);
 
@@ -151,7 +151,7 @@ class LivraisonController {
     public ResponseEntity<LivraisonDTO> update(@PathVariable Long id, @Valid @RequestBody LivraisonResponse livraisonResponse) {
         logger.info("Updating livraison: {}", livraisonResponse);
         try {
-            LivraisonDTO updatedLivraison = livraisonService.save(livraisonResponse.livraisonDTO());
+            LivraisonDTO updatedLivraison = livraisonService.save(livraisonResponse.livraison());
             Optional<Livraison> livraisonOptional = livraisonRepository.findById(updatedLivraison.getId());
             Livraison livraison = livraisonOptional.orElse(null);
 

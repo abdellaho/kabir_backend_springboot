@@ -158,7 +158,7 @@ class StockController {
         }
     }
 
-    @PostMapping("/{id}/update-qte-stock")
+    @PatchMapping("/{id}/update-qte-stock")
     public ResponseEntity<Void> updateQteStock(@PathVariable Long id, @RequestBody RequestStockQte requestStockQte) {
         logger.info("Updating stock qte stock: {}", requestStockQte);
         try {
@@ -170,7 +170,7 @@ class StockController {
         }
     }
 
-    @PostMapping("/{id}/update-qte-stock-import")
+    @PatchMapping("/{id}/update-qte-stock-import")
     public ResponseEntity<StockDTO> updateQteStockImport(@PathVariable Long id, @RequestBody RequestStockQte requestStockQte) {
         logger.info("Updating stock qte stock import: {}", requestStockQte);
         try {
@@ -182,7 +182,7 @@ class StockController {
         }
     }
 
-    @PostMapping("/{id}/update-qte-stock-facturer")
+    @PatchMapping("/{id}/update-qte-stock-facturer")
     public ResponseEntity<Void> updateQteStockFacturer(@PathVariable Long id, @RequestBody RequestStockQte requestStockQte) {
         logger.info("Updating stock qte stock facturer: {}", requestStockQte);
         try {

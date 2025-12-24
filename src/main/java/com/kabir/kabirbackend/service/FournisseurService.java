@@ -81,4 +81,21 @@ public class FournisseurService implements IFournisseurService {
         return fournisseurRepository.findAll(FournisseurSpecification.searchBySupprimerOrArchiver(fournisseurDTO)).stream().map(fournisseurMapper::toFournisseurDTO).toList();
     }
 
+    public FournisseurDTO updateNbrOperation(Long id, Integer type) {
+        if(null != id && null != type) {
+            FournisseurDTO fournisseurDTO = this.findById(id);
+
+            if(null != fournisseurDTO) {
+                int numberToAdd = type == 1 ? 1 : -1;
+                fournisseurDTO.setNbrOperationClient(fournisseurDTO.getNbrOperationClient() + numberToAdd);
+                return this.save(fournisseurDTO);
+            } else {
+                logger.error("Fournisseur not found with id: {}", id);
+                throw new RuntimeException("Fournisseur not found with id: " + id);
+            }
+        }
+
+        return null;
+    }
+
 }

@@ -31,6 +31,7 @@ public class FournisseurDTO implements Serializable {
     @Size(max = 191)
     String adresse;
     LocalDate dateSuppression;
+    int nbrOperationClient;
     @NotNull
     boolean archiver;
     @NotNull

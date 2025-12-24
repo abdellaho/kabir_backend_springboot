@@ -65,6 +65,11 @@ public class Fournisseur {
     @Column(name = "supprimer", nullable = false)
     private boolean supprimer = false;
 
+    @NotNull
+    @ColumnDefault("0")
+    @Column(name = "nbr_operation_client", nullable = false)
+    private int nbrOperationClient;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "villeId")
     private Ville ville;

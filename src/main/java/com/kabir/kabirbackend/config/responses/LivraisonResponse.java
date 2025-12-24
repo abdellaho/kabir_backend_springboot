@@ -5,5 +5,5 @@ import com.kabir.kabirbackend.dto.LivraisonDTO;
 
 import java.util.List;
 
-public record LivraisonResponse(LivraisonDTO livraisonDTO, List<DetLivraisonDTO> detLivraisons) {
+public record LivraisonResponse(LivraisonDTO livraison, List<DetLivraisonDTO> detLivraisons) {
 }

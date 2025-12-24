@@ -128,4 +128,16 @@ class FournisseurController {
         }
     }
 
+    @PatchMapping("/{id}/update-nbr-operation/{type}")
+    public ResponseEntity<FournisseurDTO> updateNbrOperation(@PathVariable Long id, @PathVariable Integer type) {
+        logger.info("Updating nbr-operation of fournisseur: {}, with ID {}: ", (type == 1 ? "increment" : "decrement"), id);
+        try {
+            FournisseurDTO updatedFournisseur = fournisseurService.updateNbrOperation(id, type);
+            return ResponseEntity.ok(updatedFournisseur);
+        } catch (Exception e) {
+            logger.error("Error updating nbr-operation offournisseur: {}, with ID {}: ", e.getMessage(), id);
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
 }
