@@ -1,12 +1,15 @@
 package com.kabir.kabirbackend.service.interfaces;
 
 import com.kabir.kabirbackend.dto.DetLivraisonDTO;
+import com.kabir.kabirbackend.entities.Livraison;
 
 import java.util.List;
 
 public interface IDetLivraisonService {
 
-    public DetLivraisonDTO save(DetLivraisonDTO detLivraisonDTO);
+    DetLivraisonDTO saveWithoutLivraison(DetLivraisonDTO detLivraisonDTO);
+
+    public DetLivraisonDTO save(DetLivraisonDTO detLivraisonDTO, Livraison livraison);
     public DetLivraisonDTO findById(Long id);
     public List<DetLivraisonDTO> findAll();
     public void delete(Long id);

@@ -61,7 +61,7 @@ class DetLivraisonController {
     public ResponseEntity<DetLivraisonDTO> create(@RequestBody DetLivraisonDTO detLivraisonDTO) {
         logger.info("Creating detLivraison: {}", detLivraisonDTO);
         try {
-            DetLivraisonDTO createdDetLivraison = detLivraisonService.save(detLivraisonDTO);
+            DetLivraisonDTO createdDetLivraison = detLivraisonService.saveWithoutLivraison(detLivraisonDTO);
             return ResponseEntity.ok(createdDetLivraison);
         } catch (Exception e) {
             logger.error("Error creating detLivraison: {}", e.getMessage());
@@ -73,7 +73,7 @@ class DetLivraisonController {
     public ResponseEntity<DetLivraisonDTO> update(@PathVariable Long id, @RequestBody DetLivraisonDTO detLivraisonDTO) {
         logger.info("Updating detLivraison with id: {}", id);
         try {
-            DetLivraisonDTO updatedDetLivraison = detLivraisonService.save(detLivraisonDTO);
+            DetLivraisonDTO updatedDetLivraison = detLivraisonService.saveWithoutLivraison(detLivraisonDTO);
             return ResponseEntity.ok(updatedDetLivraison);
         } catch (Exception e) {
             logger.error("Error updating detLivraison with id: {}: {}", id, e.getMessage());

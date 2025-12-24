@@ -1,5 +1,6 @@
 package com.kabir.kabirbackend.dto;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -38,7 +39,6 @@ public class LivraisonDTO implements Serializable {
     double mantantBL;
     double mantantBLReel;
     double mantantBLBenefice;
-    @NotNull
     @Size(max = 191)
     String typePaiement;
     double mantantBLPourcent;
@@ -61,10 +61,14 @@ public class LivraisonDTO implements Serializable {
     Long employeOperateurId;
     String employeOperateurNom;
     String employeOperateurPrenom;
+    @Min(value = 1)
+    @NotNull
     Long personnelId;
     String personnelDesignation;
     Long personnelAncienId;
     String personnelAncienDesignation;
+    @Min(value = 1)
+    @NotNull
     Long fournisseurId;
     String fournisseurDesignation;
 }

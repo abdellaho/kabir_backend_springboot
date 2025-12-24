@@ -1,10 +1,15 @@
 package com.kabir.kabirbackend.service;
 
 
+import com.kabir.kabirbackend.dto.FournisseurDTO;
 import com.kabir.kabirbackend.dto.LivraisonDTO;
+import com.kabir.kabirbackend.entities.Fournisseur;
 import com.kabir.kabirbackend.entities.Livraison;
+import com.kabir.kabirbackend.entities.Personnel;
 import com.kabir.kabirbackend.mapper.LivraisonMapper;
+import com.kabir.kabirbackend.repository.FournisseurRepository;
 import com.kabir.kabirbackend.repository.LivraisonRepository;
+import com.kabir.kabirbackend.repository.PersonnelRepository;
 import com.kabir.kabirbackend.service.interfaces.ILivraisonService;
 import com.kabir.kabirbackend.specifications.LivraisonSpecification;
 import org.slf4j.Logger;
@@ -12,16 +17,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LivraisonService implements ILivraisonService {
     private static final Logger logger = LoggerFactory.getLogger(LivraisonService.class);
 
     private final LivraisonRepository livraisonRepository;
+    private final FournisseurRepository fournisseurRepository;
+    private final PersonnelRepository personnelRepository;
     private final LivraisonMapper livraisonMapper;
 
-    public LivraisonService(LivraisonRepository livraisonRepository, LivraisonMapper livraisonMapper) {
+    public LivraisonService(LivraisonRepository livraisonRepository, LivraisonMapper livraisonMapper, FournisseurRepository fournisseurRepository, PersonnelRepository personnelRepository) {
         this.livraisonRepository = livraisonRepository;
+        this.fournisseurRepository = fournisseurRepository;
+        this.personnelRepository = personnelRepository;
         this.livraisonMapper = livraisonMapper;
     }
 
@@ -29,7 +39,12 @@ public class LivraisonService implements ILivraisonService {
     public LivraisonDTO save(LivraisonDTO livraisonDTO) {
         logger.info("Saving livraison: {}", livraisonDTO);
         try {
+            Optional<Fournisseur> optionalFournisseur = fournisseurRepository.findById(livraisonDTO.getFournisseurId());
+            Optional<Personnel> optionalPersonnel = personnelRepository.findById(livraisonDTO.getPersonnelId());
             Livraison livraison = livraisonMapper.toLivraison(livraisonDTO);
+
+            livraison.setFournisseur(optionalFournisseur.orElse(null));
+            livraison.setPersonnel(optionalPersonnel.orElse(null));
             return livraisonMapper.toLivraisonDTO(livraisonRepository.save(livraison));
         } catch (Exception e) {
             logger.error("Error saving livraison", e);
@@ -78,6 +93,6 @@ public class LivraisonService implements ILivraisonService {
 
     @Override
     public int getLastNumLivraison(LivraisonDTO livraisonDTO) {
-        return livraisonRepository.findMaxNumLivraisonInYearDateBL(livraisonDTO.getDateBl().getYear()).map(l -> l + 1).orElse(0);
+        return livraisonRepository.findMaxNumLivraisonInYearDateBL(livraisonDTO.getDateBl().getYear()).map(l -> l + 1).orElse(1);
     }
 }

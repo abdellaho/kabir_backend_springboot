@@ -3,8 +3,11 @@ package com.kabir.kabirbackend.controllers;
 import com.kabir.kabirbackend.config.responses.LivraisonResponse;
 import com.kabir.kabirbackend.dto.DetLivraisonDTO;
 import com.kabir.kabirbackend.dto.LivraisonDTO;
+import com.kabir.kabirbackend.entities.Livraison;
+import com.kabir.kabirbackend.repository.LivraisonRepository;
 import com.kabir.kabirbackend.service.DetLivraisonService;
 import com.kabir.kabirbackend.service.LivraisonService;
+import jakarta.validation.Valid;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/livraison")
@@ -20,10 +24,12 @@ class LivraisonController {
 
     private final Logger logger = LoggerFactory.getLogger(LivraisonController.class);
     private final LivraisonService livraisonService;
+    private final LivraisonRepository livraisonRepository;
     private final DetLivraisonService detLivraisonService;
 
-    public LivraisonController(LivraisonService livraisonService, DetLivraisonService detLivraisonService) {
+    public LivraisonController(LivraisonService livraisonService, DetLivraisonService detLivraisonService, LivraisonRepository livraisonRepository) {
         this.livraisonService = livraisonService;
+        this.livraisonRepository = livraisonRepository;
         this.detLivraisonService = detLivraisonService;
     }
 
@@ -122,10 +128,18 @@ class LivraisonController {
     }
 
     @PostMapping
-    public ResponseEntity<LivraisonDTO> create(@RequestBody LivraisonDTO livraisonDTO) {
-        logger.info("Creating livraison: {}", livraisonDTO);
+    public ResponseEntity<LivraisonDTO> create(@Valid @RequestBody LivraisonResponse livraisonResponse) {
+        logger.info("Creating livraison: {}", livraisonResponse);
         try {
-            LivraisonDTO createdLivraison = livraisonService.save(livraisonDTO);
+            LivraisonDTO createdLivraison = livraisonService.save(livraisonResponse.livraisonDTO());
+            Optional<Livraison> livraisonOptional = livraisonRepository.findById(createdLivraison.getId());
+            Livraison livraison = livraisonOptional.orElse(null);
+
+            for (DetLivraisonDTO detLivraisonDTO : livraisonResponse.detLivraisons()) {
+                detLivraisonDTO.setLivraisonId(createdLivraison.getId());
+                detLivraisonService.save(detLivraisonDTO, livraison);
+            }
+
             return ResponseEntity.ok(createdLivraison);
         } catch (Exception e) {
             logger.error("Error creating livraison: {}", e.getMessage());
@@ -133,9 +147,28 @@ class LivraisonController {
         }
     }
 
+    @PostMapping("/{id}")
+    public ResponseEntity<LivraisonDTO> update(@PathVariable Long id, @Valid @RequestBody LivraisonResponse livraisonResponse) {
+        logger.info("Updating livraison: {}", livraisonResponse);
+        try {
+            LivraisonDTO updatedLivraison = livraisonService.save(livraisonResponse.livraisonDTO());
+            Optional<Livraison> livraisonOptional = livraisonRepository.findById(updatedLivraison.getId());
+            Livraison livraison = livraisonOptional.orElse(null);
+
+            for (DetLivraisonDTO detLivraisonDTO : livraisonResponse.detLivraisons()) {
+                detLivraisonDTO.setLivraisonId(updatedLivraison.getId());
+                detLivraisonService.save(detLivraisonDTO, livraison);
+            }
+            return ResponseEntity.ok(updatedLivraison);
+        } catch (Exception e) {
+            logger.error("Error updating livraison: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
     @PostMapping("/exist")
     public ResponseEntity<Boolean> exist(@RequestBody LivraisonDTO livraisonDTO) {
-        logger.info("Checking if livraison exists: " + livraisonDTO);
+        logger.info("Checking if livraison exists: {}", livraisonDTO);
         try {
             List<LivraisonDTO> livraisons = livraisonService.search(livraisonDTO);
             return ResponseEntity.ok(CollectionUtils.isNotEmpty(livraisons));

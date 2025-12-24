@@ -2,33 +2,73 @@ package com.kabir.kabirbackend.service;
 
 import com.kabir.kabirbackend.dto.DetLivraisonDTO;
 import com.kabir.kabirbackend.entities.DetLivraison;
+import com.kabir.kabirbackend.entities.Livraison;
+import com.kabir.kabirbackend.entities.Stock;
 import com.kabir.kabirbackend.mapper.DetLivraisonMapper;
 import com.kabir.kabirbackend.repository.DetLivraisonRepository;
+import com.kabir.kabirbackend.repository.StockRepository;
 import com.kabir.kabirbackend.service.interfaces.IDetLivraisonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DetLivraisonService implements IDetLivraisonService {
+
     private static final Logger logger = LoggerFactory.getLogger(DetLivraisonService.class);
     private final DetLivraisonRepository detLivraisonRepository;
+    private final StockRepository stockRepository;
     private final DetLivraisonMapper detLivraisonMapper;
 
-    public DetLivraisonService(DetLivraisonRepository detLivraisonRepository, DetLivraisonMapper detLivraisonMapper) {
+    public DetLivraisonService(DetLivraisonRepository detLivraisonRepository, DetLivraisonMapper detLivraisonMapper, StockRepository stockRepository) {
         this.detLivraisonRepository = detLivraisonRepository;
+        this.stockRepository = stockRepository;
         this.detLivraisonMapper = detLivraisonMapper;
     }
 
     @Override
-    public DetLivraisonDTO save(DetLivraisonDTO detLivraisonDTO) {
+    public DetLivraisonDTO saveWithoutLivraison(DetLivraisonDTO detLivraisonDTO) {
+        logger.info("Saving DetLivraison without Livraison: {}", detLivraisonDTO);
+        try {
+            Optional<Stock> optionalStock = stockRepository.findById(detLivraisonDTO.getStockId());
+
+            DetLivraison detLivraison = detLivraisonMapper.toDetLivraison(detLivraisonDTO);
+            detLivraison.setStock(optionalStock.orElse(null));
+
+            detLivraison = detLivraisonRepository.save(detLivraison);
+
+            logger.info("DetLivraison saved without Livraison: {}", detLivraison);
+
+            return detLivraisonMapper.toDetLivraisonDTO(detLivraison);
+        } catch (Exception e) {
+            logger.error("Error saving DetLivraison", e);
+            throw new RuntimeException("Error saving DetLivraison", e);
+        }
+    }
+
+    @Override
+    public DetLivraisonDTO save(DetLivraisonDTO detLivraisonDTO, Livraison livraison) {
         logger.info("Saving DetLivraison: {}", detLivraisonDTO);
         try {
-            DetLivraison detLivraison = detLivraisonMapper.toDetLivraison(detLivraisonDTO);
-            logger.info("DetLivraison saved: {}", detLivraison);
-            return detLivraisonMapper.toDetLivraisonDTO(detLivraisonRepository.save(detLivraison));
+            if(null != livraison && null != livraison.getId()) {
+                Optional<Stock> optionalStock = stockRepository.findById(detLivraisonDTO.getStockId());
+
+                DetLivraison detLivraison = detLivraisonMapper.toDetLivraison(detLivraisonDTO);
+                detLivraison.setStock(optionalStock.orElse(null));
+                detLivraison.setLivraison(livraison);
+
+                detLivraison = detLivraisonRepository.save(detLivraison);
+
+                logger.info("DetLivraison saved: {}", detLivraison);
+
+                return detLivraisonMapper.toDetLivraisonDTO(detLivraison);
+            } else {
+                logger.error("Livraison is null or Livraison id is null");
+                throw new RuntimeException("Livraison is null or Livraison id is null");
+            }
         } catch (Exception e) {
             logger.error("Error saving DetLivraison", e);
             throw new RuntimeException("Error saving DetLivraison", e);

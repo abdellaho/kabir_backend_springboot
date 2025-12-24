@@ -92,7 +92,6 @@ public class Livraison {
     private double mantantBLBenefice;
 
     @Size(max = 191)
-    @NotNull
     @Column(name = "typePaiement", nullable = false, length = 191)
     private String typePaiement;
 
@@ -147,7 +146,7 @@ public class Livraison {
 
     @Size(max = 191)
     @NotNull
-    @Column(name = "codeTransport", nullable = false, length = 191)
+    @Column(name = "codeTransport", length = 191)
     private String codeTransport;
 
     @ManyToOne(fetch = FetchType.EAGER)
