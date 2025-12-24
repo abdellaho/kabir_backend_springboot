@@ -13,24 +13,20 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "detlivraison")
-public class DetLivraison {
+@Table(name = "detfacture")
+public class DetFacture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
     @NotNull
-    @Column(name = "qteLivrer", nullable = false)
-    private int qteLivrer;
+    @Column(name = "qteFacturer", nullable = false)
+    private int qteFacturer;
 
     @NotNull
-    @Column(name = "champsRouge", nullable = false)
-    private int champsRouge;
-
-    @NotNull
-    @Column(name = "remiseLivraison", nullable = false, precision = 10)
-    private double remiseLivraison;
+    @Column(name = "remiseFacture", nullable = false, precision = 10)
+    private double remiseFacture;
 
     @NotNull
     @Column(name = "prixVente", nullable = false, precision = 10)
@@ -49,20 +45,32 @@ public class DetLivraison {
     private double benepourcentage;
 
     @NotNull
-    @Column(name = "infinity", nullable = false)
-    private int infinity;
+    @Column(name = "tva7", nullable = false, precision = 10)
+    private double tva7;
+
+    @NotNull
+    @Column(name = "tva20", nullable = false, precision = 10)
+    private double tva20;
+
+    @NotNull
+    @Column(name = "montantProduitHT", nullable = false, precision = 10)
+    private double montantProduitHT;
+
+    @NotNull
+    @Column(name = "directFacture", nullable = false)
+    private Integer directFacture;
 
     @NotNull
     @Column(name = "avecRemise", nullable = false)
-    private boolean avecRemise = false;
+    private Boolean avecRemise = false;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "livraisonId", nullable = false)
-    private Livraison livraison;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "factureId", nullable = false)
+    private Facture facture;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "stockId", nullable = false)
     private Stock stock;
 

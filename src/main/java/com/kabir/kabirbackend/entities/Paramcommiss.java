@@ -20,15 +20,15 @@ public class Paramcommiss {
     private Long id;
 
     @NotNull
-    @Column(name = "mntDepart", nullable = false, precision = 10, scale = 2)
+    @Column(name = "mntDepart", nullable = false, precision = 10)
     private double mntDepart;
 
     @NotNull
-    @Column(name = "mntFin", nullable = false, precision = 10, scale = 2)
+    @Column(name = "mntFin", nullable = false, precision = 10)
     private double mntFin;
 
     @NotNull
-    @Column(name = "pourc", nullable = false, precision = 10, scale = 2)
+    @Column(name = "pourc", nullable = false, precision = 10)
     private double pourc;
 
 }

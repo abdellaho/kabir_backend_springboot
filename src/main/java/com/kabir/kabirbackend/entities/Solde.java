@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 
@@ -33,15 +32,15 @@ public class Solde {
     private LocalDate dateReglement;
 
     @NotNull
-    @Column(name = "debit", nullable = false, precision = 10, scale = 2)
+    @Column(name = "debit", nullable = false, precision = 10)
     private double debit;
 
     @NotNull
-    @Column(name = "credit", nullable = false, precision = 10, scale = 2)
+    @Column(name = "credit", nullable = false, precision = 10)
     private double credit;
 
     @NotNull
-    @Column(name = "solde", nullable = false, precision = 10, scale = 2)
+    @Column(name = "solde", nullable = false, precision = 10)
     private double solde;
 
     @Size(max = 191)
@@ -52,6 +51,6 @@ public class Solde {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "planComptableId", nullable = false)
-    private Plancomptable planComptable;
+    private PlanComptable planComptable;
 
 }

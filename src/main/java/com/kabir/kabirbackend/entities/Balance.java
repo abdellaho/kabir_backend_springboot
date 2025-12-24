@@ -3,10 +3,18 @@ package com.kabir.kabirbackend.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "balance")
 public class Balance {
@@ -25,112 +33,32 @@ public class Balance {
     private String nature;
 
     @NotNull
-    @Column(name = "debitPrec", nullable = false, precision = 10, scale = 2)
-    private BigDecimal debitPrec;
+    @Column(name = "debitPrec", nullable = false, precision = 10)
+    private double debitPrec;
 
     @NotNull
-    @Column(name = "creditPrec", nullable = false, precision = 10, scale = 2)
-    private BigDecimal creditPrec;
+    @Column(name = "creditPrec", nullable = false, precision = 10)
+    private double creditPrec;
 
     @NotNull
-    @Column(name = "debit", nullable = false, precision = 10, scale = 2)
-    private BigDecimal debit;
+    @Column(name = "debit", nullable = false, precision = 10)
+    private double debit;
 
     @NotNull
-    @Column(name = "credit", nullable = false, precision = 10, scale = 2)
-    private BigDecimal credit;
+    @Column(name = "credit", nullable = false, precision = 10)
+    private double credit;
 
     @NotNull
-    @Column(name = "soldeDebiteur", nullable = false, precision = 10, scale = 2)
-    private BigDecimal soldeDebiteur;
+    @Column(name = "soldeDebiteur", nullable = false, precision = 10)
+    private double soldeDebiteur;
 
     @NotNull
-    @Column(name = "soldeCrediteur", nullable = false, precision = 10, scale = 2)
-    private BigDecimal soldeCrediteur;
+    @Column(name = "soldeCrediteur", nullable = false, precision = 10)
+    private double soldeCrediteur;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "planComptableId", nullable = false)
-    private Plancomptable planComptable;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public LocalDate getDateBalance() {
-        return dateBalance;
-    }
-
-    public void setDateBalance(LocalDate dateBalance) {
-        this.dateBalance = dateBalance;
-    }
-
-    public String getNature() {
-        return nature;
-    }
-
-    public void setNature(String nature) {
-        this.nature = nature;
-    }
-
-    public BigDecimal getDebitPrec() {
-        return debitPrec;
-    }
-
-    public void setDebitPrec(BigDecimal debitPrec) {
-        this.debitPrec = debitPrec;
-    }
-
-    public BigDecimal getCreditPrec() {
-        return creditPrec;
-    }
-
-    public void setCreditPrec(BigDecimal creditPrec) {
-        this.creditPrec = creditPrec;
-    }
-
-    public BigDecimal getDebit() {
-        return debit;
-    }
-
-    public void setDebit(BigDecimal debit) {
-        this.debit = debit;
-    }
-
-    public BigDecimal getCredit() {
-        return credit;
-    }
-
-    public void setCredit(BigDecimal credit) {
-        this.credit = credit;
-    }
-
-    public BigDecimal getSoldeDebiteur() {
-        return soldeDebiteur;
-    }
-
-    public void setSoldeDebiteur(BigDecimal soldeDebiteur) {
-        this.soldeDebiteur = soldeDebiteur;
-    }
-
-    public BigDecimal getSoldeCrediteur() {
-        return soldeCrediteur;
-    }
-
-    public void setSoldeCrediteur(BigDecimal soldeCrediteur) {
-        this.soldeCrediteur = soldeCrediteur;
-    }
-
-    public Plancomptable getPlanComptable() {
-        return planComptable;
-    }
-
-    public void setPlanComptable(Plancomptable planComptable) {
-        this.planComptable = planComptable;
-    }
+    private PlanComptable planComptable;
 
 }

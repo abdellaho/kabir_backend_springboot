@@ -80,15 +80,15 @@ public class Livraison {
     private String numCheque4;
 
     @NotNull
-    @Column(name = "mantantBL", nullable = false, precision = 10, scale = 2)
+    @Column(name = "mantantBL", nullable = false, precision = 10)
     private double mantantBL;
 
     @NotNull
-    @Column(name = "mantantBLReel", nullable = false, precision = 10, scale = 2)
+    @Column(name = "mantantBLReel", nullable = false, precision = 10)
     private double mantantBLReel;
 
     @NotNull
-    @Column(name = "mantantBLBenefice", nullable = false, precision = 10, scale = 2)
+    @Column(name = "mantantBLBenefice", nullable = false, precision = 10)
     private double mantantBLBenefice;
 
     @Size(max = 191)
@@ -97,7 +97,7 @@ public class Livraison {
     private String typePaiement;
 
     @NotNull
-    @Column(name = "mantantBLPourcent", nullable = false, precision = 10, scale = 2)
+    @Column(name = "mantantBLPourcent", nullable = false, precision = 10)
     private double mantantBLPourcent;
 
     @NotNull
@@ -125,19 +125,19 @@ public class Livraison {
     private boolean avecRemise = false;
 
     @NotNull
-    @Column(name = "mntReglement", nullable = false, precision = 10, scale = 2)
+    @Column(name = "mntReglement", nullable = false, precision = 10)
     private double mntReglement;
 
     @NotNull
-    @Column(name = "mntReglement2", nullable = false, precision = 10, scale = 2)
+    @Column(name = "mntReglement2", nullable = false, precision = 10)
     private double mntReglement2;
 
     @NotNull
-    @Column(name = "mntReglement3", nullable = false, precision = 10, scale = 2)
+    @Column(name = "mntReglement3", nullable = false, precision = 10)
     private double mntReglement3;
 
     @NotNull
-    @Column(name = "mntReglement4", nullable = false, precision = 10, scale = 2)
+    @Column(name = "mntReglement4", nullable = false, precision = 10)
     private double mntReglement4;
 
     @NotNull

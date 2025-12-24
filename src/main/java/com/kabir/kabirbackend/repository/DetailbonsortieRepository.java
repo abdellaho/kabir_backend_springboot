@@ -1,10 +1,10 @@
 package com.kabir.kabirbackend.repository;
 
-import com.kabir.kabirbackend.entities.Detailbonsortie;
+import com.kabir.kabirbackend.entities.DetailBonSortie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DetailbonsortieRepository extends JpaRepository<Detailbonsortie, Long>, JpaSpecificationExecutor<Detailbonsortie> {
+public interface DetailbonsortieRepository extends JpaRepository<DetailBonSortie, Long>, JpaSpecificationExecutor<DetailBonSortie> {
 }

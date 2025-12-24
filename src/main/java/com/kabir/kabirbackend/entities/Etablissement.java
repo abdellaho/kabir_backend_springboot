@@ -137,7 +137,7 @@ public class Etablissement {
     private int capitale;
 
     @NotNull
-    @Column(name = "pourcentageLiv", nullable = false, precision = 10, scale = 2)
+    @Column(name = "pourcentageLiv", nullable = false, precision = 10)
     private double pourcentageLiv;
 
     @Size(max = 191)

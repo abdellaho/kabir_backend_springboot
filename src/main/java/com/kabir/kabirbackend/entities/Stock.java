@@ -34,31 +34,31 @@ public class Stock {
     private Instant sysDate;
 
     @NotNull
-    @Column(name = "pahtGrossiste", nullable = false, precision = 10, scale = 2)
+    @Column(name = "pahtGrossiste", nullable = false, precision = 10)
     private double pahtGrossiste;
 
     @NotNull
-    @Column(name = "prixCommercial", nullable = false, precision = 10, scale = 2)
+    @Column(name = "prixCommercial", nullable = false, precision = 10)
     private double prixCommercial;
 
     @NotNull
-    @Column(name = "tva", nullable = false, precision = 10, scale = 2)
+    @Column(name = "tva", nullable = false, precision = 10)
     private double tva;
 
     @NotNull
-    @Column(name = "pattc", nullable = false, precision = 10, scale = 2)
+    @Column(name = "pattc", nullable = false, precision = 10)
     private double pattc;
 
     @NotNull
-    @Column(name = "pvttc", nullable = false, precision = 10, scale = 2)
+    @Column(name = "pvttc", nullable = false, precision = 10)
     private double pvttc;
 
     @NotNull
-    @Column(name = "pvaht", nullable = false, precision = 10, scale = 2)
+    @Column(name = "pvaht", nullable = false, precision = 10)
     private double pvaht;
 
     @NotNull
-    @Column(name = "benifice", nullable = false, precision = 10, scale = 2)
+    @Column(name = "benifice", nullable = false, precision = 10)
     private double benifice;
 
     @NotNull
@@ -86,43 +86,43 @@ public class Stock {
     private int qteFacturer;
 
     @NotNull
-    @Column(name = "prixVentMin1", nullable = false, precision = 10, scale = 2)
+    @Column(name = "prixVentMin1", nullable = false, precision = 10)
     private double prixVentMin1;
 
     @NotNull
-    @Column(name = "prixVentMin2", nullable = false, precision = 10, scale = 2)
+    @Column(name = "prixVentMin2", nullable = false, precision = 10)
     private double prixVentMin2;
 
     @NotNull
-    @Column(name = "prixVentMin3", nullable = false, precision = 10, scale = 2)
+    @Column(name = "prixVentMin3", nullable = false, precision = 10)
     private double prixVentMin3;
 
     @NotNull
-    @Column(name = "prixVentMin4", nullable = false, precision = 10, scale = 2)
+    @Column(name = "prixVentMin4", nullable = false, precision = 10)
     private double prixVentMin4;
 
     @NotNull
-    @Column(name = "remiseMax1", nullable = false, precision = 10, scale = 2)
+    @Column(name = "remiseMax1", nullable = false, precision = 10)
     private double remiseMax1;
 
     @NotNull
-    @Column(name = "remiseMax2", nullable = false, precision = 10, scale = 2)
+    @Column(name = "remiseMax2", nullable = false, precision = 10)
     private double remiseMax2;
 
     @NotNull
-    @Column(name = "remiseMax3", nullable = false, precision = 10, scale = 2)
+    @Column(name = "remiseMax3", nullable = false, precision = 10)
     private double remiseMax3;
 
     @NotNull
-    @Column(name = "remiseMax4", nullable = false, precision = 10, scale = 2)
+    @Column(name = "remiseMax4", nullable = false, precision = 10)
     private double remiseMax4;
 
     @NotNull
-    @Column(name = "prixImport", nullable = false, precision = 10, scale = 2)
+    @Column(name = "prixImport", nullable = false, precision = 10)
     private double prixImport;
 
     @NotNull
-    @Column(name = "commission", nullable = false, precision = 10, scale = 2)
+    @Column(name = "commission", nullable = false, precision = 10)
     private double commission;
 
     @NotNull
@@ -140,27 +140,27 @@ public class Stock {
     private int qteStockImport;
 
     @NotNull
-    @Column(name = "montant1", nullable = false, precision = 10, scale = 2)
+    @Column(name = "montant1", nullable = false, precision = 10)
     private double montant1;
 
     @NotNull
-    @Column(name = "montant2", nullable = false, precision = 10, scale = 2)
+    @Column(name = "montant2", nullable = false, precision = 10)
     private double montant2;
 
     @NotNull
-    @Column(name = "montant3", nullable = false, precision = 10, scale = 2)
+    @Column(name = "montant3", nullable = false, precision = 10)
     private double montant3;
 
     @NotNull
-    @Column(name = "prime1", nullable = false, precision = 10, scale = 2)
+    @Column(name = "prime1", nullable = false, precision = 10)
     private double prime1;
 
     @NotNull
-    @Column(name = "prime2", nullable = false, precision = 10, scale = 2)
+    @Column(name = "prime2", nullable = false, precision = 10)
     private double prime2;
 
     @NotNull
-    @Column(name = "prime3", nullable = false, precision = 10, scale = 2)
+    @Column(name = "prime3", nullable = false, precision = 10)
     private double prime3;
 
     @Column(name = "dateSuppression")

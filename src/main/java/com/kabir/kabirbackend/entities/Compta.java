@@ -2,10 +2,18 @@ package com.kabir.kabirbackend.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "compta")
 public class Compta {
@@ -23,88 +31,24 @@ public class Compta {
     private LocalDate dateFin;
 
     @NotNull
-    @Column(name = "montantTVAPrecedent", nullable = false, precision = 10, scale = 2)
-    private BigDecimal montantTVAPrecedent;
+    @Column(name = "montantTVAPrecedent", nullable = false, precision = 10)
+    private double montantTVAPrecedent;
 
     @NotNull
-    @Column(name = "montantTVAAchat", nullable = false, precision = 10, scale = 2)
-    private BigDecimal montantTVAAchat;
+    @Column(name = "montantTVAAchat", nullable = false, precision = 10)
+    private double montantTVAAchat;
 
     @NotNull
-    @Column(name = "montantTVAVente", nullable = false, precision = 10, scale = 2)
-    private BigDecimal montantTVAVente;
+    @Column(name = "montantTVAVente", nullable = false, precision = 10)
+    private double montantTVAVente;
 
     @NotNull
-    @Column(name = "resutMnt", nullable = false, precision = 10, scale = 2)
-    private BigDecimal resutMnt;
+    @Column(name = "resutMnt", nullable = false, precision = 10)
+    private double resutMnt;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "repertoireId", nullable = false)
     private Repertoire repertoire;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public LocalDate getDateDebut() {
-        return dateDebut;
-    }
-
-    public void setDateDebut(LocalDate dateDebut) {
-        this.dateDebut = dateDebut;
-    }
-
-    public LocalDate getDateFin() {
-        return dateFin;
-    }
-
-    public void setDateFin(LocalDate dateFin) {
-        this.dateFin = dateFin;
-    }
-
-    public BigDecimal getMontantTVAPrecedent() {
-        return montantTVAPrecedent;
-    }
-
-    public void setMontantTVAPrecedent(BigDecimal montantTVAPrecedent) {
-        this.montantTVAPrecedent = montantTVAPrecedent;
-    }
-
-    public BigDecimal getMontantTVAAchat() {
-        return montantTVAAchat;
-    }
-
-    public void setMontantTVAAchat(BigDecimal montantTVAAchat) {
-        this.montantTVAAchat = montantTVAAchat;
-    }
-
-    public BigDecimal getMontantTVAVente() {
-        return montantTVAVente;
-    }
-
-    public void setMontantTVAVente(BigDecimal montantTVAVente) {
-        this.montantTVAVente = montantTVAVente;
-    }
-
-    public BigDecimal getResutMnt() {
-        return resutMnt;
-    }
-
-    public void setResutMnt(BigDecimal resutMnt) {
-        this.resutMnt = resutMnt;
-    }
-
-    public Repertoire getRepertoire() {
-        return repertoire;
-    }
-
-    public void setRepertoire(Repertoire repertoire) {
-        this.repertoire = repertoire;
-    }
 
 }

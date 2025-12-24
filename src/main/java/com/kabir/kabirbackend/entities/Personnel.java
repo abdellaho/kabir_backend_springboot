@@ -81,7 +81,7 @@ public class Personnel {
     private LocalDate dateSuppression;
 
     @NotNull
-    @Column(name = "salaire", nullable = false, precision = 10, scale = 2)
+    @Column(name = "salaire", nullable = false, precision = 10)
     private double salaire;
 
     @NotNull

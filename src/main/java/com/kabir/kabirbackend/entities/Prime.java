@@ -22,11 +22,11 @@ public class Prime {
     private Long id;
 
     @NotNull
-    @Column(name = "montant", nullable = false, precision = 10, scale = 2)
+    @Column(name = "montant", nullable = false, precision = 10)
     private double montant;
 
     @NotNull
-    @Column(name = "prime", nullable = false, precision = 10, scale = 2)
+    @Column(name = "prime", nullable = false, precision = 10)
     private double prime;
 
 }

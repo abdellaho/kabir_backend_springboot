@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
-import java.math.BigDecimal;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -25,11 +23,11 @@ public class Employe {
 
     @NotNull
     @Column(name = "numEmp", nullable = false)
-    private Integer numEmp;
+    private int numEmp;
 
     @NotNull
     @Column(name = "livrerNonLivrerDroit", nullable = false)
-    private Integer livrerNonLivrerDroit;
+    private int livrerNonLivrerDroit;
 
     @Size(max = 191)
     @NotNull
@@ -63,7 +61,7 @@ public class Employe {
 
     @NotNull
     @Column(name = "typeUser", nullable = false)
-    private Integer typeUser;
+    private int typeUser;
 
     @NotNull
     @ColumnDefault("0")
@@ -71,8 +69,8 @@ public class Employe {
     private boolean etatCompte = false;
 
     @NotNull
-    @Column(name = "validationMnt", nullable = false, precision = 10, scale = 2)
-    private BigDecimal validationMnt;
+    @Column(name = "validationMnt", nullable = false, precision = 10)
+    private double validationMnt;
 
     @Size(max = 191)
     @NotNull
