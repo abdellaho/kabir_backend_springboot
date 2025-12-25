@@ -1,9 +1,10 @@
-package com.kabir.kabirbackend.service.interfaces;
+package com.kabir.kabirbackend.service;
 
 import com.kabir.kabirbackend.dto.EtablissementDTO;
 import com.kabir.kabirbackend.entities.Etablissement;
 import com.kabir.kabirbackend.mapper.EtablissementMapper;
 import com.kabir.kabirbackend.repository.EtablissementRepository;
+import com.kabir.kabirbackend.service.interfaces.IEtablissementService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

@@ -1,0 +1,16 @@
+package com.kabir.kabirbackend.service.interfaces;
+
+import com.kabir.kabirbackend.config.responses.StockDepotResponse;
+import com.kabir.kabirbackend.dto.StockDepotDTO;
+
+import java.util.List;
+
+public interface IStockDepotService {
+
+    public StockDepotDTO save(StockDepotResponse stockDepotResponse);
+    public StockDepotDTO findById(Long id);
+    public StockDepotResponse findByIdStockDepotResponse(Long id);
+    public List<StockDepotDTO> findAll();
+    public void delete(Long id);
+    public List<StockDepotDTO> search(StockDepotDTO stockDepot);
+}

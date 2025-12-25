@@ -1,7 +1,7 @@
 package com.kabir.kabirbackend.controllers;
 
 import com.kabir.kabirbackend.dto.EtablissementDTO;
-import com.kabir.kabirbackend.service.interfaces.EtablissementService;
+import com.kabir.kabirbackend.service.EtablissementService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;

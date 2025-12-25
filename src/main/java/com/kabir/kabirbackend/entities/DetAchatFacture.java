@@ -22,11 +22,11 @@ public class DetAchatFacture {
 
     @NotNull
     @Column(name = "unitegratuit", nullable = false)
-    private int unitegratuit;
+    private int uniteGratuit;
 
     @NotNull
     @Column(name = "qteacheter", nullable = false)
-    private int qteacheter;
+    private int qteAcheter;
 
     @NotNull
     @Column(name = "prixAchatHt", nullable = false, precision = 10)
@@ -62,7 +62,7 @@ public class DetAchatFacture {
 
     @NotNull
     @Column(name = "benepourcentage", nullable = false, precision = 10)
-    private double benepourcentage;
+    private double benePourcentage;
 
     @NotNull
     @Column(name = "tva20", nullable = false, precision = 10)
@@ -78,7 +78,7 @@ public class DetAchatFacture {
     private AchatFacture achatFacture;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "stockId", nullable = false)
     private Stock stock;
 

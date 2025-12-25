@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface StockdepotRepository extends JpaRepository<StockDepot, Long>, JpaSpecificationExecutor<StockDepot> {
+public interface StockDepotRepository extends JpaRepository<StockDepot, Long>, JpaSpecificationExecutor<StockDepot> {
 }

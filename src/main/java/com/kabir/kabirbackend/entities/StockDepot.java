@@ -23,10 +23,6 @@ public class StockDepot {
     private Long id;
 
     @NotNull
-    @Column(name = "qteStockDepot", nullable = false)
-    private int qteStockDepot;
-
-    @NotNull
     @Column(name = "dateOperation", nullable = false)
     private LocalDate dateOperation;
 
@@ -35,8 +31,11 @@ public class StockDepot {
     private Instant dateSys;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "stockId", nullable = false)
-    private Stock stock;
+    @Column(name = "num_bl_externe", nullable = false)
+    private String numBlExterne;
+
+    @NotNull
+    @Column(name = "montant_ttc", nullable = false)
+    private double montantTTC;
 
 }
