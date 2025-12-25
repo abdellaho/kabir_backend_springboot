@@ -7,6 +7,7 @@ import com.kabir.kabirbackend.entities.Livraison;
 import com.kabir.kabirbackend.repository.LivraisonRepository;
 import com.kabir.kabirbackend.service.DetLivraisonService;
 import com.kabir.kabirbackend.service.LivraisonService;
+import com.kabir.kabirbackend.service.RepertoireService;
 import jakarta.validation.Valid;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
@@ -26,10 +27,12 @@ class LivraisonController {
     private final LivraisonService livraisonService;
     private final LivraisonRepository livraisonRepository;
     private final DetLivraisonService detLivraisonService;
+    private final RepertoireService repertoireService;
 
-    public LivraisonController(LivraisonService livraisonService, DetLivraisonService detLivraisonService, LivraisonRepository livraisonRepository) {
+    public LivraisonController(LivraisonService livraisonService, DetLivraisonService detLivraisonService, LivraisonRepository livraisonRepository, RepertoireService repertoireService) {
         this.livraisonService = livraisonService;
         this.livraisonRepository = livraisonRepository;
+        this.repertoireService = repertoireService;
         this.detLivraisonService = detLivraisonService;
     }
 
@@ -218,14 +221,27 @@ class LivraisonController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         logger.info("Deleting livraison id: {}", id);
         try {
-            List<DetLivraisonDTO> detLivraisons = detLivraisonService.DetLivraisonByLivraisonId(id);
-            if (CollectionUtils.isNotEmpty(detLivraisons)) {
-                for (DetLivraisonDTO detLivraisonDTO : detLivraisons) {
-                    detLivraisonService.delete(detLivraisonDTO.getId());
+            LivraisonDTO livraisonDTO = livraisonService.findById(id);
+            if(null != livraisonDTO && null != livraisonDTO.getId()) {
+                if(null != livraisonDTO.getRepertoireId()) {
+                    repertoireService.updateNbrOperation(livraisonDTO.getRepertoireId(), 2);
                 }
+
+                List<DetLivraisonDTO> detLivraisons = detLivraisonService.DetLivraisonByLivraisonId(id);
+
+                livraisonService.deleteStockInDetLivraison(detLivraisons);
+
+                if (CollectionUtils.isNotEmpty(detLivraisons)) {
+                    for (DetLivraisonDTO detLivraisonDTO : detLivraisons) {
+                        detLivraisonService.delete(detLivraisonDTO.getId());
+                    }
+                }
+                livraisonService.delete(id);
+                return ResponseEntity.ok().build();
+            } else {
+                logger.error("Livraison not found with id: {}", id);
+                return ResponseEntity.badRequest().body(null);
             }
-            livraisonService.delete(id);
-            return ResponseEntity.ok().build();
         } catch (Exception e) {
             logger.error("Error deleting livraison: {}", e.getMessage());
             return ResponseEntity.badRequest().body(null);

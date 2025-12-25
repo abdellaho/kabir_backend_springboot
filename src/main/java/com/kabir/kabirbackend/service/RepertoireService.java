@@ -99,4 +99,22 @@ public class RepertoireService implements IRepertoireService {
     public List<RepertoireDTO> exist(RepertoireDTO repertoireDTO) {
         return repertoireRepository.findAll(RepertoireSpecification.builder().repertoireDTO(repertoireDTO).build()).stream().map(repertoireMapper::toRepertoireDTO).toList();
     }
+
+    @Override
+    public RepertoireDTO updateNbrOperation(Long id, Integer type) {
+        if(null != id && null != type) {
+            RepertoireDTO repertoireDTO = this.findById(id);
+
+            if(null != repertoireDTO) {
+                int numberToAdd = type == 1 ? 1 : -1;
+                repertoireDTO.setNbrOperationClient(repertoireDTO.getNbrOperationClient() + numberToAdd);
+                return this.save(repertoireDTO);
+            } else {
+                logger.error("Fournisseur not found with id: {}", id);
+                throw new RuntimeException("Fournisseur not found with id: " + id);
+            }
+        }
+
+        return null;
+    }
 }

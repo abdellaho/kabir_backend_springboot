@@ -164,6 +164,6 @@ public class Livraison {
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "fournisseurId", nullable = false)
-    private Fournisseur fournisseur;
+    @JoinColumn(name = "repertoireId", nullable = false)
+    private Repertoire repertoire;
 }

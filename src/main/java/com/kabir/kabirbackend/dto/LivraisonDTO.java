@@ -69,6 +69,6 @@ public class LivraisonDTO implements Serializable {
     String personnelAncienDesignation;
     @Min(value = 1)
     @NotNull
-    Long fournisseurId;
-    String fournisseurDesignation;
+    Long repertoireId;
+    String repertoireDesignation;
 }

@@ -13,4 +13,6 @@ public interface IRepertoireService {
     public List<RepertoireDTO> search(RepertoireDTO repertoireDTO);
 
     List<RepertoireDTO> exist(RepertoireDTO repertoireDTO);
+
+    RepertoireDTO updateNbrOperation(Long id, Integer type);
 }

@@ -1,6 +1,7 @@
 package com.kabir.kabirbackend.controllers;
 
 
+import com.kabir.kabirbackend.dto.FournisseurDTO;
 import com.kabir.kabirbackend.dto.RepertoireDTO;
 import com.kabir.kabirbackend.service.RepertoireService;
 import jakarta.validation.Valid;
@@ -127,6 +128,18 @@ public class RepertoireController {
         } catch (Exception e) {
             logger.error("Error searching repertoire by personnel: {}", repertoireDTO, e);
             throw new RuntimeException("Error searching repertoire by personnel: " + repertoireDTO, e);
+        }
+    }
+
+    @PatchMapping("/{id}/update-nbr-operation/{type}")
+    public ResponseEntity<RepertoireDTO> updateNbrOperation(@PathVariable Long id, @PathVariable Integer type) {
+        logger.info("Updating nbr-operation of fournisseur: {}, with ID {}: ", (type == 1 ? "increment" : "decrement"), id);
+        try {
+            RepertoireDTO repertoireDTO = repertoireService.updateNbrOperation(id, type);
+            return ResponseEntity.ok(repertoireDTO);
+        } catch (Exception e) {
+            logger.error("Error updating nbr-operation offournisseur: {}, with ID {}: ", e.getMessage(), id);
+            return ResponseEntity.badRequest().body(null);
         }
     }
 }

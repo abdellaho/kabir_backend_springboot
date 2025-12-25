@@ -1,17 +1,18 @@
 package com.kabir.kabirbackend.service;
 
 
-import com.kabir.kabirbackend.dto.FournisseurDTO;
+import com.kabir.kabirbackend.config.requests.RequestStockQte;
+import com.kabir.kabirbackend.dto.DetLivraisonDTO;
 import com.kabir.kabirbackend.dto.LivraisonDTO;
 import com.kabir.kabirbackend.entities.Fournisseur;
 import com.kabir.kabirbackend.entities.Livraison;
 import com.kabir.kabirbackend.entities.Personnel;
+import com.kabir.kabirbackend.entities.Repertoire;
 import com.kabir.kabirbackend.mapper.LivraisonMapper;
-import com.kabir.kabirbackend.repository.FournisseurRepository;
-import com.kabir.kabirbackend.repository.LivraisonRepository;
-import com.kabir.kabirbackend.repository.PersonnelRepository;
+import com.kabir.kabirbackend.repository.*;
 import com.kabir.kabirbackend.service.interfaces.ILivraisonService;
 import com.kabir.kabirbackend.specifications.LivraisonSpecification;
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -24,14 +25,16 @@ public class LivraisonService implements ILivraisonService {
     private static final Logger logger = LoggerFactory.getLogger(LivraisonService.class);
 
     private final LivraisonRepository livraisonRepository;
-    private final FournisseurRepository fournisseurRepository;
+    private final RepertoireRepository repertoireRepository;
     private final PersonnelRepository personnelRepository;
+    private final StockService stockService;
     private final LivraisonMapper livraisonMapper;
 
-    public LivraisonService(LivraisonRepository livraisonRepository, LivraisonMapper livraisonMapper, FournisseurRepository fournisseurRepository, PersonnelRepository personnelRepository) {
+    public LivraisonService(LivraisonRepository livraisonRepository, LivraisonMapper livraisonMapper, RepertoireRepository repertoireRepository, PersonnelRepository personnelRepository, StockService stockService) {
         this.livraisonRepository = livraisonRepository;
-        this.fournisseurRepository = fournisseurRepository;
+        this.repertoireRepository = repertoireRepository;
         this.personnelRepository = personnelRepository;
+        this.stockService = stockService;
         this.livraisonMapper = livraisonMapper;
     }
 
@@ -39,11 +42,11 @@ public class LivraisonService implements ILivraisonService {
     public LivraisonDTO save(LivraisonDTO livraisonDTO) {
         logger.info("Saving livraison: {}", livraisonDTO);
         try {
-            Optional<Fournisseur> optionalFournisseur = fournisseurRepository.findById(livraisonDTO.getFournisseurId());
+            Optional<Repertoire> optionalRepertoire = repertoireRepository.findById(livraisonDTO.getRepertoireId());
             Optional<Personnel> optionalPersonnel = personnelRepository.findById(livraisonDTO.getPersonnelId());
             Livraison livraison = livraisonMapper.toLivraison(livraisonDTO);
 
-            livraison.setFournisseur(optionalFournisseur.orElse(null));
+            livraison.setRepertoire(optionalRepertoire.orElse(null));
             livraison.setPersonnel(optionalPersonnel.orElse(null));
             return livraisonMapper.toLivraisonDTO(livraisonRepository.save(livraison));
         } catch (Exception e) {
@@ -94,5 +97,15 @@ public class LivraisonService implements ILivraisonService {
     @Override
     public int getLastNumLivraison(LivraisonDTO livraisonDTO) {
         return livraisonRepository.findMaxNumLivraisonInYearDateBL(livraisonDTO.getDateBl().getYear()).map(l -> l + 1).orElse(1);
+    }
+
+    public void deleteStockInDetLivraison(List<DetLivraisonDTO> detLivraisons) {
+        if(CollectionUtils.isNotEmpty(detLivraisons)) {
+            for (DetLivraisonDTO detLivraisonDTO : detLivraisons) {
+                if(null != detLivraisonDTO.getStockId() && detLivraisonDTO.getQteLivrer() != 0) {
+                    stockService.updateQteStock(detLivraisonDTO.getStockId(), new RequestStockQte(detLivraisonDTO.getQteLivrer(), 2));
+                }
+            }
+        }
     }
 }

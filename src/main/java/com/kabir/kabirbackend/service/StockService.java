@@ -148,24 +148,19 @@ public class StockService implements IStockService {
 
 
     public void updateStock(TypeQteToUpdate typeQteToUpdate, StockDTO stockDTO, RequestStockQte requestStockQte) {
-        if(typeQteToUpdate.equals(TypeQteToUpdate.QTE_STOCK)) {
-            if(requestStockQte.typeOperation() == 1) {
-                stockDTO.setQteStock(stockDTO.getQteStock() - requestStockQte.qte());
-            } else if(requestStockQte.typeOperation() == 2) {
-                stockDTO.setQteStock(stockDTO.getQteStock() + requestStockQte.qte());
-            }
-        } else if(typeQteToUpdate.equals(TypeQteToUpdate.QTE_STOCK_IMPORT)) {
-            if(requestStockQte.typeOperation() == 1) {
-                stockDTO.setQteStockImport(stockDTO.getQteStockImport() - requestStockQte.qte());
-            } else if(requestStockQte.typeOperation() == 2) {
-                stockDTO.setQteStockImport(stockDTO.getQteStockImport() + requestStockQte.qte());
-            }
-        } else if(typeQteToUpdate.equals(TypeQteToUpdate.QTE_STOCK_FACTURER)) {
-            if(requestStockQte.typeOperation() == 1) {
-                stockDTO.setQteFacturer(stockDTO.getQteFacturer() - requestStockQte.qte());
-            } else if(requestStockQte.typeOperation() == 2) {
-                stockDTO.setQteFacturer(stockDTO.getQteFacturer() + requestStockQte.qte());
-            }
+        int operator = requestStockQte.typeOperation();
+        int qte = requestStockQte.qte();
+
+        switch (typeQteToUpdate) {
+            case QTE_STOCK:
+                stockDTO.setQteStock(operator == 1 ? stockDTO.getQteStock() - qte : stockDTO.getQteStock() + qte);
+                break;
+            case QTE_STOCK_IMPORT:
+                stockDTO.setQteStockImport(operator == 1 ? stockDTO.getQteStockImport() - qte : stockDTO.getQteStockImport() + qte);
+                break;
+            case QTE_STOCK_FACTURER:
+                stockDTO.setQteFacturer(operator == 1 ? stockDTO.getQteFacturer() - qte : stockDTO.getQteFacturer() + qte);
+                break;
         }
 
         save(stockDTO);
