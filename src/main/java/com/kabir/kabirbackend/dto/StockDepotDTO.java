@@ -20,9 +20,4 @@ public class StockDepotDTO implements Serializable {
     LocalDate dateOperation;
     @NotNull
     Instant dateSys;
-    @NotNull
-    @NotEmpty
-    @NotBlank
-    String numBlExterne;
-    double montantTTC;
 }

@@ -16,12 +16,6 @@ public class DetStockDepotDTO implements Serializable {
     @NotEqualZero
     int qte;
     @NotNull
-    double prixVente;
-    @NotNull
-    int uniteGratuit;
-    @NotNull
-    double remise;
-    @NotNull
     Long stockId;
     @NotNull
     Long stockDepotId;

@@ -25,18 +25,6 @@ public class DetStockDepot {
     private int qte;
 
     @NotNull
-    @Column(name = "prix_vente", nullable = false)
-    private double prixVente;
-
-    @NotNull
-    @Column(name = "unite_gratuit", nullable = false)
-    private int uniteGratuit;
-
-    @NotNull
-    @Column(name = "remise", nullable = false)
-    private double remise;
-
-    @NotNull
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "stockId", nullable = false)
     private Stock stock;

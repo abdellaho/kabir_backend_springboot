@@ -30,12 +30,4 @@ public class StockDepot {
     @Column(name = "dateSys", nullable = false)
     private Instant dateSys;
 
-    @NotNull
-    @Column(name = "num_bl_externe", nullable = false)
-    private String numBlExterne;
-
-    @NotNull
-    @Column(name = "montant_ttc", nullable = false)
-    private double montantTTC;
-
 }

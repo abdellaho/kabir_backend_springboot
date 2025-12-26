@@ -17,6 +17,7 @@ import lombok.Data;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -104,7 +105,7 @@ public class StockDepotService implements IStockDepotService {
     @Override
     public List<StockDepotDTO> findAll() {
         logger.info("Finding all stock depots");
-        List<StockDepotDTO> stockDepotDTOs = stockDepotRepository.findAll().stream()
+        List<StockDepotDTO> stockDepotDTOs = stockDepotRepository.findAll(Sort.by(Sort.Direction.DESC, "dateOperation")).stream()
                 .map(stockDepotMapper::toStockDepotDTO)
                 .collect(Collectors.toList());
         logger.info("Stock depots found: {}", stockDepotDTOs.size());
@@ -224,6 +225,5 @@ public class StockDepotService implements IStockDepotService {
 
         return qte;
     }
-
 
 }
