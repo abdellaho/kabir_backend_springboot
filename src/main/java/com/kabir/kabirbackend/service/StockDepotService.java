@@ -116,23 +116,22 @@ public class StockDepotService implements IStockDepotService {
     public void delete(Long id) {
         logger.info("Deleting stock depot by id: {}", id);
         try {
-            StockDepot stockDepot = stockDepotRepository.findById(id).orElse(null);
-            if(null != stockDepot) {
-                List<DetStockDepot> detStockDepotDTOOld = detStockDepotRepository.findAllByStockDepotId(id);
+            List<DetStockDepot> detStockDepotDTOOld = detStockDepotRepository.findAllByStockDepotId(id);
+            logger.info("List of DetStockDepot to delete: {}", detStockDepotDTOOld.size());
 
-                if(CollectionUtils.isNotEmpty(detStockDepotDTOOld)) {
-                    for(DetStockDepot detStockDepot : detStockDepotDTOOld) {
-                        if(null != detStockDepot.getStock() && null != detStockDepot.getStock().getId()) {
-                            stockService.updateQteStock(detStockDepot.getStock().getId(), new RequestStockQte(detStockDepot.getQte(), 1));
-                        }
+            if(CollectionUtils.isNotEmpty(detStockDepotDTOOld)) {
+                for(DetStockDepot detStockDepot : detStockDepotDTOOld) {
+                    if(null != detStockDepot.getStock() && null != detStockDepot.getStock().getId()) {
+                        stockService.updateQteStock(detStockDepot.getStock().getId(), new RequestStockQte(detStockDepot.getQte(), 1));
+
+                        logger.info("Deleting detail stock depot by id: {}", detStockDepot.getId());
+                        detStockDepotRepository.deleteById(detStockDepot.getId());
                     }
                 }
-
-                stockDepotRepository.deleteById(id);
-                logger.info("Stock depot deleted successfully");
-            } else {
-                logger.info("Stock depot not found");
             }
+
+            stockDepotRepository.deleteById(id);
+            logger.info("Stock depot deleted successfully");
         } catch (Exception e) {
             logger.error("Failed to delete stock depot: {}", e.getMessage());
         }
