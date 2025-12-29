@@ -58,11 +58,11 @@ public class DetFacture {
 
     @NotNull
     @Column(name = "directFacture", nullable = false)
-    private Integer directFacture;
+    private int directFacture;
 
     @NotNull
     @Column(name = "avecRemise", nullable = false)
-    private Boolean avecRemise = false;
+    private boolean avecRemise = false;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

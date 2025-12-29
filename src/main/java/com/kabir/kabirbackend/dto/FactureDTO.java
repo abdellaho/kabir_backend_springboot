@@ -22,11 +22,8 @@ public class FactureDTO implements Serializable {
     LocalDate dateBF;
     @NotNull
     LocalDate dateReglement;
-    @NotNull
     LocalDate dateReglement2;
-    @NotNull
     LocalDate dateReglement3;
-    @NotNull
     LocalDate dateReglement4;
     int typeReglment;
     int typeReglment2;
@@ -49,28 +46,20 @@ public class FactureDTO implements Serializable {
     double mntHT7;
     double tva7;
     double tva20;
-    @NotNull
     @Size(max = 191)
     String numCheque;
-    @NotNull
     @Size(max = 191)
     String numCheque2;
-    @NotNull
     @Size(max = 191)
     String numCheque3;
-    @NotNull
     @Size(max = 191)
     String numCheque4;
-    @NotNull
     @Size(max = 191)
     String numRemise;
-    @NotNull
     @Size(max = 191)
     String numRemise2;
-    @NotNull
     @Size(max = 191)
     String numRemise3;
-    @NotNull
     @Size(max = 191)
     String numRemise4;
     double mntReglement;
@@ -78,20 +67,20 @@ public class FactureDTO implements Serializable {
     double mntReglement3;
     double mntReglement4;
     int type;
-    boolean facturer100;
-    boolean calculer;
-    boolean disableMontant;
-    @NotNull
-    @Size(max = 191)
-    String typeTVA;
-    boolean dateReglementIn;
-    boolean dateReglement2In;
-    boolean dateReglement3In;
-    boolean dateReglement4In;
-    double tva20Reglement1;
-    double tva20Reglement2;
-    double tva20Reglement3;
-    double tva20Reglement4;
-    double mntHT20Reglement1;
-    double mntHT20Reglement2;
+    //boolean facturer100;
+    //boolean calculer;
+    //boolean disableMontant;
+    //@NotNull
+    //@Size(max = 191)
+    //String typeTVA;
+    //boolean dateReglementIn;
+    //boolean dateReglement2In;
+    //boolean dateReglement3In;
+    //boolean dateReglement4In;
+    //double tva20Reglement1;
+    //double tva20Reglement2;
+    //double tva20Reglement3;
+    //double tva20Reglement4;
+    //double mntHT20Reglement1;
+    //double mntHT20Reglement2;
 }

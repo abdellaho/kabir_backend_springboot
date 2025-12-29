@@ -53,10 +53,21 @@ public class StockService implements IStockService {
 
     @Override
     public StockDTO findById(Long id) {
-        logger.info("Finding stock by id: {}", id);
+        logger.info("Finding stock DTO by id: {}", id);
         try {
             Stock stock = stockRepository.findById(id).orElseThrow(() -> new RuntimeException("Stock not found"));
             return stockMapper.toStockDTO(stock);
+        } catch (Exception e) {
+            logger.error("Error finding stock by id", e);
+            throw new RuntimeException("Error finding stock by id", e);
+        }
+    }
+
+    @Override
+    public Stock findByIdStock(Long id) {
+        logger.info("Finding stock by id: {}", id);
+        try {
+            return stockRepository.findById(id).orElseThrow(() -> new RuntimeException("Stock not found"));
         } catch (Exception e) {
             logger.error("Error finding stock by id", e);
             throw new RuntimeException("Error finding stock by id", e);

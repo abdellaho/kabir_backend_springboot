@@ -38,7 +38,7 @@ public class DetailBonSortie {
     private BonSortie bonSortie;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "stockId", nullable = false)
     private Stock stock;
 

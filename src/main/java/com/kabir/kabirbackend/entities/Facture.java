@@ -200,20 +200,16 @@ public class Facture {
     @Column(name = "typeTVA", nullable = false, length = 191)
     private String typeTVA;
 
-    @ColumnDefault("0")
-    @Column(name = "dateReglementIn")
+    @Transient
     private boolean dateReglementIn;
 
-    @ColumnDefault("0")
-    @Column(name = "dateReglement2In")
+    @Transient
     private boolean dateReglement2In;
 
-    @ColumnDefault("0")
-    @Column(name = "dateReglement3In")
-    private Boolean dateReglement3In;
+    @Transient
+    private boolean dateReglement3In;
 
-    @ColumnDefault("0")
-    @Column(name = "dateReglement4In")
+    @Transient
     private boolean dateReglement4In;
 
     @NotNull
