@@ -2,6 +2,7 @@ package com.kabir.kabirbackend.controllers;
 
 import com.kabir.kabirbackend.config.responses.FactureResponse;
 import com.kabir.kabirbackend.dto.FactureDTO;
+import com.kabir.kabirbackend.dto.LivraisonDTO;
 import com.kabir.kabirbackend.service.FactureService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -94,6 +95,18 @@ public class FactureController {
         } catch (Exception e) {
             logger.error("Error deleting facture by id: {}", id, e);
             throw new RuntimeException("Error deleting facture by id: " + id, e);
+        }
+    }
+
+    @PostMapping("/last-num-facture")
+    public ResponseEntity<Integer> getLastNumFacture(@RequestBody FactureDTO factureDTO) {
+        logger.info("Getting last num facture");
+        try {
+            int lastNum = factureService.getLastNumFacture(factureDTO);
+            return ResponseEntity.ok(lastNum);
+        } catch (Exception e) {
+            logger.error("Error getting last num facture: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(null);
         }
     }
 }

@@ -4,6 +4,8 @@ import com.kabir.kabirbackend.config.requests.RequestStockQte;
 import com.kabir.kabirbackend.config.responses.BonSortieResponse;
 import com.kabir.kabirbackend.dto.DetailBonSortieDTO;
 import com.kabir.kabirbackend.dto.BonSortieDTO;
+import com.kabir.kabirbackend.dto.FactureDTO;
+import com.kabir.kabirbackend.dto.LivraisonDTO;
 import com.kabir.kabirbackend.entities.DetailBonSortie;
 import com.kabir.kabirbackend.entities.Stock;
 import com.kabir.kabirbackend.entities.BonSortie;
@@ -21,6 +23,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -224,6 +228,13 @@ public class BonSortieService implements IBonSortieService {
         }
 
         return qte;
+    }
+
+    @Override
+    public int getLastNumBonSortie(BonSortieDTO bonSortieDTO) {
+        logger.info("Getting last num bon sortie");
+        LocalDate localDate = bonSortieDTO.getDateOperation().atZone(ZoneId.systemDefault()).toLocalDate();
+        return bonSortieRepository.findMaxNumBonSortieInYearDateBL(localDate.getYear()).map(l -> l + 1).orElse(1);
     }
 
 }

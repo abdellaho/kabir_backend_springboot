@@ -13,4 +13,5 @@ public interface IFactureService {
     public List<FactureDTO> findAll();
     public void delete(Long id);
     public List<FactureDTO> search(FactureDTO absenceDTO);
+    int getLastNumFacture(FactureDTO factureDTO);
 }

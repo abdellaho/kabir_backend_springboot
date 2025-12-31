@@ -2,6 +2,7 @@ package com.kabir.kabirbackend.controllers;
 
 import com.kabir.kabirbackend.config.responses.BonSortieResponse;
 import com.kabir.kabirbackend.dto.BonSortieDTO;
+import com.kabir.kabirbackend.dto.FactureDTO;
 import com.kabir.kabirbackend.service.BonSortieService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -94,6 +95,18 @@ public class BonSortieController {
         } catch (Exception e) {
             logger.error("Error deleting bon sortie by id: {}", id, e);
             throw new RuntimeException("Error deleting bon sortie by id: " + id, e);
+        }
+    }
+
+    @PostMapping("/last-num-bon-sortie")
+    public ResponseEntity<Integer> getLastNumBonSortie(@RequestBody BonSortieDTO bonSortieDTO) {
+        logger.info("Getting last num bon sortie");
+        try {
+            int lastNum = bonSortieService.getLastNumBonSortie(bonSortieDTO);
+            return ResponseEntity.ok(lastNum);
+        } catch (Exception e) {
+            logger.error("Error getting last num bon sortie: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(null);
         }
     }
 }

@@ -13,4 +13,5 @@ public interface IBonSortieService {
     public List<BonSortieDTO> findAll();
     public void delete(Long id);
     public List<BonSortieDTO> search(BonSortieDTO BonSortie);
+    int getLastNumBonSortie(BonSortieDTO bonSortieDTO);
 }

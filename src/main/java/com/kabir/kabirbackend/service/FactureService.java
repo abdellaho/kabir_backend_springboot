@@ -126,6 +126,12 @@ public class FactureService implements IFactureService {
         return factureRepository.findAll(FactureSpecification.builder().factureDTO(factureDTO).build()).stream().map(factureMapper::toFactureDTO).toList();
     }
 
+    @Override
+    public int getLastNumFacture(FactureDTO factureDTO) {
+        logger.info("Getting last num facture");
+        return factureRepository.findMaxNumFactureInYearDateBL(factureDTO.getDateBF().getYear()).map(l -> l + 1).orElse(1);
+    }
+
     public List<DetFacture> getDetStockDepotOldNotAnymore(List<DetFacture> detFactureDTOOld, List<DetFactureDTO> detFactureDTOs) {
         if(CollectionUtils.isEmpty(detFactureDTOOld)) {
             return new ArrayList<>();
