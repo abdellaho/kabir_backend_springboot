@@ -38,10 +38,6 @@ public class Stock {
     private double pahtGrossiste;
 
     @NotNull
-    @Column(name = "prixCommercial", nullable = false, precision = 10)
-    private double prixCommercial;
-
-    @NotNull
     @Column(name = "tva", nullable = false, precision = 10)
     private double tva;
 
@@ -162,6 +158,10 @@ public class Stock {
     @NotNull
     @Column(name = "prime3", nullable = false, precision = 10)
     private double prime3;
+
+    @NotNull
+    @Column(name = "type_produit", nullable = false, columnDefinition = "INTEGER(1) default 1")
+    private int typeProduit;
 
     @Column(name = "dateSuppression")
     private LocalDate dateSuppression;

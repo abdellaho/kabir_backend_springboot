@@ -2,7 +2,9 @@ package com.kabir.kabirbackend.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.Value;
 
 import java.io.Serializable;
@@ -13,78 +15,118 @@ import java.time.LocalDate;
  * DTO for {@link com.kabir.kabirbackend.entities.Stock}
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class StockDTO implements Serializable {
-    Long id;
+    private Long id;
+
     @NotNull
     @Size(max = 191)
-    String designation;
+    private String designation;
+
     @NotNull
-    Instant sysDate;
+    private Instant sysDate;
+
     @NotNull
-    double pahtGrossiste;
+    private double pahtGrossiste;
+
     @NotNull
-    double prixCommercial;
+    private double tva;
+
     @NotNull
-    double tva;
+    private double pattc;
+
     @NotNull
-    double pattc;
+    private double pvttc;
+
     @NotNull
-    double pvttc;
+    private double pvaht;
+
     @NotNull
-    double pvaht;
+    private double benifice;
+
     @NotNull
-    double benifice;
+    private int qteStock;
+
     @NotNull
-    int qteStock;
+    private int qtePVMin1;
+
     @NotNull
-    int qtePVMin1;
+    private int qtePVMin2;
+
     @NotNull
-    int qtePVMin2;
+    private int qtePVMin3;
+
     @NotNull
-    int qtePVMin3;
+    private int qtePVMin4;
+
     @NotNull
-    int qtePVMin4;
-    @NotNull
-    int qteFacturer;
+    private int qteFacturer;
+
     @NotNull
     double prixVentMin1;
+
     @NotNull
-    double prixVentMin2;
+    private double prixVentMin2;
+
     @NotNull
-    double prixVentMin3;
+    private double prixVentMin3;
+
     @NotNull
-    double prixVentMin4;
+    private double prixVentMin4;
+
     @NotNull
-    double remiseMax1;
+    private double remiseMax1;
+
     @NotNull
-    double remiseMax2;
+    private double remiseMax2;
+
     @NotNull
-    double remiseMax3;
+    private double remiseMax3;
+
     @NotNull
-    double remiseMax4;
+    private double remiseMax4;
+
     @NotNull
-    double prixImport;
+    private double prixImport;
+
     @NotNull
-    double commission;
+    private double commission;
+
     @NotNull
-    boolean archiver;
+    private boolean archiver;
+
     @NotNull
-    boolean supprimer;
+    private boolean supprimer;
+
     @NotNull
-    int qteStockImport;
+    private int qteStockImport;
+
     @NotNull
-    double montant1;
+    private double montant1;
+
     @NotNull
-    double montant2;
+    private double montant2;
+
     @NotNull
-    double montant3;
+    private double montant3;
+
     @NotNull
-    double prime1;
+    private double prime1;
+
     @NotNull
-    double prime2;
+    private double prime2;
+
     @NotNull
-    double prime3;
-    LocalDate dateSuppression;
-    Long fournisseurId;
-    String fournisseurDesignation;
+    private double prime3;
+
+    @NotNull
+    int typeProduit;
+
+    private LocalDate dateSuppression;
+
+    @NotNull
+    private Long fournisseurId;
+
+    private String fournisseurDesignation;
 }
