@@ -122,7 +122,7 @@ public class StockDepotService implements IStockDepotService {
             if(CollectionUtils.isNotEmpty(detStockDepotDTOOld)) {
                 for(DetStockDepot detStockDepot : detStockDepotDTOOld) {
                     if(null != detStockDepot.getStock() && null != detStockDepot.getStock().getId()) {
-                        stockService.updateQteStock(detStockDepot.getStock().getId(), new RequestStockQte(detStockDepot.getQte(), 1));
+                        stockService.updateQteStock(detStockDepot.getStock().getId(), new RequestStockQte(detStockDepot.getQte(), 1, null));
 
                         logger.info("Deleting detail stock depot by id: {}", detStockDepot.getId());
                         detStockDepotRepository.deleteById(detStockDepot.getId());
@@ -165,7 +165,7 @@ public class StockDepotService implements IStockDepotService {
             logger.info("Deleting det stock depot: {}", listToDelete.size());
             for(DetStockDepot detStockDepot : listToDelete) {
                 if(null != detStockDepot.getStock() && null != detStockDepot.getStock().getId()) {
-                    stockService.updateQteStock(detStockDepot.getStock().getId(), new RequestStockQte(detStockDepot.getQte(), 1));
+                    stockService.updateQteStock(detStockDepot.getStock().getId(), new RequestStockQte(detStockDepot.getQte(), 1, null));
                 }
 
                 detStockDepotRepository.delete(detStockDepot);
@@ -191,7 +191,7 @@ public class StockDepotService implements IStockDepotService {
         if(CollectionUtils.isNotEmpty(listToSave)) {
             for(DetStockDepot detStockDepot : listToSave) {
                 if(null == detStockDepot.getId()) {
-                    stockService.updateQteStock(detStockDepot.getStock().getId(), new RequestStockQte(detStockDepot.getQte(),2));
+                    stockService.updateQteStock(detStockDepot.getStock().getId(), new RequestStockQte(detStockDepot.getQte(),2, null));
                 } else {
                     int qte = detStockDepot.getQte();
                     int operation = 2;
@@ -202,7 +202,7 @@ public class StockDepotService implements IStockDepotService {
                             qte = Math.abs(qte);
                             operation = 1;
                         }
-                        stockService.updateQteStock(detStockDepot.getStock().getId(), new RequestStockQte(qte, operation));
+                        stockService.updateQteStock(detStockDepot.getStock().getId(), new RequestStockQte(qte, operation, null));
                     }
                 }
 

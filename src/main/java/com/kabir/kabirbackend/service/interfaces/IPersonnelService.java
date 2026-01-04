@@ -9,6 +9,9 @@ public interface IPersonnelService {
     public PersonnelDTO save(PersonnelDTO personnelDTO);
     public PersonnelDTO findById(Long id);
     public List<PersonnelDTO> findAll();
+
+    PersonnelDTO findByEmail(String email);
+
     public void delete(Long id);
     public List<PersonnelDTO> search(PersonnelDTO personnelDTO);
 

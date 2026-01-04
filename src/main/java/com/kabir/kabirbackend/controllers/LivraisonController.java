@@ -121,9 +121,7 @@ class LivraisonController {
     public ResponseEntity<LivraisonResponse> getByIdWithDetLivraison(@PathVariable Long id) {
         logger.info("Fetching livraison and detLivraison with id: {}", id);
         try {
-            LivraisonDTO livraison = livraisonService.findById(id);
-            List<DetLivraisonDTO> detLivraisons = detLivraisonService.DetLivraisonByLivraisonId(id);
-            return ResponseEntity.ok(new LivraisonResponse(livraison, detLivraisons));
+            return ResponseEntity.ok(livraisonService.findByIdWithDetLivraison(id));
         } catch (Exception e) {
             logger.error("Error fetching livraison and detLivraison with id: {}: {}", id, e.getMessage());
             return ResponseEntity.badRequest().body(null);
@@ -134,14 +132,7 @@ class LivraisonController {
     public ResponseEntity<LivraisonDTO> create(@Valid @RequestBody LivraisonResponse livraisonResponse) {
         logger.info("Creating livraison: {}", livraisonResponse);
         try {
-            LivraisonDTO createdLivraison = livraisonService.save(livraisonResponse.livraison());
-            Optional<Livraison> livraisonOptional = livraisonRepository.findById(createdLivraison.getId());
-            Livraison livraison = livraisonOptional.orElse(null);
-
-            for (DetLivraisonDTO detLivraisonDTO : livraisonResponse.detLivraisons()) {
-                detLivraisonDTO.setLivraisonId(createdLivraison.getId());
-                detLivraisonService.save(detLivraisonDTO, livraison);
-            }
+            LivraisonDTO createdLivraison = livraisonService.save(livraisonResponse);
 
             return ResponseEntity.ok(createdLivraison);
         } catch (Exception e) {
@@ -150,18 +141,12 @@ class LivraisonController {
         }
     }
 
-    @PostMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<LivraisonDTO> update(@PathVariable Long id, @Valid @RequestBody LivraisonResponse livraisonResponse) {
         logger.info("Updating livraison: {}", livraisonResponse);
         try {
-            LivraisonDTO updatedLivraison = livraisonService.save(livraisonResponse.livraison());
-            Optional<Livraison> livraisonOptional = livraisonRepository.findById(updatedLivraison.getId());
-            Livraison livraison = livraisonOptional.orElse(null);
+            LivraisonDTO updatedLivraison = livraisonService.save(livraisonResponse);
 
-            for (DetLivraisonDTO detLivraisonDTO : livraisonResponse.detLivraisons()) {
-                detLivraisonDTO.setLivraisonId(updatedLivraison.getId());
-                detLivraisonService.save(detLivraisonDTO, livraison);
-            }
             return ResponseEntity.ok(updatedLivraison);
         } catch (Exception e) {
             logger.error("Error updating livraison: {}", e.getMessage());
@@ -183,7 +168,7 @@ class LivraisonController {
 
     @PostMapping("/search")
     public ResponseEntity<List<LivraisonDTO>> search(@RequestBody LivraisonDTO livraisonDTO) {
-        logger.info("Searching livraison: " + livraisonDTO);
+        logger.info("Searching livraison: {}", livraisonDTO);
         try {
             List<LivraisonDTO> livraisons = livraisonService.search(livraisonDTO);
             return ResponseEntity.ok(livraisons);
@@ -195,7 +180,7 @@ class LivraisonController {
 
     @PostMapping("/present")
     public ResponseEntity<List<LivraisonDTO>> present(@RequestBody LivraisonDTO livraisonDTO) {
-        logger.info("Presenting livraison: " + livraisonDTO);
+        logger.info("Presenting livraison: {}", livraisonDTO);
         try {
             List<LivraisonDTO> livraisons = livraisonService.search(livraisonDTO);
             return ResponseEntity.ok(livraisons);
@@ -222,20 +207,8 @@ class LivraisonController {
         logger.info("Deleting livraison id: {}", id);
         try {
             LivraisonDTO livraisonDTO = livraisonService.findById(id);
+
             if(null != livraisonDTO && null != livraisonDTO.getId()) {
-                if(null != livraisonDTO.getRepertoireId()) {
-                    repertoireService.updateNbrOperation(livraisonDTO.getRepertoireId(), 2);
-                }
-
-                List<DetLivraisonDTO> detLivraisons = detLivraisonService.DetLivraisonByLivraisonId(id);
-
-                livraisonService.deleteStockInDetLivraison(detLivraisons);
-
-                if (CollectionUtils.isNotEmpty(detLivraisons)) {
-                    for (DetLivraisonDTO detLivraisonDTO : detLivraisons) {
-                        detLivraisonService.delete(detLivraisonDTO.getId());
-                    }
-                }
                 livraisonService.delete(id);
                 return ResponseEntity.ok().build();
             } else {

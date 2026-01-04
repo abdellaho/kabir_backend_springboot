@@ -22,12 +22,11 @@ public class PersonnelDTO implements Serializable {
     @NotNull
     @Size(max = 191)
     String cin;
-    @NotNull
     @Size(max = 191)
     String login;
-    @NotNull
     @Size(max = 191)
     String password;
+    String passwordFake;
     @NotNull
     int typePersonnel;
     @NotNull

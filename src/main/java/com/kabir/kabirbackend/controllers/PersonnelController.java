@@ -1,11 +1,19 @@
 package com.kabir.kabirbackend.controllers;
 
+import com.kabir.kabirbackend.config.requests.AuthRequest;
+import com.kabir.kabirbackend.config.requests.RefreshToken;
+import com.kabir.kabirbackend.config.responses.LoginResponse;
+import com.kabir.kabirbackend.config.security.JwtUtil;
 import com.kabir.kabirbackend.dto.PersonnelDTO;
 import com.kabir.kabirbackend.service.PersonnelService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,9 +24,17 @@ class PersonnelController {
 
     private final Logger logger = LoggerFactory.getLogger(PersonnelController.class);
     private final PersonnelService personnelService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtUtil jwtUtil;
+    private final PasswordEncoder passwordEncoder;
 
-    public PersonnelController(PersonnelService personnelService) {
+    PersonnelController(PersonnelService personnelService,
+                        AuthenticationManager authenticationManager,
+                        JwtUtil jwtUtil, PasswordEncoder passwordEncoder) {
         this.personnelService = personnelService;
+        this.authenticationManager = authenticationManager;
+        this.jwtUtil = jwtUtil;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /*
@@ -137,7 +153,7 @@ class PersonnelController {
 
     @PostMapping("/exist")
     public ResponseEntity<Boolean> exist(@RequestBody PersonnelDTO personnelDTO) {
-        logger.info("Checking if personnel exists: " + personnelDTO);
+        logger.info("Checking if personnel exists: {}", personnelDTO);
         try {
             List<PersonnelDTO> personnel = personnelService.search(personnelDTO);
             return ResponseEntity.ok(CollectionUtils.isNotEmpty(personnel));
@@ -149,7 +165,7 @@ class PersonnelController {
 
     @PostMapping("/search")
     public ResponseEntity<List<PersonnelDTO>> search(@RequestBody PersonnelDTO personnelDTO) {
-        logger.info("Searching personnel: " + personnelDTO);
+        logger.info("Searching personnel: {}", personnelDTO);
         try {
             List<PersonnelDTO> personnel = personnelService.searchBySupprimerOrArchiver(personnelDTO);
             return ResponseEntity.ok(personnel);
@@ -161,7 +177,7 @@ class PersonnelController {
 
     @PostMapping("/present")
     public ResponseEntity<List<PersonnelDTO>> present(@RequestBody PersonnelDTO personnelDTO) {
-        logger.info("Presenting personnel: " + personnelDTO);
+        logger.info("Presenting personnel: {}", personnelDTO);
         try {
             List<PersonnelDTO> personnel = personnelService.search(personnelDTO);
             return ResponseEntity.ok(personnel);
@@ -169,6 +185,96 @@ class PersonnelController {
             logger.error("Error presenting personnel: {}", e.getMessage());
             return ResponseEntity.badRequest().body(null);
         }
+    }
+
+    @PostMapping("/auth/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody AuthRequest request) {
+        logger.info("Logging in: {}", request);
+        try {
+
+            LoginResponse loginResponse = authenticate(request, null);
+            if(null == loginResponse) ResponseEntity.badRequest().build();
+
+            return ResponseEntity.ok(loginResponse);
+        } catch (Exception e) {
+            logger.error("Error logging in: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @PostMapping("/auth/register")
+    public ResponseEntity<LoginResponse> register(@RequestBody AuthRequest request) {
+        logger.info("Registering: {}", request);
+        try {
+            PersonnelDTO personnelDTO = new PersonnelDTO();
+
+            personnelDTO.setLogin(request.email());
+            personnelDTO.setPassword(passwordEncoder.encode(request.password()));
+            personnelDTO.setTypePersonnel(1);
+            personnelDTO.setEtatComptePersonnel(true);
+
+            personnelDTO = personnelService.save(personnelDTO);
+
+            LoginResponse loginResponse = authenticate(request, personnelDTO);
+            if(null == loginResponse) ResponseEntity.badRequest().build();
+
+            return ResponseEntity.ok(loginResponse);
+        } catch (Exception e) {
+            logger.error("Error registering: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @GetMapping("/auth/admin-exist")
+    public ResponseEntity<Boolean> adminExist() {
+        logger.info("Checking if an admin exists");
+        try {
+            PersonnelDTO personnelDTO = new PersonnelDTO();
+            personnelDTO.setTypePersonnel(0);
+            List<PersonnelDTO> list = personnelService.search(personnelDTO);
+            return ResponseEntity.ok(CollectionUtils.isNotEmpty(list));
+        } catch (Exception e) {
+            logger.error("Error checking if an admin exists: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @PostMapping("/auth/refresh-token")
+    public ResponseEntity<String> refreshToken(@RequestBody RefreshToken refreshToken) {
+        logger.info("Refreshing token");
+        try {
+            String token = jwtUtil.generateToken(jwtUtil.getUsernameFromToken(refreshToken.refreshToken()));
+            return ResponseEntity.ok(token);
+        } catch (Exception e) {
+            logger.error("Error refreshing token: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @PostMapping("/auth/logout")
+    public ResponseEntity<Void> logout(@RequestBody RefreshToken refreshToken) {
+        logger.info("Logging out");
+        try {
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            logger.error("Error logging out: {}", e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    private LoginResponse authenticate(AuthRequest request, PersonnelDTO personnelDTO) {
+        Authentication auth = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.email().trim(), request.password().trim()
+                )
+        );
+        if(null == personnelDTO) {
+            personnelDTO = personnelService.findByEmail(request.email().trim());
+        }
+        String token = jwtUtil.generateToken(request.email());
+
+        if(null == personnelDTO) return null;
+        return new LoginResponse(token, token, jwtUtil.getJwtExpirationMs(), personnelDTO);
     }
 
 }
