@@ -209,6 +209,7 @@ class PersonnelController {
             PersonnelDTO personnelDTO = new PersonnelDTO();
 
             personnelDTO.setLogin(request.email());
+            personnelDTO.setEmail(request.email());
             personnelDTO.setPassword(passwordEncoder.encode(request.password()));
             personnelDTO.setTypePersonnel(1);
             personnelDTO.setEtatComptePersonnel(true);

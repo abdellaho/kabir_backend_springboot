@@ -25,47 +25,39 @@ public class Personnel {
     private Long id;
 
     @Size(max = 191)
-    @NotNull
-    @Column(name = "designation", nullable = false, length = 191)
+    @Column(name = "designation", length = 191)
     private String designation;
 
     @Size(max = 191)
-    @NotNull
-    @Column(name = "cin", nullable = false, length = 191)
+    @Column(name = "cin", length = 191)
     private String cin;
 
     @Size(max = 191)
-    @NotNull
-    @Column(name = "login", nullable = false, length = 191)
+    @Column(name = "login", length = 191)
     private String login;
 
     @Size(max = 191)
-    @NotNull
-    @Column(name = "password", nullable = false, length = 191)
+    @Column(name = "password", length = 191)
     private String password;
 
     @NotNull
     @Column(name = "typePersonnel", nullable = false)
     private int typePersonnel;
 
-    @NotNull
     @ColumnDefault("0")
     @Column(name = "etatComptePersonnel", nullable = false)
     private boolean etatComptePersonnel = false;
 
     @Size(max = 191)
-    @NotNull
-    @Column(name = "tel1", nullable = false, length = 191)
+    @Column(name = "tel1", length = 191)
     private String tel1;
 
     @Size(max = 191)
-    @NotNull
-    @Column(name = "tel2", nullable = false, length = 191)
+    @Column(name = "tel2", length = 191)
     private String tel2;
 
     @Size(max = 191)
-    @NotNull
-    @Column(name = "adresse", nullable = false, length = 191)
+    @Column(name = "adresse", length = 191)
     private String adresse;
 
     @Size(max = 191)
@@ -73,8 +65,7 @@ public class Personnel {
     @Column(name = "email", nullable = false, length = 191)
     private String email;
 
-    @NotNull
-    @Column(name = "dateEntrer", nullable = false)
+    @Column(name = "dateEntrer")
     private LocalDate dateEntrer;
 
     @Column(name = "dateSuppression")
