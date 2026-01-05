@@ -36,6 +36,10 @@ public class PersonnelSpecification implements Specification<Personnel> {
                 predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(criteriaBuilder.lower(root.get("designation")), personnelDTO.getDesignation().toLowerCase().trim()));
             }
 
+            if (StringUtils.isNotBlank(personnelDTO.getEmail())) {
+                predicate = criteriaBuilder.or(predicate, criteriaBuilder.equal(criteriaBuilder.lower(root.get("email")), personnelDTO.getEmail().toLowerCase().trim()));
+            }
+
             if (StringUtils.isNotBlank(personnelDTO.getTel1())) {
                 Predicate tel1Predicate = criteriaBuilder.or(
                         criteriaBuilder.equal(root.get("tel1"), personnelDTO.getTel1()),

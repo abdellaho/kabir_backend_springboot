@@ -126,7 +126,7 @@ public class AchatSimpleService implements IAchatSimpleService {
             if(CollectionUtils.isNotEmpty(detAchatSimpleDTOOld)) {
                 for(DetAchatSimple detAchatSimple : detAchatSimpleDTOOld) {
                     if(null != detAchatSimple.getStock() && null != detAchatSimple.getStock().getId()) {
-                        stockService.updateQteStock(detAchatSimple.getStock().getId(), new RequestStockQte(detAchatSimple.getQte(), 1, detAchatSimple.getUniteGratuite()));
+                        stockService.updateQteStockImport(detAchatSimple.getStock().getId(), new RequestStockQte(detAchatSimple.getQte(), 1, detAchatSimple.getUniteGratuite()));
 
                         logger.info("Deleting detail achat simple by id: {}", detAchatSimple.getId());
                         detAchatSimpleRepository.deleteById(detAchatSimple.getId());
@@ -195,7 +195,7 @@ public class AchatSimpleService implements IAchatSimpleService {
         if(CollectionUtils.isNotEmpty(listToSave)) {
             for(DetAchatSimple detAchatSimple : listToSave) {
                 if(null == detAchatSimple.getId()) {
-                    stockService.updateQteStock(detAchatSimple.getStock().getId(), new RequestStockQte(detAchatSimple.getQte(),2, detAchatSimple.getUniteGratuite()));
+                    stockService.updateQteStockImport(detAchatSimple.getStock().getId(), new RequestStockQte(detAchatSimple.getQte(),2, detAchatSimple.getUniteGratuite()));
                 } else {
                     int qte = detAchatSimple.getQte();
                     int operation = 2;

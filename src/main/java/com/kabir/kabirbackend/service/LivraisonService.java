@@ -61,11 +61,15 @@ public class LivraisonService implements ILivraisonService {
         LivraisonDTO livraisonDTO = livraisonResponse.livraison();
         boolean isSave = livraisonDTO.getId() == null;
         Repertoire oldRepertoire = null;
+        Personnel personnelOperation = null;
         String repertoireObservation = livraisonDTO.getRepertoireObservation();
 
         try {
             if(!isSave && null != livraisonDTO.getRepertoireIdOld()) {
                 oldRepertoire = repertoireRepository.findById(livraisonDTO.getRepertoireIdOld()).orElse(null);
+            }
+            if(null != livraisonDTO.getEmployeOperateurId() && livraisonDTO.getEmployeOperateurId() != 0) {
+                personnelOperation = personnelRepository.findById(livraisonDTO.getEmployeOperateurId()).orElse(null);
             }
 
             Optional<Repertoire> optionalRepertoire = repertoireRepository.findById(livraisonResponse.livraison().getRepertoireId());
@@ -73,6 +77,7 @@ public class LivraisonService implements ILivraisonService {
 
             Livraison livraison = livraisonMapper.toLivraison(livraisonDTO);
 
+            livraison.setEmployeOperateur(personnelOperation);
             livraison.setRepertoire(optionalRepertoire.orElse(null));
             livraison.setPersonnel(optionalPersonnel.orElse(null));
 

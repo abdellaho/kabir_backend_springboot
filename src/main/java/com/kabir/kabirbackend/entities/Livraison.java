@@ -149,7 +149,7 @@ public class Livraison {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "employeOperateurId")
-    private Employe employeOperateur;
+    private Personnel employeOperateur;
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER, optional = false)

@@ -59,8 +59,7 @@ public class LivraisonDTO implements Serializable {
     @Size(max = 191)
     String codeTransport;
     Long employeOperateurId;
-    String employeOperateurNom;
-    String employeOperateurPrenom;
+    String employeOperateurDesignation;
     @Min(value = 1)
     @NotNull
     Long personnelId;

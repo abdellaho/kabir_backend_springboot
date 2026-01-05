@@ -7,12 +7,15 @@ import com.kabir.kabirbackend.config.security.JwtUtil;
 import com.kabir.kabirbackend.dto.PersonnelDTO;
 import com.kabir.kabirbackend.service.PersonnelService;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -190,16 +193,10 @@ class PersonnelController {
     @PostMapping("/auth/login")
     public ResponseEntity<LoginResponse> login(@RequestBody AuthRequest request) {
         logger.info("Logging in: {}", request);
-        try {
+        LoginResponse loginResponse = authenticate(request, null);
+        if(null == loginResponse) throw new BadCredentialsException("Email ou mot de passe incorrect");
 
-            LoginResponse loginResponse = authenticate(request, null);
-            if(null == loginResponse) ResponseEntity.badRequest().build();
-
-            return ResponseEntity.ok(loginResponse);
-        } catch (Exception e) {
-            logger.error("Error logging in: {}", e.getMessage());
-            return ResponseEntity.badRequest().body(null);
-        }
+        return ResponseEntity.ok(loginResponse);
     }
 
     @PostMapping("/auth/register")
@@ -212,6 +209,7 @@ class PersonnelController {
             personnelDTO.setEmail(request.email());
             personnelDTO.setPassword(passwordEncoder.encode(request.password()));
             personnelDTO.setTypePersonnel(1);
+            personnelDTO.setDesignation("Administrateur");
             personnelDTO.setEtatComptePersonnel(true);
 
             personnelDTO = personnelService.save(personnelDTO);
@@ -276,6 +274,39 @@ class PersonnelController {
 
         if(null == personnelDTO) return null;
         return new LoginResponse(token, token, jwtUtil.getJwtExpirationMs(), personnelDTO);
+    }
+
+    @PostMapping("/me")
+    public ResponseEntity<LoginResponse> getCurrentUser(@RequestBody RefreshToken refreshToken) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated()) {
+            if(null != refreshToken && null != refreshToken.refreshToken() && StringUtils.isNotBlank(refreshToken.refreshToken())) {
+                // Try to authenticate using the refresh token
+                try {
+                    String email = jwtUtil.getUsernameFromToken(refreshToken.refreshToken());
+                    PersonnelDTO personnelDTO = personnelService.findByEmail(email);
+
+                    if (personnelDTO != null) {
+                        String newToken = jwtUtil.generateToken(email);
+                        return ResponseEntity.ok(new LoginResponse(newToken, newToken, jwtUtil.getJwtExpirationMs(), personnelDTO));
+                    }
+                } catch (Exception e) {
+                    return ResponseEntity.status(401).build();
+                }
+            }
+            return ResponseEntity.status(401).build(); // Unauthorized
+        }
+
+        // Extract username/email from auth (adjust based on your JWT claims/user details)
+        String email = auth.getName(); // Typically email or username from JWT principal
+
+        PersonnelDTO personnelDTO = personnelService.findByEmail(email);
+        if (personnelDTO == null) {
+            return ResponseEntity.status(404).build();
+        }
+
+        String newToken = jwtUtil.generateToken(email);
+        return ResponseEntity.ok(new LoginResponse(newToken, newToken, jwtUtil.getJwtExpirationMs(), personnelDTO));
     }
 
 }
