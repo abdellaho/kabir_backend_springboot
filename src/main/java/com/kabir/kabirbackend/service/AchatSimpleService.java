@@ -62,6 +62,7 @@ public class AchatSimpleService implements IAchatSimpleService {
         logger.info("Saving achat simple: {}", achatSimpleResponse);
         AchatSimpleDTO achatSimpleDTO = achatSimpleResponse.achatSimple();
         boolean isSave = achatSimpleDTO.getId() == null;
+
         try {
             Optional<Fournisseur> optionalFournisseur = fournisseurRepository.findById(achatSimpleDTO.getFournisseurId());
             AchatSimple achatSimple = achatSimpleMapper.toEntity(achatSimpleDTO);
@@ -74,6 +75,7 @@ public class AchatSimpleService implements IAchatSimpleService {
         } catch (Exception e) {
             logger.error("Failed to save achat simple: {}", e.getMessage());
         }
+
         return achatSimpleDTO;
     }
 
