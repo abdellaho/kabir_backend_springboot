@@ -44,13 +44,16 @@ public class AchatFactureDTO implements Serializable {
     @NotNull
     @Size(max = 191)
     String numCheque;
+    double mntHt;
+    double montantTVA;
+    double totalMntProduit;
     double mantantTotHT;
     double mantantTotHTVA;
     double mantantTotTTC;
     double tva20;
     double tva7;
     double tvaArbtraire;
-    int manuelAutoMatique;
+    int manuelAutomatique;
     double mntManuelTva7;
     double mntManuelTva10;
     double mntManuelTva12;

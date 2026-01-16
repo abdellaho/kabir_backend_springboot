@@ -94,6 +94,18 @@ public class AchatFacture {
     private String numCheque;
 
     @NotNull
+    @Column(name = "mntHt", nullable = false, precision = 10)
+    private double mntHt;
+
+    @NotNull
+    @Column(name = "montantTVA", nullable = false, precision = 10)
+    private double montantTVA;
+
+    @NotNull
+    @Column(name = "totalMntProduit", nullable = false, precision = 10)
+    private double totalMntProduit;
+
+    @NotNull
     @Column(name = "mantantTotHT", nullable = false, precision = 10)
     private double mantantTotHT;
 
@@ -119,7 +131,7 @@ public class AchatFacture {
 
     @NotNull
     @Column(name = "manuelAutoMatique", nullable = false)
-    private int manuelAutoMatique;
+    private int manuelAutomatique;
 
     @NotNull
     @Column(name = "mntManuelTva7", nullable = false, precision = 10)
