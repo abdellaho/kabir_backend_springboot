@@ -14,8 +14,6 @@ import java.time.LocalDate;
 @Data
 public class AchatFactureDTO implements Serializable {
     Long id;
-    @NotNull
-    @Size(max = 191)
     String codeAF;
     int numAchat;
     @NotNull
@@ -29,8 +27,6 @@ public class AchatFactureDTO implements Serializable {
     @NotNull
     @Size(max = 191)
     String numeroFacExterne;
-    @NotNull
-    @Size(max = 191)
     String numeroIF;
     double mantantAF;
     double mantantBFBenefice;
@@ -38,11 +34,7 @@ public class AchatFactureDTO implements Serializable {
     @NotNull
     LocalDate dateReglement;
     int typeReglment;
-    @NotNull
-    @Size(max = 191)
     String typePaiement;
-    @NotNull
-    @Size(max = 191)
     String numCheque;
     double mantantTotHT;
     double mantantTotHTVA;
@@ -79,4 +71,6 @@ public class AchatFactureDTO implements Serializable {
     double montantDroitSupplementaire;
     boolean disabledHT;
     boolean disabledManuel;
+    @NotNull
+    Long fournisseurId;
 }

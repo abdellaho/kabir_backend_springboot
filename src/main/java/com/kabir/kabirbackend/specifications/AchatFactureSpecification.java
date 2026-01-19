@@ -8,6 +8,7 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.Builder;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 
 
@@ -23,8 +24,8 @@ public class AchatFactureSpecification implements Specification<AchatFacture> {
         Predicate predicate = criteriaBuilder.conjunction();
 
         if (achatFactureDTO != null) {
-            if (achatFactureDTO.getCodeAF() != null) {
-                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("codeAF"), achatFactureDTO.getCodeAF()));
+            if(StringUtils.isNotBlank(achatFactureDTO.getNumeroFacExterne())) {
+                predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(criteriaBuilder.lower(root.get("numeroFacExterne")), achatFactureDTO.getNumeroFacExterne().trim().toLowerCase()));
             }
 
             if(null != achatFactureDTO.getId()) {
