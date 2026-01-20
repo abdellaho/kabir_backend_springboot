@@ -104,4 +104,15 @@ class AchatFactureController {
         }
     }
 
+    @PostMapping("/exist")
+    public ResponseEntity<Boolean> exist(@RequestBody AchatFactureDTO achatFactureDTO) {
+        logger.info("Searching if exist");
+        try {
+            return ResponseEntity.ok(achatFactureService.exist(achatFactureDTO));
+        } catch (Exception e) {
+            logger.error("Error searching if an existing achat facture: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
 }

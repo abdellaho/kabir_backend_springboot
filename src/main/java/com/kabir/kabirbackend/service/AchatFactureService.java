@@ -9,9 +9,7 @@ import com.kabir.kabirbackend.dto.DetAchatFactureDTO;
 import com.kabir.kabirbackend.entities.*;
 import com.kabir.kabirbackend.mapper.AchatFactureMapper;
 import com.kabir.kabirbackend.mapper.DetAchatFactureMapper;
-import com.kabir.kabirbackend.repository.AchatFactureRepository;
-import com.kabir.kabirbackend.repository.DetAchatFactureRepository;
-import com.kabir.kabirbackend.repository.StockRepository;
+import com.kabir.kabirbackend.repository.*;
 import com.kabir.kabirbackend.service.interfaces.IAchatFactureService;
 import com.kabir.kabirbackend.specifications.AchatFactureSpecification;
 import org.apache.commons.collections4.CollectionUtils;
@@ -34,13 +32,17 @@ public class AchatFactureService implements IAchatFactureService {
     private final DetAchatFactureMapper detAchatFactureMapper;
     private final StockService stockService;
     private final StockRepository stockRepository;
+    private final FournisseurRepository fournisseurRepository;
+    private final PersonnelRepository personnelRepository;
 
     public AchatFactureService(AchatFactureRepository achatFactureRepository,
                                AchatFactureMapper achatFactureMapper,
                                DetAchatFactureRepository detAchatFactureRepository, 
                                DetAchatFactureMapper detAchatFactureMapper, 
                                StockService stockService, 
-                               StockRepository stockRepository
+                               StockRepository stockRepository,
+                               FournisseurRepository fournisseurRepository,
+                               PersonnelRepository personnelRepository
                                ) {
         this.achatFactureRepository = achatFactureRepository;
         this.achatFactureMapper = achatFactureMapper;
@@ -48,6 +50,8 @@ public class AchatFactureService implements IAchatFactureService {
         this.detAchatFactureMapper = detAchatFactureMapper;
         this.stockService = stockService;
         this.stockRepository = stockRepository;
+        this.fournisseurRepository = fournisseurRepository;
+        this.personnelRepository = personnelRepository;
     }
 
     @Override
@@ -57,7 +61,10 @@ public class AchatFactureService implements IAchatFactureService {
         boolean isSave = achatFactureDTO.getId() == null;
 
         try {
+            Optional<Fournisseur> optionalFournisseur = null != achatFactureDTO.getFournisseurId() ? fournisseurRepository.findById(achatFactureDTO.getFournisseurId()) : Optional.empty();
+
             AchatFacture achatFacture = achatFactureMapper.toAchatFacture(achatFactureDTO);
+            achatFacture.setFournisseur(optionalFournisseur.orElse(null));
             achatFactureDTO = achatFactureMapper.toAchatFactureDTO(achatFactureRepository.save(achatFacture));
 
             enregistrerDetAchatFacture(achatFacture, isSave, achatFactureResponse.detAchatFactures());
@@ -238,5 +245,11 @@ public class AchatFactureService implements IAchatFactureService {
     @Override
     public Integer getLastNumAchatFacture(AchatFactureDTO achatFactureDTO) {
         return achatFactureRepository.findMaxNumAchatFactureInYearDateAF(achatFactureDTO.getDateAF().getYear()).map(l -> l + 1).orElse(1);
+    }
+
+    @Override
+    public boolean exist(AchatFactureDTO achatFactureDTO) {
+        List<AchatFacture> list = achatFactureRepository.findAll(AchatFactureSpecification.builder().achatFactureDTO(achatFactureDTO).build());
+        return CollectionUtils.isNotEmpty(list);
     }
 }

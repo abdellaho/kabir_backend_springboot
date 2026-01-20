@@ -17,4 +17,6 @@ public interface IAchatFactureService {
     List<AchatFactureDTO> search(AchatFactureDTO achatFactureDTO);
 
     Integer getLastNumAchatFacture(AchatFactureDTO achatFactureDTO);
+
+    boolean exist(AchatFactureDTO achatFactureDTO);
 }

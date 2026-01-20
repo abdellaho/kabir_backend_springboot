@@ -247,4 +247,8 @@ public class AchatFacture {
     @Column(name = "disabledManuel", nullable = false)
     private boolean disabledManuel = false;
 
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Fournisseur fournisseur;
+
 }
