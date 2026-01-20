@@ -276,7 +276,7 @@ class PersonnelController {
         return new LoginResponse(token, token, jwtUtil.getJwtExpirationMs(), personnelDTO);
     }
 
-    @PostMapping("/me")
+    @PostMapping("/auth/me")
     public ResponseEntity<LoginResponse> getCurrentUser(@RequestBody RefreshToken refreshToken) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null || !auth.isAuthenticated()) {

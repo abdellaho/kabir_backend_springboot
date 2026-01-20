@@ -8,9 +8,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class DetAchatFactureMapper {
 
-    private ModelMapper modelMapper;
-    public DetAchatFactureMapper(ModelMapper modelMapper) {}
+    private final ModelMapper modelMapper;
 
+    public DetAchatFactureMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
 
     public DetAchatFactureDTO toDTO(DetAchatFacture achatFacture) {
         return modelMapper.map(achatFacture, DetAchatFactureDTO.class);
