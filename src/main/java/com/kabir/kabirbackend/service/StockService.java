@@ -97,13 +97,23 @@ public class StockService implements IStockService {
     }
 
     @Override
-    public void updateQteStock(Long id, RequestStockQte requestStockQte) {
+    public void updateQteStock(Long id, TypeQteToUpdate typeQteToUpdate, RequestStockQte requestStockQte) {
         logger.info("Updating stock qte stock: {}", requestStockQte);
         try {
             if (null != id) {
                 StockDTO stockDTO = findById(id);
                 if(null != stockDTO && null != stockDTO.getId()) {
-                    updateStock(TypeQteToUpdate.QTE_STOCK, stockDTO, requestStockQte);
+                    if (typeQteToUpdate == TypeQteToUpdate.QTE_STOCK) {
+                        logger.info("Updating stock qte stock: {}", requestStockQte.qte());
+                    } else if (typeQteToUpdate == TypeQteToUpdate.QTE_STOCK_IMPORT) {
+                        logger.info("Updating stock qte stock import: {}", requestStockQte.qte());
+                    } else if (typeQteToUpdate == TypeQteToUpdate.QTE_STOCK_FACTURER) {
+                        logger.info("Updating stock qte stock facturer: {}", requestStockQte.qte());
+                    } else if (typeQteToUpdate == TypeQteToUpdate.QTE_STOCK_SORTIE) {
+                        logger.info("Updating stock qte stock sortie: {}", requestStockQte.qte());
+                    }
+
+                    updateStock(typeQteToUpdate, stockDTO, requestStockQte);
                 } else {
                     throw new RuntimeException("Stock not found");
                 }
@@ -115,48 +125,6 @@ public class StockService implements IStockService {
             throw new RuntimeException("Error updating stock qte stock", e);
         }
     }
-
-    @Override
-    public void updateQteStockImport(Long id, RequestStockQte requestStockQte) {
-        logger.info("Updating stock qte stock import: {}", requestStockQte);
-        try {
-            if (null != id) {
-                StockDTO stockDTO = findById(id);
-                if(null != stockDTO && null != stockDTO.getId()) {
-                    updateStock(TypeQteToUpdate.QTE_STOCK_IMPORT, stockDTO, requestStockQte);
-                } else {
-                    throw new RuntimeException("Stock not found");
-                }
-            } else {
-                throw new RuntimeException("Id is null");
-            }
-        } catch (Exception e) {
-            logger.error("Error updating stock qte stock import", e);
-            throw new RuntimeException("Error updating stock qte stock import", e);
-        }
-    }
-
-    @Override
-    public void updateQteStockFacturer(Long id, RequestStockQte requestStockQte) {
-        logger.info("Updating stock qte stock facturer: {}", requestStockQte);
-        try {
-            if (null != id) {
-                StockDTO stockDTO = findById(id);
-                if(null != stockDTO && null != stockDTO.getId()) {
-                    updateStock(TypeQteToUpdate.QTE_STOCK_FACTURER, stockDTO, requestStockQte);
-                } else {
-                    throw new RuntimeException("Stock not found");
-                }
-            } else {
-                throw new RuntimeException("Id is null");
-            }
-        } catch (Exception e) {
-            logger.error("Error updating stock qte stock facturer", e);
-            throw new RuntimeException("Error updating stock qte stock facturer", e);
-        }
-    }
-
-
 
     public void updateStock(TypeQteToUpdate typeQteToUpdate, StockDTO stockDTO, RequestStockQte requestStockQte) {
         int operator = requestStockQte.typeOperation();
@@ -173,6 +141,9 @@ public class StockService implements IStockService {
                 break;
             case QTE_STOCK_FACTURER:
                 stockDTO.setQteFacturer(operator == 1 ? stockDTO.getQteFacturer() - qte : stockDTO.getQteFacturer() + qte);
+                break;
+            case QTE_STOCK_SORTIE:
+                stockDTO.setQteSortie(operator == 1 ? stockDTO.getQteSortie() - qte : stockDTO.getQteSortie() + qte);
                 break;
         }
 

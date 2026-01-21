@@ -1,19 +1,16 @@
 package com.kabir.kabirbackend.service;
 
+import com.kabir.kabirbackend.config.enums.TypeQteToUpdate;
 import com.kabir.kabirbackend.config.requests.RequestStockQte;
 import com.kabir.kabirbackend.config.responses.BonSortieResponse;
 import com.kabir.kabirbackend.dto.DetailBonSortieDTO;
 import com.kabir.kabirbackend.dto.BonSortieDTO;
 import com.kabir.kabirbackend.dto.FactureDTO;
 import com.kabir.kabirbackend.dto.LivraisonDTO;
-import com.kabir.kabirbackend.entities.DetailBonSortie;
-import com.kabir.kabirbackend.entities.Stock;
-import com.kabir.kabirbackend.entities.BonSortie;
+import com.kabir.kabirbackend.entities.*;
 import com.kabir.kabirbackend.mapper.DetailBonSortieMapper;
 import com.kabir.kabirbackend.mapper.BonSortieMapper;
-import com.kabir.kabirbackend.repository.BonSortieRepository;
-import com.kabir.kabirbackend.repository.DetailBonSortieRepository;
-import com.kabir.kabirbackend.repository.StockRepository;
+import com.kabir.kabirbackend.repository.*;
 import com.kabir.kabirbackend.service.interfaces.IBonSortieService;
 
 import lombok.Data;
@@ -42,6 +39,8 @@ public class BonSortieService implements IBonSortieService {
     private final DetailBonSortieMapper detailBonSortieMapper;
     private final StockService stockService;
     private final StockRepository stockRepository;
+    private final RepertoireRepository repertoireRepository;
+    private final PersonnelRepository personnelRepository;
 
 
     public BonSortieService(
@@ -50,7 +49,9 @@ public class BonSortieService implements IBonSortieService {
             BonSortieMapper bonSortieMapper,
             DetailBonSortieMapper detailBonSortieMapper,
             StockService stockService,
-            StockRepository stockRepository
+            StockRepository stockRepository,
+            RepertoireRepository repertoireRepository,
+            PersonnelRepository personnelRepository
     ) {
         this.bonSortieRepository = bonSortieRepository;
         this.bonSortieMapper = bonSortieMapper;
@@ -58,6 +59,8 @@ public class BonSortieService implements IBonSortieService {
         this.stockService = stockService;
         this.stockRepository = stockRepository;
         this.detailBonSortieRepository = detailBonSortieRepository;
+        this.repertoireRepository = repertoireRepository;
+        this.personnelRepository = personnelRepository;
     }
 
     @Override
@@ -66,10 +69,15 @@ public class BonSortieService implements IBonSortieService {
         BonSortieDTO bonSortieDTO = bonSortieResponse.bonSortie();
         boolean isSave = bonSortieDTO.getId() == null;
         try {
+            Optional<Repertoire> optionalRepertoire = repertoireRepository.findById(bonSortieResponse.bonSortie().getRepertoireId());
+            Optional<Personnel> optionalPersonnel = personnelRepository.findById(bonSortieResponse.bonSortie().getPersonnelId());
+
             BonSortie bonSortie = bonSortieMapper.toEntity(bonSortieDTO);
+            bonSortie.setRepertoire(optionalRepertoire.orElse(null));
+            bonSortie.setPersonnel(optionalPersonnel.orElse(null));
             bonSortieDTO = bonSortieMapper.toDTO(bonSortieRepository.save(bonSortie));
 
-            enregistrerDetStockDepot(bonSortie, isSave, bonSortieResponse.detailBonSorties());
+            enregistrerDetBonSortie(bonSortie, isSave, bonSortieResponse.detailBonSorties());
 
             logger.info("Bon sortie saved successfully: {}", bonSortieDTO);
         } catch (Exception e) {
@@ -127,7 +135,7 @@ public class BonSortieService implements IBonSortieService {
             if(CollectionUtils.isNotEmpty(detailBonSortieDTOOld)) {
                 for(DetailBonSortie detStockDepot : detailBonSortieDTOOld) {
                     if(null != detStockDepot.getStock() && null != detStockDepot.getStock().getId()) {
-                        stockService.updateQteStock(detStockDepot.getStock().getId(), new RequestStockQte(detStockDepot.getQteSortie(), 1, null));
+                        stockService.updateQteStock(detStockDepot.getStock().getId(), TypeQteToUpdate.QTE_STOCK, new RequestStockQte(detStockDepot.getQteSortie(), 1, null));
 
                         logger.info("Deleting detail bon sortie by id: {}", detStockDepot.getId());
                         detailBonSortieRepository.deleteById(detStockDepot.getId());
@@ -159,7 +167,7 @@ public class BonSortieService implements IBonSortieService {
                 .collect(Collectors.toList());
     }
 
-    public void enregistrerDetStockDepot(BonSortie bonSortie, boolean isSave, List<DetailBonSortieDTO> detStockDepotDTOs) {
+    public void enregistrerDetBonSortie(BonSortie bonSortie, boolean isSave, List<DetailBonSortieDTO> detStockDepotDTOs) {
         List<DetailBonSortie> detailBonSortieDTOOld = new ArrayList<>();
         if(!isSave) {
             detailBonSortieDTOOld = detailBonSortieRepository.findAllByBonSortieId(bonSortie.getId());
@@ -170,7 +178,7 @@ public class BonSortieService implements IBonSortieService {
             logger.info("Deleting detail bon sortie: {}", listToDelete.size());
             for(DetailBonSortie detStockDepot : listToDelete) {
                 if(null != detStockDepot.getStock() && null != detStockDepot.getStock().getId()) {
-                    stockService.updateQteStock(detStockDepot.getStock().getId(), new RequestStockQte(detStockDepot.getQteSortie(), 1, null));
+                    stockService.updateQteStock(detStockDepot.getStock().getId(), TypeQteToUpdate.QTE_STOCK_SORTIE, new RequestStockQte(detStockDepot.getQteSortie(), 1, null));
                 }
 
                 detailBonSortieRepository.delete(detStockDepot);
@@ -196,7 +204,7 @@ public class BonSortieService implements IBonSortieService {
         if(CollectionUtils.isNotEmpty(listToSave)) {
             for(DetailBonSortie detStockDepot : listToSave) {
                 if(null == detStockDepot.getId()) {
-                    stockService.updateQteStock(detStockDepot.getStock().getId(), new RequestStockQte(detStockDepot.getQteSortie(),2, null));
+                    stockService.updateQteStock(detStockDepot.getStock().getId(), TypeQteToUpdate.QTE_STOCK_SORTIE, new RequestStockQte(detStockDepot.getQteSortie(),2, null));
                 } else {
                     int qte = detStockDepot.getQteSortie();
                     int operation = 2;
@@ -207,7 +215,7 @@ public class BonSortieService implements IBonSortieService {
                             qte = Math.abs(qte);
                             operation = 1;
                         }
-                        stockService.updateQteStock(detStockDepot.getStock().getId(), new RequestStockQte(qte, operation, null));
+                        stockService.updateQteStock(detStockDepot.getStock().getId(), TypeQteToUpdate.QTE_STOCK_SORTIE, new RequestStockQte(qte, operation, null));
                     }
                 }
 
@@ -233,8 +241,8 @@ public class BonSortieService implements IBonSortieService {
     @Override
     public int getLastNumBonSortie(BonSortieDTO bonSortieDTO) {
         logger.info("Getting last num bon sortie");
-        LocalDate localDate = bonSortieDTO.getDateOperation().atZone(ZoneId.systemDefault()).toLocalDate();
-        return bonSortieRepository.findMaxNumBonSortieInYearDateBL(localDate.getYear()).map(l -> l + 1).orElse(1);
+        //LocalDate localDate = bonSortieDTO.getDateOperation().atZone(ZoneId.systemDefault()).toLocalDate();
+        return bonSortieRepository.findMaxNumBonSortie().map(l -> l + 1).orElse(1);
     }
 
 }

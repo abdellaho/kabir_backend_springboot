@@ -1,5 +1,6 @@
 package com.kabir.kabirbackend.controllers;
 
+import com.kabir.kabirbackend.config.enums.TypeQteToUpdate;
 import com.kabir.kabirbackend.config.requests.RequestStockQte;
 import com.kabir.kabirbackend.dto.StockDTO;
 import com.kabir.kabirbackend.service.StockService;
@@ -162,7 +163,7 @@ class StockController {
     public ResponseEntity<Void> updateQteStock(@PathVariable Long id, @RequestBody RequestStockQte requestStockQte) {
         logger.info("Updating stock qte stock: {}", requestStockQte);
         try {
-            stockService.updateQteStock(id, requestStockQte);
+            stockService.updateQteStock(id, TypeQteToUpdate.QTE_STOCK, requestStockQte);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             logger.error("Error updating stock qte stock: {}", e.getMessage());
@@ -174,7 +175,7 @@ class StockController {
     public ResponseEntity<StockDTO> updateQteStockImport(@PathVariable Long id, @RequestBody RequestStockQte requestStockQte) {
         logger.info("Updating stock qte stock import: {}", requestStockQte);
         try {
-            stockService.updateQteStockImport(id, requestStockQte);
+            stockService.updateQteStock(id, TypeQteToUpdate.QTE_STOCK_IMPORT, requestStockQte);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             logger.error("Error updating stock qte stock import: {}", e.getMessage());
@@ -186,7 +187,7 @@ class StockController {
     public ResponseEntity<Void> updateQteStockFacturer(@PathVariable Long id, @RequestBody RequestStockQte requestStockQte) {
         logger.info("Updating stock qte stock facturer: {}", requestStockQte);
         try {
-            stockService.updateQteStockFacturer(id, requestStockQte);
+            stockService.updateQteStock(id, TypeQteToUpdate.QTE_STOCK_FACTURER, requestStockQte);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             logger.error("Error updating stock qte stock facturer: {}", e.getMessage());

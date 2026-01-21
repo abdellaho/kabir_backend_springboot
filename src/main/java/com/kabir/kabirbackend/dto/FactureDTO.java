@@ -67,6 +67,9 @@ public class FactureDTO implements Serializable {
     double mntReglement3;
     double mntReglement4;
     int type;
+    Long employeOperateurId;
+    Long personnelId;
+    Long repertoireId;
     //boolean facturer100;
     //boolean calculer;
     //boolean disableMontant;

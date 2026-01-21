@@ -42,15 +42,12 @@ public class Facture {
     @Column(name = "dateReglement", nullable = false)
     private LocalDate dateReglement;
 
-    @NotNull
     @Column(name = "dateReglement2", nullable = false)
     private LocalDate dateReglement2;
 
-    @NotNull
     @Column(name = "dateReglement3", nullable = false)
     private LocalDate dateReglement3;
 
-    @NotNull
     @Column(name = "dateReglement4", nullable = false)
     private LocalDate dateReglement4;
 
@@ -196,8 +193,7 @@ public class Facture {
     private boolean disableMontant = false;
 
     @Size(max = 191)
-    @NotNull
-    @Column(name = "typeTVA", nullable = false, length = 191)
+    @Column(name = "typeTVA", length = 191)
     private String typeTVA;
 
     @Transient
@@ -235,5 +231,19 @@ public class Facture {
     @NotNull
     @Column(name = "mntHT20Reglement2", nullable = false, precision = 10)
     private double mntHT20Reglement2;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "employeOperateurId")
+    private Personnel employeOperateur;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "personnelId", nullable = false)
+    private Personnel personnel;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "repertoireId", nullable = false)
+    private Repertoire repertoire;
 
 }

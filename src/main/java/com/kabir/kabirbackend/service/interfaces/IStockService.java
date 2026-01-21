@@ -1,5 +1,6 @@
 package com.kabir.kabirbackend.service.interfaces;
 
+import com.kabir.kabirbackend.config.enums.TypeQteToUpdate;
 import com.kabir.kabirbackend.config.requests.RequestStockQte;
 import com.kabir.kabirbackend.dto.StockDTO;
 import com.kabir.kabirbackend.entities.Stock;
@@ -18,7 +19,7 @@ public interface IStockService {
 
     List<StockDTO> searchBySupprimerOrArchiver(StockDTO stockDTO);
 
-    void updateQteStock(Long id, RequestStockQte requestStockQte);
-    void updateQteStockImport(Long id, RequestStockQte requestStockQte);
-    void updateQteStockFacturer(Long id, RequestStockQte requestStockQte);
+    void updateQteStock(Long id, TypeQteToUpdate typeQteToUpdate, RequestStockQte requestStockQte);
+    //void updateQteStockImport(Long id, RequestStockQte requestStockQte);
+    //void updateQteStockFacturer(Long id, RequestStockQte requestStockQte);
 }

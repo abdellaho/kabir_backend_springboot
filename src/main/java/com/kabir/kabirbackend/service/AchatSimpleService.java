@@ -1,5 +1,6 @@
 package com.kabir.kabirbackend.service;
 
+import com.kabir.kabirbackend.config.enums.TypeQteToUpdate;
 import com.kabir.kabirbackend.config.requests.RequestStockQte;
 import com.kabir.kabirbackend.config.responses.AchatSimpleResponse;
 import com.kabir.kabirbackend.dto.DetAchatSimpleDTO;
@@ -128,7 +129,7 @@ public class AchatSimpleService implements IAchatSimpleService {
             if(CollectionUtils.isNotEmpty(detAchatSimpleDTOOld)) {
                 for(DetAchatSimple detAchatSimple : detAchatSimpleDTOOld) {
                     if(null != detAchatSimple.getStock() && null != detAchatSimple.getStock().getId()) {
-                        stockService.updateQteStockImport(detAchatSimple.getStock().getId(), new RequestStockQte(detAchatSimple.getQte(), 1, detAchatSimple.getUniteGratuite()));
+                        stockService.updateQteStock(detAchatSimple.getStock().getId(), TypeQteToUpdate.QTE_STOCK_IMPORT, new RequestStockQte(detAchatSimple.getQte(), 1, detAchatSimple.getUniteGratuite()));
 
                         logger.info("Deleting detail achat simple by id: {}", detAchatSimple.getId());
                         detAchatSimpleRepository.deleteById(detAchatSimple.getId());
@@ -171,7 +172,7 @@ public class AchatSimpleService implements IAchatSimpleService {
             logger.info("Deleting det achat simple: {}", listToDelete.size());
             for(DetAchatSimple detAchatSimple : listToDelete) {
                 if(null != detAchatSimple.getStock() && null != detAchatSimple.getStock().getId()) {
-                    stockService.updateQteStockImport(detAchatSimple.getStock().getId(), new RequestStockQte(detAchatSimple.getQte(), 1, detAchatSimple.getUniteGratuite()));
+                    stockService.updateQteStock(detAchatSimple.getStock().getId(), TypeQteToUpdate.QTE_STOCK_IMPORT, new RequestStockQte(detAchatSimple.getQte(), 1, detAchatSimple.getUniteGratuite()));
                 }
 
                 detAchatSimpleRepository.delete(detAchatSimple);
@@ -197,7 +198,7 @@ public class AchatSimpleService implements IAchatSimpleService {
         if(CollectionUtils.isNotEmpty(listToSave)) {
             for(DetAchatSimple detAchatSimple : listToSave) {
                 if(null == detAchatSimple.getId()) {
-                    stockService.updateQteStockImport(detAchatSimple.getStock().getId(), new RequestStockQte(detAchatSimple.getQte(),2, detAchatSimple.getUniteGratuite()));
+                    stockService.updateQteStock(detAchatSimple.getStock().getId(), TypeQteToUpdate.QTE_STOCK_IMPORT, new RequestStockQte(detAchatSimple.getQte(),2, detAchatSimple.getUniteGratuite()));
                 } else {
                     int qte = detAchatSimple.getQte();
                     int operation = 2;
@@ -208,7 +209,7 @@ public class AchatSimpleService implements IAchatSimpleService {
                             qte = Math.abs(qte);
                             operation = 1;
                         }
-                        stockService.updateQteStockImport(detAchatSimple.getStock().getId(), new RequestStockQte(qte, operation, detAchatSimple.getUniteGratuite()));
+                        stockService.updateQteStock(detAchatSimple.getStock().getId(), TypeQteToUpdate.QTE_STOCK_IMPORT, new RequestStockQte(qte, operation, detAchatSimple.getUniteGratuite()));
                     }
                 }
 

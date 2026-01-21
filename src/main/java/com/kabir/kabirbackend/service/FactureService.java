@@ -1,6 +1,8 @@
 package com.kabir.kabirbackend.service;
 
 
+import com.kabir.kabirbackend.config.enums.StockOperation;
+import com.kabir.kabirbackend.config.enums.TypeQteToUpdate;
 import com.kabir.kabirbackend.config.requests.RequestStockQte;
 import com.kabir.kabirbackend.config.responses.FactureResponse;
 import com.kabir.kabirbackend.dto.DetFactureDTO;
@@ -8,9 +10,7 @@ import com.kabir.kabirbackend.dto.FactureDTO;
 import com.kabir.kabirbackend.entities.*;
 import com.kabir.kabirbackend.mapper.DetFactureMapper;
 import com.kabir.kabirbackend.mapper.FactureMapper;
-import com.kabir.kabirbackend.repository.DetFactureRepository;
-import com.kabir.kabirbackend.repository.FactureRepository;
-import com.kabir.kabirbackend.repository.StockRepository;
+import com.kabir.kabirbackend.repository.*;
 import com.kabir.kabirbackend.service.interfaces.IFactureService;
 import com.kabir.kabirbackend.specifications.FactureSpecification;
 import org.apache.commons.collections4.CollectionUtils;
@@ -33,6 +33,8 @@ public class FactureService implements IFactureService {
     private final DetFactureMapper detFactureMapper;
     private final StockService stockService;
     private final StockRepository stockRepository;
+    private final PersonnelRepository personnelRepository;
+    private final RepertoireRepository repertoireRepository;
     
 
     public FactureService(FactureRepository factureRepository,
@@ -40,6 +42,8 @@ public class FactureService implements IFactureService {
                           FactureMapper factureMapper,
                           DetFactureMapper detFactureMapper,
                             StockRepository stockRepository,
+                            PersonnelRepository personnelRepository,
+                            RepertoireRepository repertoireRepository,
                             StockService stockService) {
         this.factureRepository = factureRepository;
         this.factureMapper = factureMapper;
@@ -47,6 +51,8 @@ public class FactureService implements IFactureService {
         this.detFactureMapper = detFactureMapper;
         this.stockService = stockService;
         this.stockRepository = stockRepository;
+        this.personnelRepository = personnelRepository;
+        this.repertoireRepository = repertoireRepository;
     }
 
     @Override
@@ -92,31 +98,60 @@ public class FactureService implements IFactureService {
 
     @Override
     public FactureDTO save(FactureResponse factureResponse) {
-        logger.info("Saving facture from FactureResponse: {}", factureResponse);
+        logger.info("Saving facture response: {}", factureResponse);
+
         FactureDTO factureDTO = factureResponse.facture();
         boolean isSave = factureDTO.getId() == null;
+        Personnel personnelOperation = null;
+
         try {
+            if(null != factureDTO.getEmployeOperateurId() && factureDTO.getEmployeOperateurId() != 0) {
+                personnelOperation = personnelRepository.findById(factureDTO.getEmployeOperateurId()).orElse(null);
+            }
+
+            Optional<Repertoire> optionalRepertoire = repertoireRepository.findById(factureResponse.facture().getRepertoireId());
+            Optional<Personnel> optionalPersonnel = personnelRepository.findById(factureResponse.facture().getPersonnelId());
+
             Facture facture = factureMapper.toFacture(factureDTO);
+
+            facture.setEmployeOperateur(personnelOperation);
+            facture.setRepertoire(optionalRepertoire.orElse(null));
+            facture.setPersonnel(optionalPersonnel.orElse(null));
+
             factureDTO = factureMapper.toFactureDTO(factureRepository.save(facture));
 
             enregistrerDetFacture(facture, isSave, factureResponse.detFactures());
 
-            logger.info("Stock depot saved successfully: {}", factureDTO);
-            return factureDTO;
+            logger.info("Stock facture saved successfully: {}", factureDTO);
         } catch (Exception e) {
-            logger.error("Failed to save stock depot: {}", e.getMessage());
-            throw new RuntimeException("Failed to save facture", e);
+            logger.error("Failed to save facture: {}", e.getMessage());
         }
+
+        return factureDTO;
     }
 
     @Override
     public void delete(Long id) {
-        logger.info("Deleting facture: {}", id);
+        logger.info("Deleting facture by id: {}", id);
         try {
+            List<DetFacture> detFactureDTOOld = detFactureRepository.findByFactureId(id);
+            logger.info("List of DetFacture to delete: {}", detFactureDTOOld.size());
+
+            if(CollectionUtils.isNotEmpty(detFactureDTOOld)) {
+                for(DetFacture detStockDepot : detFactureDTOOld) {
+                    if(null != detStockDepot.getStock() && null != detStockDepot.getStock().getId()) {
+                        stockService.updateQteStock(detStockDepot.getStock().getId(), TypeQteToUpdate.QTE_STOCK_FACTURER, new RequestStockQte(detStockDepot.getQteFacturer(), StockOperation.ADD_TO_STOCK.getValue(), null));
+
+                        logger.info("Deleting detail facture by id: {}", detStockDepot.getId());
+                        detFactureRepository.deleteById(detStockDepot.getId());
+                    }
+                }
+            }
+
             factureRepository.deleteById(id);
+            logger.info("Facture deleted successfully");
         } catch (Exception e) {
-            logger.error("Error deleting facture: {}", id, e);
-            throw new RuntimeException("Error deleting facture: " + id, e);
+            logger.error("Failed to delete facture: {}", e.getMessage());
         }
     }
 
@@ -154,7 +189,7 @@ public class FactureService implements IFactureService {
             logger.info("Deleting det stock depot: {}", listToDelete.size());
             for(DetFacture detFacture : listToDelete) {
                 if(null != detFacture.getStock() && null != detFacture.getStock().getId()) {
-                    stockService.updateQteStock(detFacture.getStock().getId(), new RequestStockQte(detFacture.getQteFacturer(), 1, null));
+                    stockService.updateQteStock(detFacture.getStock().getId(), TypeQteToUpdate.QTE_STOCK_FACTURER, new RequestStockQte(detFacture.getQteFacturer(), 1, null));
                 }
 
                 detFactureRepository.delete(detFacture);
@@ -180,7 +215,7 @@ public class FactureService implements IFactureService {
         if(CollectionUtils.isNotEmpty(listToSave)) {
             for(DetFacture detFacture : listToSave) {
                 if(null == detFacture.getId()) {
-                    stockService.updateQteStock(detFacture.getStock().getId(), new RequestStockQte(detFacture.getQteFacturer(),2, null));
+                    stockService.updateQteStock(detFacture.getStock().getId(), TypeQteToUpdate.QTE_STOCK_FACTURER, new RequestStockQte(detFacture.getQteFacturer(),2, null));
                 } else {
                     int qte = detFacture.getQteFacturer();
                     int operation = 2;
@@ -191,7 +226,7 @@ public class FactureService implements IFactureService {
                             qte = Math.abs(qte);
                             operation = 1;
                         }
-                        stockService.updateQteStock(detFacture.getStock().getId(), new RequestStockQte(qte, operation, null));
+                        stockService.updateQteStock(detFacture.getStock().getId(), TypeQteToUpdate.QTE_STOCK_FACTURER, new RequestStockQte(qte, operation, null));
                     }
                 }
 

@@ -62,6 +62,10 @@ public class Stock {
     private int qteStock;
 
     @NotNull
+    @Column(name = "qteSortie", nullable = false, columnDefinition = "int default 0")
+    private int qteSortie;
+
+    @NotNull
     @Column(name = "qtePVMin1", nullable = false)
     private int qtePVMin1;
 

@@ -2,6 +2,7 @@ package com.kabir.kabirbackend.service;
 
 
 import com.kabir.kabirbackend.config.enums.StockOperation;
+import com.kabir.kabirbackend.config.enums.TypeQteToUpdate;
 import com.kabir.kabirbackend.config.responses.AchatFactureResponse;
 import com.kabir.kabirbackend.config.requests.RequestStockQte;
 import com.kabir.kabirbackend.dto.AchatFactureDTO;
@@ -87,7 +88,7 @@ public class AchatFactureService implements IAchatFactureService {
             if(CollectionUtils.isNotEmpty(detAchatFactureDTOOld)) {
                 for(DetAchatFacture detAchatFacture : detAchatFactureDTOOld) {
                     if(null != detAchatFacture.getStock() && null != detAchatFacture.getStock().getId()) {
-                        stockService.updateQteStockImport(detAchatFacture.getStock().getId(), new RequestStockQte(detAchatFacture.getQteAcheter(), 1, detAchatFacture.getUniteGratuit()));
+                        stockService.updateQteStock(detAchatFacture.getStock().getId(), TypeQteToUpdate.QTE_STOCK_IMPORT, new RequestStockQte(detAchatFacture.getQteAcheter(), 1, detAchatFacture.getUniteGratuit()));
 
                         logger.info("Deleting detail achat facture by id: {}", detAchatFacture.getId());
                         detAchatFactureRepository.deleteById(detAchatFacture.getId());
@@ -170,7 +171,7 @@ public class AchatFactureService implements IAchatFactureService {
             logger.info("Deleting det achat facture: {}", listToDelete.size());
             for(DetAchatFacture detAchatFacture : listToDelete) {
                 if(null != detAchatFacture.getStock() && null != detAchatFacture.getStock().getId()) {
-                    stockService.updateQteStockFacturer(detAchatFacture.getStock().getId(), new RequestStockQte(detAchatFacture.getQteAcheter(), StockOperation.ADD_TO_STOCK.getValue(), detAchatFacture.getUniteGratuit()));
+                    stockService.updateQteStock(detAchatFacture.getStock().getId(), TypeQteToUpdate.QTE_STOCK_IMPORT, new RequestStockQte(detAchatFacture.getQteAcheter(), StockOperation.ADD_TO_STOCK.getValue(), detAchatFacture.getUniteGratuit()));
                 }
 
                 detAchatFactureRepository.delete(detAchatFacture);
@@ -196,7 +197,7 @@ public class AchatFactureService implements IAchatFactureService {
         if(CollectionUtils.isNotEmpty(listToSave)) {
             for(DetAchatFacture detAchatFacture : listToSave) {
                 if(null == detAchatFacture.getId()) {
-                    stockService.updateQteStockFacturer(detAchatFacture.getStock().getId(), new RequestStockQte(detAchatFacture.getQteAcheter(),StockOperation.DELETE_FROM_STOCK.getValue(), detAchatFacture.getUniteGratuit()));
+                    stockService.updateQteStock(detAchatFacture.getStock().getId(), TypeQteToUpdate.QTE_STOCK_FACTURER, new RequestStockQte(detAchatFacture.getQteAcheter(),StockOperation.DELETE_FROM_STOCK.getValue(), detAchatFacture.getUniteGratuit()));
                 } else {
                     int qte = detAchatFacture.getQteAcheter();
                     int operation = StockOperation.ADD_TO_STOCK.getValue();
@@ -208,7 +209,7 @@ public class AchatFactureService implements IAchatFactureService {
                             operation = StockOperation.DELETE_FROM_STOCK.getValue();
                         }
 
-                        stockService.updateQteStockFacturer(detAchatFacture.getStock().getId(), new RequestStockQte(qte, operation, detAchatFacture.getUniteGratuit()));
+                        stockService.updateQteStock(detAchatFacture.getStock().getId(), TypeQteToUpdate.QTE_STOCK_FACTURER, new RequestStockQte(qte, operation, detAchatFacture.getUniteGratuit()));
                     }
                 }
 

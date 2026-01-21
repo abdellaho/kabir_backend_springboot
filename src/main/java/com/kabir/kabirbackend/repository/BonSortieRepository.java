@@ -13,4 +13,7 @@ public interface BonSortieRepository extends JpaRepository<BonSortie, Long>, Jpa
 
     @Query("SELECT MAX(bs.numSortie) FROM BonSortie bs WHERE YEAR(bs.dateOperation) = :year")
     Optional<Integer> findMaxNumBonSortieInYearDateBL(int year);
+
+    @Query("SELECT MAX(bs.numSortie) FROM BonSortie bs")
+    Optional<Integer> findMaxNumBonSortie();
 }
