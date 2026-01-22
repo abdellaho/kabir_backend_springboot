@@ -39,10 +39,6 @@ public class Cheque {
     private LocalDate dateCheque;
 
     @NotNull
-    @Column(name = "typeRepertoire", nullable = false)
-    private int typeRepertoire;
-
-    @NotNull
     @Column(name = "montant", nullable = false, precision = 10)
     private double montant;
 

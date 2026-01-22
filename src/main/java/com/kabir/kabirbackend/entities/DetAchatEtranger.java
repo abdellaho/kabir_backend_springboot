@@ -1,5 +1,6 @@
 package com.kabir.kabirbackend.entities;
 
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -7,31 +8,28 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "caisse")
-public class Caisse {
+@Table(name = "det-achat-etranger")
+public class DetAchatEtranger {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
     @NotNull
-    @Column(name = "montant", nullable = false, precision = 10)
-    private double montant;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Stock stock;
 
     @NotNull
-    @Column(name = "dateOperation", nullable = false)
-    private LocalDate dateOperation;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private AchatEtranger achatEtranger;
 
-    @NotNull
-    @Column(name = "type", nullable = false)
-    private int type;
-
+    private int qteAchat;
+    private int qteStock;
+    private double prixAchat;
 }
