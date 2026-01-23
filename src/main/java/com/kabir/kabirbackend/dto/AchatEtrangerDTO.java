@@ -1,5 +1,6 @@
 package com.kabir.kabirbackend.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class AchatEtrangerDTO implements Serializable {
     private Long id;
+    @NotNull
     private Long fournisseurId;
     private String fournisseurDesignation;
     private String fournisseurTel1;
@@ -23,8 +25,10 @@ public class AchatEtrangerDTO implements Serializable {
     private String fournisseurIce;
     private String fournisseurAdresse;
     private Long operateurId;
+    @NotNull
     private String codeFacture;
     private int numFacture;
+    @NotNull
     private LocalDate dateFacture;
     private Instant sysDate;
     private LocalDate dateAvances1;

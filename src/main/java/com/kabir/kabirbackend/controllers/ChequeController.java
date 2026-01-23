@@ -108,4 +108,16 @@ public class ChequeController {
             throw new RuntimeException("Error searching cheque if exist: " + chequeDTO, e);
         }
     }
+
+    @GetMapping("/last-num")
+    public ResponseEntity<Integer> getLastNum() {
+        logger.info("Getting last num cheque");
+        try {
+            return ResponseEntity.ok(chequeService.getLastNum());
+        } catch (Exception e) {
+            logger.error("Error getting last num cheque", e);
+            throw new RuntimeException("Error getting last num cheque", e);
+        }
+    }
+
 }

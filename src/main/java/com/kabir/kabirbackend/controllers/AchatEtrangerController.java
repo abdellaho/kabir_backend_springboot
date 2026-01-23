@@ -92,7 +92,7 @@ public class AchatEtrangerController {
     }
 
     @PostMapping("/last-num-achat-etranger")
-    public ResponseEntity<Integer> getLastNumLivraison(@RequestBody AchatEtrangerDTO achatFactureDTO) {
+    public ResponseEntity<Integer> getLastNumAchatEtranger(@RequestBody AchatEtrangerDTO achatFactureDTO) {
         logger.info("Getting last num achat etranger");
         try {
             int lastNumAchatFacture = achatEtrangerService.getLastNumAchatEtranger(achatFactureDTO);

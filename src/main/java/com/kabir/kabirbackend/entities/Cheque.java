@@ -62,11 +62,11 @@ public class Cheque {
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "repertoireId", nullable = false)
-    private Repertoire repertoire;
+    private Fournisseur fournisseur;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "employeOperateurId", nullable = false)
-    private Employe employeOperateur;
+    @JoinColumn(name = "operateurId", nullable = false)
+    private Personnel operateur;
 
 }

@@ -14,4 +14,6 @@ public interface IChequeService {
     void delete(Long id);
 
     List<ChequeDTO> search(ChequeDTO chequeDTO);
+
+    int getLastNum();
 }

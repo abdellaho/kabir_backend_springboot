@@ -30,11 +30,11 @@ public class ChequeDTO implements Serializable {
     private int numCheque;
     private boolean etatcheque = false;
     private int typeReglment;
-    private Long repertoireId;
-    private String repertoireDesignation;
-    private String repertoireTel1;
-    private String repertoireTel2;
-    private String repertoireAdresse;
-    private String repertoireIce;
-    private Long employeOperateurId;
+    private Long fournisseurId;
+    private String fournisseurDesignation;
+    private String fournisseurTel1;
+    private String fournisseurTel2;
+    private String fournisseurAdresse;
+    private String fournisseurIce;
+    private Long operateurId;
 }
