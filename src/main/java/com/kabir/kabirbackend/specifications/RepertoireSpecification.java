@@ -34,7 +34,7 @@ public class RepertoireSpecification implements Specification<Repertoire> {
     public static Specification<Repertoire> searchBySupprimerOrArchiverAndClientsOnly(RepertoireDTO repertoireDTO) {
         return (root, query, criteriaBuilder) -> {
 
-            List<Integer> intCriteria = Arrays.asList(0, 1);
+            List<Integer> intCriteria = Arrays.asList(0, 1, 2);
 
             return criteriaBuilder.and(
                     criteriaBuilder.equal(root.get("bloquer"), repertoireDTO.isBloquer()),
