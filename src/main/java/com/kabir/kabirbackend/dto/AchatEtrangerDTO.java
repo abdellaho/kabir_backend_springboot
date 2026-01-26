@@ -36,12 +36,12 @@ public class AchatEtrangerDTO implements Serializable {
     private LocalDate dateAvances2;
     private double mantantAvancs2;
     private double totalPaye;
-    private double mntFacture;
+    private String mntFacture;
     private double mntDouane;
     private double mntTransport;
     private double mntTransportIntern;
     private double mntTransit;
-    private double mntMagazinage;
+    private double mntMagasinage;
     private double prixAchatDetaille;
     private double totalAllMnt;
 }

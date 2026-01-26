@@ -91,7 +91,7 @@ public class AchatEtrangerService implements IAchatEtrangerService {
             if(CollectionUtils.isNotEmpty(detAchatFactureDTOOld)) {
                 for(DetAchatEtranger detAchatEtranger : detAchatFactureDTOOld) {
                     if(null != detAchatEtranger.getStock() && null != detAchatEtranger.getStock().getId()) {
-                        stockService.updateQteStock(detAchatEtranger.getStock().getId(), TypeQteToUpdate.QTE_STOCK_IMPORT, new RequestStockQte(detAchatEtranger.getQteAchat(), 1, null));
+                        stockService.updateQteStock(detAchatEtranger.getStock().getId(), TypeQteToUpdate.QTE_STOCK_IMPORT, new RequestStockQte(detAchatEtranger.getQteAchat(), StockOperation.ADD_TO_STOCK.getValue(), null));
 
                         logger.info("Deleting detail achat etranger by id: {}", detAchatEtranger.getId());
                         detAchatEtrangerRepository.deleteById(detAchatEtranger.getId());
@@ -200,7 +200,7 @@ public class AchatEtrangerService implements IAchatEtrangerService {
         if(CollectionUtils.isNotEmpty(listToSave)) {
             for(DetAchatEtranger detAchatEtranger : listToSave) {
                 if(null == detAchatEtranger.getId()) {
-                    stockService.updateQteStock(detAchatEtranger.getStock().getId(), TypeQteToUpdate.QTE_STOCK_FACTURER, new RequestStockQte(detAchatEtranger.getQteAchat(),StockOperation.DELETE_FROM_STOCK.getValue(), null));
+                    stockService.updateQteStock(detAchatEtranger.getStock().getId(), TypeQteToUpdate.QTE_STOCK_IMPORT, new RequestStockQte(detAchatEtranger.getQteAchat(),StockOperation.DELETE_FROM_STOCK.getValue(), null));
                 } else {
                     int qte = detAchatEtranger.getQteAchat();
                     int operation = StockOperation.ADD_TO_STOCK.getValue();
@@ -212,7 +212,7 @@ public class AchatEtrangerService implements IAchatEtrangerService {
                             operation = StockOperation.DELETE_FROM_STOCK.getValue();
                         }
 
-                        stockService.updateQteStock(detAchatEtranger.getStock().getId(), TypeQteToUpdate.QTE_STOCK_FACTURER, new RequestStockQte(qte, operation, null));
+                        stockService.updateQteStock(detAchatEtranger.getStock().getId(), TypeQteToUpdate.QTE_STOCK_IMPORT, new RequestStockQte(qte, operation, null));
                     }
                 }
 

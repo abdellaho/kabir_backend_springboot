@@ -109,6 +109,17 @@ public class RepertoireController {
         }
     }
 
+    @PostMapping("/search/clients")
+    public ResponseEntity<List<RepertoireDTO>> searchOnlyClients(@RequestBody RepertoireDTO repertoireDTO) {
+        logger.info("Searching repertoire only clients: {}", repertoireDTO);
+        try {
+            return ResponseEntity.ok(repertoireService.searchClients(repertoireDTO));
+        } catch (Exception e) {
+            logger.error("Error searching repertoire only clients: {}", repertoireDTO, e);
+            throw new RuntimeException("Error searching repertoire only clients: " + repertoireDTO, e);
+        }
+    }
+
     @PostMapping("/exist")
     public ResponseEntity<Boolean> exist(@RequestBody RepertoireDTO repertoireDTO) {
         logger.info("Searching repertoire if exist: {}", repertoireDTO);

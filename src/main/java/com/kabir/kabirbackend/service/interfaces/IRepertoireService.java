@@ -12,6 +12,8 @@ public interface IRepertoireService {
     public void delete(Long id);
     public List<RepertoireDTO> search(RepertoireDTO repertoireDTO);
 
+    List<RepertoireDTO> searchClients(RepertoireDTO repertoireDTO);
+
     List<RepertoireDTO> exist(RepertoireDTO repertoireDTO);
 
     RepertoireDTO updateNbrOperation(Long id, Integer type);

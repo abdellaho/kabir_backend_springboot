@@ -12,6 +12,9 @@ import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Data
 @Builder
 public class RepertoireSpecification implements Specification<Repertoire> {
@@ -24,6 +27,19 @@ public class RepertoireSpecification implements Specification<Repertoire> {
             return criteriaBuilder.and(
                     criteriaBuilder.equal(root.get("bloquer"), repertoireDTO.isBloquer()),
                     criteriaBuilder.equal(root.get("archiver"), repertoireDTO.isArchiver())
+            );
+        };
+    }
+
+    public static Specification<Repertoire> searchBySupprimerOrArchiverAndClientsOnly(RepertoireDTO repertoireDTO) {
+        return (root, query, criteriaBuilder) -> {
+
+            List<Integer> intCriteria = Arrays.asList(0, 1);
+
+            return criteriaBuilder.and(
+                    criteriaBuilder.equal(root.get("bloquer"), repertoireDTO.isBloquer()),
+                    criteriaBuilder.equal(root.get("archiver"), repertoireDTO.isArchiver()),
+                    root.get("typeRepertoire").in(intCriteria)
             );
         };
     }
