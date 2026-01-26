@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface IPersonnelService {
 
+    long count();
+
     public PersonnelDTO save(PersonnelDTO personnelDTO);
     public PersonnelDTO findById(Long id);
     public List<PersonnelDTO> findAll();

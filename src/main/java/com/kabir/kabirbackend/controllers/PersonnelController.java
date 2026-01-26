@@ -203,21 +203,26 @@ class PersonnelController {
     public ResponseEntity<LoginResponse> register(@RequestBody AuthRequest request) {
         logger.info("Registering: {}", request);
         try {
-            PersonnelDTO personnelDTO = new PersonnelDTO();
+            if(personnelService.count() == 0) {
+                PersonnelDTO personnelDTO = new PersonnelDTO();
 
-            personnelDTO.setLogin(request.email());
-            personnelDTO.setEmail(request.email());
-            personnelDTO.setPassword(passwordEncoder.encode(request.password()));
-            personnelDTO.setTypePersonnel(1);
-            personnelDTO.setDesignation("Administrateur");
-            personnelDTO.setEtatComptePersonnel(true);
+                personnelDTO.setLogin(request.email());
+                personnelDTO.setEmail(request.email());
+                personnelDTO.setPassword(passwordEncoder.encode(request.password()));
+                personnelDTO.setTypePersonnel(1);
+                personnelDTO.setDesignation("Administrateur");
+                personnelDTO.setEtatComptePersonnel(true);
 
-            personnelDTO = personnelService.save(personnelDTO);
+                personnelDTO = personnelService.save(personnelDTO);
 
-            LoginResponse loginResponse = authenticate(request, personnelDTO);
-            if(null == loginResponse) ResponseEntity.badRequest().build();
+                LoginResponse loginResponse = authenticate(request, personnelDTO);
+                if(null == loginResponse) ResponseEntity.badRequest().build();
 
-            return ResponseEntity.ok(loginResponse);
+                return ResponseEntity.ok(loginResponse);
+            } else {
+                logger.error("Database has already an admin");
+                return ResponseEntity.badRequest().build();
+            }
         } catch (Exception e) {
             logger.error("Error registering: {}", e.getMessage());
             return ResponseEntity.badRequest().body(null);

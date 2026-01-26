@@ -34,6 +34,11 @@ public class PersonnelService implements IPersonnelService {
     }
 
     @Override
+    public long count() {
+        return personnelRepository.count();
+    }
+
+    @Override
     public PersonnelDTO save(PersonnelDTO personnelDTO) {
         logger.info("Saving personnel: {}", personnelDTO);
         try {
