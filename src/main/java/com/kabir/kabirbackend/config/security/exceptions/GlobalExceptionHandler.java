@@ -25,6 +25,20 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiError> handleIllegalArgument(IllegalArgumentException ex) {
+
+        ApiError error = new ApiError(
+                Instant.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                "Bad Request",
+                ex.getMessage(),
+                List.of()
+        );
+
+        return ResponseEntity.badRequest().body(error);
+    }
+
     /* 🔴 Bean validation errors (@NotNull, @Size, ...) */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiError> handleValidation(MethodArgumentNotValidException ex) {
@@ -132,7 +146,7 @@ public class GlobalExceptionHandler {
         body.put("timestamp", LocalDateTime.now());
         body.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
         body.put("error", "Internal Server Error");
-        body.put("message", "Une erreur inattendue est survenue. Veuillez réessayer plus tard.");
+        body.put("message", ex.getMessage());
         // Do NOT expose ex.getMessage() in production for security
         body.put("path", request.getDescription(false));
 

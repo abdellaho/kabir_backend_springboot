@@ -45,6 +45,6 @@ public class CompteCaisse {
     @NotNull
     @ColumnDefault("0")
     @Column(name = "compteCaisse", nullable = false)
-    private boolean compteCaisse = false;
+    private boolean compteCaisse;
 
 }

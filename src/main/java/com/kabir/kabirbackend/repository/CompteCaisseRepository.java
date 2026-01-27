@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ComptecaisseRepository extends JpaRepository<CompteCaisse, Long>, JpaSpecificationExecutor<CompteCaisse> {
+public interface CompteCaisseRepository extends JpaRepository<CompteCaisse, Long>, JpaSpecificationExecutor<CompteCaisse> {
 }
