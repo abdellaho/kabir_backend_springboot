@@ -46,9 +46,4 @@ public class Compta {
     @Column(name = "resutMnt", nullable = false, precision = 10)
     private double resutMnt;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "repertoireId", nullable = false)
-    private Repertoire repertoire;
-
 }
