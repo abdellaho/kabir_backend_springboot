@@ -138,10 +138,10 @@ class ComptaController {
     }
 
     @PostMapping("/check-is-last")
-    public ResponseEntity<Boolean> checkIsLast(@RequestBody ComptaRequest comptaRequest) {
-        logger.info("Checking if compta is last");
+    public ResponseEntity<Boolean> checkIsLast(@RequestBody ComptaSearch comptaSearch) {
+        logger.info("Checking if compta is last {}", comptaSearch);
         try {
-            return ResponseEntity.ok(comptaService.checkIsLast(comptaRequest));
+            return ResponseEntity.ok(comptaService.checkIsLast(comptaSearch));
         } catch (Exception e) {
             logger.error("Error checking if compta is last", e);
             throw new RuntimeException("Error checking if compta is last", e);
