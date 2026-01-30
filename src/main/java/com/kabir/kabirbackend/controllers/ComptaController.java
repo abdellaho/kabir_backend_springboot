@@ -119,7 +119,7 @@ class ComptaController {
             ComptaDTO comptaDTO = comptaService.getLastCompta();
             if(null != comptaDTO) return ResponseEntity.ok(comptaDTO);
 
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.noContent().build();
         } catch (Exception e) {
             logger.error("Error getting last compta", e);
             throw new RuntimeException("Error getting last compta", e);
@@ -134,6 +134,17 @@ class ComptaController {
         } catch (Exception e) {
             logger.error("Error getting global sums", e);
             throw new RuntimeException("Error getting global sums", e);
+        }
+    }
+
+    @PostMapping("/check-is-last")
+    public ResponseEntity<Boolean> checkIsLast(@RequestBody ComptaRequest comptaRequest) {
+        logger.info("Checking if compta is last");
+        try {
+            return ResponseEntity.ok(comptaService.checkIsLast(comptaRequest));
+        } catch (Exception e) {
+            logger.error("Error checking if compta is last", e);
+            throw new RuntimeException("Error checking if compta is last", e);
         }
     }
 

@@ -80,11 +80,13 @@ public class ComptaService implements IComptaService {
                 .toList();
     }
 
+    @Override
     public ComptaDTO getLastCompta() {
         logger.info("Getting last compta");
         return comptaRepository.getLastCompta().map(comptaMapper::toComptaDTO).orElse(null);
     }
 
+    @Override
     public ComptaResponse getGlobalSums(ComptaRequest comptaRequest) {
         logger.info("Getting global sums");
         Double sum = achatFactureRepository.getSumMantantTotHTVA(comptaRequest.dateDebut(), comptaRequest.dateFin());
@@ -96,5 +98,11 @@ public class ComptaService implements IComptaService {
         comptaResponse.setTva20Sum(null != comptaResponse.getTva20Sum() ? comptaResponse.getTva20Sum() : 0.0);
 
         return comptaResponse;
+    }
+
+    @Override
+    public boolean checkIsLast(ComptaSearch comptaSearch) {
+        logger.info("Checking if compta is last");
+        return comptaRepository.findAll(ComptaSpecification.builder().build().isLast(comptaSearch)).isEmpty();
     }
 }

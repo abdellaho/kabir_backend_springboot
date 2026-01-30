@@ -14,6 +14,12 @@ import org.springframework.data.jpa.domain.Specification;
 @Builder
 public class ComptaSpecification implements Specification<Compta> {
 
+    public Specification<Compta> isLast(ComptaSearch comptaSearch) {
+        return (root, query, criteriaBuilder) -> {
+            return criteriaBuilder.greaterThan(root.get("dateFin"), comptaSearch.getDateFin());
+        };
+    }
+
     private ComptaSearch comptaSearch;
 
     @Override
