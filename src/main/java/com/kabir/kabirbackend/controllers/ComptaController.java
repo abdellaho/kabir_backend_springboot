@@ -4,7 +4,6 @@ import com.kabir.kabirbackend.config.requests.ComptaRequest;
 import com.kabir.kabirbackend.config.responses.ComptaResponse;
 import com.kabir.kabirbackend.config.searchEntities.ComptaSearch;
 import com.kabir.kabirbackend.dto.ComptaDTO;
-import com.kabir.kabirbackend.service.CaisseService;
 import com.kabir.kabirbackend.service.ComptaService;
 import jakarta.validation.Valid;
 import org.apache.commons.collections4.CollectionUtils;
