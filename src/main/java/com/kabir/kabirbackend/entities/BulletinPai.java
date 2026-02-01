@@ -17,8 +17,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "bulttinpai")
-public class BulttinPai {
+@Table(name = "bulletinPai")
+public class BulletinPai {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -26,8 +26,8 @@ public class BulttinPai {
 
     @Size(max = 191)
     @NotNull
-    @Column(name = "codeBultin", nullable = false, length = 191)
-    private String codeBultin;
+    @Column(name = "code", nullable = false, length = 191)
+    private String codeBulletin;
 
     @Size(max = 191)
     @NotNull
@@ -35,8 +35,8 @@ public class BulttinPai {
     private String observation;
 
     @NotNull
-    @Column(name = "numbultin", nullable = false)
-    private int numbultin;
+    @Column(name = "num_bulletin", nullable = false)
+    private int numBulletin;
 
     @NotNull
     @Column(name = "dateOperation", nullable = false)
@@ -51,11 +51,11 @@ public class BulttinPai {
     private LocalDate dateFin;
 
     @NotNull
-    @Column(name = "idTypeBultinPai", nullable = false)
-    private int idTypeBultinPai;
+    @Column(name = "type_bulletin_pai", nullable = false)
+    private int typeBulletinPai;
 
     @NotNull
-    @Column(name = "salairefx", nullable = false, precision = 10)
+    @Column(name = "salaire_fix", nullable = false, precision = 10)
     private double salairefx;
 
     @NotNull
@@ -71,31 +71,31 @@ public class BulttinPai {
     private double total;
 
     @NotNull
-    @Column(name = "totalMntVendue", nullable = false, precision = 10)
+    @Column(name = "total_mnt_vendue", nullable = false, precision = 10)
     private double totalMntVendue;
 
     @NotNull
-    @Column(name = "totalMntVendueProduit", nullable = false, precision = 10)
+    @Column(name = "total_mnt_vendue_produit", nullable = false, precision = 10)
     private double totalMntVendueProduit;
 
     @NotNull
-    @Column(name = "totalMntVendueLivraison", nullable = false, precision = 10)
+    @Column(name = "total_mnt_vendue_livraison", nullable = false, precision = 10)
     private double totalMntVendueLivraison;
 
     @NotNull
-    @Column(name = "mntNegative", nullable = false, precision = 10)
+    @Column(name = "mnt_negative", nullable = false, precision = 10)
     private double mntNegative;
 
     @NotNull
-    @Column(name = "mntNegativeProduit", nullable = false, precision = 10)
+    @Column(name = "mnt_negative_produit", nullable = false, precision = 10)
     private double mntNegativeProduit;
 
     @NotNull
-    @Column(name = "mntNegativeLivraison", nullable = false, precision = 10)
+    @Column(name = "mnt_negative_livraison", nullable = false, precision = 10)
     private double mntNegativeLivraison;
 
     @NotNull
-    @Column(name = "mntCNSS", nullable = false, precision = 10)
+    @Column(name = "mnt_cnss", nullable = false, precision = 10)
     private double mntCNSS;
 
     @NotNull
@@ -103,23 +103,23 @@ public class BulttinPai {
     private double mntPenalite;
 
     @NotNull
-    @Column(name = "mntBenefice", nullable = false, precision = 10)
+    @Column(name = "mnt_benefice", nullable = false, precision = 10)
     private double mntBenefice;
 
     @NotNull
-    @Column(name = "commissionParProduit", nullable = false, precision = 10)
+    @Column(name = "commission_par_produit", nullable = false, precision = 10)
     private double commissionParProduit;
 
     @NotNull
-    @Column(name = "primeSpecial", nullable = false, precision = 10)
+    @Column(name = "prime_special", nullable = false, precision = 10)
     private double primeSpecial;
 
     @NotNull
-    @Column(name = "fraisSupp", nullable = false, precision = 10)
+    @Column(name = "frais_supp", nullable = false, precision = 10)
     private double fraisSupp;
 
     @NotNull
-    @Column(name = "primeCommercial", nullable = false, precision = 10)
+    @Column(name = "prime_commercial", nullable = false, precision = 10)
     private double primeCommercial;
 
     @NotNull
@@ -127,24 +127,24 @@ public class BulttinPai {
     private boolean externe = false;
 
     @NotNull
-    @Column(name = "totalMntVenduePrixCommercial", nullable = false, precision = 10)
+    @Column(name = "total_mnt_vendue_prix_commercial", nullable = false, precision = 10)
     private double totalMntVenduePrixCommercial;
 
     @NotNull
-    @Column(name = "totalMntVendueSansPrixCommercial", nullable = false, precision = 10)
+    @Column(name = "total_mnt_vendue_sans_prix_commercial", nullable = false, precision = 10)
     private double totalMntVendueSansPrixCommercial;
 
     @NotNull
-    @Column(name = "primeProduit", nullable = false, precision = 10)
+    @Column(name = "prime_produit", nullable = false, precision = 10)
     private double primeProduit;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "commercailId", nullable = false)
-    private Repertoire commercail;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "commercial_id", nullable = false)
+    private Personnel commercial;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "employeOperateurId", nullable = false)
-    private Employe employeOperateur;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "operateur_id", nullable = false)
+    private Personnel operateur;
 }
