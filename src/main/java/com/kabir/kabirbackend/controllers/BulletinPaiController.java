@@ -1,5 +1,6 @@
 package com.kabir.kabirbackend.controllers;
 
+import com.kabir.kabirbackend.config.requests.BulletinPaiRequest;
 import com.kabir.kabirbackend.config.responses.BulletinPaiResponse;
 import com.kabir.kabirbackend.dto.BulletinPaiDTO;
 import com.kabir.kabirbackend.dto.FactureDTO;
@@ -110,13 +111,24 @@ class BulletinPaiController {
     }
 
     @PostMapping("/details")
-    public ResponseEntity<BulletinPaiResponse> getDetails(@RequestBody BulletinPaiDTO bulletinPaiDTO) {
-        logger.info("Getting details bulletinPai : {}", bulletinPaiDTO);
+    public ResponseEntity<BulletinPaiResponse> getDetails(@RequestBody BulletinPaiRequest bulletinPaiRequest) {
+        logger.info("Getting details bulletinPai : {}", bulletinPaiRequest);
         try {
-            return ResponseEntity.ok(bulletinPaiService.getDetails(bulletinPaiDTO));
+            return ResponseEntity.ok(bulletinPaiService.getDetails(bulletinPaiRequest));
         } catch (Exception e) {
-            logger.error("Error getting details bulletinPai : {}", bulletinPaiDTO, e);
-            throw new RuntimeException("Error getting details bulletinPai : " + bulletinPaiDTO, e);
+            logger.error("Error getting details bulletinPai : {}", bulletinPaiRequest, e);
+            throw new RuntimeException("Error getting details bulletinPai : " + bulletinPaiRequest, e);
+        }
+    }
+
+    @PostMapping("/details-of-livraison")
+    public ResponseEntity<BulletinPaiResponse> getDetailsOfLivraison(@RequestBody BulletinPaiRequest bulletinPaiRequest) {
+        logger.info("Getting details of livraison bulletinPai : {}", bulletinPaiRequest);
+        try {
+            return ResponseEntity.ok(bulletinPaiService.getDetailsOfLivraison(bulletinPaiRequest));
+        } catch (Exception e) {
+            logger.error("Error getting details of livraison bulletinPai : {}", bulletinPaiRequest, e);
+            throw new RuntimeException("Error getting details of livraison bulletinPai : " + bulletinPaiRequest, e);
         }
     }
 

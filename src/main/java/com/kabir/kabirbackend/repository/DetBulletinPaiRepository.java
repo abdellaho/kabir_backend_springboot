@@ -23,22 +23,13 @@ public interface DetBulletinPaiRepository extends JpaRepository<DetBulletinPai, 
         from DetLivraison d
         join d.stock s
         join d.livraison l
-        where d.montantProduit > 0 and l.dateBl between :start and :end and l.personnel.id = :repId
+        where ((:sansMontant = true and d.montantProduit = 0 and l.mantantBL = 0) or (:sansMontant = false and d.montantProduit > 0))
+            and l.dateBl between :start and :end
+            and l.personnel.id = :repId
+            and (:livraisonId is null or l.id = :livraisonId)
         group by s.id, s.pvttc, s.commission
         order by s.id
     """)
-    List<DetBulletinPaiDTO> getDetBulletinPaiAvecMontant(@Param("start") LocalDate start,  @Param("end") LocalDate end, @Param("repId") Long repId);
-
-    @Query("""
-        select new com.kabir.kabirbackend.dto.DetBulletinPaiDTO(s.id, sum(d.prixVente), sum(d.qteLivrer), s.pvttc, sum(d.remiseLivraison),
-            sum(d.montantProduit), sum(d.beneficeDH), s.commission, true)
-        from DetLivraison d
-        join d.stock s
-        join d.livraison l
-        where d.montantProduit = 0 and l.dateBl between :start and :end and l.personnel.id = :repId
-        group by s.id, s.pvttc, s.commission
-        order by s.id
-    """)
-    List<DetBulletinPaiDTO> getDetBulletinPaiSansMontant(@Param("start") LocalDate start,  @Param("end") LocalDate end, @Param("repId") Long repId);
+    List<DetBulletinPaiDTO> getDetBulletinPai(@Param("start") LocalDate start,  @Param("end") LocalDate end, @Param("repId") Long repId, @Param("sansMontant") boolean sansMontant, @Param("livraisonId") Long livraisonId);
 
 }

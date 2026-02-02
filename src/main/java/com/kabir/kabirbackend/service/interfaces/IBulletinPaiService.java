@@ -1,5 +1,6 @@
 package com.kabir.kabirbackend.service.interfaces;
 
+import com.kabir.kabirbackend.config.requests.BulletinPaiRequest;
 import com.kabir.kabirbackend.config.responses.BulletinPaiResponse;
 import com.kabir.kabirbackend.dto.BulletinPaiDTO;
 
@@ -22,5 +23,7 @@ public interface IBulletinPaiService {
 
     int getLast();
 
-    BulletinPaiResponse getDetails(BulletinPaiDTO bulletinPaiDTO);
+    BulletinPaiResponse getDetails(BulletinPaiRequest bulletinPaiRequest);
+
+    BulletinPaiResponse getDetailsOfLivraison(BulletinPaiRequest bulletinPaiRequest);
 }

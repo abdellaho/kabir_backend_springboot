@@ -117,4 +117,15 @@ class PrimeController {
         }
     }
 
+    @PostMapping("/search/montant")
+    public ResponseEntity<List<PrimeDTO>> searchMontant(@RequestBody PrimeDTO primeDTO) {
+        logger.info("Searching primes greatThan montant : {}", primeDTO.getMontant());
+        try {
+            List<PrimeDTO> primes = primeService.greatThanMontant(primeDTO);
+            return ResponseEntity.ok(primes);
+        } catch (Exception e) {
+            logger.error("Error searching primes greatThan montant : {}", e.getMessage());
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
 }

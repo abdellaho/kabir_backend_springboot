@@ -6,5 +6,10 @@ import com.kabir.kabirbackend.dto.DetBulletinPaiDTO;
 
 import java.util.List;
 
-public record BulletinPaiResponse(BulletinPaiDTO bulletinPai, List<DetBulletinPaiDTO> detBulletinPais, List<DetBulletinLivraisonDTO> detBulletinLivraisons) {
+public record BulletinPaiResponse(
+        BulletinPaiDTO bulletinPai,
+        List<DetBulletinPaiDTO> detBulletinPais,
+        List<DetBulletinPaiDTO> detBulletinPaisSansMontant,
+        List<DetBulletinLivraisonDTO> detBulletinLivraisons
+) {
 }

@@ -17,6 +17,6 @@ public interface LivraisonRepository extends JpaRepository<Livraison, Long>, Jpa
     @Query("SELECT MAX(l.numLivraison) FROM Livraison l WHERE YEAR(l.dateBl) = :year")
     Optional<Integer> findMaxNumLivraisonInYearDateBL(@Param("year") int year);
 
-    @Query("SELECT new com.kabir.kabirbackend.dto.DetBulletinLivraisonDTO(l.id, l.mantantBLBenefice, l.mantantBL, l.codeBl) FROM Livraison l WHERE l.dateBl between :start and :end and l.personnel.id = :repId")
+    @Query("SELECT new com.kabir.kabirbackend.dto.DetBulletinLivraisonDTO(l.id, l.mantantBLBenefice, l.mantantBL, l.mantantBLReel, l.codeBl) FROM Livraison l WHERE l.dateBl between :start and :end and l.personnel.id = :repId")
     List<DetBulletinLivraisonDTO> findByDateBlBetweenAndPersonnelId(@Param("start") LocalDate start, @Param("end") LocalDate end, @Param("repId") Long repId);
 }

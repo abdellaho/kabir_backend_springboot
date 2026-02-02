@@ -1,6 +1,7 @@
 package com.kabir.kabirbackend.service;
 
 
+import com.kabir.kabirbackend.config.requests.BulletinPaiRequest;
 import com.kabir.kabirbackend.config.responses.BulletinPaiResponse;
 import com.kabir.kabirbackend.dto.DetBulletinLivraisonDTO;
 import com.kabir.kabirbackend.dto.DetBulletinPaiDTO;
@@ -91,7 +92,7 @@ public class BulletinPaiService implements IBulletinPaiService {
                 BulletinPaiDTO bulletinPaiDTO = bulletinPaiRepository.findById(id).map(bulletinPaiMapper::toDto).orElseThrow(() -> new RuntimeException("BulletinPai not found"));
                 List<DetBulletinPaiDTO> list = detBulletinPaiRepository.findByBulletinPaiId(id).stream().map(detBulletinPaiMapper::toDto).toList();
                 List<DetBulletinLivraisonDTO> listLivraison = detBulletinLivraisonRepository.findByBulletinPaiId(id).stream().map(detBulletinLivraisonMapper::toDTO).toList();
-                return new BulletinPaiResponse(bulletinPaiDTO, list, listLivraison);
+                return new BulletinPaiResponse(bulletinPaiDTO, list,null, listLivraison);
             } else {
                 throw new RuntimeException("BulletinPai id cannot be null");
             }
@@ -257,14 +258,25 @@ public class BulletinPaiService implements IBulletinPaiService {
     }
 
     @Override
-    public BulletinPaiResponse getDetails(BulletinPaiDTO bulletinPaiDTO) {
-        logger.info("Getting details of bulletinPai based on dateDebut and dateFin and personnelId(Commercial): {}", bulletinPaiDTO);
-        List<DetBulletinPaiDTO> listDetBulletinPaiAvecMontant = detBulletinPaiRepository.getDetBulletinPaiAvecMontant(bulletinPaiDTO.getDateDebut(), bulletinPaiDTO.getDateFin(), bulletinPaiDTO.getCommercialId());
-        List<DetBulletinPaiDTO> listDetBulletinPaiSansMontant = detBulletinPaiRepository.getDetBulletinPaiAvecMontant(bulletinPaiDTO.getDateDebut(), bulletinPaiDTO.getDateFin(), bulletinPaiDTO.getCommercialId());
-        List<DetBulletinLivraisonDTO> listDetBulletinLivraison = livraisonRepository.findByDateBlBetweenAndPersonnelId(bulletinPaiDTO.getDateDebut(), bulletinPaiDTO.getDateFin(), bulletinPaiDTO.getCommercialId());
+    public BulletinPaiResponse getDetails(BulletinPaiRequest bulletinPaiRequest) {
+        logger.info("Getting details of bulletinPai based on dateDebut and dateFin and personnelId(Commercial): {}", bulletinPaiRequest);
+        List<DetBulletinPaiDTO> listDetBulletinPaiAvecMontant = detBulletinPaiRepository.getDetBulletinPai(bulletinPaiRequest.getDateDebut(), bulletinPaiRequest.getDateFin(), bulletinPaiRequest.getCommercialId(), false, null);
+        List<DetBulletinPaiDTO> listDetBulletinPaiSansMontant = detBulletinPaiRepository.getDetBulletinPai(bulletinPaiRequest.getDateDebut(), bulletinPaiRequest.getDateFin(), bulletinPaiRequest.getCommercialId(), true, null);
+        List<DetBulletinLivraisonDTO> listDetBulletinLivraison = livraisonRepository.findByDateBlBetweenAndPersonnelId(bulletinPaiRequest.getDateDebut(), bulletinPaiRequest.getDateFin(), bulletinPaiRequest.getCommercialId());
 
         listDetBulletinPaiAvecMontant.addAll(listDetBulletinPaiSansMontant);
 
-        return new BulletinPaiResponse(null, listDetBulletinPaiAvecMontant, listDetBulletinLivraison);
+        return new BulletinPaiResponse(null, listDetBulletinPaiAvecMontant, listDetBulletinPaiSansMontant, listDetBulletinLivraison);
+    }
+
+    @Override
+    public BulletinPaiResponse getDetailsOfLivraison(BulletinPaiRequest bulletinPaiRequest) {
+        logger.info("Getting details of bulletinPai based on dateDebut and dateFin and personnelId(Commercial) and livraisonId : {}", bulletinPaiRequest);
+        List<DetBulletinPaiDTO> listDetBulletinPaiAvecMontant = detBulletinPaiRepository.getDetBulletinPai(bulletinPaiRequest.getDateDebut(), bulletinPaiRequest.getDateFin(), bulletinPaiRequest.getCommercialId(), false, bulletinPaiRequest.getLivraisonId());
+        List<DetBulletinPaiDTO> listDetBulletinPaiSansMontant = detBulletinPaiRepository.getDetBulletinPai(bulletinPaiRequest.getDateDebut(), bulletinPaiRequest.getDateFin(), bulletinPaiRequest.getCommercialId(), true, bulletinPaiRequest.getLivraisonId());
+
+        listDetBulletinPaiAvecMontant.addAll(listDetBulletinPaiSansMontant);
+
+        return new BulletinPaiResponse(null, listDetBulletinPaiAvecMontant, listDetBulletinPaiSansMontant, List.of());
     }
 }

@@ -76,4 +76,15 @@ public class PrimeService implements IPrimeService {
     public List<PrimeDTO> search(PrimeDTO primeDTO) {
         return List.of();
     }
+
+    public List<PrimeDTO> greatThanMontant(PrimeDTO primeDTO) {
+        logger.info("Finding Primes with montant greater than or equal to: {}", primeDTO.getMontant());
+        try {
+            List<Prime> primes = primeRepository.findByMontantGreaterThanEqual(primeDTO.getMontant());
+            return primes.stream().map(primeMapper::toPrimeDTO).toList();
+        } catch (Exception e) {
+            logger.error("Error finding Primes with montant greater than or equal to", e);
+            throw new RuntimeException("Error finding Primes with montant greater than or equal to", e);
+        }
+    }
 }
