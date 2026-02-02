@@ -14,8 +14,8 @@ import org.hibernate.annotations.ColumnDefault;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "detbulttinpai")
-public class DetBulttinPai {
+@Table(name = "detbulletinpai")
+public class DetBulletinPai {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -47,7 +47,7 @@ public class DetBulttinPai {
 
     @NotNull
     @Column(name = "commsiondh", nullable = false, precision = 10)
-    private double commsiondh;
+    private double commisiondh;
 
     @NotNull
     @Column(name = "mantant", nullable = false, precision = 10)
@@ -80,11 +80,11 @@ public class DetBulttinPai {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "bulttinPaiId", nullable = false)
-    private BulttinPai bulttinPai;
+    @JoinColumn(name = "bulletinPaiId", nullable = false)
+    private BulletinPai bulletinPai;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "produitId", nullable = false)
     private Stock produit;
 

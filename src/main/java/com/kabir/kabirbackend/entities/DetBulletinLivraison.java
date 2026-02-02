@@ -13,8 +13,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "detbulttinlivraison")
-public class DetBulttinLivraison {
+@Table(name = "detbulletinlivraison")
+public class DetBulletinLivraison {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -42,12 +42,12 @@ public class DetBulttinLivraison {
 
     @NotNull
     @Column(name = "rougenormal", nullable = false)
-    private boolean rougenormal = false;
+    private boolean rougenormal;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "bulttinPaiId", nullable = false)
-    private BulttinPai bulttinPai;
+    @JoinColumn(name = "bulletinPaiId", nullable = false)
+    private BulletinPai bulletinPai;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
