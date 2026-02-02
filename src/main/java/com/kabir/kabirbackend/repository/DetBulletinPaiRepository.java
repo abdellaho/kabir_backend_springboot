@@ -14,6 +14,9 @@ import java.util.List;
 @Repository
 public interface DetBulletinPaiRepository extends JpaRepository<DetBulletinPai, Long>, JpaSpecificationExecutor<DetBulletinPai> {
 
+    @Query("SELECT d FROM DetBulletinPai d WHERE d.bulletinPai.id = :bulletinPaiId AND ((:sansMontant = true and d.mantantvendu = 0) or (:sansMontant = false and d.mantantvendu > 0))")
+    List<DetBulletinPai> findByBulletinPaiId(@Param("bulletinPaiId") Long id, @Param("sansMontant") boolean sansMontant);
+
     @Query("SELECT d FROM DetBulletinPai d WHERE d.bulletinPai.id = :bulletinPaiId")
     List<DetBulletinPai> findByBulletinPaiId(@Param("bulletinPaiId") Long id);
 

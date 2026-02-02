@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
 @Service
 public class BulletinPaiService implements IBulletinPaiService {
 
@@ -90,9 +89,11 @@ public class BulletinPaiService implements IBulletinPaiService {
         try {
             if (null != id) {
                 BulletinPaiDTO bulletinPaiDTO = bulletinPaiRepository.findById(id).map(bulletinPaiMapper::toDto).orElseThrow(() -> new RuntimeException("BulletinPai not found"));
-                List<DetBulletinPaiDTO> list = detBulletinPaiRepository.findByBulletinPaiId(id).stream().map(detBulletinPaiMapper::toDto).toList();
+                List<DetBulletinPaiDTO> list = detBulletinPaiRepository.findByBulletinPaiId(id, false).stream().map(detBulletinPaiMapper::toDto).toList();
+                List<DetBulletinPaiDTO> listSansMontant = detBulletinPaiRepository.findByBulletinPaiId(id, true).stream().map(detBulletinPaiMapper::toDto).toList();
                 List<DetBulletinLivraisonDTO> listLivraison = detBulletinLivraisonRepository.findByBulletinPaiId(id).stream().map(detBulletinLivraisonMapper::toDTO).toList();
-                return new BulletinPaiResponse(bulletinPaiDTO, list,null, listLivraison);
+
+                return new BulletinPaiResponse(bulletinPaiDTO, list, listSansMontant, listLivraison);
             } else {
                 throw new RuntimeException("BulletinPai id cannot be null");
             }
@@ -117,7 +118,8 @@ public class BulletinPaiService implements IBulletinPaiService {
 
             bulletinPaiDTO = bulletinPaiMapper.toDto(bulletinPaiRepository.save(bulletinPai));
 
-            enregistrerDetBulletinPai(bulletinPai, isSave, bulletinPaiResponse.detBulletinPais());
+            enregistrerDetBulletinPai(bulletinPai, isSave, bulletinPaiResponse.detBulletinPais(), false);
+            enregistrerDetBulletinPai(bulletinPai, isSave, bulletinPaiResponse.detBulletinPaisSansMontant(), true);
             enregistrerDetBulletinLivraison(bulletinPai, isSave, bulletinPaiResponse.detBulletinLivraisons());
 
             logger.info("BulletinPai saved successfully: {}", bulletinPaiDTO);
@@ -170,15 +172,15 @@ public class BulletinPaiService implements IBulletinPaiService {
         }
 
         return detBulletinPaiDtoOld.stream()
-                .filter(detStockDepotOld -> detBulletinPaiDTOs.stream()
-                        .noneMatch(detStockDepotDTO -> detStockDepotDTO.getId() != null && detStockDepotDTO.getId().equals(detStockDepotOld.getId())))
+                .filter(detBulletinPaiOld -> detBulletinPaiDTOs.stream()
+                        .noneMatch(detBulletinPaiDTO -> detBulletinPaiDTO.getId() != null && detBulletinPaiDTO.getId().equals(detBulletinPaiOld.getId())))
                 .collect(Collectors.toList());
     }
 
-    public void enregistrerDetBulletinPai(BulletinPai bulletinPai, boolean isSave, List<DetBulletinPaiDTO> detBulletinPaiDTOs) {
+    public void enregistrerDetBulletinPai(BulletinPai bulletinPai, boolean isSave, List<DetBulletinPaiDTO> detBulletinPaiDTOs, boolean sansMontant) {
         List<DetBulletinPai> detBulletinPaiDtoOld = new ArrayList<>();
         if (!isSave) {
-            detBulletinPaiDtoOld = detBulletinPaiRepository.findByBulletinPaiId(bulletinPai.getId());
+            detBulletinPaiDtoOld = detBulletinPaiRepository.findByBulletinPaiId(bulletinPai.getId(), sansMontant);
         }
 
         List<DetBulletinPai> listToDelete = getDetBulletinOldNotAnymore(detBulletinPaiDtoOld, detBulletinPaiDTOs);
@@ -192,8 +194,8 @@ public class BulletinPaiService implements IBulletinPaiService {
                     DetBulletinPai detBulletinPai = detBulletinPaiMapper.toEntity(bulletinPaiDTO);
 
                     Optional<Stock> optionalStock = stockRepository.findById(bulletinPaiDTO.getProduitId());
-                    detBulletinPai.setProduit(optionalStock.orElse(null));
 
+                    detBulletinPai.setProduit(optionalStock.orElse(null));
                     detBulletinPai.setBulletinPai(bulletinPai);
 
                     return detBulletinPai;

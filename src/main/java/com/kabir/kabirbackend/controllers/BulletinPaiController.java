@@ -3,7 +3,6 @@ package com.kabir.kabirbackend.controllers;
 import com.kabir.kabirbackend.config.requests.BulletinPaiRequest;
 import com.kabir.kabirbackend.config.responses.BulletinPaiResponse;
 import com.kabir.kabirbackend.dto.BulletinPaiDTO;
-import com.kabir.kabirbackend.dto.FactureDTO;
 import com.kabir.kabirbackend.service.BulletinPaiService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
