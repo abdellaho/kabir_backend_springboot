@@ -23,10 +23,13 @@ public class DetBulletinLivraisonDTO implements Serializable {
     private Long bulletinPaiId;
     private Long livraisonId;
     private String livraisonCodeBl;
+    private double livraisonMantantBL;
 
-    public DetBulletinLivraisonDTO(Long livraisonId, double benDH) {
+    public DetBulletinLivraisonDTO(Long livraisonId, double benDH, double livraisonMantantBL, String livraisonCodeBl) {
         this.livraisonId = livraisonId;
+        this.livraisonMantantBL = livraisonMantantBL;
         this.benDH = benDH;
+        this.livraisonCodeBl = livraisonCodeBl;
         this.commission = 0.0;
         this.commissionFixe = 0.0;
         this.commsiondh = 0.0;
