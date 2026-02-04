@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 /**
  * DTO for {@link com.kabir.kabirbackend.entities.DetBulletinLivraison}
@@ -23,15 +24,21 @@ public class DetBulletinLivraisonDTO implements Serializable {
     private Long bulletinPaiId;
     private Long livraisonId;
     private String livraisonCodeBl;
+    private LocalDate livraisonDateBl;
     private double livraisonMantantBL;
     private double livraisonMantantBLReel;
+    private int livraisonReglerNonRegler;
+    private String livraisonRepertoireDesignation;
 
-    public DetBulletinLivraisonDTO(Long livraisonId, double benDH, double livraisonMantantBL, double livraisonMantantBLReel, String livraisonCodeBl) {
+    public DetBulletinLivraisonDTO(Long livraisonId, String livraisonCodeBl, LocalDate livraisonDateBl, double livraisonMantantBL, double livraisonMantantBLReel, int livraisonReglerNonRegler, String livraisonRepertoireDesignation, double benDH) {
         this.livraisonId = livraisonId;
-        this.livraisonMantantBL = livraisonMantantBL;
-        this.benDH = benDH;
+        this.livraisonDateBl = livraisonDateBl;
         this.livraisonCodeBl = livraisonCodeBl;
+        this.livraisonMantantBL = livraisonMantantBL;
         this.livraisonMantantBLReel = livraisonMantantBLReel;
+        this.livraisonReglerNonRegler = livraisonReglerNonRegler;
+        this.livraisonRepertoireDesignation = livraisonRepertoireDesignation;
+        this.benDH = benDH;
         this.commission = 0.0;
         this.commissionFixe = 0.0;
         this.commsiondh = 0.0;
