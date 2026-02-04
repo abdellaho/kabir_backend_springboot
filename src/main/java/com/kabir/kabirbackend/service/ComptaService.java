@@ -3,6 +3,7 @@ package com.kabir.kabirbackend.service;
 
 import com.kabir.kabirbackend.config.requests.ComptaRequest;
 import com.kabir.kabirbackend.config.responses.ComptaResponse;
+import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.config.searchEntities.ComptaSearch;
 import com.kabir.kabirbackend.dto.ComptaDTO;
 import com.kabir.kabirbackend.entities.Compta;
@@ -104,5 +105,13 @@ public class ComptaService implements IComptaService {
     public boolean checkIsLast(ComptaSearch comptaSearch) {
         logger.info("Checking if compta is last");
         return comptaRepository.findAll(ComptaSpecification.builder().build().isLast(comptaSearch)).isEmpty();
+    }
+
+    @Override
+    public List<ComptaDTO> searchByCommon(CommonSearchModel commonSearchModel) {
+        logger.info("Searching compta by common: {}", commonSearchModel);
+        return comptaRepository.findAll(ComptaSpecification.builder().build().searchByCommon(commonSearchModel)).stream()
+                .map(comptaMapper::toComptaDTO)
+                .toList();
     }
 }

@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="700" pageHeight="842" columnWidth="660" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c682d328-5cd8-4359-9400-1f2270e40add">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fichier" class="java.lang.String"/>
+	<parameter name="dateDebut" class="java.lang.String"/>
+	<parameter name="dateFin" class="java.lang.String"/>
+	<parameter name="lienimage" class="java.lang.String"/>
+	<field name="nom" class="java.lang.String">
+		<fieldDescription><![CDATA[deplacement.participants.employee.nom]]></fieldDescription>
+	</field>
+	<field name="prenom" class="java.lang.String">
+		<fieldDescription><![CDATA[deplacement.participants.employee.nom]]></fieldDescription>
+	</field>
+	<field name="numsome" class="java.lang.String">
+		<fieldDescription><![CDATA[deplacement.participants.employee.numsom]]></fieldDescription>
+	</field>
+	<field name="dateDebut" class="java.util.Date">
+		<fieldDescription><![CDATA[deplacement.datedebut]]></fieldDescription>
+	</field>
+	<field name="datefin" class="java.util.Date">
+		<fieldDescription><![CDATA[deplacement.datefin]]></fieldDescription>
+	</field>
+	<field name="annee" class="java.util.Date">
+		<fieldDescription><![CDATA[datesaisie]]></fieldDescription>
+	</field>
+	<field name="mois" class="java.util.Date">
+		<fieldDescription><![CDATA[datesaisie]]></fieldDescription>
+	</field>
+	<field name="trajet" class="java.lang.String">
+		<fieldDescription><![CDATA[deplacement.trajet]]></fieldDescription>
+	</field>
+	<field name="nbrjour" class="java.lang.Integer">
+		<fieldDescription><![CDATA[deplacement.nbrjour]]></fieldDescription>
+	</field>
+	<field name="montant" class="java.lang.Double">
+		<fieldDescription><![CDATA[deplacement.montanttotal]]></fieldDescription>
+	</field>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="143">
+			<textField>
+				<reportElement mode="Opaque" x="6" y="98" width="648" height="37" backcolor="#FFFFFF" uuid="970a372a-7f3f-4992-958e-1109f71a7c08"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("historiqueDep")]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="0" y="0" width="660" height="98" uuid="1e698d61-1057-437f-870a-c2065375f861"/>
+				<imageExpression><![CDATA[$P{lienimage}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band/>
+	</pageHeader>
+	<columnHeader>
+		<band height="29">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="9" width="147" height="20" backcolor="#CCCCCC" uuid="fdf8114b-8162-45b8-986d-deffbdb42720"/>
+				<box leftPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("employee")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="147" y="9" width="57" height="20" backcolor="#CCCCCC" uuid="ff7e92c6-225e-46ff-b767-9af32953081d"/>
+				<box leftPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("anneeDep")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="204" y="9" width="80" height="20" backcolor="#CCCCCC" uuid="d714bc9a-10e4-4850-8407-bb196907854c"/>
+				<box leftPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("datedebut")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="284" y="9" width="81" height="20" backcolor="#CCCCCC" uuid="2af2c5c3-d05a-473e-b65f-5725e1b11ed1"/>
+				<box leftPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("datefin")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="407" y="9" width="186" height="20" backcolor="#CCCCCC" uuid="d473c3d9-d3a5-472e-ac2a-f8e2386cb102"/>
+				<box leftPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("trajet")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="593" y="9" width="67" height="20" backcolor="#CCCCCC" uuid="77659b11-c62d-4346-89b2-e674995d0903"/>
+				<box leftPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("montant")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="365" y="9" width="41" height="20" backcolor="#CCCCCC" uuid="09535995-8b5f-4c0b-a6bc-cd325486f285"/>
+				<box leftPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("NbrJrs")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="217" y="-8" width="25" height="17" uuid="12e5046b-d1e2-460d-9beb-6d0676005fbf"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("du")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="330" y="-8" width="25" height="20" uuid="27d90014-c012-456f-af8a-9a61acb3e32e"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("au")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="242" y="-8" width="87" height="20" uuid="b65b3a0b-85d1-4266-9160-b7ae1b8f730c"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dateDebut}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="355" y="-8" width="87" height="20" uuid="37a764af-48f5-4181-9fa8-f35e72ba12f2"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dateFin}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="147" height="20" uuid="35d981dc-a770-4a02-8e6d-c46643cb9901"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numsome}+" "+$F{nom}+" "+$F{prenom}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="147" y="0" width="57" height="20" uuid="d0014e65-b56e-46ee-9ff4-56458dad74a8"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new Integer($F{annee}.getYear()+1900)+"-"+new Integer($F{mois}.getMonth()+1)]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="204" y="0" width="80" height="20" uuid="3bcf086d-0c93-4f0a-8c5a-326b6a30a30b"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dateDebut}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="284" y="0" width="81" height="20" uuid="519accab-a85b-45f1-b68a-3687b8571fac"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{datefin}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="365" y="0" width="41" height="20" uuid="a088b483-3820-4eca-9613-1a32f42e4fc0"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nbrjour}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="407" y="0" width="186" height="20" uuid="cd5a3b6f-a6d8-4d0e-93d7-847413484ad6"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{trajet}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="593" y="0" width="67" height="20" uuid="ff8ccc67-b78d-479f-a014-13620f223974"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{montant}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="10"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="4"/>
+	</pageFooter>
+	<summary>
+		<band height="3"/>
+	</summary>
+</jasperReport>

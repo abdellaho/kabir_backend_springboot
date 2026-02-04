@@ -2,6 +2,8 @@ package com.kabir.kabirbackend.controllers;
 
 
 import com.kabir.kabirbackend.config.responses.AchatEtrangerResponse;
+import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
+import com.kabir.kabirbackend.dto.AbsenceDTO;
 import com.kabir.kabirbackend.dto.AchatEtrangerDTO;
 import com.kabir.kabirbackend.service.AchatEtrangerService;
 import org.slf4j.Logger;
@@ -111,6 +113,17 @@ public class AchatEtrangerController {
         } catch (Exception e) {
             logger.error("Error searching if an existing achat etranger: {}", e.getMessage());
             return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @PostMapping("/searchByCommon")
+    public ResponseEntity<List<AchatEtrangerDTO>> searchByCommon(@RequestBody CommonSearchModel commonSearchModel) {
+        logger.info("Searching achat etranger by common: {}", commonSearchModel);
+        try {
+            return ResponseEntity.ok(achatEtrangerService.searchByCommon(commonSearchModel));
+        } catch (Exception e) {
+            logger.error("Error searching absence by common: {}", commonSearchModel, e);
+            throw new RuntimeException("Error searching absence by common: " + commonSearchModel, e);
         }
     }
 }

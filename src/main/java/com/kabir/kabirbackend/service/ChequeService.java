@@ -1,6 +1,7 @@
 package com.kabir.kabirbackend.service;
 
 
+import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.ChequeDTO;
 import com.kabir.kabirbackend.entities.Cheque;
 import com.kabir.kabirbackend.entities.Fournisseur;
@@ -85,6 +86,14 @@ public class ChequeService implements IChequeService {
     public int getLastNum() {
         logger.info("Getting last num Cheque");
         return chequeRepository.findMaxNumCheque().map(l -> l + 1).orElse(1);
+    }
+
+    @Override
+    public List<ChequeDTO> searchByCommon(CommonSearchModel commonSearchModel) {
+        logger.info("Searching cheque by common: {}", commonSearchModel);
+        return chequeRepository.findAll(ChequeSpecification.builder().build().searchByCommon(commonSearchModel)).stream()
+                .map(chequeMapper::toDto)
+                .toList();
     }
 
 

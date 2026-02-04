@@ -1,5 +1,6 @@
 package com.kabir.kabirbackend.controllers;
 
+import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.config.searchEntities.CompteCaisseSearch;
 import com.kabir.kabirbackend.dto.CompteCaisseDTO;
 import com.kabir.kabirbackend.service.CompteCaisseService;
@@ -94,6 +95,17 @@ class CompteCaisseController {
         } catch (Exception e) {
             logger.error("Error searching compteCaisse: {}", compteCaisseSearch, e);
             throw new RuntimeException("Error searching compteCaisse: " + compteCaisseSearch, e);
+        }
+    }
+
+    @PostMapping("/searchByCommon")
+    public ResponseEntity<List<CompteCaisseDTO>> searchByCommon(@RequestBody CommonSearchModel commonSearchModel) {
+        logger.info("Searching compte caisse by common: {}", commonSearchModel);
+        try {
+            return ResponseEntity.ok(compteCaisseService.searchByCommon(commonSearchModel));
+        } catch (Exception e) {
+            logger.error("Error searching compte caisse by common: {}", commonSearchModel, e);
+            throw new RuntimeException("Error searching compte caisse by common: " + commonSearchModel, e);
         }
     }
 }

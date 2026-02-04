@@ -2,7 +2,9 @@ package com.kabir.kabirbackend.controllers;
 
 import com.kabir.kabirbackend.config.requests.ComptaRequest;
 import com.kabir.kabirbackend.config.responses.ComptaResponse;
+import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.config.searchEntities.ComptaSearch;
+import com.kabir.kabirbackend.dto.ChequeDTO;
 import com.kabir.kabirbackend.dto.ComptaDTO;
 import com.kabir.kabirbackend.service.ComptaService;
 import jakarta.validation.Valid;
@@ -144,6 +146,17 @@ class ComptaController {
         } catch (Exception e) {
             logger.error("Error checking if compta is last", e);
             throw new RuntimeException("Error checking if compta is last", e);
+        }
+    }
+
+    @PostMapping("/searchByCommon")
+    public ResponseEntity<List<ComptaDTO>> searchByCommon(@RequestBody CommonSearchModel commonSearchModel) {
+        logger.info("Searching compta by common: {}", commonSearchModel);
+        try {
+            return ResponseEntity.ok(comptaService.searchByCommon(commonSearchModel));
+        } catch (Exception e) {
+            logger.error("Error searching compta by common: {}", commonSearchModel, e);
+            throw new RuntimeException("Error searching compta by common: " + commonSearchModel, e);
         }
     }
 

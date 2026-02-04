@@ -3,6 +3,7 @@ package com.kabir.kabirbackend.service;
 import com.kabir.kabirbackend.config.enums.TypeQteToUpdate;
 import com.kabir.kabirbackend.config.requests.RequestStockQte;
 import com.kabir.kabirbackend.config.responses.AchatSimpleResponse;
+import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.DetAchatSimpleDTO;
 import com.kabir.kabirbackend.dto.AchatSimpleDTO;
 import com.kabir.kabirbackend.entities.DetAchatSimple;
@@ -13,6 +14,7 @@ import com.kabir.kabirbackend.mapper.AchatSimpleMapper;
 import com.kabir.kabirbackend.mapper.DetAchatSimpleMapper;
 import com.kabir.kabirbackend.repository.*;
 import com.kabir.kabirbackend.service.interfaces.IAchatSimpleService;
+import com.kabir.kabirbackend.specifications.AchatSimpleSpecification;
 import lombok.Data;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
@@ -230,6 +232,13 @@ public class AchatSimpleService implements IAchatSimpleService {
         }
 
         return qte;
+    }
+
+    public List<AchatSimpleDTO> searchByCommon(CommonSearchModel commonSearchModel) {
+        logger.info("Searching achat simple by common: {}", commonSearchModel);
+        return achatSimpleRepository.findAll(AchatSimpleSpecification.builder().build().searchByCommon(commonSearchModel)).stream()
+                .map(achatSimpleMapper::toDTO)
+                .toList();
     }
 
 }

@@ -1,6 +1,7 @@
 package com.kabir.kabirbackend.service;
 
 
+import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.CaisseDTO;
 import com.kabir.kabirbackend.entities.Caisse;
 import com.kabir.kabirbackend.mapper.CaisseMapper;
@@ -63,6 +64,14 @@ public class CaisseService implements ICaisseService {
     public List<CaisseDTO> search(CaisseDTO caisseDTO) {
         logger.info("Searching caisse by date and personnel id with AbsenceSpecification builder {}", caisseDTO);
         return caisseRepository.findAll(CaisseSpecification.builder().caisseDTO(caisseDTO).build()).stream()
+                .map(caisseMapper::toDto)
+                .toList();
+    }
+
+    @Override
+    public List<CaisseDTO> searchByCommon(CommonSearchModel commonSearchModel) {
+        logger.info("Searching caisse by common: {}", commonSearchModel);
+        return caisseRepository.findAll(CaisseSpecification.builder().build().searchByCommon(commonSearchModel)).stream()
                 .map(caisseMapper::toDto)
                 .toList();
     }

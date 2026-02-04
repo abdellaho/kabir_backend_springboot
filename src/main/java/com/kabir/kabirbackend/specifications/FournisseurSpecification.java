@@ -23,10 +23,14 @@ public class FournisseurSpecification implements Specification<Fournisseur> {
     public static Specification<Fournisseur> searchBySupprimerOrArchiver(FournisseurDTO fournisseurDTO) {
         return (root, query, criteriaBuilder) -> {
 
-            return criteriaBuilder.and(
-                    criteriaBuilder.equal(root.get("supprimer"), fournisseurDTO.isSupprimer()),
-                    criteriaBuilder.equal(root.get("archiver"), fournisseurDTO.isArchiver())
-            );
+            Predicate predicate = criteriaBuilder.conjunction();
+
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("supprimer"), fournisseurDTO.isSupprimer()));
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("archiver"), fournisseurDTO.isArchiver()));
+
+            query.orderBy(criteriaBuilder.desc(root.get("designation")));
+
+            return predicate;
         };
     }
 

@@ -1,5 +1,6 @@
 package com.kabir.kabirbackend.controllers;
 
+import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.CaisseDTO;
 import com.kabir.kabirbackend.service.CaisseService;
 import jakarta.validation.Valid;
@@ -17,17 +18,17 @@ import java.util.List;
 class CaisseController {
 
     private final Logger logger = LoggerFactory.getLogger(CaisseController.class);
-    private final CaisseService absenceService;
+    private final CaisseService caisseService;
 
-    public CaisseController(CaisseService absenceService) {
-        this.absenceService = absenceService;
+    public CaisseController(CaisseService caisseService) {
+        this.caisseService = caisseService;
     }
 
     @GetMapping
     public ResponseEntity<List<CaisseDTO>> findAll() {
         logger.info("Finding all caisses");
         try {
-            return ResponseEntity.ok(absenceService.findAll());
+            return ResponseEntity.ok(caisseService.findAll());
         } catch (Exception e) {
             logger.error("Error finding all caisses", e);
             throw new RuntimeException("Error finding all caisses", e);
@@ -38,7 +39,7 @@ class CaisseController {
     public ResponseEntity<CaisseDTO> findById(@PathVariable Long id) {
         logger.info("Finding caisse by id: {}", id);
         try {
-            CaisseDTO caisseDTO = absenceService.findById(id);
+            CaisseDTO caisseDTO = caisseService.findById(id);
             if (caisseDTO == null) {
                 return ResponseEntity.notFound().build();
             } else {
@@ -54,7 +55,7 @@ class CaisseController {
     public ResponseEntity<CaisseDTO> save(@Valid @RequestBody CaisseDTO caisseDTO) {
         logger.info("Saving caisse: {}", caisseDTO);
         try {
-            CaisseDTO updatedAbsenceDTO = absenceService.save(caisseDTO);
+            CaisseDTO updatedAbsenceDTO = caisseService.save(caisseDTO);
             return ResponseEntity.ok(updatedAbsenceDTO);
         } catch (Exception e) {
             logger.error("Error saving caisse: {}", caisseDTO, e);
@@ -66,7 +67,7 @@ class CaisseController {
     public ResponseEntity<CaisseDTO> update(@PathVariable Long id, @Valid @RequestBody CaisseDTO caisseDTO) {
         logger.info("Updating caisse: {}, with ID {} : ", caisseDTO, id);
         try {
-            CaisseDTO updatedAbsenceDTO = absenceService.save(caisseDTO);
+            CaisseDTO updatedAbsenceDTO = caisseService.save(caisseDTO);
             return ResponseEntity.ok(updatedAbsenceDTO);
         } catch (Exception e) {
             logger.error("Error updating caisse: {}, with ID: {}", caisseDTO, id, e);
@@ -78,7 +79,7 @@ class CaisseController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         logger.info("Deleting caisse: {}", id);
         try {
-            absenceService.delete(id);
+            caisseService.delete(id);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             logger.error("Error deleting caisse: {}", id, e);
@@ -90,7 +91,7 @@ class CaisseController {
     public ResponseEntity<List<CaisseDTO>> search(@RequestBody CaisseDTO caisseDTO) {
         logger.info("Searching caisse: {}", caisseDTO);
         try {
-            return ResponseEntity.ok(absenceService.search(caisseDTO));
+            return ResponseEntity.ok(caisseService.search(caisseDTO));
         } catch (Exception e) {
             logger.error("Error searching caisse: {}", caisseDTO, e);
             throw new RuntimeException("Error searching caisse: " + caisseDTO, e);
@@ -101,10 +102,21 @@ class CaisseController {
     public ResponseEntity<Boolean> exist(@RequestBody CaisseDTO caisseDTO) {
         logger.info("Searching caisse if exist: {}", caisseDTO);
         try {
-            return ResponseEntity.ok(CollectionUtils.isNotEmpty(absenceService.search(caisseDTO)));
+            return ResponseEntity.ok(CollectionUtils.isNotEmpty(caisseService.search(caisseDTO)));
         } catch (Exception e) {
             logger.error("Error searching caisse if exist: {}", caisseDTO, e);
             throw new RuntimeException("Error searching caisse if exist: " + caisseDTO, e);
+        }
+    }
+
+    @PostMapping("/searchByCommon")
+    public ResponseEntity<List<CaisseDTO>> searchByCommon(@RequestBody CommonSearchModel commonSearchModel) {
+        logger.info("Searching caisse by common: {}", commonSearchModel);
+        try {
+            return ResponseEntity.ok(caisseService.searchByCommon(commonSearchModel));
+        } catch (Exception e) {
+            logger.error("Error searching caisse by common: {}", commonSearchModel, e);
+            throw new RuntimeException("Error searching caisse by common: " + commonSearchModel, e);
         }
     }
 

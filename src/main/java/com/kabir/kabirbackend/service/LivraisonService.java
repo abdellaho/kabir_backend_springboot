@@ -6,6 +6,7 @@ import com.kabir.kabirbackend.config.enums.TypeOperation;
 import com.kabir.kabirbackend.config.enums.TypeQteToUpdate;
 import com.kabir.kabirbackend.config.requests.RequestStockQte;
 import com.kabir.kabirbackend.config.responses.LivraisonResponse;
+import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.DetLivraisonDTO;
 import com.kabir.kabirbackend.dto.LivraisonDTO;
 import com.kabir.kabirbackend.entities.*;
@@ -318,5 +319,10 @@ public class LivraisonService implements ILivraisonService {
                 }
             }
         }
+    }
+
+    public List<LivraisonDTO> searchByCommon(CommonSearchModel commonSearchModel) {
+        logger.info("Searching livraison by common: {}", commonSearchModel);
+        return livraisonRepository.findAll(LivraisonSpecification.searchByCommon(commonSearchModel)).stream().map(livraisonMapper::toLivraisonDTO).toList();
     }
 }

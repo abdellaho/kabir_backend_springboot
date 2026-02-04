@@ -1,0 +1,649 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="EtatReparationUnique" pageWidth="700" pageHeight="842" columnWidth="660" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="45dc29a5-eb00-42d7-984b-3e2e35f023e6">
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<parameter name="fichier" class="java.lang.String"/>
+	<parameter name="montantEnLettre" class="java.lang.String"/>
+	<parameter name="montantTotalDep" class="java.lang.String"/>
+	<parameter name="groupe" class="java.lang.String"/>
+	<parameter name="groupeAffecte" class="java.lang.String"/>
+	<parameter name="lienimage" class="java.lang.String"/>
+	<parameter name="TotalFraisTransport" class="java.lang.String"/>
+	<parameter name="groupeAffecteInternational" class="java.lang.String"/>
+	<parameter name="groupeInetnational" class="java.lang.String"/>
+	<field name="nom" class="java.lang.String">
+		<fieldDescription><![CDATA[employee.nom]]></fieldDescription>
+	</field>
+	<field name="prenom" class="java.lang.String">
+		<fieldDescription><![CDATA[employee.prenom]]></fieldDescription>
+	</field>
+	<field name="grade" class="java.lang.String">
+		<fieldDescription><![CDATA[grade.libillegrade]]></fieldDescription>
+	</field>
+	<field name="nddr" class="java.lang.String">
+		<fieldDescription><![CDATA[employee.numsom]]></fieldDescription>
+	</field>
+	<field name="etablisement" class="java.lang.String">
+		<fieldDescription><![CDATA[deplacement.rubriquebudgaitaire.rubrique]]></fieldDescription>
+	</field>
+	<field name="motifDep" class="java.lang.String">
+		<fieldDescription><![CDATA[deplacement.objet]]></fieldDescription>
+	</field>
+	<field name="datedebut" class="java.util.Date">
+		<fieldDescription><![CDATA[deplacement.datedebut]]></fieldDescription>
+	</field>
+	<field name="datefin" class="java.util.Date">
+		<fieldDescription><![CDATA[deplacement.datefin]]></fieldDescription>
+	</field>
+	<field name="parcours" class="java.lang.String">
+		<fieldDescription><![CDATA[deplacement.trajet]]></fieldDescription>
+	</field>
+	<field name="typeTransport" class="java.lang.String">
+		<fieldDescription><![CDATA[typetransport.nomtransport]]></fieldDescription>
+	</field>
+	<field name="tauxApp" class="java.lang.Double">
+		<fieldDescription><![CDATA[grade.depensejournalier]]></fieldDescription>
+	</field>
+	<field name="nbrJour" class="java.lang.Integer">
+		<fieldDescription><![CDATA[deplacement.nbrjour]]></fieldDescription>
+	</field>
+	<field name="montantTotal" class="java.lang.Double">
+		<fieldDescription><![CDATA[montanttotalPrc]]></fieldDescription>
+	</field>
+	<field name="ville" class="java.lang.String">
+		<fieldDescription><![CDATA[deplacement.etablisement.ville.nomville]]></fieldDescription>
+	</field>
+	<field name="pourcentage" class="java.lang.Integer"/>
+	<field name="ligne" class="java.lang.String">
+		<fieldDescription><![CDATA[rubriquebudgaitaire.ligne]]></fieldDescription>
+	</field>
+	<field name="paragraphe" class="java.lang.String">
+		<fieldDescription><![CDATA[rubriquebudgaitaire.paragraphe]]></fieldDescription>
+	</field>
+	<field name="article" class="java.lang.String">
+		<fieldDescription><![CDATA[rubriquebudgaitaire.article]]></fieldDescription>
+	</field>
+	<field name="chapitre" class="java.lang.String">
+		<fieldDescription><![CDATA[rubriquebudgaitaire.chapitre]]></fieldDescription>
+	</field>
+	<field name="posteB" class="java.lang.String">
+		<fieldDescription><![CDATA[employee.pb]]></fieldDescription>
+	</field>
+	<field name="echelle" class="java.lang.String">
+		<fieldDescription><![CDATA[employee.grade.echelle]]></fieldDescription>
+	</field>
+	<field name="fraistransport" class="java.lang.Double">
+		<fieldDescription><![CDATA[fraistransport]]></fieldDescription>
+	</field>
+	<field name="CIN" class="java.lang.String">
+		<fieldDescription><![CDATA[employee.cin]]></fieldDescription>
+	</field>
+	<group name="total">
+		<groupHeader>
+			<band/>
+		</groupHeader>
+		<groupFooter>
+			<band height="214">
+				<textField>
+					<reportElement uuid="2c0a4aff-bffc-4444-b00e-546f30b9c1ca" x="39" y="187" width="117" height="20"/>
+					<textElement verticalAlignment="Middle">
+						<font size="11" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("ordonnateur")]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="ada107d5-e7d7-43c7-9c3d-4496c124bc61" x="401" y="154" width="53" height="20"/>
+					<textElement verticalAlignment="Middle">
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ville}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="1adde892-fb20-4fc2-a8e3-64d3e176eefd" x="53" y="96" width="134" height="20"/>
+					<textElement verticalAlignment="Middle">
+						<font size="11" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("chefService")]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="fb694bf9-876b-4f0c-b606-aea0ddf4acf5" x="440" y="187" width="93" height="20"/>
+					<textElement verticalAlignment="Middle">
+						<font size="11" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("responsable")]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="6ba5ccd8-b34c-4a22-99d9-82d7150cca7f" x="454" y="154" width="14" height="20"/>
+					<textElement verticalAlignment="Middle">
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("le")]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="1b1fadb2-0f93-4ef6-9213-014be3467579" x="350" y="96" width="111" height="20"/>
+					<textElement verticalAlignment="Middle">
+						<font size="11" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("interesse")]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="false">
+					<reportElement uuid="5b4c87be-a871-414d-98c5-a14d29bb9491" x="18" y="51" width="549" height="20"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{montantEnLettre}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="83302626-a252-4775-9253-c3b341bad2bf" x="249" y="187" width="93" height="20"/>
+					<textElement verticalAlignment="Middle">
+						<font size="11" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("efInteresse")]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="38a86f1b-f707-462f-a2d0-6e9adc95485a" x="366" y="154" width="35" height="20"/>
+					<textElement verticalAlignment="Middle">
+						<font size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("fait")]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="fcd65190-30c5-41cf-b5fe-59b9f615bead" x="17" y="31" width="309" height="20"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="11"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("ordonnateurSomme")]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="eb941da4-31e5-44ad-9b3f-31d99a955936" x="488" y="0" width="97" height="19"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{montantTotalDep}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00" isBlankWhenNull="true">
+					<reportElement uuid="38da46d0-656a-4f1e-91a0-157a2b27ba55" x="585" y="0" width="75" height="19"/>
+					<box>
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{TotalFraisTransport}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band height="1"/>
+	</background>
+	<title>
+		<band height="178">
+			<image>
+				<reportElement uuid="18938186-ecc1-4511-9f93-88f7cf50591a" key="image" x="1" y="0" width="656" height="112"/>
+				<imageExpression><![CDATA[$P{lienimage}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement uuid="6ff18513-0d78-4e30-9f84-dec13cff2eff" mode="Opaque" x="1" y="115" width="656" height="59" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="24" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("indeminteDepEtranger")]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band/>
+	</pageHeader>
+	<columnHeader>
+		<band height="131">
+			<textField>
+				<reportElement uuid="3001315c-c1c9-4107-8b04-e42b1c194626" x="199" y="85" width="144" height="17"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("article")+" :"+$F{article}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="77fb64ac-292a-4b66-9424-9fc95eb843cb" mode="Opaque" x="375" y="6" width="112" height="15" backcolor="#FFFFFF"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("grade")+":"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="c904569f-2450-4bd4-9a23-a799d742b525" x="133" y="21" width="183" height="15"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nddr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="65d3637c-e6ff-4ae1-9fba-d9f733352a22" x="488" y="37" width="151" height="15"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{posteB}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2df49b0d-bdf1-42f7-a458-4a0f51b45a77" x="61" y="85" width="138" height="17"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("chapitre")+" :"+$F{chapitre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f0932a50-bebf-4e02-bac4-fc88c1c0b7e8" mode="Opaque" x="375" y="37" width="112" height="15" backcolor="#FFFFFF"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("pb")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="87639bff-57a2-4f62-a1d6-48eaffbf1020" x="343" y="85" width="141" height="17"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("paragraphe")+" :"+$F{paragraphe}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="0ad781b4-6343-48fa-8646-96452eec1784" x="135" y="67" width="522" height="15"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{motifDep}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="cbe5bd59-98bc-4fe3-92eb-2e64a5cb50ca" mode="Opaque" x="42" y="67" width="90" height="15" backcolor="#FFFFFF"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("motifMission")+":"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="bd831ce9-4a88-487c-b303-a02ef80efe4d" mode="Opaque" x="42" y="6" width="90" height="15" backcolor="#FFFFFF"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("nomPrenom")+":"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="f41ba1a3-5952-4fe3-ae6e-bc37d178d5fe" x="488" y="52" width="151" height="15"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{groupeAffecteInternational}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="bf86e1ff-624a-4e16-9b8f-7d9a693d6053" x="488" y="22" width="150" height="15"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{echelle}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="fa2edcb6-4786-43dc-8cb2-57680890fd2c" x="484" y="85" width="147" height="17"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="false" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("ligne")+" :"+$F{ligne}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="e1bf36e5-ea1b-4b90-97ad-8ef3e3f50de6" x="133" y="5" width="227" height="15"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nom}+" "+$F{prenom}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c7c7cf1c-1aea-4da2-8ee0-ffa7ec14f979" mode="Opaque" x="42" y="21" width="90" height="15" backcolor="#FFFFFF"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("nddr")+":"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="a609158d-1049-4e06-af1b-e8ed06b96e6b" x="488" y="6" width="151" height="15"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{grade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e1d7e1b1-5b05-4807-8b20-a937c2a12a52" mode="Opaque" x="375" y="22" width="112" height="15" backcolor="#FFFFFF"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("echelle")]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="75bb9706-3a30-4df0-a928-0b80a87c5bc2" x="375" y="52" width="112" height="15"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("groupeInetnational")+ ":"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="433706b0-f44e-45c6-8646-ac50e8f390f7" mode="Opaque" x="373" y="111" width="212" height="20" backcolor="#CCCCCC"/>
+				<box topPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("tauxApp")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="55604f00-0b3e-44e5-af0e-f71c3c9a1f41" mode="Opaque" x="0" y="111" width="133" height="20" backcolor="#CCCCCC"/>
+				<box topPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("visas")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2f0bebba-1de5-44dd-bc22-17255c795fdd" mode="Opaque" x="319" y="111" width="54" height="20" backcolor="#CCCCCC"/>
+				<box topPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("pourcentage")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="30c1b606-3580-41b8-a4ad-799fcd9cb3e3" mode="Opaque" x="133" y="111" width="186" height="20" backcolor="#CCCCCC"/>
+				<box topPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("parcoursDep")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="15781710-6ec3-40b6-925e-28f0a32c94d6" mode="Opaque" x="585" y="111" width="75" height="20" backcolor="#CCCCCC"/>
+				<box topPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("fraistransport")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2bb66253-f529-4daa-945b-ed15b9c56001" x="133" y="37" width="183" height="15"/>
+				<textElement>
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CIN}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e18fffac-1167-4d5d-ba6b-d16086ba963e" mode="Opaque" x="42" y="37" width="90" height="16" backcolor="#FFFFFF"/>
+				<textElement>
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("CIN")]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="6ff80248-797b-44d2-9a15-2e53551ef6a0" x="17" y="0" width="57" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{datedebut}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0d55b0c9-eda4-46cc-883d-07928f3e9f17" x="133" y="0" width="186" height="20"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{parcours}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="096faa2b-7f84-4dcc-bef8-d3e74d83fddc" x="319" y="0" width="37" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{pourcentage}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="25f378c2-4fff-4585-aac3-15f960e6d7d3" x="82" y="0" width="51" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{datefin}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="fa41f330-c974-48eb-86f7-7100b38bc871" x="356" y="0" width="17" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[%]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="b1e47aed-58fb-4994-8aaf-621454c267c1" x="0" y="0" width="17" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("du")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5d2547fc-fbd8-4ddc-acf3-d41ded178724" x="68" y="0" width="14" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("au")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d7ff85ad-b96f-4634-95b1-7644b4c11c5c" mode="Transparent" x="380" y="0" width="12" height="20" backcolor="#ECE9D8"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nbrJour}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a339606e-725c-40bb-8b5e-02d4857fe348" x="454" y="0" width="20" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{pourcentage}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="dc649225-2ec2-4607-a887-a50b45f0f226" mode="Transparent" x="400" y="0" width="42" height="20" backcolor="#ECE9D8"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tauxApp}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="661e13ba-abb9-4c85-8b25-4907220d025c" x="440" y="0" width="14" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[) x]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="680c1c00-8373-452a-b54e-25c98b8b378f" mode="Transparent" x="392" y="0" width="8" height="20" backcolor="#ECE9D8"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["x"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="a96f37bd-abd5-4c1a-9d28-6c11b8ee3cea" x="474" y="0" width="14" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[%]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f39d8d10-d681-46a5-8c01-d804f5af443e" x="373" y="0" width="9" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[(]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="4b0038d4-ce02-47f4-85f2-26e59d03b22c" mode="Transparent" x="502" y="0" width="83" height="20" backcolor="#ECE9D8"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{montantTotal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="1d17bdc0-c3e5-4489-a08f-d22aa6ac8552" x="488" y="0" width="14" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[=]]></text>
+			</staticText>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="5d0310d9-068a-4038-91d0-b3544b151bee" x="585" y="0" width="75" height="20"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fraistransport}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="15"/>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

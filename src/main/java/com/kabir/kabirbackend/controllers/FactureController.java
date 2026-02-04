@@ -1,8 +1,8 @@
 package com.kabir.kabirbackend.controllers;
 
 import com.kabir.kabirbackend.config.responses.FactureResponse;
+import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.FactureDTO;
-import com.kabir.kabirbackend.dto.LivraisonDTO;
 import com.kabir.kabirbackend.service.FactureService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -107,6 +107,17 @@ public class FactureController {
         } catch (Exception e) {
             logger.error("Error getting last num facture: {}", e.getMessage());
             return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @PostMapping("/searchByCommon")
+    public ResponseEntity<List<FactureDTO>> searchByCommon(@RequestBody CommonSearchModel commonSearchModel) {
+        logger.info("Searching facture by common: {}", commonSearchModel);
+        try {
+            return ResponseEntity.ok(factureService.searchByCommon(commonSearchModel));
+        } catch (Exception e) {
+            logger.error("Error searching facture by common: {}", commonSearchModel, e);
+            throw new RuntimeException("Error searching facture by common: " + commonSearchModel, e);
         }
     }
 }

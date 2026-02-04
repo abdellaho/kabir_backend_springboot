@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7dec5ae2-5b09-4e43-b3cb-7fb699bd6350">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="48"/>
+	<parameter name="fichier" class="java.lang.String"/>
+	<parameter name="montantEnLettre" class="java.lang.String"/>
+	<parameter name="montantTotal" class="java.lang.String"/>
+	<parameter name="lienimage" class="java.lang.String"/>
+	<parameter name="cin" class="java.lang.String"/>
+	<field name="rubrique" class="java.lang.String">
+		<fieldDescription><![CDATA[rubriquebudgaitaire.rubrique]]></fieldDescription>
+	</field>
+	<field name="chapitre" class="java.lang.String">
+		<fieldDescription><![CDATA[rubriquebudgaitaire.chapitre]]></fieldDescription>
+	</field>
+	<field name="article" class="java.lang.String">
+		<fieldDescription><![CDATA[rubriquebudgaitaire.article]]></fieldDescription>
+	</field>
+	<field name="paragraphe" class="java.lang.String">
+		<fieldDescription><![CDATA[rubriquebudgaitaire.paragraphe]]></fieldDescription>
+	</field>
+	<field name="ligne" class="java.lang.String">
+		<fieldDescription><![CDATA[rubriquebudgaitaire.ligne]]></fieldDescription>
+	</field>
+	<field name="nom" class="java.lang.String">
+		<fieldDescription><![CDATA[employee.nom]]></fieldDescription>
+	</field>
+	<field name="prenom" class="java.lang.String">
+		<fieldDescription><![CDATA[employee.prenom]]></fieldDescription>
+	</field>
+	<field name="somme" class="java.lang.Double">
+		<fieldDescription><![CDATA[montanttotalPrc]]></fieldDescription>
+	</field>
+	<field name="objet" class="java.lang.String">
+		<fieldDescription><![CDATA[deplacement.objet]]></fieldDescription>
+	</field>
+	<field name="etablisement" class="java.lang.String">
+		<fieldDescription><![CDATA[deplacement.etablisement.ville.nomville]]></fieldDescription>
+	</field>
+	<field name="virement" class="java.lang.Integer">
+		<fieldDescription><![CDATA[virement]]></fieldDescription>
+	</field>
+	<field name="numCompte" class="java.lang.String">
+		<fieldDescription><![CDATA[employee.numcompte]]></fieldDescription>
+	</field>
+	<field name="banque" class="java.lang.String">
+		<fieldDescription><![CDATA[employee.banque]]></fieldDescription>
+	</field>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="113">
+			<image>
+				<reportElement uuid="4bdfd884-6e90-4f51-a4b8-75f03ed1eecb" x="0" y="0" width="555" height="113"/>
+				<imageExpression><![CDATA[$P{lienimage}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="119">
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="2c21cee6-cdf8-469c-bf1d-991f677122a0" x="107" y="71" width="85" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Black" size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("chapitre")]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="5a3ff3aa-7855-47a3-b334-7e85309d0476" x="107" y="85" width="85" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Black" size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("paragraphe")]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="39e7033b-f9ac-4447-81cd-b08a8fa54daa" x="328" y="71" width="67" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Black" size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("article")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0d79a7e5-f8aa-40d6-8841-cd1700b3dcb5" x="0" y="34" width="554" height="37"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="16" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("creditDponible")]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="6ab79b79-0189-49e7-8fdf-d594efcea0aa" x="328" y="85" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Black" size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("ligne")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b5e1b484-645b-4a7b-87d0-54e65d5fc786" x="192" y="71" width="147" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Black" size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{chapitre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5629ac2f-cf53-4027-b3f8-00df35ce356b" x="192" y="85" width="147" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Black" size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{paragraphe}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="fd868561-1fc5-4a73-8137-d06afc702b20" x="373" y="71" width="119" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Black" size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{article}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="fb66752b-214c-40f1-bb79-1f4cbb6266e5" x="373" y="85" width="119" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Black" size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ligne}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8f4a4d19-d1fb-40a3-b181-30ebb6548866" x="0" y="0" width="554" height="34" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="22" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("odrePayment")]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band/>
+	</columnHeader>
+	<detail>
+		<band height="300">
+			<textField>
+				<reportElement uuid="24585bd0-9501-4618-9317-5537fb91cecd" x="31" y="90" width="510" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nom}+" "+$F{prenom}+$P{cin}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="b519fbf4-65e3-465d-966e-eca119dba229" x="11" y="2" width="61" height="38"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial Black" size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("intitule")]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="f9ed8562-57d3-4c68-89d4-ba30a06c4c99" x="30" y="70" width="524" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("ordreRegisseur")]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="e31699dc-e9d0-4d09-a2df-8075db8dd76f" x="31" y="111" width="90" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("somme")]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="ae4e37d0-a847-4289-bf8a-1cce94700691" x="30" y="131" width="524" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("reglementFraisMission")]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="678442eb-92de-4809-812b-de91be6b5b23" x="30" y="183" width="524" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("representantMontant")]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="8f8f8c77-d495-4453-8e3b-df33e1f1523f" x="295" y="251" width="44" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("fait")]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="ccf7184a-3f34-4480-88d2-f8a47cab8b87" x="295" y="271" width="23" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("le")]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="572e3d16-9687-4643-99a2-1054dcff6dda" x="31" y="203" width="111" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("arreteSomme")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c3be0cce-999f-43f8-97d5-1c482873249f" x="30" y="153" width="524" height="30"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{objet}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="29d66388-c18e-4c8e-bb0d-1607d6fdcd10" x="339" y="251" width="196" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{etablisement}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6a3eee8b-d654-4e50-8054-325766db0106" x="142" y="203" width="413" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{montantEnLettre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="09e01b18-ddd0-41ab-8dad-332d0fb113e3" x="72" y="2" width="483" height="66"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Arial Black" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rubrique}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;(###0.00)">
+				<reportElement uuid="a58efc87-2f1d-40f9-b89b-a41c33b08c94" x="121" y="111" width="420" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{montantTotal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="46df3dcb-8dda-46bd-b6e6-e69f03a8c77a" x="318" y="271" width="110" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[..................................]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="05e28cce-1e9b-440c-99f4-5ef4fb815d6f" x="271" y="-15" width="68" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[new Boolean(($F{virement}.intValue()==1) ? true : false )]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font size="10" isBold="false" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("numcompe")+" :"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="2b9aaaf8-0707-4de8-80bb-a80883a4cd79" x="344" y="-15" width="210" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[new Boolean(($F{virement}.intValue()==1) ? true : false )]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="10" isBold="false" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numCompte}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="0d51d673-c347-4943-b1ec-2851c03ed5d4" x="115" y="-15" width="71" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[new Boolean(($F{virement}.intValue()==1) ? true : false )]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font size="10" isBold="false" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("Banque")+" :"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="bd6624c7-a5eb-4107-a5e3-6ecd2508b1c2" x="192" y="-15" width="95" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[new Boolean(($F{virement}.intValue()==1) ? true : false )]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="10" isBold="false" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{banque}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="81"/>
+	</columnFooter>
+	<pageFooter>
+		<band/>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

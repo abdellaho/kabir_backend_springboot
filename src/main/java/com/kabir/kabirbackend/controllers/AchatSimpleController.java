@@ -2,6 +2,7 @@ package com.kabir.kabirbackend.controllers;
 
 import com.kabir.kabirbackend.config.responses.AchatSimpleResponse;
 import com.kabir.kabirbackend.config.responses.StockDepotResponse;
+import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.AchatSimpleDTO;
 import com.kabir.kabirbackend.dto.AchatSimpleDTO;
 import com.kabir.kabirbackend.service.AchatSimpleService;
@@ -88,6 +89,17 @@ class AchatSimpleController {
         } catch (Exception e) {
             logger.error("Error deleting achat simple by id: {}", id, e);
             throw new RuntimeException("Error deleting achat simple by id: " + id, e);
+        }
+    }
+
+    @GetMapping("/searchByCommon")
+    public ResponseEntity<List<AchatSimpleDTO>> search(@RequestBody CommonSearchModel commonSearchModel) {
+        logger.info("Searching achat simple by common: {}", commonSearchModel);
+        try {
+            return ResponseEntity.ok(achatSimpleService.searchByCommon(commonSearchModel));
+        } catch (Exception e) {
+            logger.error("Error searching achat simple by common: {}", commonSearchModel, e);
+            throw new RuntimeException("Error searching achat simple by common: " + commonSearchModel, e);
         }
     }
 

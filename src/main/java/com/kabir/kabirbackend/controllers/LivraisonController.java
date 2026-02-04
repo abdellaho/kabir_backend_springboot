@@ -1,39 +1,39 @@
 package com.kabir.kabirbackend.controllers;
 
+import com.kabir.kabirbackend.config.enums.ReportTypeEnum;
 import com.kabir.kabirbackend.config.responses.LivraisonResponse;
-import com.kabir.kabirbackend.dto.DetLivraisonDTO;
+import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
+import com.kabir.kabirbackend.config.util.JasperReportsUtil;
 import com.kabir.kabirbackend.dto.LivraisonDTO;
-import com.kabir.kabirbackend.entities.Livraison;
-import com.kabir.kabirbackend.repository.LivraisonRepository;
-import com.kabir.kabirbackend.service.DetLivraisonService;
 import com.kabir.kabirbackend.service.LivraisonService;
-import com.kabir.kabirbackend.service.RepertoireService;
 import jakarta.validation.Valid;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import java.text.MessageFormat;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Controller
 @RequestMapping("/livraison")
 class LivraisonController {
 
     private final Logger logger = LoggerFactory.getLogger(LivraisonController.class);
-    private final LivraisonService livraisonService;
-    private final LivraisonRepository livraisonRepository;
-    private final DetLivraisonService detLivraisonService;
-    private final RepertoireService repertoireService;
+    private static final ResourceBundle bundleFR = ResourceBundle.getBundle("i18n/ApplicationResources", Locale.of("fr"));
 
-    public LivraisonController(LivraisonService livraisonService, DetLivraisonService detLivraisonService, LivraisonRepository livraisonRepository, RepertoireService repertoireService) {
+    private final JasperReportsUtil jasperReportsUtil;
+    private final LivraisonService livraisonService;
+
+    public LivraisonController(LivraisonService livraisonService, JasperReportsUtil jasperReportsUtil) {
         this.livraisonService = livraisonService;
-        this.livraisonRepository = livraisonRepository;
-        this.repertoireService = repertoireService;
-        this.detLivraisonService = detLivraisonService;
+        this.jasperReportsUtil = jasperReportsUtil;
     }
 
     /*
@@ -218,6 +218,45 @@ class LivraisonController {
         } catch (Exception e) {
             logger.error("Error deleting livraison: {}", e.getMessage());
             return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @PostMapping("/searchByCommon")
+    public ResponseEntity<List<LivraisonDTO>> searchByCommon(@RequestBody CommonSearchModel commonSearchModel) {
+        logger.info("Searching livraison by common: {}", commonSearchModel);
+        try {
+            List<LivraisonDTO> livraisons = livraisonService.searchByCommon(commonSearchModel);
+            return ResponseEntity.ok(livraisons);
+        } catch (Exception e) {
+            logger.error("Error searching livraison by common: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @PostMapping("/imprimer")
+    public ResponseEntity<?> imprimerEmployees(@RequestBody List<LivraisonDTO> list) {
+        logger.info("Request imprimer list livraison : {}", list);
+        Map<String, Object> params = new HashMap<>();
+        try {
+            params.put("fichier", bundleFR.getBaseBundleName());
+            params.put("titleText", bundleFR.getString("listeemplo"));
+            //params.put("lienimage", "");
+            String logo = "";
+            byte[] bytes = jasperReportsUtil.jasperReportInBytes(list, params, "listeemployeet",  ReportTypeEnum.PDF , logo);
+            if (null != bytes) {
+                ByteArrayResource resource = new ByteArrayResource(bytes);
+                String fileName = MessageFormat.format("livraison_{0}.{1}", LocalDateTime.now(), "pdf");
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION, MessageFormat.format("attachment; filename=\"{0}\"", fileName))
+                        .contentLength(resource.contentLength())
+                        .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                        .body(resource);
+            } else {
+                throw new Exception("File Download Failed");
+            }
+        } catch (Exception e) {
+            logger.info("Error imprimer list livraison: {}", e.getMessage());
+            return ResponseEntity.internalServerError().build();
         }
     }
 }

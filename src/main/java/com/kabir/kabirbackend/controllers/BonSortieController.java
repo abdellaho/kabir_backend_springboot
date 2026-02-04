@@ -1,6 +1,7 @@
 package com.kabir.kabirbackend.controllers;
 
 import com.kabir.kabirbackend.config.responses.BonSortieResponse;
+import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.BonSortieDTO;
 import com.kabir.kabirbackend.dto.FactureDTO;
 import com.kabir.kabirbackend.service.BonSortieService;
@@ -107,6 +108,17 @@ public class BonSortieController {
         } catch (Exception e) {
             logger.error("Error getting last num bon sortie: {}", e.getMessage());
             return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @GetMapping("/searchByCommon")
+    public ResponseEntity<List<BonSortieDTO>> search(@RequestBody CommonSearchModel commonSearchModel) {
+        logger.info("Searching bon sortie by common: {}", commonSearchModel);
+        try {
+            return ResponseEntity.ok(bonSortieService.searchByCommon(commonSearchModel));
+        } catch (Exception e) {
+            logger.error("Error searching bon sortie by common: {}", commonSearchModel, e);
+            throw new RuntimeException("Error searching bon sortie by common: " + commonSearchModel, e);
         }
     }
 }

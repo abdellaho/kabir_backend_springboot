@@ -3,16 +3,15 @@ package com.kabir.kabirbackend.service;
 import com.kabir.kabirbackend.config.enums.TypeQteToUpdate;
 import com.kabir.kabirbackend.config.requests.RequestStockQte;
 import com.kabir.kabirbackend.config.responses.BonSortieResponse;
-import com.kabir.kabirbackend.dto.DetailBonSortieDTO;
+import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.BonSortieDTO;
-import com.kabir.kabirbackend.dto.FactureDTO;
-import com.kabir.kabirbackend.dto.LivraisonDTO;
+import com.kabir.kabirbackend.dto.DetailBonSortieDTO;
 import com.kabir.kabirbackend.entities.*;
-import com.kabir.kabirbackend.mapper.DetailBonSortieMapper;
 import com.kabir.kabirbackend.mapper.BonSortieMapper;
+import com.kabir.kabirbackend.mapper.DetailBonSortieMapper;
 import com.kabir.kabirbackend.repository.*;
 import com.kabir.kabirbackend.service.interfaces.IBonSortieService;
-
+import com.kabir.kabirbackend.specifications.BonSortieSpecification;
 import lombok.Data;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
@@ -20,8 +19,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -243,6 +240,14 @@ public class BonSortieService implements IBonSortieService {
         logger.info("Getting last num bon sortie");
         //LocalDate localDate = bonSortieDTO.getDateOperation().atZone(ZoneId.systemDefault()).toLocalDate();
         return bonSortieRepository.findMaxNumBonSortie().map(l -> l + 1).orElse(1);
+    }
+
+    @Override
+    public List<BonSortieDTO> searchByCommon(CommonSearchModel commonSearchModel) {
+        logger.info("Searching bon sortie by common: {}", commonSearchModel);
+        return bonSortieRepository.findAll(BonSortieSpecification.builder().build().searchByCommon(commonSearchModel)).stream()
+                .map(bonSortieMapper::toDTO)
+                .toList();
     }
 
 }

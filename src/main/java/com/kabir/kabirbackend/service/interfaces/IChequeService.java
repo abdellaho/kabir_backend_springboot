@@ -1,5 +1,6 @@
 package com.kabir.kabirbackend.service.interfaces;
 
+import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.ChequeDTO;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface IChequeService {
     List<ChequeDTO> search(ChequeDTO chequeDTO);
 
     int getLastNum();
+
+    List<ChequeDTO> searchByCommon(CommonSearchModel commonSearchModel);
 }

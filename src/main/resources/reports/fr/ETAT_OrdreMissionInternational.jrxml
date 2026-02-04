@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1f3e73f0-57ce-4de1-9550-e9968635cec4">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="ireport.scriptlethandling" value="0"/>
+	<parameter name="fichier" class="java.lang.String"/>
+	<parameter name="lienimage" class="java.lang.String"/>
+	<field name="trajet" class="java.lang.String">
+		<fieldDescription><![CDATA[deplacement.trajet]]></fieldDescription>
+	</field>
+	<field name="objet" class="java.lang.String">
+		<fieldDescription><![CDATA[deplacement.objet]]></fieldDescription>
+	</field>
+	<field name="nom" class="java.lang.String">
+		<fieldDescription><![CDATA[employee.nom]]></fieldDescription>
+	</field>
+	<field name="prenom" class="java.lang.String">
+		<fieldDescription><![CDATA[employee.prenom]]></fieldDescription>
+	</field>
+	<field name="nbrJour" class="java.lang.Integer">
+		<fieldDescription><![CDATA[deplacement.nbrjour]]></fieldDescription>
+	</field>
+	<field name="dateDebut" class="java.util.Date">
+		<fieldDescription><![CDATA[deplacement.datedebut]]></fieldDescription>
+	</field>
+	<field name="dateFin" class="java.util.Date">
+		<fieldDescription><![CDATA[deplacement.datefin]]></fieldDescription>
+	</field>
+	<field name="chapitre" class="java.lang.String">
+		<fieldDescription><![CDATA[deplacement.rubriquebudgaitaire.chapitre]]></fieldDescription>
+	</field>
+	<field name="article" class="java.lang.String">
+		<fieldDescription><![CDATA[deplacement.rubriquebudgaitaire.article]]></fieldDescription>
+	</field>
+	<field name="paragraphe" class="java.lang.String">
+		<fieldDescription><![CDATA[deplacement.rubriquebudgaitaire.paragraphe]]></fieldDescription>
+	</field>
+	<field name="ligne" class="java.lang.String">
+		<fieldDescription><![CDATA[deplacement.rubriquebudgaitaire.ligne]]></fieldDescription>
+	</field>
+	<field name="administration" class="java.lang.String">
+		<fieldDescription><![CDATA[employee.administration.nomadministration]]></fieldDescription>
+	</field>
+	<background>
+		<band height="1"/>
+	</background>
+	<title>
+		<band height="27"/>
+	</title>
+	<pageHeader>
+		<band height="193">
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="0" y="126" width="555" height="67" backcolor="#FFFFFF" uuid="0300e8d7-c527-445e-987f-105dabc4dcb2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("titlefraisMission")]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="0" y="0" width="555" height="112" uuid="e440741f-4928-43b3-baf8-5a56609158c3"/>
+				<imageExpression><![CDATA[$P{lienimage}]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band/>
+	</columnHeader>
+	<detail>
+		<band height="299">
+			<textField isBlankWhenNull="true">
+				<reportElement x="593" y="40" width="111" height="20" uuid="10f1f5ef-cad4-4529-8f9b-8786d3284486"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nom}+" "+$F{prenom}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="593" y="94" width="148" height="20" uuid="0b4006ce-efe8-4edc-bdaf-a321d2556bb6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["/"+$F{administration}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="105" y="114" width="450" height="20" uuid="704cfa59-1f75-426b-8fa9-aa96067822ce"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{objet}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="105" y="88" width="450" height="20" uuid="eb832139-2519-40cd-9545-86efbf579ca5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nom}+" "+$F{prenom}+"/"+$F{administration}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="626" y="70" width="357" height="20" uuid="ef64027f-0e39-4d93-a401-5fa44c2c1305"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{trajet}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="105" y="141" width="450" height="20" uuid="ed60fc46-3d0f-49d3-ad43-dcb08862e955"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{trajet}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="105" y="167" width="167" height="20" uuid="e2a8cd89-5c67-4104-a5e5-365792bba1ed"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nbrJour}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="105" y="190" width="167" height="20" uuid="21c85e81-eda5-4485-a4b0-e03600529f0b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dateDebut}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="105" y="213" width="167" height="20" uuid="f938894f-ee06-449e-bfe4-07b22605cc12"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dateFin}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="61" y="237" width="401" height="20" uuid="e90db006-68e6-46a5-b11a-01709c0b758c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("indemnitesDepInter")]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="61" y="262" width="100" height="20" uuid="08e73cc9-03fa-4f5f-9291-6394109f2ae8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("chapitre")+" :"+$F{chapitre}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="172" y="262" width="100" height="20" uuid="18f5bc17-123a-4c9f-9158-39ee04cf58bc"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("article")+" :"+$F{article}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="283" y="262" width="100" height="20" uuid="b8329467-2c7f-44f7-81d3-16b799ee784e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("paragraphe")+" :"+$F{paragraphe}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="394" y="262" width="100" height="20" uuid="56e0f789-8654-4326-95fb-25f95f475272"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("ligne")+" :"+$F{ligne}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="167" width="100" height="20" uuid="39e1a2c3-f753-4f4c-af2f-306596559623"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Nbr Jours :"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="190" width="100" height="20" uuid="e355de68-58af-4aae-a78c-2427bcd3fbd4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Date Debut :"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="213" width="100" height="20" uuid="cd46bcd6-6488-419d-8cbb-7bfa3e20c24f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Date Fin :"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="141" width="100" height="20" uuid="0008200b-ff47-4167-81b3-66d44ca2ec3e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Déstinations :"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="88" width="100" height="20" uuid="d3ea7438-e383-4eec-80be-561204e31ed5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Déstinations :"]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="114" width="100" height="20" uuid="25ed4026-afe7-483a-9c46-4c4fb086017e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Objet :"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="13"/>
+	</columnFooter>
+	<pageFooter>
+		<band/>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

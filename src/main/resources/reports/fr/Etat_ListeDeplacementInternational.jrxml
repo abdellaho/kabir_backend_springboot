@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e4c8a96e-bab1-4a5e-81c1-be2ebcd653c1">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fichier" class="java.lang.String"/>
+	<parameter name="lienimage" class="java.lang.String"/>
+	<field name="trajet" class="java.lang.String">
+		<fieldDescription><![CDATA[trajet]]></fieldDescription>
+	</field>
+	<field name="dateDebut" class="java.time.LocalDate">
+		<fieldDescription><![CDATA[dateDebut]]></fieldDescription>
+	</field>
+	<field name="dateFin" class="java.time.LocalDate">
+		<fieldDescription><![CDATA[dateFin]]></fieldDescription>
+	</field>
+	<field name="nbrJour" class="java.lang.Integer">
+		<fieldDescription><![CDATA[nbrJour]]></fieldDescription>
+	</field>
+	<field name="FraisTsp" class="java.lang.Double">
+		<fieldDescription><![CDATA[montantTransport]]></fieldDescription>
+	</field>
+	<field name="FraisDep" class="java.lang.Double">
+		<fieldDescription><![CDATA[montantTotalPrc]]></fieldDescription>
+	</field>
+	<field name="allParticipant" class="java.lang.String">
+		<fieldDescription><![CDATA[allParticipant]]></fieldDescription>
+	</field>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="101">
+			<image>
+				<reportElement x="0" y="0" width="555" height="101" uuid="2f53845f-0b87-4911-a290-18af19972f92"/>
+				<imageExpression><![CDATA[$P{lienimage}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="52">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="555" height="52" backcolor="#FFFFFF" uuid="7a45d61b-1675-4dad-bed4-1f53ebd7c6b6"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("listeDeplacements")]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="0" width="174" height="20" backcolor="#CCCCCC" uuid="cdd72016-a1a1-41ef-9b7f-e6b359aa3849"/>
+				<box>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+					<topPen lineWidth="0.5" lineColor="#999999"/>
+					<leftPen lineWidth="0.5" lineColor="#999999"/>
+					<bottomPen lineWidth="0.5" lineColor="#999999"/>
+					<rightPen lineWidth="0.5" lineColor="#999999"/>
+				</box>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("trajet")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="174" y="0" width="65" height="20" backcolor="#CCCCCC" uuid="e2d974bc-d6f6-44c7-a32c-69c48443c233"/>
+				<box>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+					<topPen lineWidth="0.5" lineColor="#999999"/>
+					<leftPen lineWidth="0.5" lineColor="#999999"/>
+					<bottomPen lineWidth="0.5" lineColor="#999999"/>
+					<rightPen lineWidth="0.5" lineColor="#999999"/>
+				</box>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("datedebut")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="239" y="0" width="65" height="20" backcolor="#CCCCCC" uuid="b60097d2-d900-4f34-b3f8-2613b295bf52"/>
+				<box>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+					<topPen lineWidth="0.5" lineColor="#999999"/>
+					<leftPen lineWidth="0.5" lineColor="#999999"/>
+					<bottomPen lineWidth="0.5" lineColor="#999999"/>
+					<rightPen lineWidth="0.5" lineColor="#999999"/>
+				</box>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("datefin")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="304" y="0" width="251" height="20" backcolor="#CCCCCC" uuid="c2b40dae-e8e8-4f92-b022-62c08192627e"/>
+				<box>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+					<topPen lineWidth="0.5" lineColor="#999999"/>
+					<leftPen lineWidth="0.5" lineColor="#999999"/>
+					<bottomPen lineWidth="0.5" lineColor="#999999"/>
+					<rightPen lineWidth="0.5" lineColor="#999999"/>
+				</box>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("participant")]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21">
+			<textField pattern="">
+				<reportElement x="0" y="-1" width="174" height="22" uuid="8a4c1c1e-337a-40d8-a59c-8d1fbbb6ce9b"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{trajet}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="174" y="-1" width="65" height="22" uuid="22fcef6e-89dc-4fc2-81e9-a2baa5569596"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{dateDebut}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="239" y="-1" width="65" height="22" uuid="d7c6e437-a7f5-42ae-9d82-a4accab47ff0"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{dateFin}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="304" y="-1" width="251" height="22" uuid="0af10978-2c33-4f33-9d94-b32bc01d4f33"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{allParticipant}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="11"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="4"/>
+	</pageFooter>
+	<summary>
+		<band height="6"/>
+	</summary>
+</jasperReport>

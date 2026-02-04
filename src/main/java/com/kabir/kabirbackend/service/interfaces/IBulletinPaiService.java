@@ -2,6 +2,7 @@ package com.kabir.kabirbackend.service.interfaces;
 
 import com.kabir.kabirbackend.config.requests.BulletinPaiRequest;
 import com.kabir.kabirbackend.config.responses.BulletinPaiResponse;
+import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.BulletinPaiDTO;
 
 import java.util.List;
@@ -26,4 +27,6 @@ public interface IBulletinPaiService {
     BulletinPaiResponse getDetails(BulletinPaiRequest bulletinPaiRequest);
 
     BulletinPaiResponse getDetailsOfLivraison(BulletinPaiRequest bulletinPaiRequest);
+
+    List<BulletinPaiDTO> searchByCommon(CommonSearchModel commonSearchModel);
 }

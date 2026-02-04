@@ -1,5 +1,6 @@
 package com.kabir.kabirbackend.service;
 
+import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.AbsenceDTO;
 import com.kabir.kabirbackend.entities.Absence;
 import com.kabir.kabirbackend.mapper.AbsenceMapper;
@@ -62,6 +63,14 @@ public class AbsenceService implements IAbsenceService {
     public List<AbsenceDTO> search(AbsenceDTO absenceDTO) {
         logger.info("Searching absence by date and personnel id with AbsenceSpecification builder {}", absenceDTO);
         return absenceRepository.findAll(AbsenceSpecification.builder().absenceDTO(absenceDTO).build()).stream()
+                .map(absenceMapper::toAbsenceDTO)
+                .toList();
+    }
+
+    @Override
+    public List<AbsenceDTO> searchByCommon(CommonSearchModel commonSearchModel) {
+        logger.info("Searching absence by common: {}", commonSearchModel);
+        return absenceRepository.findAll(AbsenceSpecification.builder().build().searchByCommon(commonSearchModel)).stream()
                 .map(absenceMapper::toAbsenceDTO)
                 .toList();
     }

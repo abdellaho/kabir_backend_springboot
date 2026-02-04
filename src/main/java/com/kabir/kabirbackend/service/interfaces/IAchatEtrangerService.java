@@ -1,6 +1,8 @@
 package com.kabir.kabirbackend.service.interfaces;
 
 import com.kabir.kabirbackend.config.responses.AchatEtrangerResponse;
+import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
+import com.kabir.kabirbackend.dto.AbsenceDTO;
 import com.kabir.kabirbackend.dto.AchatEtrangerDTO;
 
 import java.util.List;
@@ -21,4 +23,6 @@ public interface IAchatEtrangerService {
     Integer getLastNumAchatEtranger(AchatEtrangerDTO achatEtrangerDTO);
 
     boolean exist(AchatEtrangerDTO achatEtrangerDTO);
+
+    List<AchatEtrangerDTO> searchByCommon(CommonSearchModel commonSearchModel);
 }

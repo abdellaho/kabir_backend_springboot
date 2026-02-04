@@ -1,6 +1,7 @@
 package com.kabir.kabirbackend.service.interfaces;
 
 import com.kabir.kabirbackend.config.responses.AchatFactureResponse;
+import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.AchatFactureDTO;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface IAchatFactureService {
     Integer getLastNumAchatFacture(AchatFactureDTO achatFactureDTO);
 
     boolean exist(AchatFactureDTO achatFactureDTO);
+
+    List<AchatFactureDTO> searchByCommon(CommonSearchModel commonSearchModel);
 }

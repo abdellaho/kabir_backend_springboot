@@ -2,6 +2,8 @@ package com.kabir.kabirbackend.controllers;
 
 import com.kabir.kabirbackend.config.responses.AchatFactureResponse;
 import com.kabir.kabirbackend.config.responses.StockDepotResponse;
+import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
+import com.kabir.kabirbackend.dto.AbsenceDTO;
 import com.kabir.kabirbackend.dto.AchatFactureDTO;
 import com.kabir.kabirbackend.dto.AchatFactureDTO;
 import com.kabir.kabirbackend.dto.LivraisonDTO;
@@ -112,6 +114,17 @@ class AchatFactureController {
         } catch (Exception e) {
             logger.error("Error searching if an existing achat facture: {}", e.getMessage());
             return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @PostMapping("/searchByCommon")
+    public ResponseEntity<List<AchatFactureDTO>> searchByCommon(@RequestBody CommonSearchModel commonSearchModel) {
+        logger.info("Searching achat facture by common: {}", commonSearchModel);
+        try {
+            return ResponseEntity.ok(achatFactureService.searchByCommon(commonSearchModel));
+        } catch (Exception e) {
+            logger.error("Error searching achat facture by common: {}", commonSearchModel, e);
+            throw new RuntimeException("Error searching achat facture by common: " + commonSearchModel, e);
         }
     }
 

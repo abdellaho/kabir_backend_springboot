@@ -3,6 +3,7 @@ package com.kabir.kabirbackend.service;
 
 import com.kabir.kabirbackend.config.requests.BulletinPaiRequest;
 import com.kabir.kabirbackend.config.responses.BulletinPaiResponse;
+import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.DetBulletinLivraisonDTO;
 import com.kabir.kabirbackend.dto.DetBulletinPaiDTO;
 import com.kabir.kabirbackend.dto.BulletinPaiDTO;
@@ -280,5 +281,11 @@ public class BulletinPaiService implements IBulletinPaiService {
         listDetBulletinPaiAvecMontant.addAll(listDetBulletinPaiSansMontant);
 
         return new BulletinPaiResponse(null, listDetBulletinPaiAvecMontant, listDetBulletinPaiSansMontant, List.of());
+    }
+
+    @Override
+    public List<BulletinPaiDTO> searchByCommon(CommonSearchModel commonSearchModel) {
+        logger.info("Searching bulletinPai by common: {}", commonSearchModel);
+        return bulletinPaiRepository.findAll(BulletinPaiSpecification.builder().bulletinPaiDTO(null).build().searchByCommon(commonSearchModel)).stream().map(bulletinPaiMapper::toDto).toList();
     }
 }

@@ -5,6 +5,7 @@ import com.kabir.kabirbackend.config.enums.StockOperation;
 import com.kabir.kabirbackend.config.enums.TypeQteToUpdate;
 import com.kabir.kabirbackend.config.requests.RequestStockQte;
 import com.kabir.kabirbackend.config.responses.FactureResponse;
+import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.DetFactureDTO;
 import com.kabir.kabirbackend.dto.FactureDTO;
 import com.kabir.kabirbackend.entities.*;
@@ -247,5 +248,10 @@ public class FactureService implements IFactureService {
         }
 
         return qte;
+    }
+
+    public List<FactureDTO> searchByCommon(CommonSearchModel commonSearchModel) {
+        logger.info("Searching facture by common: {}", commonSearchModel);
+        return factureRepository.findAll(FactureSpecification.builder().build().searchByCommon(commonSearchModel)).stream().map(factureMapper::toFactureDTO).toList();
     }
 }

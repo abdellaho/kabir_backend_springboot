@@ -5,6 +5,7 @@ import com.kabir.kabirbackend.config.enums.StockOperation;
 import com.kabir.kabirbackend.config.enums.TypeQteToUpdate;
 import com.kabir.kabirbackend.config.responses.AchatFactureResponse;
 import com.kabir.kabirbackend.config.requests.RequestStockQte;
+import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.AchatFactureDTO;
 import com.kabir.kabirbackend.dto.DetAchatFactureDTO;
 import com.kabir.kabirbackend.entities.*;
@@ -252,5 +253,12 @@ public class AchatFactureService implements IAchatFactureService {
     public boolean exist(AchatFactureDTO achatFactureDTO) {
         List<AchatFacture> list = achatFactureRepository.findAll(AchatFactureSpecification.builder().achatFactureDTO(achatFactureDTO).build());
         return CollectionUtils.isNotEmpty(list);
+    }
+
+    @Override
+    public List<AchatFactureDTO> searchByCommon(CommonSearchModel commonSearchModel) {
+        return achatFactureRepository.findAll(AchatFactureSpecification.builder().build().searchByCommon(commonSearchModel)).stream()
+                .map(achatFactureMapper::toAchatFactureDTO)
+                .toList();
     }
 }

@@ -2,6 +2,7 @@ package com.kabir.kabirbackend.controllers;
 
 import com.kabir.kabirbackend.config.requests.BulletinPaiRequest;
 import com.kabir.kabirbackend.config.responses.BulletinPaiResponse;
+import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.BulletinPaiDTO;
 import com.kabir.kabirbackend.service.BulletinPaiService;
 import org.slf4j.Logger;
@@ -128,6 +129,17 @@ class BulletinPaiController {
         } catch (Exception e) {
             logger.error("Error getting details of livraison bulletinPai : {}", bulletinPaiRequest, e);
             throw new RuntimeException("Error getting details of livraison bulletinPai : " + bulletinPaiRequest, e);
+        }
+    }
+
+    @PostMapping("/searchByCommon")
+    public ResponseEntity<List<BulletinPaiDTO>> search(@RequestBody CommonSearchModel commonSearchModel) {
+        logger.info("Searching bulletinPai by common: {}", commonSearchModel);
+        try {
+            return ResponseEntity.ok(bulletinPaiService.searchByCommon(commonSearchModel));
+        } catch (Exception e) {
+            logger.error("Error searching bulletinPai by common: {}", commonSearchModel, e);
+            throw new RuntimeException("Error searching bulletinPai by common: " + commonSearchModel, e);
         }
     }
 

@@ -5,6 +5,7 @@ import com.kabir.kabirbackend.config.enums.StockOperation;
 import com.kabir.kabirbackend.config.enums.TypeQteToUpdate;
 import com.kabir.kabirbackend.config.requests.RequestStockQte;
 import com.kabir.kabirbackend.config.responses.AchatEtrangerResponse;
+import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.AchatEtrangerDTO;
 import com.kabir.kabirbackend.dto.DetAchatEtrangerDTO;
 import com.kabir.kabirbackend.entities.*;
@@ -255,5 +256,13 @@ public class AchatEtrangerService implements IAchatEtrangerService {
     public boolean exist(AchatEtrangerDTO achatEtrangerDTO) {
         List<AchatEtranger> list = achatEtrangerRepository.findAll(AchatEtrangerSpecification.builder().achatEtrangerDTO(achatEtrangerDTO).build());
         return CollectionUtils.isNotEmpty(list);
+    }
+
+    @Override
+    public List<AchatEtrangerDTO> searchByCommon(CommonSearchModel commonSearchModel) {
+        logger.info("Searching absence by common: {}", commonSearchModel);
+        return achatEtrangerRepository.findAll(AchatEtrangerSpecification.builder().build().searchByCommon(commonSearchModel)).stream()
+                .map(achatEtrangerMapper::toDto)
+                .toList();
     }
 }

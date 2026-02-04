@@ -1,6 +1,7 @@
 package com.kabir.kabirbackend.service;
 
 
+import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.config.searchEntities.CompteCaisseSearch;
 import com.kabir.kabirbackend.dto.CompteCaisseDTO;
 import com.kabir.kabirbackend.entities.CompteCaisse;
@@ -64,6 +65,14 @@ public class CompteCaisseService implements ICompteCaisseService {
     public List<CompteCaisseDTO> search(CompteCaisseSearch compteCaisseSearch) {
         logger.info("Searching compteCaisse by compteCaisseSearch builder {}", compteCaisseSearch);
         return compteCaisseRepository.findAll(CompteCaisseSpecification.builder().compteCaisseSearch(compteCaisseSearch).build()).stream()
+                .map(compteCaisseMapper::toCompteCaisseDTO)
+                .toList();
+    }
+
+    @Override
+    public List<CompteCaisseDTO> searchByCommon(CommonSearchModel commonSearchModel) {
+        logger.info("Searching compte caisse by common: {}", commonSearchModel);
+        return compteCaisseRepository.findAll(CompteCaisseSpecification.builder().build().searchByCommon(commonSearchModel)).stream()
                 .map(compteCaisseMapper::toCompteCaisseDTO)
                 .toList();
     }

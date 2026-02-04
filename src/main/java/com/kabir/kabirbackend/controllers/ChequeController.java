@@ -1,6 +1,7 @@
 package com.kabir.kabirbackend.controllers;
 
 
+import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.ChequeDTO;
 import com.kabir.kabirbackend.service.ChequeService;
 import jakarta.validation.Valid;
@@ -117,6 +118,17 @@ public class ChequeController {
         } catch (Exception e) {
             logger.error("Error getting last num cheque", e);
             throw new RuntimeException("Error getting last num cheque", e);
+        }
+    }
+
+    @PostMapping("/searchByCommon")
+    public ResponseEntity<List<ChequeDTO>> searchByCommon(@RequestBody CommonSearchModel commonSearchModel) {
+        logger.info("Searching cheque by common: {}", commonSearchModel);
+        try {
+            return ResponseEntity.ok(chequeService.searchByCommon(commonSearchModel));
+        } catch (Exception e) {
+            logger.error("Error searching cheque by common: {}", commonSearchModel, e);
+            throw new RuntimeException("Error searching cheque by common: " + commonSearchModel, e);
         }
     }
 

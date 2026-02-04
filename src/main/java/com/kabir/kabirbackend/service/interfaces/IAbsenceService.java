@@ -1,5 +1,6 @@
 package com.kabir.kabirbackend.service.interfaces;
 
+import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.AbsenceDTO;
 
 import java.util.List;
@@ -11,4 +12,6 @@ public interface IAbsenceService {
     public List<AbsenceDTO> findAll();
     public void delete(Long id);
     public List<AbsenceDTO> search(AbsenceDTO absenceDTO);
+
+    List<AbsenceDTO> searchByCommon(CommonSearchModel commonSearchModel);
 }
