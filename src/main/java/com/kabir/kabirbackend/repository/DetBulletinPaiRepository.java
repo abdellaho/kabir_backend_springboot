@@ -21,7 +21,7 @@ public interface DetBulletinPaiRepository extends JpaRepository<DetBulletinPai, 
     List<DetBulletinPai> findByBulletinPaiId(@Param("bulletinPaiId") Long id);
 
     @Query("""
-        select new com.kabir.kabirbackend.dto.DetBulletinPaiDTO(s.id, sum(d.prixVente), sum(d.qteLivrer), s.pvttc, sum(d.remiseLivraison),
+        select new com.kabir.kabirbackend.dto.DetBulletinPaiDTO(s.id, s.designation, sum(d.prixVente), sum(d.qteLivrer), s.pvttc, sum(d.remiseLivraison),
             sum(d.montantProduit), sum(d.beneficeDH), s.commission, false)
         from DetLivraison d
         join d.stock s

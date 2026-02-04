@@ -37,6 +37,7 @@ public class DetBulletinPaiDTO implements Serializable {
 
     public DetBulletinPaiDTO(
             Long produitId,
+            String produitDesignation,
             double prixlivraison,
             long qtevendu,
             double prixvente,
@@ -48,6 +49,7 @@ public class DetBulletinPaiDTO implements Serializable {
     ) {
 
         this.produitId = produitId;
+        this.produitDesignation = produitDesignation;
         this.prixlivraison = prixlivraison;
         this.qtevendu = (int) qtevendu;
         this.prixvente = prixvente;
