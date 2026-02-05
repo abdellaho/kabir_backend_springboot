@@ -22,4 +22,5 @@ public class AbsenceDTO implements Serializable {
     Long personnelOperationId;
     @NotNull
     Long personnelId;
+    String personnelDesignation;
 }

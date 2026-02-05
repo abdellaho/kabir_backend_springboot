@@ -3,8 +3,11 @@ package com.kabir.kabirbackend.service;
 import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.AbsenceDTO;
 import com.kabir.kabirbackend.entities.Absence;
+import com.kabir.kabirbackend.entities.Personnel;
+import com.kabir.kabirbackend.entities.Repertoire;
 import com.kabir.kabirbackend.mapper.AbsenceMapper;
 import com.kabir.kabirbackend.repository.AbsenceRepository;
+import com.kabir.kabirbackend.repository.PersonnelRepository;
 import com.kabir.kabirbackend.service.interfaces.IAbsenceService;
 import com.kabir.kabirbackend.specifications.AbsenceSpecification;
 import org.slf4j.Logger;
@@ -12,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AbsenceService implements IAbsenceService {
@@ -19,18 +23,26 @@ public class AbsenceService implements IAbsenceService {
     private static final Logger logger = LoggerFactory.getLogger(AbsenceService.class);
     private final AbsenceRepository absenceRepository;
     private final AbsenceMapper absenceMapper;
+    private final PersonnelRepository personnelRepository;
 
-    public AbsenceService(AbsenceRepository absenceRepository, AbsenceMapper absenceMapper) {
+    public AbsenceService(AbsenceRepository absenceRepository, AbsenceMapper absenceMapper, PersonnelRepository personnelRepository) {
         this.absenceRepository = absenceRepository;
         this.absenceMapper = absenceMapper;
+        this.personnelRepository = personnelRepository;
     }
 
     @Override
     public AbsenceDTO save(AbsenceDTO absenceDTO) {
         logger.info("Saving absence: {}", absenceDTO);
         try {
-            Absence absence = absenceRepository.save(absenceMapper.toAbsence(absenceDTO));
-            return absenceMapper.toAbsenceDTO(absence);
+            Optional<Personnel> optionalOperateur = personnelRepository.findById(absenceDTO.getPersonnelOperationId());
+            Optional<Personnel> optionalPersonnel = personnelRepository.findById(absenceDTO.getPersonnelId());
+
+            Absence absence = absenceMapper.toAbsence(absenceDTO);
+            absence.setPersonnelOperation(optionalOperateur.orElse(null));
+            absence.setPersonnel(optionalPersonnel.orElse(null));
+
+            return absenceMapper.toAbsenceDTO(absenceRepository.save(absence));
         } catch (Exception e) {
             logger.error("Error saving absence", e);
             throw new RuntimeException("Error saving absence", e);

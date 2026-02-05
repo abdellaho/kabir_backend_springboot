@@ -23,6 +23,7 @@ public class DetAchatEtrangerDTO implements Serializable {
     private double stockPvttc;
     private int stockQteStock;
     private int stockQteFacturer;
+    private int stockQteStockImport;
     private Long achatEtrangerId;
     private int qteAchat;
     private int qteStock;

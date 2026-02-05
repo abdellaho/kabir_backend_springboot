@@ -62,6 +62,14 @@ public class Stock {
     private int qteStock;
 
     @NotNull
+    @Column(name = "qteFacturer", nullable = false)
+    private int qteFacturer;
+
+    @NotNull
+    @Column(name = "qteStockImport", nullable = false)
+    private int qteStockImport;
+
+    @NotNull
     @Column(name = "qteSortie", nullable = false, columnDefinition = "int default 0")
     private int qteSortie;
 
@@ -80,10 +88,6 @@ public class Stock {
     @NotNull
     @Column(name = "qtePVMin4", nullable = false)
     private int qtePVMin4;
-
-    @NotNull
-    @Column(name = "qteFacturer", nullable = false)
-    private int qteFacturer;
 
     @NotNull
     @Column(name = "prixVentMin1", nullable = false, precision = 10)
@@ -134,10 +138,6 @@ public class Stock {
     @ColumnDefault("0")
     @Column(name = "supprimer", nullable = false)
     private boolean supprimer = false;
-
-    @NotNull
-    @Column(name = "qteStockImport", nullable = false)
-    private int qteStockImport;
 
     @NotNull
     @Column(name = "montant1", nullable = false, precision = 10)
