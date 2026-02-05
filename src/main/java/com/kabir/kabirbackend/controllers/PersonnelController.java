@@ -244,11 +244,11 @@ class PersonnelController {
     }
 
     @PostMapping("/auth/refresh-token")
-    public ResponseEntity<String> refreshToken(@RequestBody RefreshToken refreshToken) {
+    public ResponseEntity<LoginResponse> refreshToken(@RequestBody RefreshToken refreshToken) {
         logger.info("Refreshing token");
         try {
             String token = jwtUtil.generateToken(jwtUtil.getUsernameFromToken(refreshToken.refreshToken()));
-            return ResponseEntity.ok(token);
+            return ResponseEntity.ok(new LoginResponse(token, token, jwtUtil.getJwtExpirationMs(), null));
         } catch (Exception e) {
             logger.error("Error refreshing token: {}", e.getMessage());
             return ResponseEntity.badRequest().body(null);

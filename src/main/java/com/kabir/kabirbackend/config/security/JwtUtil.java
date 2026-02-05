@@ -27,6 +27,9 @@ public class JwtUtil {
     @Getter
     @Value("${my-jwt-expiration}")
     private int jwtExpirationMs;
+    @Getter
+    @Value("${my-refresh-token-expiration}")
+    private int refreshTokenExpirationMs;
     private SecretKey key;
     // Initializes the key after the class is instantiated and the jwtSecret is injected,
     // preventing the repeated creation of the key and enhancing performance
@@ -37,10 +40,20 @@ public class JwtUtil {
 
     // Generate JWT token
     public String generateToken(String username) {
+        //int expiration = rememberMe ? refreshTokenExpirationMs : jwtExpirationMs;
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    public String generateRefreshToken(String username, boolean rememberMe) {
+        return Jwts.builder()
+                .setSubject(username)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + refreshTokenExpirationMs))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
