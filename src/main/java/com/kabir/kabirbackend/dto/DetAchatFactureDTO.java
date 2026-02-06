@@ -31,5 +31,7 @@ public class DetAchatFactureDTO implements Serializable {
     private String achatFactureCodeAF;
     private Long stockId;
     private String stockDesignation;
+    private double stockPvttc;
     private int stockQteStock;
+    private int stockQteFacturer;
 }

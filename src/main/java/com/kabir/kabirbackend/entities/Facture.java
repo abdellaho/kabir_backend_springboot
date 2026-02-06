@@ -42,13 +42,13 @@ public class Facture {
     @Column(name = "dateReglement", nullable = false)
     private LocalDate dateReglement;
 
-    @Column(name = "dateReglement2", nullable = false)
+    @Column(name = "dateReglement2")
     private LocalDate dateReglement2;
 
-    @Column(name = "dateReglement3", nullable = false)
+    @Column(name = "dateReglement3")
     private LocalDate dateReglement3;
 
-    @Column(name = "dateReglement4", nullable = false)
+    @Column(name = "dateReglement4")
     private LocalDate dateReglement4;
 
     @NotNull

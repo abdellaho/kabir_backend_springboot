@@ -69,7 +69,8 @@ public class LivraisonDTO implements Serializable {
     @Min(value = 1)
     @NotNull
     Long repertoireId;
-    Long repertoireIdOld;
     String repertoireDesignation;
     String repertoireObservation;
+    Long repertoireIdOld;
+
 }

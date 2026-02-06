@@ -4,8 +4,10 @@ package com.kabir.kabirbackend.service;
 import com.kabir.kabirbackend.config.enums.TypeQteToUpdate;
 import com.kabir.kabirbackend.config.requests.RequestStockQte;
 import com.kabir.kabirbackend.dto.StockDTO;
+import com.kabir.kabirbackend.entities.Fournisseur;
 import com.kabir.kabirbackend.entities.Stock;
 import com.kabir.kabirbackend.mapper.StockMapper;
+import com.kabir.kabirbackend.repository.FournisseurRepository;
 import com.kabir.kabirbackend.repository.StockRepository;
 import com.kabir.kabirbackend.service.interfaces.IStockService;
 import com.kabir.kabirbackend.specifications.StockSpecification;
@@ -14,25 +16,30 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StockService implements IStockService {
     private final Logger logger = LoggerFactory.getLogger(StockService.class);
     private final StockRepository stockRepository;
     private final StockMapper stockMapper;
+    private final FournisseurRepository fournisseurRepository;
 
-    public StockService(StockRepository stockRepository, StockMapper stockMapper) {
+    public StockService(StockRepository stockRepository, StockMapper stockMapper, FournisseurRepository fournisseurRepository) {
         this.stockRepository = stockRepository;
         this.stockMapper = stockMapper;
+        this.fournisseurRepository = fournisseurRepository;
     }
 
     @Override
     public StockDTO save(StockDTO stockDTO) {
         logger.info("Saving stock: {}", stockDTO);
         try {
+            Optional<Fournisseur> optionalFournisseur = fournisseurRepository.findById(stockDTO.getFournisseurId());
             Stock stock = stockMapper.toStock(stockDTO);
-            stock = stockRepository.save(stock);
-            return stockMapper.toStockDTO(stock);
+            stock.setFournisseur(optionalFournisseur.orElse(null));
+
+            return stockMapper.toStockDTO(stockRepository.save(stock));
         } catch (Exception e) {
             logger.error("Error saving stock", e);
             throw new RuntimeException("Error saving stock", e);

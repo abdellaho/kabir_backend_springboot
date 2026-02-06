@@ -17,5 +17,7 @@ public class DetAchatSimpleDTO implements Serializable {
     private double montant;
     Long stockId;
     String stockDesignation;
+    double stockPvttc;
+    int stockQteStock;
     Long achatSimpleId;
 }

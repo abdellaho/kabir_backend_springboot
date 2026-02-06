@@ -76,4 +76,6 @@ public class AchatFactureDTO implements Serializable {
     boolean disabledManuel;
     @NotNull
     Long fournisseurId;
+    String fournisseurDesignation;
+    String fournisseurIce;
 }

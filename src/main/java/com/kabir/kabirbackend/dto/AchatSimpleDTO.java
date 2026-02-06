@@ -22,4 +22,5 @@ public class AchatSimpleDTO implements Serializable {
     LocalDate dateOperation;
     Instant dateSys;
     Long fournisseurId;
+    String fournisseurDesignation;
 }

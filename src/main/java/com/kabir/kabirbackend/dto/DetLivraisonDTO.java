@@ -35,4 +35,7 @@ public class DetLivraisonDTO implements Serializable {
     LocalDate livraisonDateBl;
     Long stockId;
     String stockDesignation;
+    int stockQteStock;
+    double stockPvttc;
+    double stockPattc;
 }

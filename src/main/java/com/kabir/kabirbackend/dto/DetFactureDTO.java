@@ -34,4 +34,6 @@ public class DetFactureDTO implements Serializable {
     private LocalDate factureDateBF;
     private Long stockId;
     private String stockDesignation;
+    private double stockPvttc;
+    private int stockQteFacturer;
 }

@@ -26,4 +26,5 @@ public class DetailBonSortieDTO implements Serializable {
     private Long stockId;
     private String stockDesignation;
     private int stockQteStock;
+    private double stockPvttc;
 }
