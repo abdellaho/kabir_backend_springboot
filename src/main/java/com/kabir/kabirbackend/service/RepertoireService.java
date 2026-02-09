@@ -13,6 +13,7 @@ import com.kabir.kabirbackend.service.interfaces.IRepertoireService;
 import com.kabir.kabirbackend.specifications.RepertoireSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -59,7 +60,7 @@ public class RepertoireService implements IRepertoireService {
     public List<RepertoireDTO> findAll() {
         logger.info("Finding all repertoires");
         try {
-            List<Repertoire> repertoires = repertoireRepository.findAll();
+            List<Repertoire> repertoires = repertoireRepository.findAll(Sort.by(Sort.Direction.ASC, "designation"));
             return repertoires.stream().map(repertoireMapper::toRepertoireDTO).toList();
         } catch (Exception e) {
             logger.error("Error finding all repertoires", e);

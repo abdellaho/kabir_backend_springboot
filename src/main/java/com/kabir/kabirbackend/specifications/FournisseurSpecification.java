@@ -1,9 +1,7 @@
 package com.kabir.kabirbackend.specifications;
 
 import com.kabir.kabirbackend.dto.FournisseurDTO;
-import com.kabir.kabirbackend.dto.PersonnelDTO;
 import com.kabir.kabirbackend.entities.Fournisseur;
-import com.kabir.kabirbackend.entities.Personnel;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
@@ -28,7 +26,7 @@ public class FournisseurSpecification implements Specification<Fournisseur> {
             predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("supprimer"), fournisseurDTO.isSupprimer()));
             predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("archiver"), fournisseurDTO.isArchiver()));
 
-            query.orderBy(criteriaBuilder.desc(root.get("designation")));
+            query.orderBy(criteriaBuilder.asc(root.get("designation")));
 
             return predicate;
         };
@@ -60,10 +58,16 @@ public class FournisseurSpecification implements Specification<Fournisseur> {
                 predicate = criteriaBuilder.or(predicate, tel2Predicate);
             }
 
+            if (StringUtils.isNotBlank(fournisseurDTO.getIce())) {
+                predicate = criteriaBuilder.or(predicate, criteriaBuilder.equal(criteriaBuilder.lower(root.get("ice")), fournisseurDTO.getIce().trim().toLowerCase()));
+            }
+
             if (null != fournisseurDTO.getId()) {
                 predicate = criteriaBuilder.and(predicate, criteriaBuilder.notEqual(root.get("id"), fournisseurDTO.getId()));
             }
         }
+
+        query.orderBy(criteriaBuilder.asc(root.get("designation")));
 
         return predicate;
     }

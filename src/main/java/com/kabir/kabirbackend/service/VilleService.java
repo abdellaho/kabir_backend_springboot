@@ -8,6 +8,7 @@ import com.kabir.kabirbackend.service.interfaces.IVilleService;
 import com.kabir.kabirbackend.specifications.VilleSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,7 +53,7 @@ public class VilleService implements IVilleService {
     public List<VilleDTO> findAll() {
         logger.info("Finding all villes");
         try {
-            List<Ville> villes = villeRepository.findAll();
+            List<Ville> villes = villeRepository.findAll(Sort.by(Sort.Direction.ASC, "nomVille"));
             return villes.stream().map(villeMapper::toVilleDTO).toList();
         } catch (Exception e) {
             logger.error("Error finding all villes", e);
@@ -72,8 +73,8 @@ public class VilleService implements IVilleService {
     }
 
     @Override
-    public List<VilleDTO> search(VilleDTO absenceDTO) {
-        logger.info("Searching villes: {}", absenceDTO);
-        return villeRepository.findAll(VilleSpecification.builder().villeDTO(absenceDTO).build()).stream().map(villeMapper::toVilleDTO).toList();
+    public List<VilleDTO> search(VilleDTO villeDTO) {
+        logger.info("Searching villes: {}", villeDTO);
+        return villeRepository.findAll(VilleSpecification.builder().villeDTO(villeDTO).build()).stream().map(villeMapper::toVilleDTO).toList();
     }
 }

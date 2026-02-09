@@ -1,20 +1,31 @@
 package com.kabir.kabirbackend.controllers;
 
+import com.kabir.kabirbackend.config.enums.ReportTypeEnum;
 import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
+import com.kabir.kabirbackend.config.util.JasperReportsUtil;
 import com.kabir.kabirbackend.dto.AbsenceDTO;
 import com.kabir.kabirbackend.service.AbsenceService;
 import jakarta.validation.Valid;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.text.MessageFormat;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @RestController
 @RequestMapping("/absence")
 public class AbsenceController {
+
+    private static final ResourceBundle bundleFR = ResourceBundle.getBundle("i18n/ApplicationResources", Locale.of("fr"));
+    private static final ResourceBundle bundleAR = ResourceBundle.getBundle("i18n/ApplicationResources", Locale.of("ar"));
+    private final Logger logger = LoggerFactory.getLogger(AbsenceController.class);
 
     /*
     getAll: `${BASE_URL}/absence`,
@@ -37,11 +48,12 @@ public class AbsenceController {
   dateAbsenceStr?: string;
      */
 
-    private final Logger logger = LoggerFactory.getLogger(AbsenceController.class);
     private final AbsenceService absenceService;
+    private final JasperReportsUtil jasperReportsUtil;
 
-    public AbsenceController(AbsenceService absenceService) {
+    public AbsenceController(AbsenceService absenceService, JasperReportsUtil jasperReportsUtil) {
         this.absenceService = absenceService;
+        this.jasperReportsUtil = jasperReportsUtil;
     }
 
     @GetMapping
@@ -139,4 +151,37 @@ public class AbsenceController {
             throw new RuntimeException("Error searching absence by common: " + commonSearchModel, e);
         }
     }
+
+    @PostMapping("/imprimer")
+    public ResponseEntity<?> imprimer(@RequestBody CommonSearchModel commonSearchModel) {
+        logger.info("imprimer with this search model: {}", commonSearchModel);
+        try {
+            Map<String, Object> params = new HashMap<>();
+            try {
+                List<AbsenceDTO> listAbsence = absenceService.searchByCommon(commonSearchModel);
+                params.put("fichier", bundleFR.getBaseBundleName());
+                //params.put("lienimage", "");
+                String logo = "";
+                byte[] bytes = jasperReportsUtil.jasperReportInBytes(listAbsence, params, "etatAbsence",  ReportTypeEnum.PDF , logo);
+                if (null != bytes) {
+                    ByteArrayResource resource = new ByteArrayResource(bytes);
+                    String fileName = MessageFormat.format("absence_{0}.{1}", LocalDateTime.now(), "pdf");
+                    return ResponseEntity.ok()
+                            .header(HttpHeaders.CONTENT_DISPOSITION, MessageFormat.format("attachment; filename=\"{0}\"", fileName))
+                            .contentLength(resource.contentLength())
+                            .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                            .body(resource);
+                } else {
+                    throw new Exception("File Download Failed");
+                }
+            } catch (Exception e) {
+                logger.debug("Exception while trying to print absence : {}", e.getMessage());
+                return ResponseEntity.internalServerError().build();
+            }
+        } catch (Exception e) {
+            logger.error("Error printing : {}", commonSearchModel, e);
+            throw new RuntimeException("Error printing absence by common: " + commonSearchModel, e);
+        }
+    }
+
 }

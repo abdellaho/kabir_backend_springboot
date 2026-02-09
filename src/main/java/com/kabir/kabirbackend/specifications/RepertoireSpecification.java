@@ -1,7 +1,6 @@
 package com.kabir.kabirbackend.specifications;
 
 import com.kabir.kabirbackend.dto.RepertoireDTO;
-import com.kabir.kabirbackend.entities.Personnel;
 import com.kabir.kabirbackend.entities.Repertoire;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -24,6 +23,8 @@ public class RepertoireSpecification implements Specification<Repertoire> {
     public static Specification<Repertoire> searchBySupprimerOrArchiver(RepertoireDTO repertoireDTO) {
         return (root, query, criteriaBuilder) -> {
 
+            query.orderBy(criteriaBuilder.asc(root.get("designation")));
+
             return criteriaBuilder.and(
                     criteriaBuilder.equal(root.get("bloquer"), repertoireDTO.isBloquer()),
                     criteriaBuilder.equal(root.get("archiver"), repertoireDTO.isArchiver())
@@ -33,6 +34,8 @@ public class RepertoireSpecification implements Specification<Repertoire> {
 
     public static Specification<Repertoire> searchBySupprimerOrArchiverAndClientsOnly(RepertoireDTO repertoireDTO) {
         return (root, query, criteriaBuilder) -> {
+
+            query.orderBy(criteriaBuilder.asc(root.get("designation")));
 
             List<Integer> intCriteria = Arrays.asList(0, 1, 2);
 
@@ -71,10 +74,16 @@ public class RepertoireSpecification implements Specification<Repertoire> {
                 predicate = criteriaBuilder.or(predicate, tel2Predicate);
             }
 
+            if (StringUtils.isNotBlank(repertoireDTO.getIce())) {
+                predicate = criteriaBuilder.or(predicate, criteriaBuilder.equal(criteriaBuilder.lower(root.get("ice")), repertoireDTO.getIce().trim().toLowerCase()));
+            }
+
             if (null != repertoireDTO.getId()) {
                 predicate = criteriaBuilder.and(predicate, criteriaBuilder.notEqual(root.get("id"), repertoireDTO.getId()));
             }
         }
+
+        query.orderBy(criteriaBuilder.asc(root.get("designation")));
 
         return predicate;
     }

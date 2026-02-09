@@ -9,6 +9,7 @@ import com.kabir.kabirbackend.specifications.FournisseurSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,7 +43,7 @@ public class FournisseurService implements IFournisseurService {
     @Override
     public List<FournisseurDTO> findAll() {
         try {
-            List<Fournisseur> fournisseurs = fournisseurRepository.findAll();
+            List<Fournisseur> fournisseurs = fournisseurRepository.findAll(Sort.by(Sort.Direction.ASC, "designation"));
             return fournisseurs.stream().map(fournisseurMapper::toFournisseurDTO).toList();
         } catch (Exception e) {
             logger.error("Error finding all Fournisseurs", e);

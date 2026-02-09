@@ -30,6 +30,8 @@ public class VilleSpecification implements Specification<Ville> {
             }
         }
 
+        query.orderBy(criteriaBuilder.asc(root.get("nomVille")));
+
         return predicate;
     }
 }

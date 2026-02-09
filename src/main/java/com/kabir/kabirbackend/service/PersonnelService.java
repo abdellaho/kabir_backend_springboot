@@ -1,5 +1,6 @@
 package com.kabir.kabirbackend.service;
 
+import com.kabir.kabirbackend.dto.AbsenceDTO;
 import com.kabir.kabirbackend.dto.PersonnelDTO;
 import com.kabir.kabirbackend.entities.Personnel;
 import com.kabir.kabirbackend.mapper.PersonnelMapper;
@@ -10,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -58,11 +60,23 @@ public class PersonnelService implements IPersonnelService {
     public List<PersonnelDTO> findAll() {
         logger.info("Finding all personnels");
         try {
-            List<Personnel> personnels = personnelRepository.findAll();
+            List<Personnel> personnels = personnelRepository.findAll(Sort.by(Sort.Direction.ASC, "designation"));
             return personnels.stream().map(personnelMapper::toDTO).toList();
         } catch (Exception e) {
             logger.error("Error finding all personnels", e);
             throw new RuntimeException("Error finding all personnels", e);
+        }
+    }
+
+    @Override
+    public List<PersonnelDTO> findAllExceptAdmin(PersonnelDTO personnelDTO) {
+        logger.info("Finding all personnels except admins");
+        try {
+            List<Personnel> personnels = personnelRepository.findAll(PersonnelSpecification.searchBySupprimerOrArchiverExceptAdmin(personnelDTO));
+            return personnels.stream().map(personnelMapper::toDTO).toList();
+        } catch (Exception e) {
+            logger.error("Error finding all personnels except admins", e);
+            throw new RuntimeException("Error finding all personnels except admins", e);
         }
     }
 
@@ -110,6 +124,11 @@ public class PersonnelService implements IPersonnelService {
     @Override
     public List<PersonnelDTO> search(PersonnelDTO personnelDTO) {
         return personnelRepository.findAll(PersonnelSpecification.builder().personnelDTO(personnelDTO).build()).stream().map(personnelMapper::toDTO).toList();
+    }
+
+    @Override
+    public List<PersonnelDTO> notInAbsenceAtDate(AbsenceDTO absenceDTO) {
+        return personnelRepository.findAll(PersonnelSpecification.notInAbsenceAtDate(absenceDTO)).stream().map(personnelMapper::toDTO).toList();
     }
 
     @Override

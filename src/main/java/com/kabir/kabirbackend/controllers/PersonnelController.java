@@ -4,6 +4,7 @@ import com.kabir.kabirbackend.config.requests.AuthRequest;
 import com.kabir.kabirbackend.config.requests.RefreshToken;
 import com.kabir.kabirbackend.config.responses.LoginResponse;
 import com.kabir.kabirbackend.config.security.JwtUtil;
+import com.kabir.kabirbackend.dto.AbsenceDTO;
 import com.kabir.kabirbackend.dto.PersonnelDTO;
 import com.kabir.kabirbackend.service.PersonnelService;
 import org.apache.commons.collections4.CollectionUtils;
@@ -94,6 +95,18 @@ class PersonnelController {
         }
     }
 
+    @PostMapping("/all-except-admin")
+    public ResponseEntity<List<PersonnelDTO>> getAllExceptAdmin(@RequestBody PersonnelDTO personnelDTO) {
+        logger.info("Fetching all personnel except admins");
+        try {
+            List<PersonnelDTO> personnel = personnelService.findAllExceptAdmin(personnelDTO);
+            return ResponseEntity.ok(personnel);
+        } catch (Exception e) {
+            logger.error("Error fetching all personnel except admins: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
     @GetMapping("/allowed")
     public ResponseEntity<List<PersonnelDTO>> getAllAllowed(@RequestBody PersonnelDTO personnelDTO) {
         logger.info("Fetching all allowed personnel");
@@ -179,10 +192,10 @@ class PersonnelController {
     }
 
     @PostMapping("/present")
-    public ResponseEntity<List<PersonnelDTO>> present(@RequestBody PersonnelDTO personnelDTO) {
-        logger.info("Presenting personnel: {}", personnelDTO);
+    public ResponseEntity<List<PersonnelDTO>> present(@RequestBody AbsenceDTO absenceDTO) {
+        logger.info("Presenting personnel: {}", absenceDTO);
         try {
-            List<PersonnelDTO> personnel = personnelService.search(personnelDTO);
+            List<PersonnelDTO> personnel = personnelService.notInAbsenceAtDate(absenceDTO);
             return ResponseEntity.ok(personnel);
         } catch (Exception e) {
             logger.error("Error presenting personnel: {}", e.getMessage());

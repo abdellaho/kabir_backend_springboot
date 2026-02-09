@@ -1,5 +1,6 @@
 package com.kabir.kabirbackend.service.interfaces;
 
+import com.kabir.kabirbackend.dto.AbsenceDTO;
 import com.kabir.kabirbackend.dto.PersonnelDTO;
 
 import java.util.List;
@@ -8,14 +9,19 @@ public interface IPersonnelService {
 
     long count();
 
-    public PersonnelDTO save(PersonnelDTO personnelDTO);
-    public PersonnelDTO findById(Long id);
-    public List<PersonnelDTO> findAll();
+    PersonnelDTO save(PersonnelDTO personnelDTO);
+
+    List<PersonnelDTO> findAllExceptAdmin(PersonnelDTO personnelDTO);
+
+    PersonnelDTO findById(Long id);
+    List<PersonnelDTO> findAll();
 
     PersonnelDTO findByEmail(String email);
 
-    public void delete(Long id);
-    public List<PersonnelDTO> search(PersonnelDTO personnelDTO);
+    void delete(Long id);
+    List<PersonnelDTO> search(PersonnelDTO personnelDTO);
+
+    List<PersonnelDTO> notInAbsenceAtDate(AbsenceDTO absenceDTO);
 
     List<PersonnelDTO> searchBySupprimerOrArchiver(PersonnelDTO personnelDTO);
 }
