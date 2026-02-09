@@ -1,5 +1,6 @@
 package com.kabir.kabirbackend.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -23,4 +24,6 @@ public class AbsenceDTO implements Serializable {
     @NotNull
     Long personnelId;
     String personnelDesignation;
+    @JsonIgnore
+    double nbrJour;
 }

@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="listeProduitLivrs" pageWidth="950" pageHeight="650" orientation="Landscape" columnWidth="950" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="26176876-3b54-410e-ae4c-b104c39a0b36">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="produit" class="java.lang.String"/>
+	<parameter name="valeur" class="java.lang.String"/>
+	<parameter name="totalQteLivr" class="java.lang.String"/>
+	<parameter name="totalMontant" class="java.lang.String"/>
+	<parameter name="totalBenfice" class="java.lang.String"/>
+	<parameter name="fichier" class="java.lang.String"/>
+	<parameter name="titleText" class="java.lang.String"/>
+	<parameter name="dateFn" class="java.lang.String"/>
+	<parameter name="dateDb" class="java.lang.String"/>
+	<parameter name="Espece" class="java.lang.String"/>
+	<parameter name="Cheque" class="java.lang.String"/>
+	<parameter name="Virement" class="java.lang.String"/>
+	<parameter name="Traite" class="java.lang.String"/>
+	<parameter name="Prelevement" class="java.lang.String"/>
+	<parameter name="Carte" class="java.lang.String"/>
+	<field name="Client" class="java.lang.String">
+		<fieldDescription><![CDATA[repertoireByClient.designation]]></fieldDescription>
+	</field>
+	<field name="dateLivr" class="java.util.Date">
+		<fieldDescription><![CDATA[dateBF]]></fieldDescription>
+	</field>
+	<field name="numBl" class="java.lang.String">
+		<fieldDescription><![CDATA[codeBF]]></fieldDescription>
+	</field>
+	<field name="Montant" class="java.lang.Double">
+		<fieldDescription><![CDATA[mantantBF]]></fieldDescription>
+	</field>
+	<field name="benificeDh" class="java.lang.Double">
+		<fieldDescription><![CDATA[mantantBFBenefice]]></fieldDescription>
+	</field>
+	<field name="dateReg" class="java.util.Date">
+		<fieldDescription><![CDATA[dateReglement]]></fieldDescription>
+	</field>
+	<field name="modeReg" class="java.lang.String">
+		<fieldDescription><![CDATA[typePaiement]]></fieldDescription>
+	</field>
+	<field name="tva7" class="java.lang.Double">
+		<fieldDescription><![CDATA[tva7Total]]></fieldDescription>
+	</field>
+	<field name="tva20" class="java.lang.Double">
+		<fieldDescription><![CDATA[tva20Total]]></fieldDescription>
+	</field>
+	<field name="mtHT" class="java.lang.Double">
+		<fieldDescription><![CDATA[mantantBFHT]]></fieldDescription>
+	</field>
+	<field name="mntHT7" class="java.lang.Double"/>
+	<field name="mntHT2O" class="java.lang.Double"/>
+	<field name="ice" class="java.lang.String">
+		<fieldDescription><![CDATA[repertoireByClient.ice]]></fieldDescription>
+	</field>
+	<field name="typeReglment" class="java.lang.Integer">
+		<fieldDescription><![CDATA[typeReglment]]></fieldDescription>
+	</field>
+	<field name="typeReglment2" class="java.lang.Integer">
+		<fieldDescription><![CDATA[typeReglment2]]></fieldDescription>
+	</field>
+	<field name="dateReglement2" class="java.util.Date">
+		<fieldDescription><![CDATA[dateReglement2]]></fieldDescription>
+	</field>
+	<field name="numCheque" class="java.lang.String">
+		<fieldDescription><![CDATA[numCheque]]></fieldDescription>
+	</field>
+	<field name="numCheque2" class="java.lang.String">
+		<fieldDescription><![CDATA[numCheque2]]></fieldDescription>
+	</field>
+	<field name="type" class="java.lang.Integer">
+		<fieldDescription><![CDATA[type]]></fieldDescription>
+	</field>
+	<field name="mntReglement" class="java.lang.Double">
+		<fieldDescription><![CDATA[mntReglement]]></fieldDescription>
+	</field>
+	<field name="mntReglement2" class="java.lang.Double">
+		<fieldDescription><![CDATA[mntReglement2]]></fieldDescription>
+	</field>
+	<field name="calculer" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[calculer]]></fieldDescription>
+	</field>
+	<field name="typeReglementOne" class="java.lang.String">
+		<fieldDescription><![CDATA[typeReglementOne]]></fieldDescription>
+	</field>
+	<field name="mntHT20One" class="java.lang.Double">
+		<fieldDescription><![CDATA[mntHT20One]]></fieldDescription>
+	</field>
+	<field name="tva20One" class="java.lang.Double">
+		<fieldDescription><![CDATA[tva20One]]></fieldDescription>
+	</field>
+	<field name="mantantBFOne" class="java.lang.Double">
+		<fieldDescription><![CDATA[mantantBFOne]]></fieldDescription>
+	</field>
+	<field name="dateReglementIn" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[dateReglementIn]]></fieldDescription>
+	</field>
+	<field name="dateReglement2In" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[dateReglement2In]]></fieldDescription>
+	</field>
+	<field name="dateReglement3In" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[dateReglement3In]]></fieldDescription>
+	</field>
+	<field name="dateReglement4In" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[dateReglement4In]]></fieldDescription>
+	</field>
+	<field name="mntReglement3" class="java.lang.Double">
+		<fieldDescription><![CDATA[mntReglement3]]></fieldDescription>
+	</field>
+	<field name="mntReglement4" class="java.lang.Double">
+		<fieldDescription><![CDATA[mntReglement4]]></fieldDescription>
+	</field>
+	<field name="numCheque3" class="java.lang.String">
+		<fieldDescription><![CDATA[numCheque3]]></fieldDescription>
+	</field>
+	<field name="numCheque4" class="java.lang.String">
+		<fieldDescription><![CDATA[numCheque4]]></fieldDescription>
+	</field>
+	<field name="dateReglement3" class="java.util.Date">
+		<fieldDescription><![CDATA[dateReglement3]]></fieldDescription>
+	</field>
+	<field name="dateReglement4" class="java.util.Date">
+		<fieldDescription><![CDATA[dateReglement4]]></fieldDescription>
+	</field>
+	<field name="tva20Reglement1" class="java.lang.Double">
+		<fieldDescription><![CDATA[tva20Reglement1]]></fieldDescription>
+	</field>
+	<field name="tva20Reglement2" class="java.lang.Double">
+		<fieldDescription><![CDATA[tva20Reglement2]]></fieldDescription>
+	</field>
+	<field name="tva20Reglement3" class="java.lang.Double">
+		<fieldDescription><![CDATA[tva20Reglement3]]></fieldDescription>
+	</field>
+	<field name="tva20Reglement4" class="java.lang.Double">
+		<fieldDescription><![CDATA[tva20Reglement4]]></fieldDescription>
+	</field>
+	<field name="mntHT20Reglement1" class="java.lang.Double">
+		<fieldDescription><![CDATA[mntHT20Reglement1]]></fieldDescription>
+	</field>
+	<field name="mntHT20Reglement2" class="java.lang.Double">
+		<fieldDescription><![CDATA[mntHT20Reglement2]]></fieldDescription>
+	</field>
+	<field name="mntHT20Reglement3" class="java.lang.Double">
+		<fieldDescription><![CDATA[mntHT20Reglement3]]></fieldDescription>
+	</field>
+	<field name="mntHT20Reglement4" class="java.lang.Double">
+		<fieldDescription><![CDATA[mntHT20Reglement4]]></fieldDescription>
+	</field>
+	<field name="dateReglementOne" class="java.util.Date">
+		<fieldDescription><![CDATA[dateReglementOne]]></fieldDescription>
+	</field>
+	<variable name="TotMont" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{type} == 1 ? $F{Montant} : 0]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{type} == 1 ? $F{Montant} : 0]]></initialValueExpression>
+	</variable>
+	<variable name="tBenDH" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{type} == 1 ? $F{benificeDh} : 0]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{type} == 1 ? $F{benificeDh} : 0]]></initialValueExpression>
+	</variable>
+	<variable name="TotMntHT" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{type} ==1 ? $F{mtHT} : 0]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{type} ==1 ? $F{mtHT} : 0]]></initialValueExpression>
+	</variable>
+	<variable name="TotTVa7" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{type} ==1 ? $F{tva7} : 0]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{type} ==1 ? $F{tva7} : 0]]></initialValueExpression>
+	</variable>
+	<variable name="TotTVa20" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{type} ==1 ? $F{tva20} : 0]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{type} ==1 ? $F{tva20} : 0]]></initialValueExpression>
+	</variable>
+	<variable name="curentPage" class="java.lang.Integer" resetType="Page" incrementType="Report">
+		<variableExpression><![CDATA[$V{PAGE_NUMBER}]]></variableExpression>
+	</variable>
+	<variable name="SumHtTVA7" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{type} ==1 ? $F{mntHT7} : 0]]></variableExpression>
+	</variable>
+	<variable name="SumHtTVA20" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{type} ==1 ? $F{mntHT2O} : 0]]></variableExpression>
+	</variable>
+	<variable name="SumHtTTC7" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{type} ==1 && $F{tva7} !=0.0 && $F{tva7} !=0.00 ? $F{Montant} : 0]]></variableExpression>
+	</variable>
+	<variable name="SumHtTTC20" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{type} ==1 && $F{tva20} !=0.0 && $F{tva20} !=0.00 ? $F{Montant} : 0]]></variableExpression>
+	</variable>
+	<group name="type" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{type}]]></groupExpression>
+		<groupHeader>
+			<band height="32">
+				<textField isBlankWhenNull="false">
+					<reportElement key="textField" mode="Opaque" x="869" y="0" width="80" height="32" forecolor="#000000" backcolor="#CCCCCC" uuid="9ed8517e-aeda-4dbb-97f1-4e990c69d4fb">
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("MTTVA20")]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="false">
+					<reportElement key="textField" mode="Opaque" x="789" y="0" width="80" height="32" forecolor="#000000" backcolor="#CCCCCC" uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf">
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("mntHtPoint20")]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="false">
+					<reportElement key="textField" mode="Opaque" x="524" y="0" width="85" height="32" forecolor="#000000" backcolor="#CCCCCC" uuid="a68ebbba-69ec-4d49-a3c9-7b7dd4d8c253">
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("modeReglement")]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="false">
+					<reportElement key="textField" mode="Opaque" x="694" y="0" width="95" height="32" forecolor="#000000" backcolor="#CCCCCC" uuid="31fb0b4e-2b4e-4053-ba2e-b06300de6b8f">
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("Montant")
++ " "
++ $P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("Regelment")
++ " TTC"]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="false">
+					<reportElement key="textField" mode="Opaque" x="609" y="0" width="85" height="32" forecolor="#000000" backcolor="#CCCCCC" uuid="9161d356-3187-4e34-96ce-237811da97af">
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("dateReg")]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="false">
+					<reportElement key="textField" mode="Opaque" x="439" y="0" width="85" height="32" forecolor="#000000" backcolor="#CCCCCC" uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf">
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("NumFacture")]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="false">
+					<reportElement key="textField" mode="Opaque" x="0" y="0" width="232" height="32" forecolor="#000000" backcolor="#CCCCCC" uuid="cf0b7012-9b2a-473d-b973-82a9503bddae">
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("Client")]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="false">
+					<reportElement key="textField" mode="Opaque" x="232" y="0" width="117" height="32" forecolor="#000000" backcolor="#CCCCCC" uuid="cc68684e-3244-4361-b971-8ec5dc5fbdec">
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("ice")]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="false">
+					<reportElement key="textField" mode="Opaque" x="349" y="0" width="90" height="32" forecolor="#000000" backcolor="#CCCCCC" uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf">
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("date")]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="68" splitType="Stretch">
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField" mode="Transparent" x="1" y="0" width="949" height="36" forecolor="#000000" backcolor="#CCCCCC" uuid="97e860e3-deb9-4b69-815d-4e311bba498e"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="30" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("lesVentes")
++" / "
++$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("tv")]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField" mode="Transparent" x="0" y="36" width="950" height="25" forecolor="#000000" backcolor="#CCCCCC" uuid="54c416a3-4646-47ac-a8e8-7184b43c7132"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dateDb}+" "+$P{dateFn}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="789" y="0" width="80" height="25" uuid="4137c624-1f88-4490-a938-805c22328251">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<printWhenExpression><![CDATA[$F{type} == 1]]></printWhenExpression>
+				</reportElement>
+				<box rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($F{mntHT20One})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="439" y="0" width="85" height="25" uuid="53c321e5-6b72-4194-9e2b-3e6ca6b11981">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<printWhenExpression><![CDATA[$F{type} == 1]]></printWhenExpression>
+				</reportElement>
+				<box rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numBl}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yy" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="349" y="0" width="90" height="25" uuid="c661da3e-d91b-493e-bdc3-7d80c29dc59f">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<printWhenExpression><![CDATA[$F{type} == 1]]></printWhenExpression>
+				</reportElement>
+				<box rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dateLivr}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="609" y="0" width="85" height="25" uuid="24955451-6003-4a7e-818e-22a388f9617d">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<printWhenExpression><![CDATA[$F{type} == 1]]></printWhenExpression>
+				</reportElement>
+				<box rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yy").format($F{dateReglementOne})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="524" y="0" width="85" height="25" uuid="7c00c414-cb0a-457f-b48a-681c30222f34">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<printWhenExpression><![CDATA[$F{type} == 1]]></printWhenExpression>
+				</reportElement>
+				<box rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{typeReglementOne}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="869" y="0" width="80" height="25" uuid="6ac47417-2af7-4e1b-8405-7c07e48fbdb1">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<printWhenExpression><![CDATA[$F{type} == 1]]></printWhenExpression>
+				</reportElement>
+				<box rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($F{tva20One})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="232" height="25" uuid="53166088-3235-4fc8-9772-f84e3c99db44">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<printWhenExpression><![CDATA[$F{type} == 1]]></printWhenExpression>
+				</reportElement>
+				<box rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Client}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="232" y="0" width="117" height="25" uuid="dccd1919-cda1-4fe4-8279-9ee31640ad3b">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<printWhenExpression><![CDATA[$F{type} == 1]]></printWhenExpression>
+				</reportElement>
+				<box rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ice}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="694" y="0" width="95" height="25" uuid="6ad41abd-4a67-4da5-99ef-e07e88af6885">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<printWhenExpression><![CDATA[$F{type} == 1]]></printWhenExpression>
+				</reportElement>
+				<box rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($F{mantantBFOne})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20">
+			<textField evaluationTime="Auto">
+				<reportElement x="1" y="0" width="100" height="20" uuid="b94accce-a2e6-4fe4-bc27-2d72f633034c"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{curentPage}+"/"+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

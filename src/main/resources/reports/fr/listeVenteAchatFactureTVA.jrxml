@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="listeProduitLivrs" pageWidth="650" pageHeight="950" columnWidth="610" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="0" uuid="26176876-3b54-410e-ae4c-b104c39a0b36">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="produit" class="java.lang.String"/>
+	<parameter name="valeur" class="java.lang.String"/>
+	<parameter name="totalQteLivr" class="java.lang.String"/>
+	<parameter name="totalMontant" class="java.lang.String"/>
+	<parameter name="totalBenfice" class="java.lang.String"/>
+	<parameter name="fichier" class="java.lang.String"/>
+	<parameter name="titleText" class="java.lang.String"/>
+	<parameter name="dateFn" class="java.lang.String"/>
+	<parameter name="dateDb" class="java.lang.String"/>
+	<parameter name="Espece" class="java.lang.String"/>
+	<parameter name="Cheque" class="java.lang.String"/>
+	<parameter name="Virement" class="java.lang.String"/>
+	<parameter name="Traite" class="java.lang.String"/>
+	<parameter name="Prelevement" class="java.lang.String"/>
+	<parameter name="Carte" class="java.lang.String"/>
+	<field name="Client" class="java.lang.String">
+		<fieldDescription><![CDATA[repertoire.designation]]></fieldDescription>
+	</field>
+	<field name="dateLivr" class="java.util.Date">
+		<fieldDescription><![CDATA[dateAF]]></fieldDescription>
+	</field>
+	<field name="numBl" class="java.lang.String">
+		<fieldDescription><![CDATA[numeroFacExterne]]></fieldDescription>
+	</field>
+	<field name="Montant" class="java.lang.Double">
+		<fieldDescription><![CDATA[mantantTotTTC]]></fieldDescription>
+	</field>
+	<field name="benificeDh" class="java.lang.Double">
+		<fieldDescription><![CDATA[mantantBFBenefice]]></fieldDescription>
+	</field>
+	<field name="dateReg" class="java.util.Date">
+		<fieldDescription><![CDATA[dateReglement]]></fieldDescription>
+	</field>
+	<field name="modeReg" class="java.lang.String">
+		<fieldDescription><![CDATA[typePaiement]]></fieldDescription>
+	</field>
+	<field name="tva7" class="java.lang.Double">
+		<fieldDescription><![CDATA[montantTVA7]]></fieldDescription>
+	</field>
+	<field name="tva20" class="java.lang.Double">
+		<fieldDescription><![CDATA[montantTVA20]]></fieldDescription>
+	</field>
+	<field name="mtHT" class="java.lang.Double">
+		<fieldDescription><![CDATA[mantantTotHT]]></fieldDescription>
+	</field>
+	<field name="numF" class="java.lang.String">
+		<fieldDescription><![CDATA[numeroIF]]></fieldDescription>
+	</field>
+	<field name="ice" class="java.lang.String">
+		<fieldDescription><![CDATA[repertoire.ice]]></fieldDescription>
+	</field>
+	<field name="tva10" class="java.lang.Double">
+		<fieldDescription><![CDATA[montantTVA10]]></fieldDescription>
+	</field>
+	<field name="tva14" class="java.lang.Double">
+		<fieldDescription><![CDATA[montantTVA14]]></fieldDescription>
+	</field>
+	<field name="montantDroitSupplementaire" class="java.lang.Double">
+		<fieldDescription><![CDATA[montantDroitSupplementaire]]></fieldDescription>
+	</field>
+	<field name="dateAvances" class="java.util.Date">
+		<fieldDescription><![CDATA[dateAvances]]></fieldDescription>
+	</field>
+	<field name="mantantAvancs" class="java.lang.Double">
+		<fieldDescription><![CDATA[mantantAvancs]]></fieldDescription>
+	</field>
+	<variable name="TotMont" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{Montant}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{Montant}]]></initialValueExpression>
+	</variable>
+	<variable name="tBenDH" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{benificeDh}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{benificeDh}]]></initialValueExpression>
+	</variable>
+	<variable name="TBenDate" class="java.lang.Double" resetType="Group" resetGroup="parDte" calculation="Sum">
+		<variableExpression><![CDATA[$F{benificeDh}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{benificeDh}]]></initialValueExpression>
+	</variable>
+	<variable name="TMntTotlaDate" class="java.lang.Double" resetType="Group" resetGroup="parDte" calculation="Sum">
+		<variableExpression><![CDATA[$F{Montant}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{Montant}]]></initialValueExpression>
+	</variable>
+	<variable name="TotMntHT" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{mtHT}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{mtHT}]]></initialValueExpression>
+	</variable>
+	<variable name="TotTVa7" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{tva7}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{tva7}]]></initialValueExpression>
+	</variable>
+	<variable name="TotTVa20" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{tva20}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{tva20}]]></initialValueExpression>
+	</variable>
+	<variable name="curentPage" class="java.lang.Integer" resetType="Page" incrementType="Report">
+		<variableExpression><![CDATA[$V{PAGE_NUMBER}]]></variableExpression>
+	</variable>
+	<variable name="TotTva14" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{tva14}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{tva14}]]></initialValueExpression>
+	</variable>
+	<variable name="TotTva10" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{tva10}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{tva10}]]></initialValueExpression>
+	</variable>
+	<variable name="totmontantDroitSupplementaire" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{montantDroitSupplementaire}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{montantDroitSupplementaire}]]></initialValueExpression>
+	</variable>
+	<group name="parDte">
+		<groupExpression><![CDATA[$F{dateReg}.getMonth()]]></groupExpression>
+		<groupHeader>
+			<band height="58">
+				<textField isBlankWhenNull="false">
+					<reportElement uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf" key="textField" mode="Opaque" x="120" y="33" width="66" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("Dfact")]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="false">
+					<reportElement uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf" key="textField" mode="Opaque" x="372" y="33" width="95" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("NumFacture")]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="false">
+					<reportElement uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf" key="textField" mode="Opaque" x="537" y="33" width="72" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("MontantProdTTC")]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="false">
+					<reportElement uuid="9161d356-3187-4e34-96ce-237811da97af" key="textField" mode="Opaque" x="467" y="33" width="70" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("dateRegl")]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="false">
+					<reportElement uuid="a68ebbba-69ec-4d49-a3c9-7b7dd4d8c253" key="textField" mode="Opaque" x="314" y="33" width="58" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("modeReg")]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement uuid="53166088-3235-4fc8-9772-f84e3c99db44" x="0" y="4" width="78" height="25"/>
+					<box rightPadding="0">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("Mois")+" : "]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="false">
+					<reportElement uuid="daf62313-eae8-4396-8cb4-ec3255fb4ec2" key="textField" mode="Opaque" x="0" y="33" width="120" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("scte")]]></textFieldExpression>
+				</textField>
+				<textField pattern="MMMMM-yy" isBlankWhenNull="true">
+					<reportElement uuid="059cc899-997b-4f2e-b391-84b34f13eac8" x="50" y="4" width="197" height="25"/>
+					<box rightPadding="0">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{dateReg}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="false">
+					<reportElement uuid="9104ec69-b322-4dbd-be24-21965285ea68" key="textField" mode="Opaque" x="186" y="33" width="128" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("ice")]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="37" splitType="Stretch">
+			<textField isBlankWhenNull="false">
+				<reportElement uuid="97e860e3-deb9-4b69-815d-4e311bba498e" key="textField" mode="Transparent" x="0" y="1" width="610" height="36" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Arial" size="30" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("lesAchats")]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement uuid="3b2fe002-12c0-4cfb-a606-9730f9e5c874" x="537" y="0" width="72" height="25"/>
+				<box rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Montant}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="53c321e5-6b72-4194-9e2b-3e6ca6b11981" x="372" y="0" width="95" height="25"/>
+				<box rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numBl}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yy" isBlankWhenNull="true">
+				<reportElement uuid="c661da3e-d91b-493e-bdc3-7d80c29dc59f" x="120" y="0" width="66" height="25"/>
+				<box rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dateLivr}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yy" isBlankWhenNull="true">
+				<reportElement uuid="24955451-6003-4a7e-818e-22a388f9617d" x="467" y="0" width="70" height="25"/>
+				<box rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dateReg}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement uuid="7c00c414-cb0a-457f-b48a-681c30222f34" x="314" y="0" width="58" height="25"/>
+				<box rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{modeReg}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="32ac4630-ce94-4239-8799-1eb3a804164a" x="0" y="0" width="120" height="25"/>
+				<box rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Client}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="158e0b3b-53b8-445f-addc-8b67091efcf8" x="186" y="0" width="128" height="25"/>
+				<box rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ice}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="21">
+			<textField evaluationTime="Auto">
+				<reportElement uuid="27d473c6-b198-4e9b-8157-674ae9bb246e" x="0" y="1" width="100" height="20"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{curentPage}+"/"+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="50">
+			<textField pattern="#,##0.00" isBlankWhenNull="false">
+				<reportElement uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf" key="textField" mode="Transparent" x="431" y="25" width="85" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TotMntHT}+$V{totmontantDroitSupplementaire}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement uuid="e25a6a42-2932-4bf2-8831-4d41bc246d85" key="textField" mode="Transparent" x="431" y="0" width="85" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("MontantProdHT")]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement uuid="e2aa9d5c-b535-41f0-bdca-ceae9cbbc5ee" key="textField" mode="Transparent" x="261" y="0" width="85" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("tva20")]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement uuid="db9cfad4-417f-44cf-bce9-2eb231be8831" key="textField" mode="Transparent" x="176" y="0" width="85" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("tva14")]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="false">
+				<reportElement uuid="39fcfce1-1bd7-40c1-be82-816b49ef17eb" key="textField" mode="Transparent" x="176" y="25" width="85" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TotTva14}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="false">
+				<reportElement uuid="cf47d900-4064-448c-93ff-17e09f10c697" key="textField" mode="Transparent" x="261" y="25" width="85" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TotTVa20}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement uuid="e8d80344-7d7b-44b3-b355-daf1286c4f96" key="textField" mode="Transparent" x="516" y="0" width="85" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("MontantProdTTC")]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="false">
+				<reportElement uuid="eea3dc78-6c12-41e9-b931-cfd1b88a1bcb" key="textField" mode="Transparent" x="516" y="25" width="85" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TotMont}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement uuid="d5fdd1d9-7744-434b-82c3-2ed7ba39f17f" key="textField" mode="Transparent" x="6" y="0" width="85" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("tva7")]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement uuid="10a369bf-1f41-45de-a85c-27cefdd868d2" key="textField" mode="Transparent" x="91" y="0" width="85" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("tva10")]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="false">
+				<reportElement uuid="0d0e72e8-df04-46fa-828c-4a729392220a" key="textField" mode="Transparent" x="91" y="25" width="85" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TotTva10}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="false">
+				<reportElement uuid="3997bc9d-4e64-4aee-8557-02572fb26ee8" key="textField" mode="Transparent" x="6" y="25" width="85" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TotTVa7}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement uuid="44417d67-1fd6-4641-b006-02250e032a5c" key="textField" mode="Transparent" x="346" y="0" width="85" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("MntTVA")]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="false">
+				<reportElement uuid="465f453c-4800-4f34-92ae-2fe3a21469ec" key="textField" mode="Transparent" x="346" y="25" width="85" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{TotTVa20}+$V{TotTva10}+$V{TotTva14}+$V{TotTVa7}]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+</jasperReport>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="etatTousProduit" pageWidth="600" pageHeight="842" columnWidth="560" leftMargin="20" rightMargin="20" topMargin="5" bottomMargin="20" uuid="1e00699f-9064-4c2b-a246-b87a4b32800a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="titleText" class="java.lang.String"/>
+	<parameter name="fichier" class="java.lang.String"/>
+	<parameter name="sumAllStc" class="java.lang.String"/>
+	<field name="designation" class="java.lang.String">
+		<fieldDescription><![CDATA[designation]]></fieldDescription>
+	</field>
+	<field name="qteStock" class="java.lang.Integer">
+		<fieldDescription><![CDATA[qteStock]]></fieldDescription>
+	</field>
+	<field name="pahtg" class="java.lang.Double">
+		<fieldDescription><![CDATA[pahtGrossiste]]></fieldDescription>
+	</field>
+	<field name="tva" class="java.lang.Double">
+		<fieldDescription><![CDATA[tva]]></fieldDescription>
+	</field>
+	<field name="pattc" class="java.lang.Double">
+		<fieldDescription><![CDATA[pattc]]></fieldDescription>
+	</field>
+	<field name="benefice" class="java.lang.Double">
+		<fieldDescription><![CDATA[benifice]]></fieldDescription>
+	</field>
+	<field name="qteFacturer" class="java.lang.Integer">
+		<fieldDescription><![CDATA[qteFacturer]]></fieldDescription>
+	</field>
+	<field name="pvMin" class="java.lang.Double">
+		<fieldDescription><![CDATA[prixVentMin2]]></fieldDescription>
+	</field>
+	<field name="prixVentMin1" class="java.lang.Double">
+		<fieldDescription><![CDATA[prixVentMin1]]></fieldDescription>
+	</field>
+	<field name="prixVentMin2" class="java.lang.Double">
+		<fieldDescription><![CDATA[prixVentMin2]]></fieldDescription>
+	</field>
+	<field name="remise" class="java.lang.Double">
+		<fieldDescription><![CDATA[remiseMax]]></fieldDescription>
+	</field>
+	<field name="fournisseur" class="java.lang.String">
+		<fieldDescription><![CDATA[repertoire.designation]]></fieldDescription>
+	</field>
+	<field name="pvttc" class="java.lang.Double">
+		<fieldDescription><![CDATA[pvttc]]></fieldDescription>
+	</field>
+	<variable name="variable1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{qteStock}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{qteStock}]]></initialValueExpression>
+	</variable>
+	<variable name="sommeMulti" class="java.lang.Double" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{qteStock}*$F{pattc}]]></variableExpression>
+		<initialValueExpression><![CDATA[$F{qteStock}*$F{pattc}]]></initialValueExpression>
+	</variable>
+	<variable name="curentPage" class="java.lang.Integer" resetType="Page" incrementType="Report">
+		<variableExpression><![CDATA[$V{PAGE_NUMBER}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="36" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="9" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField" mode="Opaque" x="0" y="0" width="458" height="25" forecolor="#000000" backcolor="#CCCCCC" uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("designation")]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField" mode="Opaque" x="458" y="0" width="102" height="25" forecolor="#000000" backcolor="#CCCCCC" uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("qteSto")]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="458" height="20" uuid="6737241f-05dd-4bd1-a991-2bf489e322f0"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{designation}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="458" y="0" width="102" height="20" uuid="7c3ce9f9-57cf-4545-9c7b-9613864ce795"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{qteStock}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField evaluationTime="Auto">
+				<reportElement x="0" y="0" width="100" height="20" uuid="821d1d38-3c16-4c86-bd02-3a8e82f76678"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{curentPage}+"/"+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="25">
+			<textField evaluationTime="Auto">
+				<reportElement x="0" y="-1" width="100" height="20" uuid="68bc415c-e4ce-48d7-b364-6dab11bce676"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{curentPage}+"/"+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band height="25" splitType="Stretch"/>
+	</summary>
+</jasperReport>

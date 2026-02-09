@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="imprimerRation" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="45488d10-75f1-466b-88c5-8e6574f7bf8d">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="3"/>
+	<parameter name="lienimage" class="java.lang.String"/>
+	<parameter name="fichier" class="java.lang.String"/>
+	<parameter name="infoAnimal" class="java.lang.String"/>
+	<parameter name="caracteristique" class="java.lang.String"/>
+	<parameter name="typeAnimall" class="java.lang.String"/>
+	<field name="aliment" class="java.lang.String">
+		<fieldDescription><![CDATA[aliment.lib]]></fieldDescription>
+	</field>
+	<field name="qte" class="java.lang.Double">
+		<fieldDescription><![CDATA[qte]]></fieldDescription>
+	</field>
+	<field name="pourcentage" class="java.lang.Double">
+		<fieldDescription><![CDATA[pourcentage]]></fieldDescription>
+	</field>
+	<field name="prix" class="java.lang.Double">
+		<fieldDescription><![CDATA[prix]]></fieldDescription>
+	</field>
+	<field name="typeAnimal" class="java.lang.Integer">
+		<fieldDescription><![CDATA[ration.animal.typeAnimal]]></fieldDescription>
+	</field>
+	<field name="periodeGestation" class="java.lang.Integer">
+		<fieldDescription><![CDATA[ration.animal.periodeGestation]]></fieldDescription>
+	</field>
+	<field name="periodeLactation" class="java.lang.Integer">
+		<fieldDescription><![CDATA[ration.animal.periodeLactation]]></fieldDescription>
+	</field>
+	<field name="sexe" class="java.lang.Integer">
+		<fieldDescription><![CDATA[ration.animal.sexe]]></fieldDescription>
+	</field>
+	<field name="taillePortee" class="java.lang.Integer">
+		<fieldDescription><![CDATA[ration.animal.taillePortee]]></fieldDescription>
+	</field>
+	<field name="poidsKG" class="java.lang.Double">
+		<fieldDescription><![CDATA[ration.poidsKG]]></fieldDescription>
+	</field>
+	<field name="eleveurNom" class="java.lang.String">
+		<fieldDescription><![CDATA[ration.eleveur.nom]]></fieldDescription>
+	</field>
+	<field name="eleveurCode" class="java.lang.String">
+		<fieldDescription><![CDATA[ration.eleveur.code]]></fieldDescription>
+	</field>
+	<field name="secteur" class="java.lang.String">
+		<fieldDescription><![CDATA[ration.eleveur.groupement.secteur.lib]]></fieldDescription>
+	</field>
+	<field name="groupement" class="java.lang.String">
+		<fieldDescription><![CDATA[ration.eleveur.groupement.lib]]></fieldDescription>
+	</field>
+	<field name="pourcentageQte" class="java.lang.Double">
+		<fieldDescription><![CDATA[pourcentage]]></fieldDescription>
+	</field>
+	<field name="pourcentagePrix" class="java.lang.Double">
+		<fieldDescription><![CDATA[pourcentagePrix]]></fieldDescription>
+	</field>
+	<field name="uemApport" class="java.lang.Double">
+		<fieldDescription><![CDATA[ration.uemApport]]></fieldDescription>
+	</field>
+	<field name="pdinApport" class="java.lang.Double">
+		<fieldDescription><![CDATA[ration.pdinApport]]></fieldDescription>
+	</field>
+	<field name="pdieApport" class="java.lang.Double">
+		<fieldDescription><![CDATA[ration.pdieApport]]></fieldDescription>
+	</field>
+	<field name="uflApport" class="java.lang.Double">
+		<fieldDescription><![CDATA[ration.uflApport]]></fieldDescription>
+	</field>
+	<field name="pabsApport" class="java.lang.Double">
+		<fieldDescription><![CDATA[ration.pabsApport]]></fieldDescription>
+	</field>
+	<field name="cabsApport" class="java.lang.Double">
+		<fieldDescription><![CDATA[ration.cabsApport]]></fieldDescription>
+	</field>
+	<field name="uemAnimal" class="java.lang.Double">
+		<fieldDescription><![CDATA[ration.uemAnimal]]></fieldDescription>
+	</field>
+	<field name="pdinAnimal" class="java.lang.Double">
+		<fieldDescription><![CDATA[ration.pdinAnimal]]></fieldDescription>
+	</field>
+	<field name="pdieAnimal" class="java.lang.Double">
+		<fieldDescription><![CDATA[ration.pdieAnimal]]></fieldDescription>
+	</field>
+	<field name="uflAnimal" class="java.lang.Double">
+		<fieldDescription><![CDATA[ration.uflAnimal]]></fieldDescription>
+	</field>
+	<field name="pabsAnimal" class="java.lang.Double">
+		<fieldDescription><![CDATA[ration.pabsAnimal]]></fieldDescription>
+	</field>
+	<field name="cabsAnimal" class="java.lang.Double">
+		<fieldDescription><![CDATA[ration.cabsAnimal]]></fieldDescription>
+	</field>
+	<field name="uemAliment" class="java.lang.Double">
+		<fieldDescription><![CDATA[aliment.uem]]></fieldDescription>
+	</field>
+	<field name="uflAliment" class="java.lang.Double">
+		<fieldDescription><![CDATA[aliment.ufl]]></fieldDescription>
+	</field>
+	<field name="pdinAliment" class="java.lang.Double">
+		<fieldDescription><![CDATA[aliment.pdin]]></fieldDescription>
+	</field>
+	<field name="pdieAliment" class="java.lang.Double">
+		<fieldDescription><![CDATA[aliment.pdie]]></fieldDescription>
+	</field>
+	<field name="pabsAliment" class="java.lang.Double">
+		<fieldDescription><![CDATA[aliment.pabs]]></fieldDescription>
+	</field>
+	<field name="cabsAliment" class="java.lang.Double">
+		<fieldDescription><![CDATA[aliment.cabs]]></fieldDescription>
+	</field>
+	<field name="diffUEM" class="java.lang.Double">
+		<fieldDescription><![CDATA[ration.diffUEM]]></fieldDescription>
+	</field>
+	<field name="diffUFL" class="java.lang.Double">
+		<fieldDescription><![CDATA[ration.diffUFL]]></fieldDescription>
+	</field>
+	<field name="diffPDIE" class="java.lang.Double">
+		<fieldDescription><![CDATA[ration.diffPDIE]]></fieldDescription>
+	</field>
+	<field name="diffPDIN" class="java.lang.Double">
+		<fieldDescription><![CDATA[ration.diffPDIN]]></fieldDescription>
+	</field>
+	<field name="diffCABS" class="java.lang.Double">
+		<fieldDescription><![CDATA[ration.diffCABS]]></fieldDescription>
+	</field>
+	<field name="diffPABS" class="java.lang.Double">
+		<fieldDescription><![CDATA[ration.diffPABS]]></fieldDescription>
+	</field>
+	<field name="totalUEM" class="java.lang.Double">
+		<fieldDescription><![CDATA[ration.totalUEM]]></fieldDescription>
+	</field>
+	<field name="totalUFL" class="java.lang.Double">
+		<fieldDescription><![CDATA[ration.totalUFL]]></fieldDescription>
+	</field>
+	<field name="totalPDIE" class="java.lang.Double">
+		<fieldDescription><![CDATA[ration.totalPDIE]]></fieldDescription>
+	</field>
+	<field name="totalPDIN" class="java.lang.Double">
+		<fieldDescription><![CDATA[ration.totalPDIN]]></fieldDescription>
+	</field>
+	<field name="totalCABS" class="java.lang.Double">
+		<fieldDescription><![CDATA[ration.totalCABS]]></fieldDescription>
+	</field>
+	<field name="totalPABS" class="java.lang.Double">
+		<fieldDescription><![CDATA[ration.totalPABS]]></fieldDescription>
+	</field>
+	<title>
+		<band height="85" splitType="Stretch">
+			<image scaleImage="RetainShape" hAlign="Center" vAlign="Top" onErrorType="Blank">
+				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="555" height="64" uuid="b4a74e04-7484-48c7-b318-65087bd41389"/>
+				<imageExpression><![CDATA[$P{lienimage}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="0" y="64" width="555" height="21" uuid="64efd25b-35de-4bac-8cd0-850eae864c06"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("bilanAnoc")+" "+$P{typeAnimall}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="120">
+			<textField>
+				<reportElement mode="Transparent" x="0" y="2" width="275" height="23" backcolor="#CCCCCC" uuid="8cd36342-83d4-47d8-b42c-8e6d249034ea"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("eleveur")
++" : "+$F{eleveurNom}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="274" y="2" width="281" height="23" backcolor="#CCCCCC" uuid="f2f291e7-ebbb-4d4d-90d7-f9a6f5d24ffb"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("secteur")
++" : "+$F{secteur}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="0" y="24" width="275" height="23" backcolor="#CCCCCC" uuid="6fdba5ac-1726-49a8-80fc-7d04c1aae120"/>
+				<box>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("code")
++" : "+$F{eleveurCode}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="274" y="24" width="281" height="23" backcolor="#CCCCCC" uuid="27aaa6f7-0fe8-4e6d-a738-f5c84225ccf9"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("groupement")
++" : "+$F{groupement}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="0" y="99" width="198" height="21" backcolor="#CCCCCC" uuid="ec18a88c-af05-46fd-b4c7-86ce5d720fe6"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("analyseRation")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="1" y="51" width="554" height="23" backcolor="#CCCCCC" uuid="8cd36342-83d4-47d8-b42c-8e6d249034ea"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{infoAnimal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="1" y="73" width="554" height="23" backcolor="#CCCCCC" uuid="6fdba5ac-1726-49a8-80fc-7d04c1aae120"/>
+				<box>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{caracteristique}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="83">
+			<textField>
+				<reportElement mode="Opaque" x="266" y="13" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="ebf96ffe-0563-4c7c-b675-7c4bd0492fc1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("ufl")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="219" y="13" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="ebf96ffe-0563-4c7c-b675-7c4bd0492fc1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("ci")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="313" y="13" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="ebf96ffe-0563-4c7c-b675-7c4bd0492fc1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("pdin")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="360" y="13" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="ebf96ffe-0563-4c7c-b675-7c4bd0492fc1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("pdie")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="454" y="13" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="eaa555b2-ac97-4c95-b55e-55363f0943c4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("cabs")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="407" y="13" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="9d4b19a8-77d0-4bdf-8ec5-66738209af2e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("pabs")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="132" y="13" width="85" height="23" forecolor="#FFFFFF" backcolor="#660099" uuid="33e668ac-dee9-4e7b-a040-d760fa626e46"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("quantiteMB")]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="454" y="36" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="6623cefc-7bf2-465b-bd07-06ec64f52731"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cabsAnimal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="266" y="36" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="6812ded6-6915-4512-a259-9b9a9fb64de3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{uflAnimal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="313" y="36" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="ecda4e0c-034a-4304-a9f5-4e2fbefa18fc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pdinAnimal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="360" y="36" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="b2fa6aba-22f9-4319-a41e-6c9fb218478b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pdieAnimal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="407" y="36" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="153b49aa-01f1-45ac-b83c-cb1ecd1451aa"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pabsAnimal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="219" y="36" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="c783fc35-43a8-461d-a3e0-afb2c80bbfa4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{uemAnimal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="1" y="36" width="129" height="23" forecolor="#FFFFFF" backcolor="#00CC33" uuid="f9545831-e8ff-4ecb-878d-e7af8b83da3c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("besoins")]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="360" y="60" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="025eaff7-5480-4dfb-bd86-4a70dd61b94e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pdieApport}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="266" y="60" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="77b96dcc-44fe-4c4f-8065-4f6661513b3d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{uflApport}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="219" y="60" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="3f5e5674-b80b-495f-b27c-c1c1fe72f86f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{uemApport}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="454" y="60" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="add0cd7d-8ae7-4b22-9575-1f5656a22ea1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cabsApport}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="1" y="60" width="129" height="23" forecolor="#FFFFFF" backcolor="#00CC33" uuid="44870ab3-6725-430b-8e7a-b530b70d6eb3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("apportTerrain")]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="407" y="60" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="16500464-eaae-4f13-ae6e-f7c2761bf1b9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pabsApport}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="313" y="60" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="468897eb-212d-4e13-b02b-3caf5d94e115"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pdinApport}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="132" y="36" width="85" height="23" forecolor="#FFFFFF" backcolor="#660099" uuid="a539e9a9-3872-4053-a92b-b349d2928a76"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="132" y="60" width="85" height="23" forecolor="#FFFFFF" backcolor="#660099" uuid="46a2f177-26c9-44db-b042-7f6059d8fa1c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement mode="Opaque" x="1" y="0" width="129" height="23" forecolor="#FFFFFF" backcolor="#00CC33" uuid="1376f3dc-ff14-4b6a-94b3-7fbcbf5f09d1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{aliment}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement mode="Opaque" x="132" y="0" width="85" height="23" forecolor="#FFFFFF" backcolor="#660099" uuid="1376f3dc-ff14-4b6a-94b3-7fbcbf5f09d1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{qte}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="219" y="0" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="1376f3dc-ff14-4b6a-94b3-7fbcbf5f09d1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{uemAliment} * $F{qte}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="266" y="0" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="1376f3dc-ff14-4b6a-94b3-7fbcbf5f09d1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{uflAliment} * $F{qte}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="313" y="0" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="2c1f93df-4231-48c3-a382-1695b354f3d4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pdinAliment} * $F{qte}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="360" y="0" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="e392e418-9fc4-48a7-aa04-591d968f00c6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pdieAliment} * $F{qte}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="407" y="0" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="93823e65-ff7e-4851-af73-6b703f71e15b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pabsAliment}  * $F{qte}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="454" y="0" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="127af1fe-027f-4a15-ac8e-4b492219096c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cabsAliment} * $F{qte}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="25">
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="360" y="2" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="4c146a99-3e28-4ec8-b9ca-cb8542f4ac9f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{diffPDIE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="266" y="2" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="ed9f6dcf-4c3d-420a-9ca3-223932c9d4b3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{diffUFL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="219" y="2" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="fd64465f-8c66-4eef-908a-21198125483d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{diffUEM}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="454" y="2" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="d1fdcd2d-2bf1-4517-877f-ef68869748f4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{diffCABS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="1" y="2" width="129" height="23" forecolor="#FFFFFF" backcolor="#00CC33" uuid="3d54cc92-e477-4721-a4af-af0e5618b5b8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("difference")]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="407" y="2" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="ace160cd-f225-4b89-baf7-4d369d3727ec"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{diffPABS}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="313" y="2" width="45" height="23" forecolor="#FFFFFF" backcolor="#0099FF" uuid="32a321d0-4bfd-4f99-ab5e-5aa3c6edfc9c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{diffPDIN}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="132" y="2" width="85" height="23" forecolor="#FFFFFF" backcolor="#660099" uuid="192178b0-b547-4807-bb12-ef860aadd4ad"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+</jasperReport>

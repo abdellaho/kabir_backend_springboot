@@ -9,10 +9,13 @@ import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.export.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
@@ -67,12 +70,21 @@ public class JasperReportsUtil {
         return outputStream.toByteArray();
     }
 
+    public static byte[] anullerImpr(String message) {
+        try {
+            String html = "<center><h2 style='color:red'>" + message + "</h2></center>";
+            byte[] bytes;
+            bytes = html.getBytes(StandardCharsets.UTF_8);
+            return bytes;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public byte[] jasperReportInBytes(List<?> dataSource, Map<String, Object> parameters, String fileName, ReportTypeEnum reportTypeEnum , String logo) throws Exception {
-        String lienImage = "";
-        String pathImage = "http://localhost:8082";
-        if(logo != null && !logo.isEmpty()){
-            lienImage = pathImage + logo;
-            parameters.put("lienimage" , lienImage);
+        if(StringUtils.isNotEmpty(logo)) {
+            InputStream logoStream = getClass().getResourceAsStream(logo);
+            parameters.put("lienimage" , logoStream);
         }
 
 

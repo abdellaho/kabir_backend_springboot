@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="imprimerRation" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="45488d10-75f1-466b-88c5-8e6574f7bf8d">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="lienimage" class="java.lang.String"/>
+	<parameter name="fichier" class="java.lang.String"/>
+	<parameter name="infoAnimal" class="java.lang.String"/>
+	<parameter name="caracteristique" class="java.lang.String"/>
+	<parameter name="typeAnimall" class="java.lang.String"/>
+	<field name="aliment" class="java.lang.String">
+		<fieldDescription><![CDATA[aliment.lib]]></fieldDescription>
+	</field>
+	<field name="qte" class="java.lang.Double">
+		<fieldDescription><![CDATA[qte]]></fieldDescription>
+	</field>
+	<field name="pourcentage" class="java.lang.Double">
+		<fieldDescription><![CDATA[pourcentage]]></fieldDescription>
+	</field>
+	<field name="prix" class="java.lang.Double">
+		<fieldDescription><![CDATA[prix]]></fieldDescription>
+	</field>
+	<field name="typeAnimal" class="java.lang.Integer">
+		<fieldDescription><![CDATA[ration.animal.typeAnimal]]></fieldDescription>
+	</field>
+	<field name="periodeGestation" class="java.lang.Integer">
+		<fieldDescription><![CDATA[ration.animal.periodeGestation]]></fieldDescription>
+	</field>
+	<field name="periodeLactation" class="java.lang.Integer">
+		<fieldDescription><![CDATA[ration.animal.periodeLactation]]></fieldDescription>
+	</field>
+	<field name="sexe" class="java.lang.Integer">
+		<fieldDescription><![CDATA[ration.animal.sexe]]></fieldDescription>
+	</field>
+	<field name="taillePortee" class="java.lang.Integer">
+		<fieldDescription><![CDATA[ration.animal.taillePortee]]></fieldDescription>
+	</field>
+	<field name="poidsKG" class="java.lang.Double">
+		<fieldDescription><![CDATA[ration.poidsKG]]></fieldDescription>
+	</field>
+	<field name="eleveurNom" class="java.lang.String">
+		<fieldDescription><![CDATA[ration.eleveur.nom]]></fieldDescription>
+	</field>
+	<field name="eleveurCode" class="java.lang.String">
+		<fieldDescription><![CDATA[ration.eleveur.code]]></fieldDescription>
+	</field>
+	<field name="secteur" class="java.lang.String">
+		<fieldDescription><![CDATA[ration.eleveur.groupement.secteur.lib]]></fieldDescription>
+	</field>
+	<field name="groupement" class="java.lang.String">
+		<fieldDescription><![CDATA[ration.eleveur.groupement.lib]]></fieldDescription>
+	</field>
+	<field name="pourcentageQte" class="java.lang.Double">
+		<fieldDescription><![CDATA[pourcentage]]></fieldDescription>
+	</field>
+	<field name="pourcentagePrix" class="java.lang.Double">
+		<fieldDescription><![CDATA[pourcentagePrix]]></fieldDescription>
+	</field>
+	<variable name="sommeQte" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{qte}]]></variableExpression>
+	</variable>
+	<variable name="sommePrix" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{prix} * $F{qte}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="85" splitType="Stretch">
+			<image scaleImage="RetainShape" hAlign="Center" vAlign="Top" onErrorType="Blank">
+				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="555" height="64" uuid="b4a74e04-7484-48c7-b318-65087bd41389"/>
+				<imageExpression><![CDATA[$P{lienimage}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="0" y="64" width="555" height="21" uuid="64efd25b-35de-4bac-8cd0-850eae864c06"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("bilanAnoc")+" "+$P{typeAnimall}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="120">
+			<textField>
+				<reportElement mode="Transparent" x="0" y="2" width="275" height="23" backcolor="#CCCCCC" uuid="8cd36342-83d4-47d8-b42c-8e6d249034ea"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("eleveur")
++" : "+$F{eleveurNom}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="274" y="2" width="281" height="23" backcolor="#CCCCCC" uuid="f2f291e7-ebbb-4d4d-90d7-f9a6f5d24ffb"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("secteur")
++" : "+$F{secteur}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="0" y="24" width="275" height="23" backcolor="#CCCCCC" uuid="6fdba5ac-1726-49a8-80fc-7d04c1aae120"/>
+				<box>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("code")
++" : "+$F{eleveurCode}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="274" y="24" width="281" height="23" backcolor="#CCCCCC" uuid="27aaa6f7-0fe8-4e6d-a738-f5c84225ccf9"/>
+				<box>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("groupement")
++" : "+$F{groupement}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="0" y="99" width="198" height="21" backcolor="#CCCCCC" uuid="ec18a88c-af05-46fd-b4c7-86ce5d720fe6"/>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("compositionRation")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="1" y="51" width="554" height="23" backcolor="#CCCCCC" uuid="8cd36342-83d4-47d8-b42c-8e6d249034ea"/>
+				<box>
+					<topPen lineWidth="0.75"/>
+					<leftPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{infoAnimal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="1" y="73" width="554" height="23" backcolor="#CCCCCC" uuid="6fdba5ac-1726-49a8-80fc-7d04c1aae120"/>
+				<box>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.75"/>
+					<rightPen lineWidth="0.75"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{caracteristique}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="25">
+			<textField>
+				<reportElement mode="Opaque" x="238" y="2" width="100" height="23" forecolor="#FFFFFF" backcolor="#660099" uuid="ebf96ffe-0563-4c7c-b675-7c4bd0492fc1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("percent")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="132" y="2" width="100" height="23" forecolor="#FFFFFF" backcolor="#660099" uuid="ebf96ffe-0563-4c7c-b675-7c4bd0492fc1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("quantiteMB")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="343" y="2" width="100" height="23" forecolor="#FFFFFF" backcolor="#660099" uuid="ebf96ffe-0563-4c7c-b675-7c4bd0492fc1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("coutMB")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="448" y="2" width="100" height="23" forecolor="#FFFFFF" backcolor="#660099" uuid="ebf96ffe-0563-4c7c-b675-7c4bd0492fc1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("percent")]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement mode="Opaque" x="1" y="0" width="129" height="23" forecolor="#FFFFFF" backcolor="#00CC33" uuid="1376f3dc-ff14-4b6a-94b3-7fbcbf5f09d1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{aliment}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement mode="Opaque" x="132" y="0" width="100" height="23" forecolor="#FFFFFF" backcolor="#660099" uuid="1376f3dc-ff14-4b6a-94b3-7fbcbf5f09d1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{qte}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="238" y="0" width="100" height="23" forecolor="#FFFFFF" backcolor="#660099" uuid="1376f3dc-ff14-4b6a-94b3-7fbcbf5f09d1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pourcentageQte}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="343" y="0" width="100" height="23" forecolor="#FFFFFF" backcolor="#660099" uuid="1376f3dc-ff14-4b6a-94b3-7fbcbf5f09d1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prix}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="448" y="0" width="100" height="23" forecolor="#FFFFFF" backcolor="#660099" uuid="1376f3dc-ff14-4b6a-94b3-7fbcbf5f09d1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pourcentagePrix}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="230">
+			<pieChart>
+				<chart>
+					<reportElement x="0" y="50" width="260" height="180" uuid="0734a321-53b4-4094-a826-51c57f604e3a"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<keyExpression><![CDATA[$F{aliment}]]></keyExpression>
+					<valueExpression><![CDATA[$F{pourcentageQte}]]></valueExpression>
+				</pieDataset>
+				<piePlot isShowLabels="false" legendLabelFormat="{0} ({2})">
+					<plot/>
+					<itemLabel/>
+				</piePlot>
+			</pieChart>
+			<pieChart>
+				<chart>
+					<reportElement x="304" y="50" width="251" height="180" uuid="c16dff88-34ea-4517-830b-fbdafb4ad378"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<keyExpression><![CDATA[$F{aliment}]]></keyExpression>
+					<valueExpression><![CDATA[$F{pourcentagePrix}]]></valueExpression>
+					<otherSectionHyperlink hyperlinkTarget="Blank"/>
+				</pieDataset>
+				<piePlot isShowLabels="false" legendLabelFormat="{0} ({2})">
+					<plot/>
+					<itemLabel/>
+				</piePlot>
+			</pieChart>
+		</band>
+	</summary>
+</jasperReport>

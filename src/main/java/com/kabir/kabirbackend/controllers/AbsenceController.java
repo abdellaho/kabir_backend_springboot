@@ -15,16 +15,19 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DateFormat;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/absence")
 public class AbsenceController {
 
     private static final ResourceBundle bundleFR = ResourceBundle.getBundle("i18n/ApplicationResources", Locale.of("fr"));
-    private static final ResourceBundle bundleAR = ResourceBundle.getBundle("i18n/ApplicationResources", Locale.of("ar"));
+    private static final DateFormat dateFormatDayFirst = new SimpleDateFormat("dd-MM-yyyy");
     private final Logger logger = LoggerFactory.getLogger(AbsenceController.class);
 
     /*
@@ -159,13 +162,53 @@ public class AbsenceController {
             Map<String, Object> params = new HashMap<>();
             try {
                 List<AbsenceDTO> listAbsence = absenceService.searchByCommon(commonSearchModel);
+                StringBuilder etatName = new StringBuilder("listAbsences");
+
+                if (CollectionUtils.isEmpty(listAbsence)) {
+                    byte[] bytes = JasperReportsUtil.anullerImpr("Aucun absence trouvé");
+                    ByteArrayResource resource = null;
+                    if (bytes != null) {
+                        resource = new ByteArrayResource(bytes);
+
+                        return ResponseEntity.ok()
+                                .header(HttpHeaders.CONTENT_DISPOSITION, MessageFormat.format("attachment; filename=\"{0}\"", etatName.toString()))
+                                .contentLength(resource.contentLength())
+                                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                                .body(resource);
+                    } else {
+                        return ResponseEntity.noContent().build();
+                    }
+                }
+
                 params.put("fichier", bundleFR.getBaseBundleName());
-                //params.put("lienimage", "");
+                params.put("checked", getClass().getResourceAsStream("/images/checked.png"));
+                params.put("notChecked", getClass().getResourceAsStream("/images/notChecked.png"));
+                params.put("titre", "");
+
+                Map<Long, List<AbsenceDTO>> map = listAbsence.stream().collect(Collectors.groupingBy(AbsenceDTO::getPersonnelId));
+                List<AbsenceDTO> result = new ArrayList<>();
+
+                List<AbsenceDTO> finalResult = new ArrayList<>();
+                map.values().forEach(list -> {
+                    double nbrJour = list.stream()
+                            .mapToDouble(a -> (a.isMatin() ? 0.5 : 0) + (a.isApresMidi() ? 0.5 : 0))
+                            .sum();
+
+                    list.forEach(a -> a.setNbrJour(nbrJour));
+                    finalResult.addAll(list);
+                });
+
+                if(null != commonSearchModel.getPersonnelId()) {
+                    etatName.setLength(0);
+                    etatName.append("listAbsencesOne");
+                    result = finalResult.stream().sorted((o1, o2)-> o1.getDateAbsence().compareTo(o2.getDateAbsence())).collect(Collectors.toList());
+                }
+
                 String logo = "";
-                byte[] bytes = jasperReportsUtil.jasperReportInBytes(listAbsence, params, "etatAbsence",  ReportTypeEnum.PDF , logo);
+                byte[] bytes = jasperReportsUtil.jasperReportInBytes(result, params, etatName.toString(), ReportTypeEnum.PDF, logo);
                 if (null != bytes) {
                     ByteArrayResource resource = new ByteArrayResource(bytes);
-                    String fileName = MessageFormat.format("absence_{0}.{1}", LocalDateTime.now(), "pdf");
+                    String fileName = MessageFormat.format(etatName.toString() + "_{0}.{1}", LocalDateTime.now(), "pdf");
                     return ResponseEntity.ok()
                             .header(HttpHeaders.CONTENT_DISPOSITION, MessageFormat.format("attachment; filename=\"{0}\"", fileName))
                             .contentLength(resource.contentLength())
