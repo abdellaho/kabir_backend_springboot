@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -82,6 +83,10 @@ public class AbsenceService implements IAbsenceService {
     @Override
     public List<AbsenceDTO> searchByCommon(CommonSearchModel commonSearchModel) {
         logger.info("Searching absence by common: {}", commonSearchModel);
+        if(null == commonSearchModel.getDateDebut() && null == commonSearchModel.getDateFin()) {
+            commonSearchModel.setDateDebut(LocalDate.now().minusDays(90));
+            commonSearchModel.setDateFin(LocalDate.now());
+        }
         return absenceRepository.findAll(AbsenceSpecification.builder().build().searchByCommon(commonSearchModel)).stream()
                 .map(absenceMapper::toAbsenceDTO)
                 .toList();

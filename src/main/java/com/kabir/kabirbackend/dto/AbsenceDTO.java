@@ -24,6 +24,7 @@ public class AbsenceDTO implements Serializable {
     @NotNull
     Long personnelId;
     String personnelDesignation;
+    double personnelSalaire;
     @JsonIgnore
     double nbrJour;
 }

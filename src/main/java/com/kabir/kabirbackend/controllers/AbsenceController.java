@@ -10,15 +10,15 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.DateFormat;
 import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class AbsenceController {
 
     private static final ResourceBundle bundleFR = ResourceBundle.getBundle("i18n/ApplicationResources", Locale.of("fr"));
-    private static final DateFormat dateFormatDayFirst = new SimpleDateFormat("dd-MM-yyyy");
+    private static final DateTimeFormatter dateFormatDayFirst = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private final Logger logger = LoggerFactory.getLogger(AbsenceController.class);
 
     /*
@@ -166,7 +166,7 @@ public class AbsenceController {
 
                 if (CollectionUtils.isEmpty(listAbsence)) {
                     byte[] bytes = JasperReportsUtil.anullerImpr("Aucun absence trouvé");
-                    ByteArrayResource resource = null;
+                    ByteArrayResource resource;
                     if (bytes != null) {
                         resource = new ByteArrayResource(bytes);
 
@@ -180,9 +180,14 @@ public class AbsenceController {
                     }
                 }
 
+                byte[] checkedBytes = new ClassPathResource("images/checked.png").getInputStream().readAllBytes();
+                byte[] notCheckedBytes = new ClassPathResource("images/notChecked.png").getInputStream().readAllBytes();
+
                 params.put("fichier", bundleFR.getBaseBundleName());
-                params.put("checked", getClass().getResourceAsStream("/images/checked.png"));
-                params.put("notChecked", getClass().getResourceAsStream("/images/notChecked.png"));
+                params.put("checked", checkedBytes);
+                params.put("notChecked", notCheckedBytes);
+                params.put("dateDebut", null != commonSearchModel.getDateDebut() ? dateFormatDayFirst.format(commonSearchModel.getDateDebut()) : "");
+                params.put("dateFin", null != commonSearchModel.getDateFin() ? dateFormatDayFirst.format(commonSearchModel.getDateFin()) : "");
                 params.put("titre", "");
 
                 Map<Long, List<AbsenceDTO>> map = listAbsence.stream().collect(Collectors.groupingBy(AbsenceDTO::getPersonnelId));
@@ -198,17 +203,20 @@ public class AbsenceController {
                     finalResult.addAll(list);
                 });
 
-                if(null != commonSearchModel.getPersonnelId()) {
+                if(null != commonSearchModel.getPersonnelId() && commonSearchModel.getPersonnelId() > 0) {
                     etatName.setLength(0);
                     etatName.append("listAbsencesOne");
-                    result = finalResult.stream().sorted((o1, o2)-> o1.getDateAbsence().compareTo(o2.getDateAbsence())).collect(Collectors.toList());
+                    result = finalResult.stream().sorted(Comparator.comparing(AbsenceDTO::getDateAbsence)).collect(Collectors.toList());
+                    params.put("nbrJour", result.getFirst().getNbrJour() + "");
+                } else {
+                    result = finalResult;
                 }
 
                 String logo = "";
                 byte[] bytes = jasperReportsUtil.jasperReportInBytes(result, params, etatName.toString(), ReportTypeEnum.PDF, logo);
                 if (null != bytes) {
                     ByteArrayResource resource = new ByteArrayResource(bytes);
-                    String fileName = MessageFormat.format(etatName.toString() + "_{0}.{1}", LocalDateTime.now(), "pdf");
+                    String fileName = MessageFormat.format(etatName + "_{0}.{1}", LocalDateTime.now(), "pdf");
                     return ResponseEntity.ok()
                             .header(HttpHeaders.CONTENT_DISPOSITION, MessageFormat.format("attachment; filename=\"{0}\"", fileName))
                             .contentLength(resource.contentLength())

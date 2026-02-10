@@ -1,6 +1,11 @@
 package com.kabir.kabirbackend.config.util;
 
 import com.kabir.kabirbackend.config.enums.ReportTypeEnum;
+import com.lowagie.text.Document;
+import com.lowagie.text.Element;
+import com.lowagie.text.Font;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfWriter;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.export.HtmlExporter;
@@ -72,10 +77,18 @@ public class JasperReportsUtil {
 
     public static byte[] anullerImpr(String message) {
         try {
-            String html = "<center><h2 style='color:red'>" + message + "</h2></center>";
-            byte[] bytes;
-            bytes = html.getBytes(StandardCharsets.UTF_8);
-            return bytes;
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            Document document = new Document();
+            PdfWriter.getInstance(document, baos);
+
+            document.open();
+            Font font = new Font(Font.HELVETICA, 16, Font.BOLD);
+            Paragraph p = new Paragraph(message, font);
+            p.setAlignment(Element.ALIGN_CENTER);
+            document.add(p);
+            document.close();
+
+            return baos.toByteArray();
         } catch (Exception e) {
             return null;
         }

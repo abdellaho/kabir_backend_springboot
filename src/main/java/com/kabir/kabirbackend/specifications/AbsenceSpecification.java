@@ -42,7 +42,7 @@ public class AbsenceSpecification implements Specification<Absence> {
             if(commonSearchModel.isApresMidi()) {
                 predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("apresMidi"), commonSearchModel.isApresMidi()));
             }
-            if(null != commonSearchModel.getPersonnelId()) {
+            if(null != commonSearchModel.getPersonnelId() && commonSearchModel.getPersonnelId() > 0) {
                 predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("personnel").get("id"), commonSearchModel.getPersonnelId()));
             }
 

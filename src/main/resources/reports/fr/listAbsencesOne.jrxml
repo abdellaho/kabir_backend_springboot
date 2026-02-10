@@ -5,23 +5,23 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="fichier" class="java.lang.String"/>
-	<parameter name="checked" class="java.lang.String"/>
-	<parameter name="notChecked" class="java.lang.String"/>
+	<parameter name="checked" class="byte[]"/>
+	<parameter name="notChecked" class="byte[]"/>
 	<parameter name="titre" class="java.lang.String"/>
 	<parameter name="nbrJour" class="java.lang.String"/>
 	<parameter name="dateFin" class="java.lang.String"/>
 	<parameter name="dateDebut" class="java.lang.String"/>
 	<field name="repertoire" class="java.lang.String">
-		<fieldDescription><![CDATA[repertoire.designation]]></fieldDescription>
+		<fieldDescription><![CDATA[personnelDesignation]]></fieldDescription>
 	</field>
 	<field name="repertoireID" class="java.lang.Long">
-		<fieldDescription><![CDATA[repertoire.id]]></fieldDescription>
+		<fieldDescription><![CDATA[personnelId]]></fieldDescription>
 	</field>
-	<field name="penalite" class="java.lang.Double">
-		<fieldDescription><![CDATA[penalite]]></fieldDescription>
+	<field name="salaire" class="java.lang.Double">
+		<fieldDescription><![CDATA[personnelSalaire]]></fieldDescription>
 	</field>
-	<field name="dateA" class="java.util.Date">
-		<fieldDescription><![CDATA[dateA]]></fieldDescription>
+	<field name="dateA" class="java.time.LocalDate">
+		<fieldDescription><![CDATA[dateAbsence]]></fieldDescription>
 	</field>
 	<field name="matin" class="java.lang.Boolean">
 		<fieldDescription><![CDATA[matin]]></fieldDescription>
@@ -29,9 +29,9 @@
 	<field name="apresMidi" class="java.lang.Boolean">
 		<fieldDescription><![CDATA[apresMidi]]></fieldDescription>
 	</field>
-	<variable name="sommePenalite" class="java.lang.Double" resetType="Group" resetGroup="repertoireGroupe" calculation="Sum">
-		<variableExpression><![CDATA[($F{penalite}!=null ? $F{penalite} : 0)]]></variableExpression>
-	</variable>
+	<field name="nbrJour" class="java.lang.Double">
+		<fieldDescription><![CDATA[nbrJour]]></fieldDescription>
+	</field>
 	<group name="repertoireGroupe">
 		<groupExpression><![CDATA[$F{repertoireID}]]></groupExpression>
 		<groupHeader>
@@ -48,7 +48,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" size="12"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("date")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("date")]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="false">
 					<reportElement key="textField" mode="Opaque" x="200" y="23" width="100" height="25" forecolor="#000000" backcolor="#CCCCCC" uuid="14ad43a5-7da4-44c4-bb82-ce04b92aff4e"/>
@@ -62,7 +62,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" size="12"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("matin")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("matin")]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="false">
 					<reportElement key="textField" mode="Opaque" x="300" y="23" width="100" height="25" forecolor="#000000" backcolor="#CCCCCC" uuid="14ad43a5-7da4-44c4-bb82-ce04b92aff4e"/>
@@ -76,7 +76,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" size="12"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("apresMidi")]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("apresMidi")]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
 					<reportElement x="0" y="1" width="400" height="22" uuid="0dccdf23-b60c-4e43-92ad-96973285f8c5"/>
@@ -90,9 +90,11 @@
 					<textElement verticalAlignment="Middle">
 						<font fontName="Arial" size="12" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{repertoire}+"             "
-+$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("nombreDeJour")
-+" : "+$P{nbrJour}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{repertoire} + "             "
++ $P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("nombreDeJour")
++ " : " + $P{nbrJour} + "            "
++ $P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("salaire")
++ " : " + ($F{nbrJour} * $F{salaire})]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>
@@ -114,7 +116,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="14" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("feuillePresence")+ " \n" + "Du " + $P{dateDebut} + " Au " + $P{dateFin}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("feuillePresence")+ " \n" + "Du " + $P{dateDebut} + " Au " + $P{dateFin}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
