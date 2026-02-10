@@ -3,6 +3,7 @@ package com.kabir.kabirbackend.controllers;
 import com.kabir.kabirbackend.config.enums.ReportTypeEnum;
 import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.config.util.JasperReportsUtil;
+import com.kabir.kabirbackend.config.util.StaticVariables;
 import com.kabir.kabirbackend.dto.AbsenceDTO;
 import com.kabir.kabirbackend.service.AbsenceService;
 import jakarta.validation.Valid;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -26,8 +26,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/absence")
 public class AbsenceController {
 
-    private static final ResourceBundle bundleFR = ResourceBundle.getBundle("i18n/ApplicationResources", Locale.of("fr"));
-    private static final DateTimeFormatter dateFormatDayFirst = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private final Logger logger = LoggerFactory.getLogger(AbsenceController.class);
 
     /*
@@ -183,11 +181,11 @@ public class AbsenceController {
                 byte[] checkedBytes = new ClassPathResource("images/checked.png").getInputStream().readAllBytes();
                 byte[] notCheckedBytes = new ClassPathResource("images/notChecked.png").getInputStream().readAllBytes();
 
-                params.put("fichier", bundleFR.getBaseBundleName());
+                params.put("fichier", StaticVariables.bundleFR.getBaseBundleName());
                 params.put("checked", checkedBytes);
                 params.put("notChecked", notCheckedBytes);
-                params.put("dateDebut", null != commonSearchModel.getDateDebut() ? dateFormatDayFirst.format(commonSearchModel.getDateDebut()) : "");
-                params.put("dateFin", null != commonSearchModel.getDateFin() ? dateFormatDayFirst.format(commonSearchModel.getDateFin()) : "");
+                params.put("dateDebut", null != commonSearchModel.getDateDebut() ? StaticVariables.dateFormatDayFirst.format(commonSearchModel.getDateDebut()) : "");
+                params.put("dateFin", null != commonSearchModel.getDateFin() ? StaticVariables.dateFormatDayFirst.format(commonSearchModel.getDateFin()) : "");
                 params.put("titre", "");
 
                 Map<Long, List<AbsenceDTO>> map = listAbsence.stream().collect(Collectors.groupingBy(AbsenceDTO::getPersonnelId));

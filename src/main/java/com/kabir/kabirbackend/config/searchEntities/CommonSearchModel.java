@@ -27,4 +27,7 @@ public class CommonSearchModel {
     private boolean compteCaisse;
     private String numCheque;
     private String numRemise;
+    private int typeRepertoire;
+    private Long villeId;
+    private int typeImprimRepertoire;
 }

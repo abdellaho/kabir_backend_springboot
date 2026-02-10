@@ -19,13 +19,10 @@
 		<fieldDescription><![CDATA[adresse]]></fieldDescription>
 	</field>
 	<field name="ville" class="java.lang.String">
-		<fieldDescription><![CDATA[ville.nomVille]]></fieldDescription>
+		<fieldDescription><![CDATA[villeNomVille]]></fieldDescription>
 	</field>
 	<field name="ife" class="java.lang.String">
 		<fieldDescription><![CDATA[ife]]></fieldDescription>
-	</field>
-	<field name="contact1" class="java.lang.String">
-		<fieldDescription><![CDATA[contact1]]></fieldDescription>
 	</field>
 	<field name="tel1" class="java.lang.String">
 		<fieldDescription><![CDATA[tel1]]></fieldDescription>
@@ -47,13 +44,7 @@
 		<fieldDescription><![CDATA[nbrOperationClient]]></fieldDescription>
 	</field>
 	<field name="commercial" class="java.lang.String">
-		<fieldDescription><![CDATA[repertoire.designation]]></fieldDescription>
-	</field>
-	<field name="contactTel2" class="java.lang.String">
-		<fieldDescription><![CDATA[contactTel2]]></fieldDescription>
-	</field>
-	<field name="contactTel3" class="java.lang.String">
-		<fieldDescription><![CDATA[contactTel3]]></fieldDescription>
+		<fieldDescription><![CDATA[personnelDesignation]]></fieldDescription>
 	</field>
 	<field name="dateDernierBL" class="java.util.Date"/>
 	<variable name="curentPage" class="java.lang.Integer" resetType="Page" incrementType="Report">
@@ -251,7 +242,7 @@ $P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("revendeur"))
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($F{tel3} !=null ? $F{tel3} : "") + " " + ($F{contactTel3} !=null ? $F{contactTel3} : "")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{tel3} !=null ? $F{tel3} : "")]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="510" y="0" width="30" height="20" uuid="eda8f61f-249f-4ca9-b536-343e37c80ac4"/>
@@ -295,7 +286,7 @@ $P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("revendeur"))
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($F{tel2} !=null ? $F{tel2} : "") + " " + ($F{contactTel2} !=null ? $F{contactTel2} : "")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[($F{tel2} !=null ? $F{tel2} : "")]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="610" y="0" width="90" height="20" uuid="eda8f61f-249f-4ca9-b536-343e37c80ac4"/>

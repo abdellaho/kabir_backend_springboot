@@ -1,5 +1,6 @@
 package com.kabir.kabirbackend.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -60,4 +61,6 @@ public class RepertoireDTO implements Serializable {
     String personnelDesignation;
     Long villeId;
     String villeNomVille;
+    @JsonIgnore
+    LocalDate dateDernierBL;
 }

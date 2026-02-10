@@ -19,4 +19,12 @@ public interface LivraisonRepository extends JpaRepository<Livraison, Long>, Jpa
 
     @Query("SELECT new com.kabir.kabirbackend.dto.DetBulletinLivraisonDTO(l.id, l.codeBl, l.dateBl, l.mantantBL, l.mantantBLReel, l.reglerNonRegler, l.repertoire.designation, l.mantantBLBenefice) FROM Livraison l WHERE l.dateBl between :start and :end and l.personnel.id = :repId")
     List<DetBulletinLivraisonDTO> findByDateBlBetweenAndPersonnelId(@Param("start") LocalDate start, @Param("end") LocalDate end, @Param("repId") Long repId);
+
+    @Query("""
+    select l.repertoire.id, max(l.dateBl)
+    from Livraison l
+    where l.dateBl is not null and l.repertoire.id in :ids
+    group by l.repertoire.id
+""")
+    List<Object[]> findLastDatesForRepertoires(@Param("ids") List<Long> ids);
 }

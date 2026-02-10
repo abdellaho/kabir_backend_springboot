@@ -89,9 +89,7 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$F{repertoire} + "             "
 + $P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("nombreDeJour")
-+ " : " + $F{nbrJour} + "            "
-+ $P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("salaire")
-+ " : " + ($F{nbrJour} * $F{salaire})]]></textFieldExpression>
++ " : " + $F{nbrJour} ]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>
