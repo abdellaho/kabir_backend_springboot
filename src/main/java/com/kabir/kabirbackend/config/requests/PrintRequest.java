@@ -1,0 +1,18 @@
+package com.kabir.kabirbackend.config.requests;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class PrintRequest {
+    private List<Long> ids;
+    private int type;
+    private Long fournisseurId;
+}

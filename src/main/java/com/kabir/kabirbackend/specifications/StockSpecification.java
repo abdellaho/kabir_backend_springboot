@@ -1,16 +1,14 @@
 package com.kabir.kabirbackend.specifications;
 
-import com.kabir.kabirbackend.dto.FournisseurDTO;
 import com.kabir.kabirbackend.dto.StockDTO;
-import com.kabir.kabirbackend.entities.Fournisseur;
 import com.kabir.kabirbackend.entities.Stock;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 import lombok.Builder;
 import lombok.Data;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.jpa.domain.Specification;
+
+import java.util.List;
 
 @Data
 @Builder
@@ -21,10 +19,32 @@ public class StockSpecification implements Specification<Stock> {
     public static Specification<Stock> searchBySupprimerOrArchiver(StockDTO stockDTO) {
         return (root, query, criteriaBuilder) -> {
 
+            query.orderBy(criteriaBuilder.asc(root.get("designation")));
+
             return criteriaBuilder.and(
                     criteriaBuilder.equal(root.get("supprimer"), stockDTO.isSupprimer()),
                     criteriaBuilder.equal(root.get("archiver"), stockDTO.isArchiver())
             );
+        };
+    }
+
+    public static Specification<Stock> getListStockBasedOnIds(List<Long> ids) {
+        return (root, query, criteriaBuilder) -> {
+            Predicate predicate = criteriaBuilder.conjunction();
+
+            if(CollectionUtils.isNotEmpty(ids)) {
+                Expression<Long> id = root.get("id");
+                predicate = criteriaBuilder.and(predicate, id.in(ids));
+            } else {
+                return criteriaBuilder.and(
+                        criteriaBuilder.equal(root.get("supprimer"), false),
+                        criteriaBuilder.equal(root.get("archiver"), false)
+                );
+            }
+
+            query.orderBy(criteriaBuilder.asc(root.get("designation")));
+
+            return predicate;
         };
     }
 

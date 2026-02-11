@@ -21,10 +21,10 @@ public interface LivraisonRepository extends JpaRepository<Livraison, Long>, Jpa
     List<DetBulletinLivraisonDTO> findByDateBlBetweenAndPersonnelId(@Param("start") LocalDate start, @Param("end") LocalDate end, @Param("repId") Long repId);
 
     @Query("""
-    select l.repertoire.id, max(l.dateBl)
-    from Livraison l
-    where l.dateBl is not null and l.repertoire.id in :ids
-    group by l.repertoire.id
-""")
+        select l.repertoire.id, max(l.dateBl)
+        from Livraison l
+        where l.dateBl is not null and l.repertoire.id in :ids
+        group by l.repertoire.id
+    """)
     List<Object[]> findLastDatesForRepertoires(@Param("ids") List<Long> ids);
 }

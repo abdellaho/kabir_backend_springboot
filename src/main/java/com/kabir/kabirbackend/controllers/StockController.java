@@ -1,15 +1,22 @@
 package com.kabir.kabirbackend.controllers;
 
 import com.kabir.kabirbackend.config.enums.TypeQteToUpdate;
+import com.kabir.kabirbackend.config.requests.PrintRequest;
+import com.kabir.kabirbackend.config.requests.PrintResponse;
 import com.kabir.kabirbackend.config.requests.RequestStockQte;
 import com.kabir.kabirbackend.dto.StockDTO;
 import com.kabir.kabirbackend.service.StockService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -192,6 +199,32 @@ class StockController {
         } catch (Exception e) {
             logger.error("Error updating stock qte stock facturer: {}", e.getMessage());
             return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    //Stock Reel + General + Prix net (prix initial --> IDS) + prix vente remise ( --> IDs)
+
+    @PostMapping("/imprimer")
+    public ResponseEntity<?> imprimer(@RequestBody PrintRequest printRequest) {
+        logger.info("Printing stock with the following criteria: {}", printRequest);
+        try {
+            PrintResponse printResponse = stockService.imprimer(printRequest);
+
+            byte[] bytes = printResponse.getResponseBytes();
+            if(null != bytes) {
+                ByteArrayResource resource = new ByteArrayResource(bytes);
+                String fileName = MessageFormat.format(printResponse.getEtatName() + "_{0}.{1}", LocalDateTime.now(), "pdf");
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION, MessageFormat.format("attachment; filename=\"{0}\"", fileName))
+                        .contentLength(resource.contentLength())
+                        .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                        .body(resource);
+            } else {
+                return ResponseEntity.noContent().build();
+            }
+        } catch (Exception e) {
+            logger.error("Error printing stock: {}", printRequest, e);
+            throw new RuntimeException("Error printing stock: " + printRequest, e);
         }
     }
 

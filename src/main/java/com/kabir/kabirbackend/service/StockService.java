@@ -1,8 +1,13 @@
 package com.kabir.kabirbackend.service;
 
 
+import com.kabir.kabirbackend.config.enums.ReportTypeEnum;
 import com.kabir.kabirbackend.config.enums.TypeQteToUpdate;
+import com.kabir.kabirbackend.config.requests.PrintRequest;
+import com.kabir.kabirbackend.config.requests.PrintResponse;
 import com.kabir.kabirbackend.config.requests.RequestStockQte;
+import com.kabir.kabirbackend.config.util.JasperReportsUtil;
+import com.kabir.kabirbackend.config.util.StaticVariables;
 import com.kabir.kabirbackend.dto.StockDTO;
 import com.kabir.kabirbackend.entities.Fournisseur;
 import com.kabir.kabirbackend.entities.Stock;
@@ -11,12 +16,13 @@ import com.kabir.kabirbackend.repository.FournisseurRepository;
 import com.kabir.kabirbackend.repository.StockRepository;
 import com.kabir.kabirbackend.service.interfaces.IStockService;
 import com.kabir.kabirbackend.specifications.StockSpecification;
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.math.BigDecimal;
+import java.util.*;
 
 @Service
 public class StockService implements IStockService {
@@ -24,11 +30,13 @@ public class StockService implements IStockService {
     private final StockRepository stockRepository;
     private final StockMapper stockMapper;
     private final FournisseurRepository fournisseurRepository;
+    private final JasperReportsUtil jasperReportsUtil;
 
-    public StockService(StockRepository stockRepository, StockMapper stockMapper, FournisseurRepository fournisseurRepository) {
+    public StockService(StockRepository stockRepository, StockMapper stockMapper, FournisseurRepository fournisseurRepository, JasperReportsUtil jasperReportsUtil) {
         this.stockRepository = stockRepository;
         this.stockMapper = stockMapper;
         this.fournisseurRepository = fournisseurRepository;
+        this.jasperReportsUtil = jasperReportsUtil;
     }
 
     @Override
@@ -130,6 +138,127 @@ public class StockService implements IStockService {
         } catch (Exception e) {
             logger.error("Error updating stock qte stock", e);
             throw new RuntimeException("Error updating stock qte stock", e);
+        }
+    }
+
+    @Override
+    public PrintResponse imprimer(PrintRequest printRequest) throws Exception {
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("fichier", StaticVariables.bundleFR.getBaseBundleName());
+
+        PrintResponse printResponse = new PrintResponse();
+        logger.info("Request to print");
+        String etatPrint = "";
+
+        if(printRequest.getType() != 1) {
+            StockDTO stockDTO = new StockDTO();
+            List<StockDTO> listStock = stockRepository.findAll(StockSpecification.getListStockBasedOnIds(printRequest.getIds())).stream().map(stockMapper::toStockDTO).toList();
+            if (CollectionUtils.isNotEmpty(listStock)) {
+                Object[] object = stockRepository.getSumPattcQteFacturerAndStock();
+
+                BigDecimal sumQteFact = (BigDecimal) object[0];
+                BigDecimal sumQteStck = (BigDecimal) object[1];
+
+                if (printRequest.getType() == 1) {
+                    printResponse.setEtatName("etatTousProduit");
+
+                    parameters.put("sumAllFct", StaticVariables.convertDouble(sumQteFact.doubleValue()) + "");
+                    parameters.put("sumAllStc", StaticVariables.convertDouble(sumQteStck.doubleValue()) + "");
+
+                    listStock = listStock.stream()
+                            .sorted(Comparator.comparing(StockDTO::getFournisseurId))
+                            .toList();
+                } else if (printRequest.getType() == 2) {
+                    printResponse.setEtatName("etatProduitStock");
+                    parameters.put("sumAllStc", StaticVariables.convertDouble(sumQteStck.doubleValue()) + "");
+                } else if (printRequest.getType() == 3) {
+                    printResponse.setEtatName("etatProduitStockFacturer");
+                    parameters.put("sumAllFct", StaticVariables.convertDouble(sumQteFact.doubleValue()) + "");
+                } else if (printRequest.getType() == 4 || printRequest.getType() == 9 || printRequest.getType() == 11) {
+                    printResponse.setEtatName("etatProduitPrixVente");
+                    if(printRequest.getType() == 9) printResponse.setEtatName("etatProduitPrixVenteCommercialRemise");
+                    if(printRequest.getType() == 11) printResponse.setEtatName("etatProduitPrixVenteRemise");
+                } else if (printRequest.getType() == 5) {
+                    printResponse.setEtatName("etatProduitFourni");
+                    if (null != printRequest.getFournisseurId() && printRequest.getFournisseurId() != 0) {
+                        printResponse.setEtatName("etatProduitFourniOne");
+                        listStock = stockRepository.listStockNonArchiveArchive(printRequest.getFournisseurId()).stream().map(stockMapper::toStockDTO).toList();
+                    } else {
+                        listStock = stockRepository.listStockNonArchiveArchive(null).stream().map(stockMapper::toStockDTO).toList();
+                    }
+                }else if (printRequest.getType() == 6) {
+                    printResponse.setEtatName("etatProduitPrixVenteSimple");
+                }else if (printRequest.getType() == 7) {
+                    printResponse.setEtatName("etatProduitPrixRevendeur");
+                }else if (printRequest.getType() == 8 || printRequest.getType() == 10) {
+                    printResponse.setEtatName("etatProduitPrixNet");
+                    if(printRequest.getType() == 10) etatPrint = "etatProduitPromotion";
+                } else if (printRequest.getType() == 12) {
+                    printResponse.setEtatName("etatProduitPrixCommercial");
+                    listStock = stockRepository.listStockPrixCommercialPositive().stream().map(stockMapper::toStockDTO).toList();
+                } else if(printRequest.getType() == 13) {
+                    printResponse.setEtatName("etatProduitPrixRevendeurCommission");
+                } else if(printRequest.getType() == 14) {
+                    printResponse.setEtatName("etatProduitPrixPharmacieRemise");
+                }
+
+                byte[] bytes = jasperReportsUtil.jasperReportInBytes(listStock, parameters, etatPrint, ReportTypeEnum.PDF, "");
+                printResponse.setResponseBytes(bytes);
+
+                return printResponse;
+            } else {
+                byte[] bytes = JasperReportsUtil.anullerImpr(StaticVariables.bundleFR.getString("aucuneResultatTrouve"));
+                printResponse.setResponseBytes(bytes);
+                return printResponse;
+            }
+        }else {
+            List<StockDTO> listStock = new ArrayList<>(stockRepository.findAll(StockSpecification.getListStockBasedOnIds(null)).stream().map(stockMapper::toStockDTO).toList());
+
+            Object[] object = stockRepository.getSumPattcQteFacturerAndStock();
+            Object[] objectArchive = stockRepository.getSumPattcQteFacturerAndStockArchive();
+
+            BigDecimal sumQteFact = (BigDecimal) object[0];
+            BigDecimal sumQteStock = (BigDecimal) object[1];
+            BigDecimal sumQteFactArch = (BigDecimal) objectArchive[0];
+            BigDecimal sumQteStockArch = (BigDecimal) objectArchive[1];
+
+            List<StockDTO> listStockArch = stockRepository.listStockArchive().stream().map(stockMapper::toStockDTO).toList();
+
+            etatPrint = "etatTousProduit";
+
+            parameters.put("sumAllFct", StaticVariables.convertDouble(sumQteFact.doubleValue()) + StaticVariables.convertDouble(sumQteFactArch.doubleValue()) + "");
+            parameters.put("sumAllStc", StaticVariables.convertDouble(sumQteStock.doubleValue()) + StaticVariables.convertDouble(sumQteStockArch.doubleValue()) + "");
+
+            listStock.addAll(listStockArch);
+
+            if (CollectionUtils.isNotEmpty(listStock)) {
+                List<StockDTO> listGroup = listStock.stream()
+                        .sorted(Comparator.comparing(StockDTO::getFournisseurId))
+                        .toList();
+
+                listGroup.forEach(stock -> {
+                    if(stock.getPrixVentMin4() != 0) {
+                        stock.setPrixVenteMinTemp(stock.getPrixVentMin4());
+                    } else if(stock.getPrixVentMin3() != 0) {
+                        stock.setPrixVenteMinTemp(stock.getPrixVentMin3());
+                    } else if(stock.getPrixVentMin2() != 0) {
+                        stock.setPrixVenteMinTemp(stock.getPrixVentMin2());
+                    }else if(stock.getPrixVentMin1() != 0) {
+                        stock.setPrixVenteMinTemp(stock.getPrixVentMin1());
+                    } else {
+                        stock.setPrixVenteMinTemp(stock.getPvttc());
+                    }
+                });
+
+                byte[] bytes = jasperReportsUtil.jasperReportInBytes(listStock, parameters, etatPrint, ReportTypeEnum.PDF, "");
+                printResponse.setResponseBytes(bytes);
+
+                return printResponse;
+            } else {
+                byte[] bytes = JasperReportsUtil.anullerImpr(StaticVariables.bundleFR.getString("aucuneResultatTrouve"));
+                printResponse.setResponseBytes(bytes);
+                return printResponse;
+            }
         }
     }
 

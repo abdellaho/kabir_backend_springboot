@@ -201,7 +201,64 @@ public class RepertoireService implements IRepertoireService {
         parameters.put("typeImprimer", typeImprimer.toString());
         parameters.put("typeRepertoire", commonSearchModel.getTypeRepertoire() + "");
 
-        byte[] bytes = jasperReportsUtil.jasperReportInBytes(listRepertoires, parameters, etatPrint, ReportTypeEnum.PDF, "");
-        return bytes;
+        return jasperReportsUtil.jasperReportInBytes(listRepertoires, parameters, etatPrint, ReportTypeEnum.PDF, "");
     }
+
+    public byte[] printClientAndAdresse(CommonSearchModel commonSearchModel, String etatPrint) throws Exception {
+        List<RepertoireDTO> listRepertoires = new ArrayList<>(repertoireRepository.findAll(RepertoireSpecification.searchToPrintClientAndAdresse(commonSearchModel)).stream().map(repertoireMapper::toRepertoireDTO).toList());
+
+        if (CollectionUtils.isEmpty(listRepertoires)) {
+            return JasperReportsUtil.anullerImpr(StaticVariables.bundleFR.getString("aucuneResultatTrouve"));
+        }
+
+        StringBuilder villeName = new StringBuilder(), typeImprimer = new StringBuilder();
+        boolean avecCommercial = false;
+
+        if (null != commonSearchModel.getVilleId() && commonSearchModel.getVilleId() > 0) {
+            villeName.append("Ville : ").append(listRepertoires.getFirst().getVilleNomVille());
+        }
+
+        if (null != commonSearchModel.getPersonnelId() && commonSearchModel.getPersonnelId() > 0) {
+            avecCommercial = true;
+        }
+
+        Map<String, Object> parameters = new HashMap<String, Object>();
+
+        parameters.put("villeName", villeName.toString());
+        parameters.put("fichier", StaticVariables.bundleFR.getBaseBundleName());
+        parameters.put("avecCommercial", avecCommercial ? "1" : "0");
+        parameters.put("type", commonSearchModel.getTypeRepertoire() + "");
+
+        return jasperReportsUtil.jasperReportInBytes(listRepertoires, parameters, etatPrint, ReportTypeEnum.PDF, "");
+    }
+
+    public byte[] printTransport(CommonSearchModel commonSearchModel, String etatPrint) throws Exception {
+        List<RepertoireDTO> listRepertoires = new ArrayList<>(repertoireRepository.findAll(RepertoireSpecification.searchToPrintWithoutExtraFilters(commonSearchModel)).stream().map(repertoireMapper::toRepertoireDTO).toList());
+
+        if (CollectionUtils.isEmpty(listRepertoires)) {
+            return JasperReportsUtil.anullerImpr(StaticVariables.bundleFR.getString("aucuneResultatTrouve"));
+        }
+
+        StringBuilder villeName = new StringBuilder(), typeImprimer = new StringBuilder();
+        boolean avecCommercial = false;
+
+        if (null != commonSearchModel.getVilleId() && commonSearchModel.getVilleId() > 0) {
+            villeName.append("Ville : ").append(listRepertoires.getFirst().getVilleNomVille());
+        }
+
+        if (null != commonSearchModel.getPersonnelId() && commonSearchModel.getPersonnelId() > 0) {
+            avecCommercial = true;
+        }
+
+        Map<String, Object> parameters = new HashMap<String, Object>();
+
+        parameters.put("villeName", villeName.toString());
+        parameters.put("fichier", StaticVariables.bundleFR.getBaseBundleName());
+        parameters.put("avecCommercial", avecCommercial ? "1" : "0");
+        parameters.put("type", commonSearchModel.getTypeRepertoire() + "");
+
+        return jasperReportsUtil.jasperReportInBytes(listRepertoires, parameters, etatPrint, ReportTypeEnum.PDF, "");
+    }
+
+
 }

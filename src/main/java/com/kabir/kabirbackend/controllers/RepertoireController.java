@@ -163,8 +163,9 @@ public class RepertoireController {
     public ResponseEntity<?> imprimer(@RequestBody CommonSearchModel commonSearchModel) {
         logger.info("Printing repertoire with the following criteria: {}", commonSearchModel);
         try {
-            String etatName  = "etatRepertoireClientPharmacie";
-            byte[] bytes = repertoireService.imprimer(commonSearchModel, etatName);
+            StringBuilder etatName = getStringBuilder(commonSearchModel);
+            
+            byte[] bytes = repertoireService.imprimer(commonSearchModel, etatName.toString());
             if(null != bytes) {
                 ByteArrayResource resource = new ByteArrayResource(bytes);
                 String fileName = MessageFormat.format(etatName + "_{0}.{1}", LocalDateTime.now(), "pdf");
@@ -180,5 +181,68 @@ public class RepertoireController {
             logger.error("Error printing repertoire: {}", commonSearchModel, e);
             throw new RuntimeException("Error printing repertoire: " + commonSearchModel, e);
         }
+    }
+
+    @PostMapping("/imprimer/client-adresse")
+    public ResponseEntity<?> imprimerClientAdresse(@RequestBody CommonSearchModel commonSearchModel) {
+        logger.info("Printing repertoire with adresse with the following criteria: {}", commonSearchModel);
+        try {
+            StringBuilder etatName = getStringBuilder(commonSearchModel);
+
+            byte[] bytes = repertoireService.printClientAndAdresse(commonSearchModel, etatName.toString());
+            if(null != bytes) {
+                ByteArrayResource resource = new ByteArrayResource(bytes);
+                String fileName = MessageFormat.format(etatName + "_{0}.{1}", LocalDateTime.now(), "pdf");
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION, MessageFormat.format("attachment; filename=\"{0}\"", fileName))
+                        .contentLength(resource.contentLength())
+                        .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                        .body(resource);
+            } else {
+                return ResponseEntity.noContent().build();
+            }
+        } catch (Exception e) {
+            logger.error("Error printing repertoire: {}", commonSearchModel, e);
+            throw new RuntimeException("Error printing repertoire: " + commonSearchModel, e);
+        }
+    }
+
+    @PostMapping("/imprimer/transport")
+    public ResponseEntity<?> imprimerTransport(@RequestBody CommonSearchModel commonSearchModel) {
+        logger.info("Printing repertoire type transport with the following criteria: {}", commonSearchModel);
+        try {
+            StringBuilder etatName = getStringBuilder(commonSearchModel);
+
+            byte[] bytes = repertoireService.printTransport(commonSearchModel, etatName.toString());
+            if(null != bytes) {
+                ByteArrayResource resource = new ByteArrayResource(bytes);
+                String fileName = MessageFormat.format(etatName + "_{0}.{1}", LocalDateTime.now(), "pdf");
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION, MessageFormat.format("attachment; filename=\"{0}\"", fileName))
+                        .contentLength(resource.contentLength())
+                        .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                        .body(resource);
+            } else {
+                return ResponseEntity.noContent().build();
+            }
+        } catch (Exception e) {
+            logger.error("Error printing repertoire: {}", commonSearchModel, e);
+            throw new RuntimeException("Error printing repertoire: " + commonSearchModel, e);
+        }
+    }
+
+    private static StringBuilder getStringBuilder(CommonSearchModel commonSearchModel) {
+        StringBuilder etatName  =  new StringBuilder("etatRepertoireClientPharmacie");
+
+        if(commonSearchModel.getTypeRepertoire() == 2) {
+            if(commonSearchModel.getTypeImprimRepertoire() == 10) {
+                etatName.setLength(0);
+                etatName.append("etatTousRepertoireClientAdresse");
+            }
+        } else if(commonSearchModel.getTypeRepertoire() == 3) {
+            etatName.setLength(0);
+            etatName.append("etatRepertoireTransport");
+        }
+        return etatName;
     }
 }

@@ -2,7 +2,6 @@ package com.kabir.kabirbackend.specifications;
 
 import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.RepertoireDTO;
-import com.kabir.kabirbackend.entities.Absence;
 import com.kabir.kabirbackend.entities.Livraison;
 import com.kabir.kabirbackend.entities.Repertoire;
 import jakarta.persistence.criteria.*;
@@ -25,6 +24,8 @@ public class RepertoireSpecification implements Specification<Repertoire> {
         return (root, query, criteriaBuilder) -> {
             Predicate predicate = criteriaBuilder.conjunction();
 
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("bloquer"), false));
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("archiver"), false));
             predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("typeRepertoire"), commonSearchModel.getTypeRepertoire()));
 
             if(null != commonSearchModel.getVilleId() && commonSearchModel.getVilleId() > 0) {
@@ -105,6 +106,51 @@ public class RepertoireSpecification implements Specification<Repertoire> {
         };
     }
 
+    public static Specification<Repertoire> searchToPrintClientAndAdresse(CommonSearchModel commonSearchModel) {
+        return (root, query, criteriaBuilder) -> {
+            Predicate predicate = criteriaBuilder.conjunction();
+
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("bloquer"), false));
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("archiver"), false));
+
+            Expression<Integer> typeRepertoire = root.get("typeRepertoire");
+            predicate = criteriaBuilder.and(predicate, typeRepertoire.in(List.of(1, 2)));
+
+            if(null != commonSearchModel.getVilleId() && commonSearchModel.getVilleId() > 0) {
+                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("ville").get("id"), commonSearchModel.getVilleId()));
+            }
+            if(null != commonSearchModel.getPersonnelId() && commonSearchModel.getPersonnelId() > 0) {
+                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("personnel").get("id"), commonSearchModel.getPersonnelId()));
+            }
+
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.greaterThan(root.get("nbrOperationClient"), 0));
+            query.orderBy(criteriaBuilder.desc(root.get("nbrOperationClient")), criteriaBuilder.asc(root.get("designation")));
+
+            return predicate;
+        };
+    }
+
+    public static Specification<Repertoire> searchToPrintWithoutExtraFilters(CommonSearchModel commonSearchModel) {
+        return (root, query, criteriaBuilder) -> {
+            Predicate predicate = criteriaBuilder.conjunction();
+
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("bloquer"), false));
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("archiver"), false));
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("typeRepertoire"), commonSearchModel.getTypeRepertoire()));
+
+            if(null != commonSearchModel.getVilleId() && commonSearchModel.getVilleId() > 0) {
+                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("ville").get("id"), commonSearchModel.getVilleId()));
+            }
+            if(null != commonSearchModel.getPersonnelId() && commonSearchModel.getPersonnelId() > 0) {
+                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("personnel").get("id"), commonSearchModel.getPersonnelId()));
+            }
+
+            query.orderBy(criteriaBuilder.asc(root.get("designation")));
+
+            return predicate;
+        };
+    }
+
     public static Specification<Repertoire> searchBySupprimerOrArchiver(RepertoireDTO repertoireDTO) {
         return (root, query, criteriaBuilder) -> {
 
@@ -122,7 +168,7 @@ public class RepertoireSpecification implements Specification<Repertoire> {
 
             query.orderBy(criteriaBuilder.asc(root.get("designation")));
 
-            List<Integer> intCriteria = Arrays.asList(0, 1, 2);
+            List<Integer> intCriteria = Arrays.asList(0, 1, 2, 3);
 
             return criteriaBuilder.and(
                     criteriaBuilder.equal(root.get("bloquer"), repertoireDTO.isBloquer()),
