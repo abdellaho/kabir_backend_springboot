@@ -1,11 +1,11 @@
 package com.kabir.kabirbackend.controllers;
 
 
+import com.kabir.kabirbackend.config.responses.RepertoireValidationResponse;
 import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.RepertoireDTO;
 import com.kabir.kabirbackend.service.RepertoireService;
 import jakarta.validation.Valid;
-import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ByteArrayResource;
@@ -126,10 +126,10 @@ public class RepertoireController {
     }
 
     @PostMapping("/exist")
-    public ResponseEntity<Boolean> exist(@RequestBody RepertoireDTO repertoireDTO) {
+    public ResponseEntity<RepertoireValidationResponse> exist(@RequestBody RepertoireDTO repertoireDTO) {
         logger.info("Searching repertoire if exist: {}", repertoireDTO);
         try {
-            return ResponseEntity.ok(CollectionUtils.isNotEmpty(repertoireService.exist(repertoireDTO)));
+            return ResponseEntity.ok(repertoireService.existingTest(repertoireDTO));
         } catch (Exception e) {
             logger.error("Error searching repertoire if exist: {}", repertoireDTO, e);
             throw new RuntimeException("Error searching repertoire if exist: " + repertoireDTO, e);
