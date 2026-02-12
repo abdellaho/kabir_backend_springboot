@@ -1,6 +1,5 @@
 package com.kabir.kabirbackend.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -132,6 +131,5 @@ public class StockDTO implements Serializable {
     private Long fournisseurId;
 
     private String fournisseurDesignation;
-    @JsonIgnore
     private double prixVenteMinTemp;
 }

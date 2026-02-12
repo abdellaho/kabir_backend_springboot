@@ -37,10 +37,10 @@
 		<fieldDescription><![CDATA[prixVentMin2]]></fieldDescription>
 	</field>
 	<field name="remise" class="java.lang.Double">
-		<fieldDescription><![CDATA[remiseMax]]></fieldDescription>
+		<fieldDescription><![CDATA[remiseMax1]]></fieldDescription>
 	</field>
 	<field name="fournisseur" class="java.lang.String">
-		<fieldDescription><![CDATA[repertoire.designation]]></fieldDescription>
+		<fieldDescription><![CDATA[fournisseurDesignation]]></fieldDescription>
 	</field>
 	<field name="pvttc" class="java.lang.Double">
 		<fieldDescription><![CDATA[pvttc]]></fieldDescription>
@@ -49,10 +49,10 @@
 		<fieldDescription><![CDATA[prixVentMin2]]></fieldDescription>
 	</field>
 	<field name="qtePVMin" class="java.lang.Integer">
-		<fieldDescription><![CDATA[qtePVMin]]></fieldDescription>
+		<fieldDescription><![CDATA[qtePVMin1]]></fieldDescription>
 	</field>
 	<field name="remiseMax" class="java.lang.Double">
-		<fieldDescription><![CDATA[remiseMax]]></fieldDescription>
+		<fieldDescription><![CDATA[remiseMax1]]></fieldDescription>
 	</field>
 	<field name="qtePVMin3" class="java.lang.Integer">
 		<fieldDescription><![CDATA[qtePVMin3]]></fieldDescription>
@@ -99,7 +99,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("designation")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("designation")]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
 				<reportElement key="textField" mode="Opaque" x="420" y="0" width="70" height="25" forecolor="#000000" backcolor="#CCCCCC" uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf"/>
@@ -113,7 +113,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("PrixVente")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("PrixVente")]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
 				<reportElement key="textField" mode="Opaque" x="490" y="0" width="70" height="25" forecolor="#000000" backcolor="#CCCCCC" uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf"/>
@@ -127,7 +127,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("remise")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("remise")]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnHeader>

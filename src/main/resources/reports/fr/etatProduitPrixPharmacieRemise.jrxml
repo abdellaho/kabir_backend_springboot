@@ -31,10 +31,10 @@
 		<fieldDescription><![CDATA[prixVentMin2]]></fieldDescription>
 	</field>
 	<field name="remise" class="java.lang.Double">
-		<fieldDescription><![CDATA[remiseMax]]></fieldDescription>
+		<fieldDescription><![CDATA[remiseMax1]]></fieldDescription>
 	</field>
 	<field name="fournisseur" class="java.lang.String">
-		<fieldDescription><![CDATA[repertoire.designation]]></fieldDescription>
+		<fieldDescription><![CDATA[fournisseurDesignation]]></fieldDescription>
 	</field>
 	<field name="pvttc" class="java.lang.Double">
 		<fieldDescription><![CDATA[pvttc]]></fieldDescription>
@@ -46,10 +46,10 @@
 		<fieldDescription><![CDATA[prixVentMin1]]></fieldDescription>
 	</field>
 	<field name="qtePVMin" class="java.lang.Integer">
-		<fieldDescription><![CDATA[qtePVMin]]></fieldDescription>
+		<fieldDescription><![CDATA[qtePVMin1]]></fieldDescription>
 	</field>
 	<field name="remiseMax" class="java.lang.Double">
-		<fieldDescription><![CDATA[remiseMax]]></fieldDescription>
+		<fieldDescription><![CDATA[remiseMax1]]></fieldDescription>
 	</field>
 	<field name="qtePVMin3" class="java.lang.Integer">
 		<fieldDescription><![CDATA[qtePVMin3]]></fieldDescription>
@@ -108,7 +108,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("designation")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("designation")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
 				<reportElement key="textField" stretchType="RelativeToTallestObject" mode="Opaque" x="410" y="0" width="150" height="25" forecolor="#000000" backcolor="#CCCCCC" uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf">
@@ -125,7 +125,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("remiseSelonQte")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("remiseSelonQte")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
 				<reportElement key="textField" stretchType="RelativeToTallestObject" mode="Opaque" x="260" y="0" width="80" height="25" forecolor="#000000" backcolor="#CCCCCC" uuid="7ce1910a-957e-49c3-ad2e-9701690a0a20"/>
@@ -139,7 +139,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("pph")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("pph")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
 				<reportElement key="textField" stretchType="RelativeToTallestObject" mode="Opaque" x="340" y="0" width="70" height="25" forecolor="#000000" backcolor="#CCCCCC" uuid="dbf671af-1ef7-415c-afad-eec95ee7db90"/>
@@ -153,7 +153,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("remise")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("remise")]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnHeader>

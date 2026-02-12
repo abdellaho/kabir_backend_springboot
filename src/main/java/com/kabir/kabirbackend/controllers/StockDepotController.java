@@ -1,6 +1,7 @@
 package com.kabir.kabirbackend.controllers;
 
 import com.kabir.kabirbackend.config.responses.StockDepotResponse;
+import com.kabir.kabirbackend.dto.DetStockDepotDTO;
 import com.kabir.kabirbackend.dto.StockDepotDTO;
 import com.kabir.kabirbackend.service.StockDepotService;
 import org.slf4j.Logger;
@@ -41,6 +42,17 @@ public class StockDepotController {
         }
     }
 
+    @GetMapping("/details")
+    public ResponseEntity<List<DetStockDepotDTO>> getAllDetails() {
+        logger.info("Finding all det stock depots");
+        try {
+            return ResponseEntity.ok(stockDepotService.findAllDetails());
+        } catch (Exception e) {
+            logger.error("Error finding all det stock depots", e);
+            throw new RuntimeException("Error finding all det stock depots", e);
+        }
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<StockDepotDTO> getById(@PathVariable Long id) {
         logger.info("Finding stock depot by id: {}", id);
@@ -64,7 +76,7 @@ public class StockDepotController {
     }
 
     @PostMapping
-    public ResponseEntity<StockDepotDTO> create(@RequestBody StockDepotResponse stockDepotResponse) {
+    public ResponseEntity<StockDepotResponse> create(@RequestBody StockDepotResponse stockDepotResponse) {
         logger.info("Creating stock depot response : {}", stockDepotResponse);
         try {
             return ResponseEntity.ok(stockDepotService.save(stockDepotResponse));
@@ -75,7 +87,7 @@ public class StockDepotController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<StockDepotDTO> update(@PathVariable Long id, @RequestBody StockDepotResponse stockDepotResponse) {
+    public ResponseEntity<StockDepotResponse> update(@PathVariable Long id, @RequestBody StockDepotResponse stockDepotResponse) {
         logger.info("Updating stock depot response : {}", stockDepotResponse);
         try {
             return ResponseEntity.ok(stockDepotService.save(stockDepotResponse));

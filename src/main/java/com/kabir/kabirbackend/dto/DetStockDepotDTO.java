@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 /**
  * DTO for {@link com.kabir.kabirbackend.entities.DetStockDepot}
@@ -17,6 +18,7 @@ public class DetStockDepotDTO implements Serializable {
     int qte;
     @NotNull
     Long stockDepotId;
+    LocalDate stockDateOperation;
     @NotNull
     Long stockId;
     String stockDesignation;

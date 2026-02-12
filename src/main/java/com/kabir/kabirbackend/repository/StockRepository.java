@@ -1,5 +1,6 @@
 package com.kabir.kabirbackend.repository;
 
+import com.kabir.kabirbackend.config.util.StockSumProjection;
 import com.kabir.kabirbackend.entities.Stock;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -13,18 +14,18 @@ import java.util.List;
 public interface StockRepository extends JpaRepository<Stock, Long>, JpaSpecificationExecutor<Stock> {
 
     @Query("""
-        select sum(s.pattc * s.qteFacturer), sum(s.pattc * s.qteStock)
+        select sum(s.pattc * s.qteFacturer) as sumQteFact, sum(s.pattc * s.qteStock) as sumQteStock
         from Stock s
         where s.archiver = false
     """)
-    Object[] getSumPattcQteFacturerAndStock();
+    StockSumProjection getSumPattcQteFacturerAndStock();
 
     @Query("""
-        select sum(s.pattc * s.qteFacturer), sum(s.pattc * s.qteStock)
+        select sum(s.pattc * s.qteFacturer) as sumQteFact, sum(s.pattc * s.qteStock) as sumQteStock
         from Stock s
         where s.archiver = true and (s.qteStockImport <> 0 or s.qteStock <> 0)
     """)
-    Object[] getSumPattcQteFacturerAndStockArchive();
+    StockSumProjection getSumPattcQteFacturerAndStockArchive();
 
     @Query("""
         select s

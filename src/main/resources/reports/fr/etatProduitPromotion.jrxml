@@ -31,10 +31,10 @@
 		<fieldDescription><![CDATA[prixVentMin2]]></fieldDescription>
 	</field>
 	<field name="remise" class="java.lang.Double">
-		<fieldDescription><![CDATA[remiseMax]]></fieldDescription>
+		<fieldDescription><![CDATA[remiseMax1]]></fieldDescription>
 	</field>
 	<field name="fournisseur" class="java.lang.String">
-		<fieldDescription><![CDATA[repertoire.designation]]></fieldDescription>
+		<fieldDescription><![CDATA[prixVentMin3]]></fieldDescription>
 	</field>
 	<field name="pvttc" class="java.lang.Double">
 		<fieldDescription><![CDATA[pvttc]]></fieldDescription>
@@ -46,10 +46,10 @@
 		<fieldDescription><![CDATA[prixVentMin2]]></fieldDescription>
 	</field>
 	<field name="qtePVMin" class="java.lang.Integer">
-		<fieldDescription><![CDATA[qtePVMin]]></fieldDescription>
+		<fieldDescription><![CDATA[qtePVMin1]]></fieldDescription>
 	</field>
 	<field name="remiseMax" class="java.lang.Double">
-		<fieldDescription><![CDATA[remiseMax]]></fieldDescription>
+		<fieldDescription><![CDATA[remiseMax1]]></fieldDescription>
 	</field>
 	<field name="qtePVMin3" class="java.lang.Integer">
 		<fieldDescription><![CDATA[qtePVMin3]]></fieldDescription>
@@ -64,10 +64,10 @@
 		<fieldDescription><![CDATA[prixVentMin4]]></fieldDescription>
 	</field>
 	<field name="promotion1" class="java.lang.String">
-		<fieldDescription><![CDATA[promotion1]]></fieldDescription>
+		<fieldDescription><![CDATA[prime1]]></fieldDescription>
 	</field>
 	<field name="promotion2" class="java.lang.String">
-		<fieldDescription><![CDATA[promotion2]]></fieldDescription>
+		<fieldDescription><![CDATA[prime2]]></fieldDescription>
 	</field>
 	<variable name="variable1" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{pvttc}]]></variableExpression>
@@ -102,7 +102,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("designation")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("designation")]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
 				<reportElement key="textField" mode="Opaque" x="350" y="0" width="70" height="25" forecolor="#000000" backcolor="#CCCCCC" uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf">
@@ -118,7 +118,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("PrixVente")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("PrixVente")]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
 				<reportElement key="textField" mode="Opaque" x="420" y="0" width="140" height="25" forecolor="#000000" backcolor="#CCCCCC" uuid="c488d9ef-c9c4-4374-95c0-dccef0b595f1"/>
@@ -132,7 +132,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("promotion")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("promotion")]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnHeader>

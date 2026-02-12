@@ -5,7 +5,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.Instant;
 
 /**
@@ -81,8 +80,7 @@ public class EtablissementDTO implements Serializable {
     String userMail;
     @NotNull
     Integer capitale;
-    @NotNull
-    BigDecimal pourcentageLiv;
+    String pourcentageLiv;
     @NotNull
     @Size(max = 191)
     String lienDbDump;

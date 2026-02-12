@@ -57,21 +57,24 @@ public class StockDepotService implements IStockDepotService {
     }
 
     @Override
-    public StockDepotDTO save(StockDepotResponse stockDepotResponse) {
+    public StockDepotResponse save(StockDepotResponse stockDepotResponse) {
         logger.info("Saving stock depot: {}", stockDepotResponse);
         StockDepotDTO stockDepotDTO = stockDepotResponse.stockDepot();
         boolean isSave = stockDepotDTO.getId() == null;
+        StockDepotResponse response = null;
         try {
             StockDepot stockDepot = stockDepotMapper.toStockDepot(stockDepotDTO);
             stockDepotDTO = stockDepotMapper.toStockDepotDTO(stockDepotRepository.save(stockDepot));
 
             enregistrerDetStockDepot(stockDepot, isSave, stockDepotResponse.detStockDepots());
 
+            response = findByIdStockDepotResponse(stockDepotDTO.getId());
+
             logger.info("Stock depot saved successfully: {}", stockDepotDTO);
         } catch (Exception e) {
             logger.error("Failed to save stock depot: {}", e.getMessage());
         }
-        return stockDepotDTO;
+        return response;
     }
 
     @Override
@@ -111,6 +114,16 @@ public class StockDepotService implements IStockDepotService {
                 .collect(Collectors.toList());
         logger.info("Stock depots found: {}", stockDepotDTOs.size());
         return stockDepotDTOs;
+    }
+
+    @Override
+    public List<DetStockDepotDTO> findAllDetails() {
+        logger.info("Finding all det stock depots");
+        List<DetStockDepotDTO> detStockDepotDTOs = detStockDepotRepository.findAll(Sort.by(Sort.Direction.DESC, "stockDepot.dateOperation")).stream()
+                .map(detStockDepotMapper::toDetStockDepotDTO)
+                .collect(Collectors.toList());
+        logger.info("Det stock depots found: {}", detStockDepotDTOs.size());
+        return detStockDepotDTOs;
     }
 
     @Override

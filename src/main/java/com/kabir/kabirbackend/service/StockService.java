@@ -8,6 +8,7 @@ import com.kabir.kabirbackend.config.requests.PrintResponse;
 import com.kabir.kabirbackend.config.requests.RequestStockQte;
 import com.kabir.kabirbackend.config.util.JasperReportsUtil;
 import com.kabir.kabirbackend.config.util.StaticVariables;
+import com.kabir.kabirbackend.config.util.StockSumProjection;
 import com.kabir.kabirbackend.dto.StockDTO;
 import com.kabir.kabirbackend.entities.Fournisseur;
 import com.kabir.kabirbackend.entities.Stock;
@@ -21,7 +22,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.*;
 
 @Service
@@ -143,37 +143,35 @@ public class StockService implements IStockService {
 
     @Override
     public PrintResponse imprimer(PrintRequest printRequest) throws Exception {
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         parameters.put("fichier", StaticVariables.bundleFR.getBaseBundleName());
 
         PrintResponse printResponse = new PrintResponse();
         logger.info("Request to print");
-        String etatPrint = "";
 
         if(printRequest.getType() != 1) {
-            StockDTO stockDTO = new StockDTO();
             List<StockDTO> listStock = stockRepository.findAll(StockSpecification.getListStockBasedOnIds(printRequest.getIds())).stream().map(stockMapper::toStockDTO).toList();
             if (CollectionUtils.isNotEmpty(listStock)) {
-                Object[] object = stockRepository.getSumPattcQteFacturerAndStock();
+                StockSumProjection stockSumProjection = stockRepository.getSumPattcQteFacturerAndStock();
 
-                BigDecimal sumQteFact = (BigDecimal) object[0];
-                BigDecimal sumQteStck = (BigDecimal) object[1];
+                double sumQteFact = stockSumProjection.getSumQteFact() != null ? stockSumProjection.getSumQteFact() : 0.0;
+                double sumQteStock = stockSumProjection.getSumQteStock() != null ? stockSumProjection.getSumQteStock() : 0.0;
 
                 if (printRequest.getType() == 1) {
                     printResponse.setEtatName("etatTousProduit");
 
-                    parameters.put("sumAllFct", StaticVariables.convertDouble(sumQteFact.doubleValue()) + "");
-                    parameters.put("sumAllStc", StaticVariables.convertDouble(sumQteStck.doubleValue()) + "");
+                    parameters.put("sumAllFct", StaticVariables.convertDouble(sumQteFact) + "");
+                    parameters.put("sumAllStc", StaticVariables.convertDouble(sumQteStock) + "");
 
                     listStock = listStock.stream()
                             .sorted(Comparator.comparing(StockDTO::getFournisseurId))
                             .toList();
                 } else if (printRequest.getType() == 2) {
                     printResponse.setEtatName("etatProduitStock");
-                    parameters.put("sumAllStc", StaticVariables.convertDouble(sumQteStck.doubleValue()) + "");
+                    parameters.put("sumAllStc", StaticVariables.convertDouble(sumQteStock) + "");
                 } else if (printRequest.getType() == 3) {
                     printResponse.setEtatName("etatProduitStockFacturer");
-                    parameters.put("sumAllFct", StaticVariables.convertDouble(sumQteFact.doubleValue()) + "");
+                    parameters.put("sumAllFct", StaticVariables.convertDouble(sumQteFact) + "");
                 } else if (printRequest.getType() == 4 || printRequest.getType() == 9 || printRequest.getType() == 11) {
                     printResponse.setEtatName("etatProduitPrixVente");
                     if(printRequest.getType() == 9) printResponse.setEtatName("etatProduitPrixVenteCommercialRemise");
@@ -192,7 +190,7 @@ public class StockService implements IStockService {
                     printResponse.setEtatName("etatProduitPrixRevendeur");
                 }else if (printRequest.getType() == 8 || printRequest.getType() == 10) {
                     printResponse.setEtatName("etatProduitPrixNet");
-                    if(printRequest.getType() == 10) etatPrint = "etatProduitPromotion";
+                    if(printRequest.getType() == 10) printResponse.setEtatName("etatProduitPromotion");
                 } else if (printRequest.getType() == 12) {
                     printResponse.setEtatName("etatProduitPrixCommercial");
                     listStock = stockRepository.listStockPrixCommercialPositive().stream().map(stockMapper::toStockDTO).toList();
@@ -202,32 +200,30 @@ public class StockService implements IStockService {
                     printResponse.setEtatName("etatProduitPrixPharmacieRemise");
                 }
 
-                byte[] bytes = jasperReportsUtil.jasperReportInBytes(listStock, parameters, etatPrint, ReportTypeEnum.PDF, "");
+                byte[] bytes = jasperReportsUtil.jasperReportInBytes(listStock, parameters, printResponse.getEtatName(), ReportTypeEnum.PDF, "");
                 printResponse.setResponseBytes(bytes);
 
-                return printResponse;
             } else {
                 byte[] bytes = JasperReportsUtil.anullerImpr(StaticVariables.bundleFR.getString("aucuneResultatTrouve"));
                 printResponse.setResponseBytes(bytes);
-                return printResponse;
             }
         }else {
             List<StockDTO> listStock = new ArrayList<>(stockRepository.findAll(StockSpecification.getListStockBasedOnIds(null)).stream().map(stockMapper::toStockDTO).toList());
 
-            Object[] object = stockRepository.getSumPattcQteFacturerAndStock();
-            Object[] objectArchive = stockRepository.getSumPattcQteFacturerAndStockArchive();
+            StockSumProjection stockSumProjection = stockRepository.getSumPattcQteFacturerAndStock();
+            StockSumProjection stockSumProjectionArchive = stockRepository.getSumPattcQteFacturerAndStockArchive();
 
-            BigDecimal sumQteFact = (BigDecimal) object[0];
-            BigDecimal sumQteStock = (BigDecimal) object[1];
-            BigDecimal sumQteFactArch = (BigDecimal) objectArchive[0];
-            BigDecimal sumQteStockArch = (BigDecimal) objectArchive[1];
+            double sumQteFact = stockSumProjection.getSumQteFact() != null ? stockSumProjection.getSumQteFact() : 0.0;
+            double sumQteStock = stockSumProjection.getSumQteStock() != null ? stockSumProjection.getSumQteStock() : 0.0;
+            double sumQteFactArch = stockSumProjectionArchive.getSumQteFact() != null ? stockSumProjection.getSumQteFact() : 0.0;
+            double sumQteStockArch = stockSumProjectionArchive.getSumQteStock() != null ? stockSumProjection.getSumQteStock() : 0.0;
 
             List<StockDTO> listStockArch = stockRepository.listStockArchive().stream().map(stockMapper::toStockDTO).toList();
 
-            etatPrint = "etatTousProduit";
+            printResponse.setEtatName("etatTousProduit");
 
-            parameters.put("sumAllFct", StaticVariables.convertDouble(sumQteFact.doubleValue()) + StaticVariables.convertDouble(sumQteFactArch.doubleValue()) + "");
-            parameters.put("sumAllStc", StaticVariables.convertDouble(sumQteStock.doubleValue()) + StaticVariables.convertDouble(sumQteStockArch.doubleValue()) + "");
+            parameters.put("sumAllFct", StaticVariables.convertDouble(sumQteFact) + StaticVariables.convertDouble(sumQteFactArch) + "");
+            parameters.put("sumAllStc", StaticVariables.convertDouble(sumQteStock) + StaticVariables.convertDouble(sumQteStockArch) + "");
 
             listStock.addAll(listStockArch);
 
@@ -250,16 +246,16 @@ public class StockService implements IStockService {
                     }
                 });
 
-                byte[] bytes = jasperReportsUtil.jasperReportInBytes(listStock, parameters, etatPrint, ReportTypeEnum.PDF, "");
+                byte[] bytes = jasperReportsUtil.jasperReportInBytes(listStock, parameters, printResponse.getEtatName(), ReportTypeEnum.PDF, "");
                 printResponse.setResponseBytes(bytes);
 
-                return printResponse;
             } else {
                 byte[] bytes = JasperReportsUtil.anullerImpr(StaticVariables.bundleFR.getString("aucuneResultatTrouve"));
                 printResponse.setResponseBytes(bytes);
-                return printResponse;
             }
         }
+
+        return printResponse;
     }
 
     public void updateStock(TypeQteToUpdate typeQteToUpdate, StockDTO stockDTO, RequestStockQte requestStockQte) {
