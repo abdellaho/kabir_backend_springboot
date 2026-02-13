@@ -275,19 +275,19 @@ public class RepertoireService implements IRepertoireService {
         }
 
         if (StringUtils.isNotBlank(dto.getTel1())) {
-            if (repertoireRepository.existsByTel1AndIdNot(dto.getTel1().trim(), id)) {
+            if (repertoireRepository.existsByTelAndIdNot(dto.getTel1().trim(), id)) {
                 response.getErrors().put("tel1", "Tel 1 existe déjà");
             }
         }
 
         if (StringUtils.isNotBlank(dto.getTel2())) {
-            if (repertoireRepository.existsByTel2AndIdNot(dto.getTel2().trim(), id)) {
+            if (repertoireRepository.existsByTelAndIdNot(dto.getTel2().trim(), id)) {
                 response.getErrors().put("tel2", "Tel 2 existe déjà");
             }
         }
 
         if (StringUtils.isNotBlank(dto.getTel3())) {
-            if (repertoireRepository.existsByTel3AndIdNot(dto.getTel3().trim(), id)) {
+            if (repertoireRepository.existsByTelAndIdNot(dto.getTel3().trim(), id)) {
                 response.getErrors().put("tel3", "Tel 3 existe déjà");
             }
         }
