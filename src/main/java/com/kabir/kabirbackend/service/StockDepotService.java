@@ -19,6 +19,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -119,11 +120,35 @@ public class StockDepotService implements IStockDepotService {
     @Override
     public List<DetStockDepotDTO> findAllDetails() {
         logger.info("Finding all det stock depots");
-        List<DetStockDepotDTO> detStockDepotDTOs = detStockDepotRepository.findAll(Sort.by(Sort.Direction.DESC, "stockDepot.dateOperation")).stream()
+        Specification<DetStockDepot> spec = (root, query, cb) -> {
+            query.orderBy(cb.desc(root.get("stockDepot").get("dateOperation")));
+            return cb.conjunction();
+        };
+        List<DetStockDepotDTO> detStockDepotDTOs = detStockDepotRepository.findAll(spec).stream()
                 .map(detStockDepotMapper::toDetStockDepotDTO)
-                .collect(Collectors.toList());
+                .toList();
         logger.info("Det stock depots found: {}", detStockDepotDTOs.size());
         return detStockDepotDTOs;
+    }
+
+    @Override
+    public List<DetStockDepotDTO> findAllDetails(DetStockDepotDTO detStockDepotDTO) {
+        logger.info("Finding all det stock depots with same date as: {}", detStockDepotDTO.getStockDepotDateOperation());
+        if(null != detStockDepotDTO.getStockDepotDateOperation()) {
+            Specification<DetStockDepot> spec = (root, query, cb) -> {
+                query.where(cb.equal(root.get("stockDepot").get("dateOperation"), detStockDepotDTO.getStockDepotDateOperation()));
+                query.orderBy(cb.asc(root.get("stock").get("designation")));
+
+                return cb.conjunction();
+            };
+            List<DetStockDepotDTO> detStockDepotDTOs = detStockDepotRepository.findAll(spec).stream()
+                    .map(detStockDepotMapper::toDetStockDepotDTO)
+                    .toList();
+            logger.info("Det stock depots found with same date as: {}", detStockDepotDTOs.size());
+            return detStockDepotDTOs;
+        }
+
+        return new ArrayList<>();
     }
 
     @Override
@@ -136,7 +161,7 @@ public class StockDepotService implements IStockDepotService {
             if(CollectionUtils.isNotEmpty(detStockDepotDTOOld)) {
                 for(DetStockDepot detStockDepot : detStockDepotDTOOld) {
                     if(null != detStockDepot.getStock() && null != detStockDepot.getStock().getId()) {
-                        stockService.updateQteStock(detStockDepot.getStock().getId(), TypeQteToUpdate.QTE_STOCK, new RequestStockQte(detStockDepot.getQte(), 1, null));
+                        stockService.updateQteStock(detStockDepot.getStock().getId(), TypeQteToUpdate.QTE_STOCK_DEPOT, new RequestStockQte(detStockDepot.getQte(), 1, null));
 
                         logger.info("Deleting detail stock depot by id: {}", detStockDepot.getId());
                         detStockDepotRepository.deleteById(detStockDepot.getId());
@@ -179,7 +204,7 @@ public class StockDepotService implements IStockDepotService {
             logger.info("Deleting det stock depot: {}", listToDelete.size());
             for(DetStockDepot detStockDepot : listToDelete) {
                 if(null != detStockDepot.getStock() && null != detStockDepot.getStock().getId()) {
-                    stockService.updateQteStock(detStockDepot.getStock().getId(), TypeQteToUpdate.QTE_STOCK, new RequestStockQte(detStockDepot.getQte(), 1, null));
+                    stockService.updateQteStock(detStockDepot.getStock().getId(), TypeQteToUpdate.QTE_STOCK_DEPOT, new RequestStockQte(detStockDepot.getQte(), 1, null));
                 }
 
                 detStockDepotRepository.delete(detStockDepot);
@@ -205,7 +230,7 @@ public class StockDepotService implements IStockDepotService {
         if(CollectionUtils.isNotEmpty(listToSave)) {
             for(DetStockDepot detStockDepot : listToSave) {
                 if(null == detStockDepot.getId()) {
-                    stockService.updateQteStock(detStockDepot.getStock().getId(), TypeQteToUpdate.QTE_STOCK, new RequestStockQte(detStockDepot.getQte(),2, null));
+                    stockService.updateQteStock(detStockDepot.getStock().getId(), TypeQteToUpdate.QTE_STOCK_DEPOT, new RequestStockQte(detStockDepot.getQte(),2, null));
                 } else {
                     int qte = detStockDepot.getQte();
                     int operation = 2;
@@ -216,7 +241,7 @@ public class StockDepotService implements IStockDepotService {
                             qte = Math.abs(qte);
                             operation = 1;
                         }
-                        stockService.updateQteStock(detStockDepot.getStock().getId(), TypeQteToUpdate.QTE_STOCK, new RequestStockQte(qte, operation, null));
+                        stockService.updateQteStock(detStockDepot.getStock().getId(), TypeQteToUpdate.QTE_STOCK_DEPOT, new RequestStockQte(qte, operation, null));
                     }
                 }
 

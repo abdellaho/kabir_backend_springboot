@@ -179,7 +179,7 @@ public class RepertoireController {
             }
         } catch (Exception e) {
             logger.error("Error printing repertoire: {}", commonSearchModel, e);
-            throw new RuntimeException("Error printing repertoire: " + commonSearchModel, e);
+            return ResponseEntity.internalServerError().build();
         }
     }
 
@@ -203,7 +203,7 @@ public class RepertoireController {
             }
         } catch (Exception e) {
             logger.error("Error printing repertoire: {}", commonSearchModel, e);
-            throw new RuntimeException("Error printing repertoire: " + commonSearchModel, e);
+            return ResponseEntity.internalServerError().build();
         }
     }
 
@@ -227,7 +227,7 @@ public class RepertoireController {
             }
         } catch (Exception e) {
             logger.error("Error printing repertoire: {}", commonSearchModel, e);
-            throw new RuntimeException("Error printing repertoire: " + commonSearchModel, e);
+            return ResponseEntity.internalServerError().build();
         }
     }
 

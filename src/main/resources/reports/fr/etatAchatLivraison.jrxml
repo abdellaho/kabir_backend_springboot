@@ -11,13 +11,10 @@
 		<defaultValueExpression><![CDATA["false"]]></defaultValueExpression>
 	</parameter>
 	<field name="produit" class="java.lang.String">
-		<fieldDescription><![CDATA[stock.designation]]></fieldDescription>
+		<fieldDescription><![CDATA[stockDesignation]]></fieldDescription>
 	</field>
 	<field name="qteacheter" class="java.lang.Integer">
-		<fieldDescription><![CDATA[qteacheter]]></fieldDescription>
-	</field>
-	<field name="montantTTC" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatLivraison.mantantAlTTC]]></fieldDescription>
+		<fieldDescription><![CDATA[qte]]></fieldDescription>
 	</field>
 	<variable name="curentPage" class="java.lang.Integer" resetType="Page" incrementType="Report">
 		<variableExpression><![CDATA[$V{PAGE_NUMBER}]]></variableExpression>
@@ -42,7 +39,7 @@
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="20" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{fournisseur} + " - " + $P{dateBL}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{dateBL}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -60,7 +57,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("Qacht")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("Qacht")]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
 				<reportElement key="textField" mode="Opaque" x="0" y="0" width="496" height="25" forecolor="#000000" backcolor="#CCCCCC" uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf"/>
@@ -74,7 +71,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("designation")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("designation")]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnHeader>
@@ -111,40 +108,6 @@
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="22" splitType="Stretch">
-			<textField isBlankWhenNull="true">
-				<reportElement x="408" y="0" width="88" height="22" uuid="48deaa79-9a09-4676-9944-c555ed02b05a">
-					<printWhenExpression><![CDATA[$P{normalUser}.equals("false")]]></printWhenExpression>
-				</reportElement>
-				<box rightPadding="0">
-					<pen lineWidth="0.5"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Arial" size="14" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("total") + " : "]]></textFieldExpression>
-			</textField>
-			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="496" y="0" width="124" height="22" uuid="48deaa79-9a09-4676-9944-c555ed02b05a">
-					<printWhenExpression><![CDATA[$P{normalUser}.equals("false")]]></printWhenExpression>
-				</reportElement>
-				<box rightPadding="0">
-					<pen lineWidth="0.5"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="14" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{montantTTC}]]></textFieldExpression>
-			</textField>
-		</band>
 	</columnFooter>
 	<pageFooter>
 		<band height="20" splitType="Stretch">

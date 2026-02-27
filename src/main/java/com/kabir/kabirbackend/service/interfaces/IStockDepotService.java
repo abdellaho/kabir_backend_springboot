@@ -8,13 +8,15 @@ import java.util.List;
 
 public interface IStockDepotService {
 
-    public StockDepotResponse save(StockDepotResponse stockDepotResponse);
-    public StockDepotDTO findById(Long id);
-    public StockDepotResponse findByIdStockDepotResponse(Long id);
-    public List<StockDepotDTO> findAll();
+    StockDepotResponse save(StockDepotResponse stockDepotResponse);
+    StockDepotDTO findById(Long id);
+    StockDepotResponse findByIdStockDepotResponse(Long id);
+    List<StockDepotDTO> findAll();
 
     List<DetStockDepotDTO> findAllDetails();
 
-    public void delete(Long id);
-    public List<StockDepotDTO> search(StockDepotDTO stockDepot);
+    List<DetStockDepotDTO> findAllDetails(DetStockDepotDTO detStockDepotDTO);
+
+    void delete(Long id);
+    List<StockDepotDTO> search(StockDepotDTO stockDepot);
 }

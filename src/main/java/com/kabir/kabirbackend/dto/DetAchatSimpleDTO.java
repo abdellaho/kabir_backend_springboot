@@ -1,5 +1,6 @@
 package com.kabir.kabirbackend.dto;
 
+import jakarta.persistence.Column;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -11,13 +12,12 @@ import java.io.Serializable;
 public class DetAchatSimpleDTO implements Serializable {
     Long id;
     int qte;
-    double prixVente;
     int uniteGratuite;
     double remise;
+    private double prixAchat;
+    private double remiseAchat;
     private double montant;
     Long stockId;
     String stockDesignation;
-    double stockPvttc;
-    int stockQteStock;
     Long achatSimpleId;
 }

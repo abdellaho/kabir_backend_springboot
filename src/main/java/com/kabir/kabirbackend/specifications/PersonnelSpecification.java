@@ -48,7 +48,8 @@ public class PersonnelSpecification implements Specification<Personnel> {
         return (root, query, cb) -> {
             // typePersonnel != 1
             Predicate typePredicate = cb.notEqual(root.get("typePersonnel"), 1);
-
+            typePredicate = cb.and(typePredicate, cb.equal(root.get("supprimer"), false));
+            typePredicate = cb.and(typePredicate, cb.equal(root.get("archiver"), false));
             // subquery
             Subquery<Long> subquery = query.subquery(Long.class);
             Root<Absence> absence = subquery.from(Absence.class);
@@ -66,6 +67,8 @@ public class PersonnelSpecification implements Specification<Personnel> {
 
             Predicate notExistsPredicate = cb.not(cb.exists(subquery));
 
+            query.orderBy(cb.asc(root.get("designation")));
+
             return cb.and(typePredicate, notExistsPredicate);
         };
     }
@@ -73,7 +76,6 @@ public class PersonnelSpecification implements Specification<Personnel> {
 
     @Override
     public Predicate toPredicate(Root<Personnel> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-
         Predicate predicate = criteriaBuilder.conjunction();
         if (personnelDTO != null) {
             if (StringUtils.isNotBlank(personnelDTO.getDesignation())) {

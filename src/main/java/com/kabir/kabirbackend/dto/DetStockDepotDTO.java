@@ -18,7 +18,7 @@ public class DetStockDepotDTO implements Serializable {
     int qte;
     @NotNull
     Long stockDepotId;
-    LocalDate stockDateOperation;
+    LocalDate stockDepotDateOperation;
     @NotNull
     Long stockId;
     String stockDesignation;

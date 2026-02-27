@@ -1,15 +1,26 @@
 package com.kabir.kabirbackend.controllers;
 
+import com.kabir.kabirbackend.config.enums.ReportTypeEnum;
 import com.kabir.kabirbackend.config.responses.StockDepotResponse;
+import com.kabir.kabirbackend.config.util.JasperReportsUtil;
+import com.kabir.kabirbackend.config.util.StaticVariables;
 import com.kabir.kabirbackend.dto.DetStockDepotDTO;
 import com.kabir.kabirbackend.dto.StockDepotDTO;
 import com.kabir.kabirbackend.service.StockDepotService;
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.MessageFormat;
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/stock-depot")
@@ -18,9 +29,11 @@ public class StockDepotController {
     private final Logger logger = LoggerFactory.getLogger(StockDepotController.class);
 
     private final StockDepotService stockDepotService;
+    private final JasperReportsUtil jasperReportsUtil;
 
-    public StockDepotController(StockDepotService stockDepotService) {
+    public StockDepotController(StockDepotService stockDepotService, JasperReportsUtil jasperReportsUtil) {
         this.stockDepotService = stockDepotService;
+        this.jasperReportsUtil = jasperReportsUtil;
     }
 
     /*
@@ -106,6 +119,59 @@ public class StockDepotController {
         } catch (Exception e) {
             logger.error("Error deleting stock depot by id: {}", id, e);
             throw new RuntimeException("Error deleting stock depot by id: " + id, e);
+        }
+    }
+
+    @PostMapping("/imprimer")
+    public ResponseEntity<?> imprimer(@RequestBody DetStockDepotDTO detStockDepotDTO) {
+        logger.info("imprimer stock depot with same date as this: {}", detStockDepotDTO);
+        try {
+            Map<String, Object> params = new HashMap<>();
+            try {
+                List<DetStockDepotDTO> stockDepotDTOList = stockDepotService.findAllDetails(detStockDepotDTO);
+                StringBuilder etatName = new StringBuilder("etatAchatLivraison");
+
+                if (CollectionUtils.isEmpty(stockDepotDTOList)) {
+                    byte[] bytes = JasperReportsUtil.anullerImpr("Aucun Stock Dépot trouvé");
+                    ByteArrayResource resource;
+                    if (bytes != null) {
+                        resource = new ByteArrayResource(bytes);
+
+                        return ResponseEntity.ok()
+                                .header(HttpHeaders.CONTENT_DISPOSITION, MessageFormat.format("attachment; filename=\"{0}\"", etatName.toString()))
+                                .contentLength(resource.contentLength())
+                                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                                .body(resource);
+                    } else {
+                        return ResponseEntity.noContent().build();
+                    }
+                }
+
+                params.put("fournisseur", "");
+                params.put("fichier", StaticVariables.bundleFR.getBaseBundleName());
+                params.put("dateBL", StaticVariables.dateFormatDayFirst.format(detStockDepotDTO.getStockDepotDateOperation()));
+                params.put("normalUser", true + "");
+
+                String logo = "";
+                byte[] bytes = jasperReportsUtil.jasperReportInBytes(stockDepotDTOList, params, etatName.toString(), ReportTypeEnum.PDF, logo);
+                if (null != bytes) {
+                    ByteArrayResource resource = new ByteArrayResource(bytes);
+                    String fileName = MessageFormat.format(etatName + "_{0}.{1}", LocalDateTime.now(), "pdf");
+                    return ResponseEntity.ok()
+                            .header(HttpHeaders.CONTENT_DISPOSITION, MessageFormat.format("attachment; filename=\"{0}\"", fileName))
+                            .contentLength(resource.contentLength())
+                            .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                            .body(resource);
+                } else {
+                    throw new Exception("File Download Failed");
+                }
+            } catch (Exception e) {
+                logger.debug("Exception while trying to print absence : {}", e.getMessage());
+                return ResponseEntity.internalServerError().build();
+            }
+        } catch (Exception e) {
+            logger.error("Error printing : {}", detStockDepotDTO, e);
+            return ResponseEntity.internalServerError().build();
         }
     }
 }

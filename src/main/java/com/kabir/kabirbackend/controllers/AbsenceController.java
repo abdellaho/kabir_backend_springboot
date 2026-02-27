@@ -149,7 +149,7 @@ public class AbsenceController {
             return ResponseEntity.ok(absenceService.searchByCommon(commonSearchModel));
         } catch (Exception e) {
             logger.error("Error searching absence by common: {}", commonSearchModel, e);
-            throw new RuntimeException("Error searching absence by common: " + commonSearchModel, e);
+            return ResponseEntity.internalServerError().build();
         }
     }
 
@@ -189,7 +189,7 @@ public class AbsenceController {
                 params.put("titre", "");
 
                 Map<Long, List<AbsenceDTO>> map = listAbsence.stream().collect(Collectors.groupingBy(AbsenceDTO::getPersonnelId));
-                List<AbsenceDTO> result = new ArrayList<>();
+                List<AbsenceDTO> result;
 
                 List<AbsenceDTO> finalResult = new ArrayList<>();
                 map.values().forEach(list -> {
@@ -210,8 +210,7 @@ public class AbsenceController {
                     result = finalResult;
                 }
 
-                String logo = "";
-                byte[] bytes = jasperReportsUtil.jasperReportInBytes(result, params, etatName.toString(), ReportTypeEnum.PDF, logo);
+                byte[] bytes = jasperReportsUtil.jasperReportInBytes(result, params, etatName.toString(), ReportTypeEnum.PDF, "");
                 if (null != bytes) {
                     ByteArrayResource resource = new ByteArrayResource(bytes);
                     String fileName = MessageFormat.format(etatName + "_{0}.{1}", LocalDateTime.now(), "pdf");
@@ -229,7 +228,7 @@ public class AbsenceController {
             }
         } catch (Exception e) {
             logger.error("Error printing : {}", commonSearchModel, e);
-            throw new RuntimeException("Error printing absence by common: " + commonSearchModel, e);
+            return ResponseEntity.internalServerError().build();
         }
     }
 

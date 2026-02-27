@@ -22,9 +22,10 @@ public class DetAchatSimple {
 
     private int qte;
 
-    @Column(name = "prix_vente")
-    private double prixVente;
-
+    @Column(name = "prix_achat", columnDefinition = "double default 0")
+    private double prixAchat;
+    @Column(name = "remise_achat", columnDefinition = "double default 0")
+    private double remiseAchat;
     private double remise;
     private int uniteGratuite;
     private double montant;
