@@ -1,6 +1,5 @@
 package com.kabir.kabirbackend.dto;
 
-import jakarta.persistence.Column;
 import lombok.Data;
 
 import java.io.Serializable;

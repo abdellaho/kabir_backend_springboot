@@ -154,7 +154,7 @@ public class RepertoireController {
             RepertoireDTO repertoireDTO = repertoireService.updateNbrOperation(id, type);
             return ResponseEntity.ok(repertoireDTO);
         } catch (Exception e) {
-            logger.error("Error updating nbr-operation offournisseur: {}, with ID {}: ", e.getMessage(), id);
+            logger.error("Error updating nbr-operation of fournisseur: {}, with ID {}: ", e.getMessage(), id);
             return ResponseEntity.badRequest().body(null);
         }
     }

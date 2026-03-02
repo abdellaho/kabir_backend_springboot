@@ -1,6 +1,5 @@
 package com.kabir.kabirbackend.repository;
 
-import com.kabir.kabirbackend.config.responses.ComptaResponse;
 import com.kabir.kabirbackend.entities.AchatFacture;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
