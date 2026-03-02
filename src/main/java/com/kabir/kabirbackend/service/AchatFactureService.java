@@ -8,9 +8,11 @@ import com.kabir.kabirbackend.config.requests.RequestStockQte;
 import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.AchatFactureDTO;
 import com.kabir.kabirbackend.dto.DetAchatFactureDTO;
+import com.kabir.kabirbackend.dto.DetAchatFactureTVADTO;
 import com.kabir.kabirbackend.entities.*;
 import com.kabir.kabirbackend.mapper.AchatFactureMapper;
 import com.kabir.kabirbackend.mapper.DetAchatFactureMapper;
+import com.kabir.kabirbackend.mapper.DetAchatFactureTVAMapper;
 import com.kabir.kabirbackend.repository.*;
 import com.kabir.kabirbackend.service.interfaces.IAchatFactureService;
 import com.kabir.kabirbackend.specifications.AchatFactureSpecification;
@@ -35,7 +37,8 @@ public class AchatFactureService implements IAchatFactureService {
     private final StockService stockService;
     private final StockRepository stockRepository;
     private final FournisseurRepository fournisseurRepository;
-    private final PersonnelRepository personnelRepository;
+    private final DetAchatFactureTVARepository detAchatFactureTVARepository;
+    private final DetAchatFactureTVAMapper detAchatFactureTVAMapper;
 
     public AchatFactureService(AchatFactureRepository achatFactureRepository,
                                AchatFactureMapper achatFactureMapper,
@@ -44,7 +47,8 @@ public class AchatFactureService implements IAchatFactureService {
                                StockService stockService, 
                                StockRepository stockRepository,
                                FournisseurRepository fournisseurRepository,
-                               PersonnelRepository personnelRepository
+                               DetAchatFactureTVARepository detAchatFactureTVARepository,
+                               DetAchatFactureTVAMapper detAchatFactureTVAMapper
                                ) {
         this.achatFactureRepository = achatFactureRepository;
         this.achatFactureMapper = achatFactureMapper;
@@ -53,7 +57,8 @@ public class AchatFactureService implements IAchatFactureService {
         this.stockService = stockService;
         this.stockRepository = stockRepository;
         this.fournisseurRepository = fournisseurRepository;
-        this.personnelRepository = personnelRepository;
+        this.detAchatFactureTVARepository = detAchatFactureTVARepository;
+        this.detAchatFactureTVAMapper = detAchatFactureTVAMapper;
     }
 
     @Override
@@ -70,6 +75,7 @@ public class AchatFactureService implements IAchatFactureService {
             achatFactureDTO = achatFactureMapper.toAchatFactureDTO(achatFactureRepository.save(achatFacture));
 
             enregistrerDetAchatFacture(achatFacture, isSave, achatFactureResponse.detAchatFactures());
+            enregistrerDetAchatFactureTVA(achatFacture, isSave, achatFactureResponse.detAchatFactureTVA());
 
             logger.info("Achat facture saved successfully: {}", achatFactureDTO);
         } catch (Exception e) {
@@ -84,17 +90,23 @@ public class AchatFactureService implements IAchatFactureService {
         logger.info("Deleting achat facture by id: {}", id);
         try {
             List<DetAchatFacture> detAchatFactureDTOOld = detAchatFactureRepository.findAllByAchatFactureId(id);
-            logger.info("List of det Achat Simple to delete: {}", detAchatFactureDTOOld.size());
+            List<DetAchatFactureTVA> detAchatFactureTVAOld = detAchatFactureTVARepository.findAllByAchatFactureId(id);
+            logger.info("List of det Achat Facture to delete: {}", detAchatFactureDTOOld.size());
 
             if(CollectionUtils.isNotEmpty(detAchatFactureDTOOld)) {
                 for(DetAchatFacture detAchatFacture : detAchatFactureDTOOld) {
                     if(null != detAchatFacture.getStock() && null != detAchatFacture.getStock().getId()) {
-                        stockService.updateQteStock(detAchatFacture.getStock().getId(), TypeQteToUpdate.QTE_STOCK_IMPORT, new RequestStockQte(detAchatFacture.getQteAcheter(), 1, detAchatFacture.getUniteGratuit()));
+                        stockService.updateQteStock(detAchatFacture.getStock().getId(), TypeQteToUpdate.QTE_STOCK_FACTURER, new RequestStockQte(detAchatFacture.getQteAcheter(), 1, detAchatFacture.getUniteGratuit()));
 
                         logger.info("Deleting detail achat facture by id: {}", detAchatFacture.getId());
                         detAchatFactureRepository.deleteById(detAchatFacture.getId());
                     }
                 }
+            }
+
+            if(CollectionUtils.isNotEmpty(detAchatFactureTVAOld)) {
+                logger.info("List of det Achat Facture TVA to delete: {}", detAchatFactureTVAOld.size());
+                detAchatFactureTVARepository.deleteAll(detAchatFactureTVAOld);
             }
 
             achatFactureRepository.deleteById(id);
@@ -114,7 +126,11 @@ public class AchatFactureService implements IAchatFactureService {
                         .map(detAchatFactureMapper::toDTO)
                         .toList();
 
-                return new AchatFactureResponse(achatFactureDTO, list);
+                List<DetAchatFactureTVADTO> listTVA = detAchatFactureTVARepository.findAllByAchatFactureId(id).stream()
+                        .map(detAchatFactureTVAMapper::toDTO)
+                        .toList();
+
+                return new AchatFactureResponse(achatFactureDTO, list, listTVA);
             } else {
                 logger.info("Achat facture not found with ID: {}", id);
                 return null;
@@ -161,6 +177,30 @@ public class AchatFactureService implements IAchatFactureService {
         }
     }
 
+    public void enregistrerDetAchatFactureTVA(AchatFacture achatFacture, boolean isSave, List<DetAchatFactureTVADTO> detAchatFactureTVADTOs) {
+        List<DetAchatFactureTVA> detAchatFactureOld = new ArrayList<>();
+        if(!isSave) {
+            detAchatFactureOld = detAchatFactureTVARepository.findAllByAchatFactureId(achatFacture.getId());
+        }
+
+        List<DetAchatFactureTVA> listToDelete = getDetAchatFactureTVAOldNotAnymore(detAchatFactureOld, detAchatFactureTVADTOs);
+        if(CollectionUtils.isNotEmpty(listToDelete)) {
+            logger.info("Deleting det achat facture TVA : {}", listToDelete.size());
+            detAchatFactureTVARepository.deleteAll(listToDelete);
+        }
+
+        List<DetAchatFactureTVA> listToSave = detAchatFactureTVADTOs.stream()
+                .map(detAchatFactureDTO -> {
+                    DetAchatFactureTVA detAchatFacture = detAchatFactureTVAMapper.toEntity(detAchatFactureDTO);
+                    detAchatFacture.setAchatFacture(achatFacture);
+
+                    return detAchatFacture;
+                })
+                .toList();
+        logger.info("Saving det achat facture TVA : {}", listToSave.size());
+        detAchatFactureTVARepository.saveAll(listToSave);
+    }
+
     public void enregistrerDetAchatFacture(AchatFacture achatFacture, boolean isSave, List<DetAchatFactureDTO> detAchatFactureDTOs) {
         List<DetAchatFacture> detAchatFactureOld = new ArrayList<>();
         if(!isSave) {
@@ -172,7 +212,7 @@ public class AchatFactureService implements IAchatFactureService {
             logger.info("Deleting det achat facture: {}", listToDelete.size());
             for(DetAchatFacture detAchatFacture : listToDelete) {
                 if(null != detAchatFacture.getStock() && null != detAchatFacture.getStock().getId()) {
-                    stockService.updateQteStock(detAchatFacture.getStock().getId(), TypeQteToUpdate.QTE_STOCK_IMPORT, new RequestStockQte(detAchatFacture.getQteAcheter(), StockOperation.ADD_TO_STOCK.getValue(), detAchatFacture.getUniteGratuit()));
+                    stockService.updateQteStock(detAchatFacture.getStock().getId(), TypeQteToUpdate.QTE_STOCK_FACTURER, new RequestStockQte(detAchatFacture.getQteAcheter(), StockOperation.ADD_TO_STOCK.getValue(), detAchatFacture.getUniteGratuit()));
                 }
 
                 detAchatFactureRepository.delete(detAchatFacture);
@@ -231,6 +271,17 @@ public class AchatFactureService implements IAchatFactureService {
         }
 
         return qte;
+    }
+
+    public List<DetAchatFactureTVA> getDetAchatFactureTVAOldNotAnymore(List<DetAchatFactureTVA> detAchatFactureTVADTOOld, List<DetAchatFactureTVADTO> detAchatFactureTVADTOs) {
+        if(CollectionUtils.isEmpty(detAchatFactureTVADTOOld)) {
+            return new ArrayList<>();
+        }
+
+        return detAchatFactureTVADTOOld.stream()
+                .filter(detStockDepotOld -> detAchatFactureTVADTOs.stream()
+                        .noneMatch(detAchatFactureDTO -> detAchatFactureDTO.getId() != null && detAchatFactureDTO.getId().equals(detStockDepotOld.getId())))
+                .collect(Collectors.toList());
     }
 
     public List<DetAchatFacture> getDetStockDepotOldNotAnymore(List<DetAchatFacture> detAchatFactureDTOOld, List<DetAchatFactureDTO> detAchatSimpleDTOs) {

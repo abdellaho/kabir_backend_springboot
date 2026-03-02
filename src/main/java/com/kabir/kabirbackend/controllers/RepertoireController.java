@@ -166,20 +166,24 @@ public class RepertoireController {
             StringBuilder etatName = getStringBuilder(commonSearchModel);
             
             byte[] bytes = repertoireService.imprimer(commonSearchModel, etatName.toString());
-            if(null != bytes) {
-                ByteArrayResource resource = new ByteArrayResource(bytes);
-                String fileName = MessageFormat.format(etatName + "_{0}.{1}", LocalDateTime.now(), "pdf");
-                return ResponseEntity.ok()
-                        .header(HttpHeaders.CONTENT_DISPOSITION, MessageFormat.format("attachment; filename=\"{0}\"", fileName))
-                        .contentLength(resource.contentLength())
-                        .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                        .body(resource);
-            } else {
-                return ResponseEntity.noContent().build();
-            }
+            return getResponseEntity(etatName, bytes);
         } catch (Exception e) {
             logger.error("Error printing repertoire: {}", commonSearchModel, e);
             return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    private ResponseEntity<?> getResponseEntity(StringBuilder etatName, byte[] bytes) {
+        if(null != bytes) {
+            ByteArrayResource resource = new ByteArrayResource(bytes);
+            String fileName = MessageFormat.format(etatName + "_{0}.{1}", LocalDateTime.now(), "pdf");
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, MessageFormat.format("attachment; filename=\"{0}\"", fileName))
+                    .contentLength(resource.contentLength())
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .body(resource);
+        } else {
+            return ResponseEntity.noContent().build();
         }
     }
 
@@ -190,17 +194,7 @@ public class RepertoireController {
             StringBuilder etatName = getStringBuilder(commonSearchModel);
 
             byte[] bytes = repertoireService.printClientAndAdresse(commonSearchModel, etatName.toString());
-            if(null != bytes) {
-                ByteArrayResource resource = new ByteArrayResource(bytes);
-                String fileName = MessageFormat.format(etatName + "_{0}.{1}", LocalDateTime.now(), "pdf");
-                return ResponseEntity.ok()
-                        .header(HttpHeaders.CONTENT_DISPOSITION, MessageFormat.format("attachment; filename=\"{0}\"", fileName))
-                        .contentLength(resource.contentLength())
-                        .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                        .body(resource);
-            } else {
-                return ResponseEntity.noContent().build();
-            }
+            return getResponseEntity(etatName, bytes);
         } catch (Exception e) {
             logger.error("Error printing repertoire: {}", commonSearchModel, e);
             return ResponseEntity.internalServerError().build();
@@ -214,17 +208,7 @@ public class RepertoireController {
             StringBuilder etatName = getStringBuilder(commonSearchModel);
 
             byte[] bytes = repertoireService.printTransport(commonSearchModel, etatName.toString());
-            if(null != bytes) {
-                ByteArrayResource resource = new ByteArrayResource(bytes);
-                String fileName = MessageFormat.format(etatName + "_{0}.{1}", LocalDateTime.now(), "pdf");
-                return ResponseEntity.ok()
-                        .header(HttpHeaders.CONTENT_DISPOSITION, MessageFormat.format("attachment; filename=\"{0}\"", fileName))
-                        .contentLength(resource.contentLength())
-                        .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                        .body(resource);
-            } else {
-                return ResponseEntity.noContent().build();
-            }
+            return getResponseEntity(etatName, bytes);
         } catch (Exception e) {
             logger.error("Error printing repertoire: {}", commonSearchModel, e);
             return ResponseEntity.internalServerError().build();
