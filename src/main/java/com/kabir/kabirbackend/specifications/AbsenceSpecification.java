@@ -46,6 +46,8 @@ public class AbsenceSpecification implements Specification<Absence> {
                 predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("personnel").get("id"), commonSearchModel.getPersonnelId()));
             }
 
+            query.orderBy(criteriaBuilder.desc(root.get("dateAbsence")));
+
             return predicate;
         };
     }
