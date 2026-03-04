@@ -40,6 +40,6 @@ public class BonSortieDTO implements Serializable {
     private String personnelDesignation;
 
     @NotNull
-    private Long repertoireId;
-    private String repertoireDesignation;
+    private Long commercialId;
+    private String commercialDesignation;
 }

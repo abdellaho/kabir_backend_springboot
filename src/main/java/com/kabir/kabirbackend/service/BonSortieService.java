@@ -66,11 +66,11 @@ public class BonSortieService implements IBonSortieService {
         BonSortieDTO bonSortieDTO = bonSortieResponse.bonSortie();
         boolean isSave = bonSortieDTO.getId() == null;
         try {
-            Optional<Repertoire> optionalRepertoire = repertoireRepository.findById(bonSortieResponse.bonSortie().getRepertoireId());
+            Optional<Personnel> optionalRepertoire = personnelRepository.findById(bonSortieResponse.bonSortie().getCommercialId());
             Optional<Personnel> optionalPersonnel = personnelRepository.findById(bonSortieResponse.bonSortie().getPersonnelId());
 
             BonSortie bonSortie = bonSortieMapper.toEntity(bonSortieDTO);
-            bonSortie.setRepertoire(optionalRepertoire.orElse(null));
+            bonSortie.setCommercial(optionalRepertoire.orElse(null));
             bonSortie.setPersonnel(optionalPersonnel.orElse(null));
             bonSortieDTO = bonSortieMapper.toDTO(bonSortieRepository.save(bonSortie));
 

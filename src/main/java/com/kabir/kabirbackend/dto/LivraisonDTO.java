@@ -15,62 +15,63 @@ import java.time.LocalDate;
  */
 @Data
 public class LivraisonDTO implements Serializable {
-    Long id;
-    int numLivraison;
+    private Long id;
+    private int numLivraison;
     @NotNull
     @NotEmpty
     @Size(max = 191)
-    String codeBl;
+    private String codeBl;
     @NotNull
-    LocalDate dateBl;
+    private LocalDate dateBl;
     @NotNull
-    LocalDate dateReglement;
-    LocalDate dateReglement2;
-    LocalDate dateReglement3;
-    LocalDate dateReglement4;
-    int typeReglment;
-    int typeReglment2;
-    int typeReglment3;
-    int typeReglment4;
-    String numCheque;
-    String numCheque2;
-    String numCheque3;
-    String numCheque4;
-    double mantantBL;
-    double mantantBLReel;
-    double mantantBLBenefice;
+    private LocalDate dateReglement;
+    private LocalDate dateReglement2;
+    private LocalDate dateReglement3;
+    private LocalDate dateReglement4;
+    private int typeReglment;
+    private int typeReglment2;
+    private int typeReglment3;
+    private int typeReglment4;
+    private String numCheque;
+    private String numCheque2;
+    private String numCheque3;
+    private String numCheque4;
+    private double mantantBL;
+    private double mantantBLReel;
+    private double mantantBLBenefice;
     @Size(max = 191)
     String typePaiement;
-    double mantantBLPourcent;
-    int reglerNonRegler;
+    private double mantantBLPourcent;
+    private int reglerNonRegler;
     @NotNull
-    Instant sysDate;
+    private Instant sysDate;
     @NotNull
-    int infinity;
-    int etatBultinPaie;
-    int livrernonlivrer;
-    boolean avecRemise;
-    double mntReglement;
-    double mntReglement2;
-    double mntReglement3;
-    double mntReglement4;
-    boolean facturer100;
+    private int infinity;
+    private int etatBultinPaie;
+    private int livrernonlivrer;
+    private boolean avecRemise;
+    private double mntReglement;
+    private double mntReglement2;
+    private double mntReglement3;
+    private double mntReglement4;
+    private boolean facturer100;
     @NotNull
     @Size(max = 191)
-    String codeTransport;
-    Long employeOperateurId;
-    String employeOperateurDesignation;
+    private String codeTransport;
+    private Long employeOperateurId;
+    private String employeOperateurDesignation;
     @Min(value = 1)
     @NotNull
-    Long personnelId;
-    String personnelDesignation;
-    Long personnelAncienId;
-    String personnelAncienDesignation;
+    private Long personnelId;
+    private String personnelDesignation;
+    private Long personnelAncienId;
+    private String personnelAncienDesignation;
     @Min(value = 1)
     @NotNull
-    Long repertoireId;
-    String repertoireDesignation;
-    String repertoireObservation;
-    Long repertoireIdOld;
+    private Long repertoireId;
+    private String repertoireDesignation;
+    private String repertoireObservation;
+    private int repertoireNbrOperationClient;
+    private Long repertoireIdOld;
 
 }

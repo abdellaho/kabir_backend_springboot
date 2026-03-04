@@ -47,7 +47,7 @@ public class BonSortie {
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "repertoireId", nullable = false)
-    private Repertoire repertoire;
+    @JoinColumn(name = "commercialId", nullable = false)
+    private Personnel commercial;
 
 }
