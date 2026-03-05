@@ -139,6 +139,11 @@ public class Livraison {
 
     @NotNull
     @ColumnDefault("0")
+    @Column(name = "facturer", nullable = false)
+    private boolean facturer;
+
+    @NotNull
+    @ColumnDefault("0")
     @Column(name = "facturer100", nullable = false)
     private boolean facturer100 = false;
 

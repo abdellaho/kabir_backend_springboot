@@ -246,4 +246,8 @@ public class Facture {
     @JoinColumn(name = "repertoireId", nullable = false)
     private Repertoire repertoire;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "livraisonId")
+    private Livraison livraison;
+
 }

@@ -36,6 +36,8 @@ public class DetLivraisonDTO implements Serializable {
     Long stockId;
     String stockDesignation;
     int stockQteStock;
+    int stockQteFacturer;
     double stockPvttc;
     double stockPattc;
+    double stockBenifice;
 }

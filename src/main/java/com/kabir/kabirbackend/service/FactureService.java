@@ -36,6 +36,7 @@ public class FactureService implements IFactureService {
     private final StockRepository stockRepository;
     private final PersonnelRepository personnelRepository;
     private final RepertoireRepository repertoireRepository;
+    private final LivraisonRepository livraisonRepository;
     
 
     public FactureService(FactureRepository factureRepository,
@@ -45,6 +46,7 @@ public class FactureService implements IFactureService {
                             StockRepository stockRepository,
                             PersonnelRepository personnelRepository,
                             RepertoireRepository repertoireRepository,
+                            LivraisonRepository livraisonRepository,
                             StockService stockService) {
         this.factureRepository = factureRepository;
         this.factureMapper = factureMapper;
@@ -54,6 +56,7 @@ public class FactureService implements IFactureService {
         this.stockRepository = stockRepository;
         this.personnelRepository = personnelRepository;
         this.repertoireRepository = repertoireRepository;
+        this.livraisonRepository = livraisonRepository;
     }
 
     @Override
@@ -104,10 +107,14 @@ public class FactureService implements IFactureService {
         FactureDTO factureDTO = factureResponse.facture();
         boolean isSave = factureDTO.getId() == null;
         Personnel personnelOperation = null;
+        Livraison livraison = null;
 
         try {
             if(null != factureDTO.getEmployeOperateurId() && factureDTO.getEmployeOperateurId() != 0) {
                 personnelOperation = personnelRepository.findById(factureDTO.getEmployeOperateurId()).orElse(null);
+            }
+            if(null != factureDTO.getLivraisonId() && factureDTO.getLivraisonId() != 0) {
+                livraison = livraisonRepository.findById(factureDTO.getLivraisonId()).orElse(null);
             }
 
             Optional<Repertoire> optionalRepertoire = repertoireRepository.findById(factureResponse.facture().getRepertoireId());
@@ -118,10 +125,17 @@ public class FactureService implements IFactureService {
             facture.setEmployeOperateur(personnelOperation);
             facture.setRepertoire(optionalRepertoire.orElse(null));
             facture.setPersonnel(optionalPersonnel.orElse(null));
+            facture.setLivraison(livraison);
 
             factureDTO = factureMapper.toFactureDTO(factureRepository.save(facture));
 
             enregistrerDetFacture(facture, isSave, factureResponse.detFactures());
+
+            if(null != livraison && null != livraison.getId()) {
+                logger.info("Setting livraison facturer to true for livraison id: {}", livraison.getId());
+                livraison.setFacturer(true);
+                livraisonRepository.save(livraison);
+            }
 
             logger.info("Stock facture saved successfully: {}", factureDTO);
         } catch (Exception e) {
@@ -149,10 +163,25 @@ public class FactureService implements IFactureService {
                 }
             }
 
+            updateLivraisonFacturer(id);
+
             factureRepository.deleteById(id);
             logger.info("Facture deleted successfully");
         } catch (Exception e) {
             logger.error("Failed to delete facture: {}", e.getMessage());
+        }
+    }
+
+    public void updateLivraisonFacturer(Long id) {
+        FactureDTO factureDTO = findById(id);
+        if(null != factureDTO && null != factureDTO.getLivraisonId()) {
+            Livraison livraison = livraisonRepository.findById(factureDTO.getLivraisonId()).orElse(null);
+
+            if(null != livraison && null != livraison.getId()) {
+                logger.info("Setting livraison facturer to false for livraison id: {}", livraison.getId());
+                livraison.setFacturer(false);
+                livraisonRepository.save(livraison);
+            }
         }
     }
 

@@ -77,6 +77,7 @@ public class FactureDTO implements Serializable {
     private String repertoireTel2;
     private String repertoireTel3;
     private String repertoireIce;
+    private Long livraisonId;
     //boolean facturer100;
     //boolean calculer;
     //boolean disableMontant;

@@ -54,6 +54,7 @@ public class LivraisonDTO implements Serializable {
     private double mntReglement2;
     private double mntReglement3;
     private double mntReglement4;
+    private boolean facturer;
     private boolean facturer100;
     @NotNull
     @Size(max = 191)
