@@ -53,7 +53,6 @@ public class LivraisonSpecification implements Specification<Livraison> {
                 predicate = criteriaBuilder.and(predicate, criteriaBuilder.or(predicateNumCheque, predicateNumCheque2));
             }
 
-
             if (null != commonSearchModel.getRepertoireId()) {
                 predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("repertoire").get("id"), commonSearchModel.getRepertoireId()));
             }

@@ -4,7 +4,11 @@ import com.kabir.kabirbackend.config.enums.ReportTypeEnum;
 import com.kabir.kabirbackend.config.responses.LivraisonResponse;
 import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.config.util.JasperReportsUtil;
+import com.kabir.kabirbackend.config.util.StaticVariables;
+import com.kabir.kabirbackend.dto.EtablissementDTO;
 import com.kabir.kabirbackend.dto.LivraisonDTO;
+import com.kabir.kabirbackend.entities.DetLivraison;
+import com.kabir.kabirbackend.service.EtablissementService;
 import com.kabir.kabirbackend.service.LivraisonService;
 import jakarta.validation.Valid;
 import org.apache.commons.collections4.CollectionUtils;
@@ -30,10 +34,12 @@ class LivraisonController {
 
     private final JasperReportsUtil jasperReportsUtil;
     private final LivraisonService livraisonService;
+    private final EtablissementService etablissementService;
 
-    public LivraisonController(LivraisonService livraisonService, JasperReportsUtil jasperReportsUtil) {
+    public LivraisonController(LivraisonService livraisonService, JasperReportsUtil jasperReportsUtil, EtablissementService etablissementService) {
         this.livraisonService = livraisonService;
         this.jasperReportsUtil = jasperReportsUtil;
+        this.etablissementService = etablissementService;
     }
 
     /*
@@ -242,7 +248,7 @@ class LivraisonController {
             params.put("titleText", bundleFR.getString("listeemplo"));
             //params.put("lienimage", "");
             String logo = "";
-            byte[] bytes = jasperReportsUtil.jasperReportInBytes(list, params, "listeemployeet",  ReportTypeEnum.PDF , logo);
+            byte[] bytes = jasperReportsUtil.jasperReportInBytes(list, params, "listeemployeet", ReportTypeEnum.PDF, logo);
             if (null != bytes) {
                 ByteArrayResource resource = new ByteArrayResource(bytes);
                 String fileName = MessageFormat.format("livraison_{0}.{1}", LocalDateTime.now(), "pdf");
@@ -257,6 +263,66 @@ class LivraisonController {
         } catch (Exception e) {
             logger.info("Error imprimer list livraison: {}", e.getMessage());
             return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/imprimer/{id}")
+    public ResponseEntity<?> imprimerLivraison(@PathVariable Long id) {
+        logger.info("Request imprimer livraison with id: {}", id);
+        try {
+            List<DetLivraison> list = livraisonService.findByLivraisonIdAndMontantProduitGreaterThanOrderByStockDesignation(id, 0);
+            list.addAll(livraisonService.findByLivraisonIdAndMontantProduitLessThanEqualOrderByStockDesignation(id, 0));
+
+            Map<String, Object> params = new HashMap<>();
+            List<EtablissementDTO> etablissementDTOList = etablissementService.findAll();
+
+            StaticVariables.getInfoEtablissement(params, etablissementDTOList, true);
+
+            params.put("fichier", bundleFR.getBaseBundleName());
+            byte[] bytes = jasperReportsUtil.jasperReportInBytes(list, params, "BonLivr", ReportTypeEnum.PDF, "");
+            if (null != bytes) {
+                ByteArrayResource resource = new ByteArrayResource(bytes);
+                String fileName = MessageFormat.format("bon_livraison_{0}.{1}", LocalDateTime.now(), "pdf");
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION, MessageFormat.format("attachment; filename=\"{0}\"", fileName))
+                        .contentLength(resource.contentLength())
+                        .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                        .body(resource);
+            } else {
+                throw new Exception("File Download Failed");
+            }
+        } catch (Exception e) {
+            logger.error("Error imprimer bon livraison: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @GetMapping("/imprimer/{id}/client")
+    public ResponseEntity<?> imprimerLivraisonClient(@PathVariable Long id) {
+        logger.info("Request imprimer client of livraison with id: {}", id);
+        try {
+            LivraisonDTO livraisonDTO = livraisonService.findById(id);
+            Map<String, Object> params = new HashMap<>();
+            List<EtablissementDTO> etablissementDTOList = etablissementService.findAll();
+
+            StaticVariables.getInfoEtablissement(params, etablissementDTOList, true);
+
+            params.put("fichier", bundleFR.getBaseBundleName());
+            byte[] bytes = jasperReportsUtil.jasperReportInBytes(Collections.singletonList(livraisonDTO), params, "infoclient", ReportTypeEnum.PDF, "");
+            if (null != bytes) {
+                ByteArrayResource resource = new ByteArrayResource(bytes);
+                String fileName = MessageFormat.format("livraison_client_{0}.{1}", LocalDateTime.now(), "pdf");
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION, MessageFormat.format("attachment; filename=\"{0}\"", fileName))
+                        .contentLength(resource.contentLength())
+                        .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                        .body(resource);
+            } else {
+                throw new Exception("File Download Failed");
+            }
+        } catch (Exception e) {
+            logger.error("Error imprimer client of livraison: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(null);
         }
     }
 }

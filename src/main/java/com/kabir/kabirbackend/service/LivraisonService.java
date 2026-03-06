@@ -273,6 +273,16 @@ public class LivraisonService implements ILivraisonService {
         return qte;
     }
 
+    @Override
+    public List<DetLivraison> findByLivraisonIdAndMontantProduitGreaterThanOrderByStockDesignation(Long livraisonId, double montant) {
+        return detLivraisonRepository.findByLivraisonIdAndMontantProduitGreaterThanOrderByStockDesignation(livraisonId, montant);
+    }
+
+    @Override
+    public List<DetLivraison> findByLivraisonIdAndMontantProduitLessThanEqualOrderByStockDesignation(Long livraisonId, double montant) {
+        return detLivraisonRepository.findByLivraisonIdAndMontantProduitLessThanEqualOrderByStockDesignation(livraisonId, montant);
+    }
+
     public void updateRepertoire(Repertoire oldRepertoire, Repertoire repertoire) {
         logger.info("Updating repertoire Old: {}, New: {}", oldRepertoire, repertoire);
         if(null != oldRepertoire && null != oldRepertoire.getId()) {
@@ -321,6 +331,7 @@ public class LivraisonService implements ILivraisonService {
         }
     }
 
+    @Override
     public List<LivraisonDTO> searchByCommon(CommonSearchModel commonSearchModel) {
         logger.info("Searching livraison by common: {}", commonSearchModel);
         return livraisonRepository.findAll(LivraisonSpecification.searchByCommon(commonSearchModel)).stream().map(livraisonMapper::toLivraisonDTO).toList();

@@ -72,6 +72,8 @@ public class LivraisonDTO implements Serializable {
     private Long repertoireId;
     private String repertoireDesignation;
     private String repertoireObservation;
+    private String repertoireAdresse;
+    private String repertoireTel1;
     private int repertoireNbrOperationClient;
     private Long repertoireIdOld;
 

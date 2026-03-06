@@ -11,33 +11,38 @@ import java.time.LocalDate;
  */
 @Data
 public class DetLivraisonDTO implements Serializable {
-    Long id;
+    private Long id;
     @NotNull
-    int qteLivrer;
+    private int qteLivrer;
     @NotNull
-    int champsRouge;
+    private int champsRouge;
     @NotNull
-    double remiseLivraison;
+    private double remiseLivraison;
     @NotNull
-    double prixVente;
+    private double prixVente;
     @NotNull
-    double montantProduit;
+    private double montantProduit;
     @NotNull
-    double beneficeDH;
+    private double beneficeDH;
     @NotNull
-    double benepourcentage;
+    private double benepourcentage;
     @NotNull
-    int infinity;
+    private int infinity;
     @NotNull
-    boolean avecRemise;
-    Long livraisonId;
-    String livraisonCodeBl;
-    LocalDate livraisonDateBl;
-    Long stockId;
-    String stockDesignation;
-    int stockQteStock;
-    int stockQteFacturer;
-    double stockPvttc;
-    double stockPattc;
-    double stockBenifice;
+    private boolean avecRemise;
+    private Long livraisonId;
+    private String livraisonCodeBl;
+    private LocalDate livraisonDateBl;
+    private String livraisonRepertoireDesignation;
+    private String livraisonRepertoireTel1;
+    private String livraisonRepertoireAdresse;
+    private Long stockId;
+    private String stockDesignation;
+    private int stockQteStock;
+    private int stockQteFacturer;
+    private double stockPvttc;
+    private double stockPattc;
+    private double stockBenifice;
+
+
 }
