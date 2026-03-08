@@ -29,5 +29,6 @@ public class CommonSearchModel {
     private String numRemise;
     private int typeRepertoire;
     private Long villeId;
+    private Long voitureId;
     private int typeImprimRepertoire;
 }
