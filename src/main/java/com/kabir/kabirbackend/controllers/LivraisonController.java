@@ -8,6 +8,7 @@ import com.kabir.kabirbackend.config.util.StaticVariables;
 import com.kabir.kabirbackend.dto.EtablissementDTO;
 import com.kabir.kabirbackend.dto.LivraisonDTO;
 import com.kabir.kabirbackend.entities.DetLivraison;
+import com.kabir.kabirbackend.mapper.DetLivraisonMapper;
 import com.kabir.kabirbackend.service.EtablissementService;
 import com.kabir.kabirbackend.service.LivraisonService;
 import jakarta.validation.Valid;
@@ -35,11 +36,13 @@ class LivraisonController {
     private final JasperReportsUtil jasperReportsUtil;
     private final LivraisonService livraisonService;
     private final EtablissementService etablissementService;
+    private final DetLivraisonMapper detLivraisonMapper;
 
-    public LivraisonController(LivraisonService livraisonService, JasperReportsUtil jasperReportsUtil, EtablissementService etablissementService) {
+    LivraisonController(LivraisonService livraisonService, JasperReportsUtil jasperReportsUtil, EtablissementService etablissementService, DetLivraisonMapper detLivraisonMapper) {
         this.livraisonService = livraisonService;
         this.jasperReportsUtil = jasperReportsUtil;
         this.etablissementService = etablissementService;
+        this.detLivraisonMapper = detLivraisonMapper;
     }
 
     /*
@@ -279,7 +282,7 @@ class LivraisonController {
             StaticVariables.getInfoEtablissement(params, etablissementDTOList, true);
 
             params.put("fichier", bundleFR.getBaseBundleName());
-            byte[] bytes = jasperReportsUtil.jasperReportInBytes(list, params, "BonLivr", ReportTypeEnum.PDF, "");
+            byte[] bytes = jasperReportsUtil.jasperReportInBytes(list.stream().map(detLivraisonMapper::toDetLivraisonDTO).toList(), params, "BonLivr", ReportTypeEnum.PDF, "");
             if (null != bytes) {
                 ByteArrayResource resource = new ByteArrayResource(bytes);
                 String fileName = MessageFormat.format("bon_livraison_{0}.{1}", LocalDateTime.now(), "pdf");

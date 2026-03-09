@@ -9,6 +9,7 @@ import com.kabir.kabirbackend.repository.EntretienRepository;
 import com.kabir.kabirbackend.repository.VoitureRepository;
 import com.kabir.kabirbackend.service.interfaces.IEntretienService;
 import com.kabir.kabirbackend.specifications.EntretienSpecification;
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -84,6 +85,13 @@ public class EntretienService implements IEntretienService {
             logger.error("Error while deleting entretien with id: {}", id, e);
             throw new RuntimeException("Error deleting entretien by id: " + id, e);
         }
+    }
+
+    @Override
+    public boolean exists(EntretienDTO entretienDTO) {
+        logger.info("Checking if entretien exists : {}", entretienDTO);
+        List<EntretienDTO> list = entretienRepository.findAll(EntretienSpecification.exist(entretienDTO)).stream().map(entretienMapper::toDTO).toList();
+        return CollectionUtils.isNotEmpty(list);
     }
 
     @Override

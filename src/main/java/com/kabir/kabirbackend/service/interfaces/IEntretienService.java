@@ -14,5 +14,7 @@ public interface IEntretienService {
 
     void delete(Long id);
 
+    boolean exists(EntretienDTO entretienDTO);
+
     List<EntretienDTO> search(CommonSearchModel commonSearchModel);
 }

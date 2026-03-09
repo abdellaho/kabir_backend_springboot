@@ -22,7 +22,7 @@
 	<field name="Client" class="java.lang.String">
 		<fieldDescription><![CDATA[livraisonRepertoireDesignation]]></fieldDescription>
 	</field>
-	<field name="dateLivr" class="java.util.Date">
+	<field name="dateLivr" class="java.time.LocalDate">
 		<fieldDescription><![CDATA[livraisonDateBl]]></fieldDescription>
 	</field>
 	<field name="numBl" class="java.lang.String">

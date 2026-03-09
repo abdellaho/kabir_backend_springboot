@@ -6,7 +6,6 @@ import com.kabir.kabirbackend.config.util.JasperReportsUtil;
 import com.kabir.kabirbackend.config.util.StaticVariables;
 import com.kabir.kabirbackend.dto.EntretienDTO;
 import com.kabir.kabirbackend.service.EntretienService;
-import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ByteArrayResource;
@@ -98,11 +97,10 @@ public class EntretienController {
     }
 
     @PostMapping("/exist")
-    public ResponseEntity<Boolean> exist(@RequestBody CommonSearchModel commonSearchModel) {
-        logger.info("Checking if entretien exists: {}", commonSearchModel);
+    public ResponseEntity<Boolean> exist(@RequestBody EntretienDTO entretienDTO) {
+        logger.info("Checking if entretien exists: {}", entretienDTO);
         try {
-            List<EntretienDTO> entretiens = entretienService.search(commonSearchModel);
-            return ResponseEntity.ok(CollectionUtils.isNotEmpty(entretiens));
+            return ResponseEntity.ok(entretienService.exists(entretienDTO));
         } catch (Exception e) {
             logger.error("Error checking if entretien exists: {}", e.getMessage());
             return ResponseEntity.badRequest().body(null);
