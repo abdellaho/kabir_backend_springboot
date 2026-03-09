@@ -79,7 +79,9 @@ public class FournisseurService implements IFournisseurService {
 
     @Override
     public List<FournisseurDTO> searchBySupprimerOrArchiver(FournisseurDTO fournisseurDTO) {
-        return fournisseurRepository.findAll(FournisseurSpecification.searchBySupprimerOrArchiver(fournisseurDTO)).stream().map(fournisseurMapper::toFournisseurDTO).toList();
+        List<FournisseurDTO> list = fournisseurRepository.findAll(FournisseurSpecification.searchBySupprimerOrArchiver(fournisseurDTO)).stream().map(fournisseurMapper::toFournisseurDTO).toList();
+        list.forEach(fournisseurEdit -> fournisseurEdit.setCanDelete(!fournisseurRepository.isFournisseurUsed(fournisseurEdit.getId())));
+        return list;
     }
 
     public FournisseurDTO updateNbrOperation(Long id, Integer type) {

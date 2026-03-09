@@ -37,4 +37,5 @@ public class FournisseurDTO implements Serializable {
     @NotNull
     boolean supprimer;
     VilleDTO ville;
+    boolean canDelete;
 }

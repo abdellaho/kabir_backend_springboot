@@ -117,7 +117,9 @@ public class RepertoireService implements IRepertoireService {
 
     @Override
     public List<RepertoireDTO> searchClients(RepertoireDTO repertoireDTO) {
-        return repertoireRepository.findAll(RepertoireSpecification.searchBySupprimerOrArchiverAndClientsOnly(repertoireDTO)).stream().map(repertoireMapper::toRepertoireDTO).toList();
+        List<RepertoireDTO> list = repertoireRepository.findAll(RepertoireSpecification.searchBySupprimerOrArchiverAndClientsOnly(repertoireDTO)).stream().map(repertoireMapper::toRepertoireDTO).toList();
+        list.forEach(repertoireEdit -> repertoireDTO.setCanDelete(!repertoireRepository.isRepertoireUsed(repertoireEdit.getId())));
+        return list;
     }
 
     @Override

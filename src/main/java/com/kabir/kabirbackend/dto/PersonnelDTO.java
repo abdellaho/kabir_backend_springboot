@@ -67,4 +67,5 @@ public class PersonnelDTO implements Serializable {
     boolean modifierRepertoire;
     @NotNull
     boolean supprimerRepertoire;
+    boolean canDelete;
 }

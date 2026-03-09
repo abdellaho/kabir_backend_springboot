@@ -133,6 +133,8 @@ public class PersonnelService implements IPersonnelService {
 
     @Override
     public List<PersonnelDTO> searchBySupprimerOrArchiver(PersonnelDTO personnelDTO) {
-        return personnelRepository.findAll(PersonnelSpecification.searchBySupprimerOrArchiver(personnelDTO)).stream().map(personnelMapper::toDTO).toList();
+        List<PersonnelDTO> list = personnelRepository.findAll(PersonnelSpecification.searchBySupprimerOrArchiver(personnelDTO)).stream().map(personnelMapper::toDTO).toList();
+        list.forEach(personnelToEdit -> personnelDTO.setCanDelete(!personnelRepository.isPersonnelUsed(personnelToEdit.getId())));
+        return list;
     }
 }

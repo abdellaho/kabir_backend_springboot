@@ -63,4 +63,5 @@ public class RepertoireDTO implements Serializable {
     String villeNomVille;
     @JsonIgnore
     LocalDate dateDernierBL;
+    boolean canDelete;
 }
