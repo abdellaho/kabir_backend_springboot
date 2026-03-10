@@ -43,13 +43,26 @@ public class PersonnelService implements IPersonnelService {
     @Override
     public PersonnelDTO save(PersonnelDTO personnelDTO) {
         logger.info("Saving personnel: {}", personnelDTO);
+        boolean isSave = true;
         try {
+            if(null != personnelDTO.getId()) {
+                isSave = false;
+            }
+
             Personnel personnel = personnelMapper.toEntity(personnelDTO);
             if(StringUtils.isNotBlank(personnelDTO.getPasswordFake()) && StringUtils.isNotBlank(personnelDTO.getEmail())) {
                 personnel.setPassword(passwordEncoder.encode(personnelDTO.getPasswordFake()));
             }
             personnel = personnelRepository.save(personnel);
-            return personnelMapper.toDTO(personnel);
+
+            PersonnelDTO personnelEdit = personnelMapper.toDTO(personnel);
+            if(isSave) {
+                personnelEdit.setCanDelete(true);
+            } else {
+                personnelEdit.setCanDelete(!personnelRepository.isPersonnelUsed(personnelEdit.getId()));
+            }
+
+            return personnelEdit;
         } catch (Exception e) {
             logger.error("Error saving personnel", e);
             throw new RuntimeException("Error saving personnel", e);
@@ -134,7 +147,10 @@ public class PersonnelService implements IPersonnelService {
     @Override
     public List<PersonnelDTO> searchBySupprimerOrArchiver(PersonnelDTO personnelDTO) {
         List<PersonnelDTO> list = personnelRepository.findAll(PersonnelSpecification.searchBySupprimerOrArchiver(personnelDTO)).stream().map(personnelMapper::toDTO).toList();
-        list.forEach(personnelToEdit -> personnelDTO.setCanDelete(!personnelRepository.isPersonnelUsed(personnelToEdit.getId())));
+        for (PersonnelDTO personnelToEdit: list) {
+            boolean isPersonnelUsed = personnelRepository.isPersonnelUsed(personnelToEdit.getId());
+            personnelToEdit.setCanDelete(!isPersonnelUsed);
+        }
         return list;
     }
 }

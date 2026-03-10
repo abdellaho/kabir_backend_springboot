@@ -30,10 +30,24 @@ public class FournisseurService implements IFournisseurService {
 
     @Override
     public FournisseurDTO save(FournisseurDTO fournisseurDTO) {
+        logger.info("Saving fournisseur: {}", fournisseurDTO);
+        boolean isSave = true;
         try {
+            if(null != fournisseurDTO.getId()) {
+                isSave = false;
+            }
+
             Fournisseur fournisseur = fournisseurMapper.toFournisseur(fournisseurDTO);
             Fournisseur savedFournisseur = fournisseurRepository.save(fournisseur);
-            return fournisseurMapper.toFournisseurDTO(savedFournisseur);
+
+            FournisseurDTO fournisseurEdit = fournisseurMapper.toFournisseurDTO(savedFournisseur);
+            if(isSave) {
+                fournisseurEdit.setCanDelete(true);
+            } else {
+                fournisseurEdit.setCanDelete(!fournisseurRepository.isFournisseurUsed(fournisseurEdit.getId()));
+            }
+
+            return fournisseurEdit;
         } catch (Exception e) {
             logger.error("Error saving Fournisseur", e);
             throw new RuntimeException("Error saving Fournisseur", e);
@@ -80,7 +94,10 @@ public class FournisseurService implements IFournisseurService {
     @Override
     public List<FournisseurDTO> searchBySupprimerOrArchiver(FournisseurDTO fournisseurDTO) {
         List<FournisseurDTO> list = fournisseurRepository.findAll(FournisseurSpecification.searchBySupprimerOrArchiver(fournisseurDTO)).stream().map(fournisseurMapper::toFournisseurDTO).toList();
-        list.forEach(fournisseurEdit -> fournisseurEdit.setCanDelete(!fournisseurRepository.isFournisseurUsed(fournisseurEdit.getId())));
+        for (FournisseurDTO fournisseurEdit: list) {
+            boolean isfournisseurUsed = fournisseurRepository.isFournisseurUsed(fournisseurEdit.getId());
+            fournisseurEdit.setCanDelete(!isfournisseurUsed);
+        }
         return list;
     }
 

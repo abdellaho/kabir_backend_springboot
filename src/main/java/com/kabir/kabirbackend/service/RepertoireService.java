@@ -57,7 +57,12 @@ public class RepertoireService implements IRepertoireService {
     @Override
     public RepertoireDTO save(RepertoireDTO repertoireDTO) {
         logger.info("Saving repertoire: {}", repertoireDTO);
+        boolean isSave = true;
         try {
+            if(null != repertoireDTO.getId()) {
+                isSave = false;
+            }
+
             Optional<Ville> villeOptional = villeRepository.findById(repertoireDTO.getVilleId());
             if (villeOptional.isEmpty()) {
                 throw new RuntimeException("Ville not found");
@@ -68,7 +73,15 @@ public class RepertoireService implements IRepertoireService {
             repertoire.setVille(villeOptional.get());
             repertoire.setPersonnel(personnelOptional.orElse(null));
             repertoire = repertoireRepository.save(repertoire);
-            return repertoireMapper.toRepertoireDTO(repertoire);
+
+            RepertoireDTO repertoireEdit = repertoireMapper.toRepertoireDTO(repertoire);
+            if(isSave) {
+                repertoireEdit.setCanDelete(true);
+            } else {
+                repertoireEdit.setCanDelete(!repertoireRepository.isRepertoireUsed(repertoireEdit.getId()));
+            }
+
+            return repertoireEdit;
         } catch (Exception e) {
             logger.error("Error saving repertoire", e);
             throw new RuntimeException("Error saving repertoire", e);
@@ -118,7 +131,10 @@ public class RepertoireService implements IRepertoireService {
     @Override
     public List<RepertoireDTO> searchClients(RepertoireDTO repertoireDTO) {
         List<RepertoireDTO> list = repertoireRepository.findAll(RepertoireSpecification.searchBySupprimerOrArchiverAndClientsOnly(repertoireDTO)).stream().map(repertoireMapper::toRepertoireDTO).toList();
-        list.forEach(repertoireEdit -> repertoireDTO.setCanDelete(!repertoireRepository.isRepertoireUsed(repertoireEdit.getId())));
+        for (RepertoireDTO repertoireEdit: list) {
+            boolean isRepertoireUsed = repertoireRepository.isRepertoireUsed(repertoireEdit.getId());
+            repertoireEdit.setCanDelete(!isRepertoireUsed);
+        }
         return list;
     }
 
