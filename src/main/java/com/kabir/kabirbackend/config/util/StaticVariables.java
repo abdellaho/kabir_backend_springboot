@@ -14,6 +14,8 @@ import java.util.ResourceBundle;
 public class StaticVariables {
     public static final ResourceBundle bundleFR = ResourceBundle.getBundle("i18n/ApplicationResources", Locale.of("fr"));
     public static final DateTimeFormatter dateFormatDayFirst = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    public static final DateTimeFormatter sdfDDMMYY = DateTimeFormatter.ofPattern("dd/MM/yy");
+    public static final DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
 
     public static double convertDouble(double montant) {
         DecimalFormat format = new DecimalFormat("#.00");

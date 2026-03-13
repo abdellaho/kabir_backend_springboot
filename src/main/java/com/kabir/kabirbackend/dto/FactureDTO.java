@@ -1,5 +1,6 @@
 package com.kabir.kabirbackend.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -78,8 +79,10 @@ public class FactureDTO implements Serializable {
     private String repertoireTel3;
     private String repertoireIce;
     private Long livraisonId;
-    //boolean facturer100;
-    //boolean calculer;
+    @JsonIgnore
+    boolean facturer100;
+    @JsonIgnore
+    boolean calculer;
     //boolean disableMontant;
     //@NotNull
     //@Size(max = 191)
@@ -94,4 +97,28 @@ public class FactureDTO implements Serializable {
     //double tva20Reglement4;
     //double mntHT20Reglement1;
     //double mntHT20Reglement2;
+    @JsonIgnore
+    double mntHT20One;
+    @JsonIgnore
+    boolean dateReglementIn;
+    @JsonIgnore
+    double tva20One;
+    @JsonIgnore
+    LocalDate dateReglementOne;
+    @JsonIgnore
+    double mantantBFOne;
+    @JsonIgnore
+    String numRemiseTmp;
+    @JsonIgnore
+    String numChequeOne;
+    @JsonIgnore
+    String numRemiseOne;
+    @JsonIgnore
+    String typeReglementOne;
+    @JsonIgnore
+    String mntReglementOne;
+    @JsonIgnore
+    String dateReglementOneLettre;
+    @JsonIgnore
+    double totalNumRemise;
 }
