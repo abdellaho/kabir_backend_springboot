@@ -21,10 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -304,6 +301,15 @@ public class FactureService implements IFactureService {
         return p;
     }
 
+    public String getTypeReglement(int type) {
+        return switch (type) {
+            case 2 -> StaticVariables.bundleFR.getString("cheque");
+            case 3 -> StaticVariables.bundleFR.getString("traite");
+            case 4 -> StaticVariables.bundleFR.getString("virement");
+            default -> StaticVariables.bundleFR.getString("espece");
+        };
+    }
+
     private LocalDate[] resolveDates(LocalDate dateDebut, LocalDate dateFin) {
         if (dateDebut != null && dateFin != null) {
             return new LocalDate[]{dateDebut, dateFin};
@@ -358,7 +364,7 @@ public class FactureService implements IFactureService {
             for (FactureDTO facture : listImprim) {
                 facture.setCalculer(false);
                 facture.setType(1);
-                double somme20 = 0.0, somme7 = 0.0;
+                Double somme20 = 0.0, somme7 = 0.0;
 
                 LocalDate dateReglement = facture.getDateReglement();
                 LocalDate dateReglement2 = facture.getDateReglement2();
@@ -374,12 +380,12 @@ public class FactureService implements IFactureService {
                 if(i == 2) {
                     if(isDateReglement1Between) {
                         facture.setCalculer(true);
-                        somme20 = detfactureService.findQuerySumDouble("select sum(montantProduitHT) from Detfacture where facture = " + facture.getId() + " and tva20 > 0 and tva7 = 0.0");
-                        somme7 = detfactureService.findQuerySumDouble("select sum(montantProduitHT) from Detfacture where facture = " + facture.getId() + " and tva7 > 0 and tva20 = 0.0");
+                        somme20 = detFactureRepository.sumTva20(facture.getId());
+                        somme7 = detFactureRepository.sumTva7(facture.getId());
                     }
 
-                    facture.setMntHT2O(somme20);
-                    facture.setMntHT7(somme7);
+                    facture.setMntHT2O(null != somme20 ? somme20 : 0.0);
+                    facture.setMntHT7(null != somme7 ? somme7 : 0.0);
                 } else {
                     facture.setCalculer(true);
                     facture.setMntHT7(0);
@@ -412,7 +418,6 @@ public class FactureService implements IFactureService {
 
                         isAdded = true;
                     }
-                    /*********************************************************************************************/
                     if(isDateReglement2Between) {
                         dateReglementOne
                                 .append(dateReglementOne.isEmpty() ? "" : "\n")
@@ -424,7 +429,7 @@ public class FactureService implements IFactureService {
                                 if(null != facture.getDateReglement3()) espaceVide1.append(espaceVide.toString());
                                 if(null != facture.getDateReglement4()) espaceVide1.append(espaceVide.toString());
 
-                                facture2 = (Facture) facture.clone();
+                                facture2 = (FactureDTO) facture.clone();
 
                                 facture2.setDateReglementIn(true);
                                 facture2.setMntHT20One(facture2.getMntReglement2() - (facture2.getMntReglement2() * 0.2));
@@ -437,9 +442,8 @@ public class FactureService implements IFactureService {
                                 facture2.setNumRemiseOne(espaceVideReverse.toString() + facture2.getNumRemise2() + espaceVide1.toString());
                                 facture2.setTypeReglementOne(espaceVideReverse.toString() + getTypeReglement(facture2.getTypeReglment2()) + espaceVide1.toString());
                                 facture2.setMntReglementOne(espaceVideReverse.toString() + StaticVariables.decimalFormat.format(facture2.getMntReglement2()) + espaceVide1.toString());
-
-                                isAdded = true;
                             } catch (Exception e) {
+                                logger.error("Error while processing facture2", e);
                             }
                         } else {
                             facture.setDateReglementIn(true);
@@ -459,14 +463,13 @@ public class FactureService implements IFactureService {
                     } else {
                         if(null != facture.getDateReglement2()) {
                             dateReglementOne
-                                    .append(dateReglementOne.length() > 0 ? "\n" : "")
+                                    .append(!dateReglementOne.isEmpty() ? "\n" : "")
                                     .append(StaticVariables.sdfDDMMYY.format(facture.getDateReglement2()));
                         }
                     }
-                    /*********************************************************************************************/
                     if(isDateReglement3Between) {
                         dateReglementOne
-                                .append(dateReglementOne.length() > 0 ? "\n" : "")
+                                .append(!dateReglementOne.isEmpty() ? "\n" : "")
                                 .append(StaticVariables.sdfDDMMYY.format(facture.getDateReglement3()));
 
                         if(isAdded) {
@@ -474,7 +477,7 @@ public class FactureService implements IFactureService {
                                 StringBuilder espaceVide1 = new StringBuilder();
                                 if(null != facture.getDateReglement4()) espaceVide1.append(espaceVide.toString());
 
-                                facture3 = (Facture) facture.clone();
+                                facture3 = (FactureDTO) facture.clone();
 
                                 facture3.setDateReglementIn(true);
                                 facture3.setMntHT20One(facture3.getMntReglement3() - (facture3.getMntReglement3() * 0.2));
@@ -488,6 +491,7 @@ public class FactureService implements IFactureService {
                                 facture3.setTypeReglementOne(espaceVideReverse.toString() + espaceVideReverse.toString() + getTypeReglement(facture3.getTypeReglment3()) + espaceVide1.toString());
                                 facture3.setMntReglementOne(espaceVideReverse.toString() + espaceVideReverse.toString() + StaticVariables.decimalFormat.format(facture3.getMntReglement3()) + espaceVide1.toString());
                             } catch (Exception e) {
+                                logger.error("Error while processing facture3", e);
                             }
                         } else {
                             facture.setDateReglementIn(true);
@@ -507,14 +511,13 @@ public class FactureService implements IFactureService {
                     } else {
                         if(null != facture.getDateReglement3()) {
                             dateReglementOne
-                                    .append(dateReglementOne.length() > 0 ? "\n" : "")
+                                    .append(!dateReglementOne.isEmpty() ? "\n" : "")
                                     .append(StaticVariables.sdfDDMMYY.format(facture.getDateReglement3()));
                         }
                     }
-                    /*********************************************************************************************/
                     if(isDateReglement4Between) {
                         dateReglementOne
-                                .append(dateReglementOne.length() > 0 ? "\n" : "")
+                                .append(!dateReglementOne.isEmpty() ? "\n" : "")
                                 .append(StaticVariables.sdfDDMMYY.format(facture.getDateReglement4()));
 
                         if(isAdded) {
@@ -536,6 +539,7 @@ public class FactureService implements IFactureService {
                                 facture4.setTypeReglementOne(espaceVide1.toString() + getTypeReglement(facture4.getTypeReglment4()));
                                 facture4.setMntReglementOne(espaceVide1.toString() + new DecimalFormat("#,##0.00").format(facture4.getMntReglement4()));
                             } catch (Exception e) {
+                                logger.error("Error while processing facture4", e);
                             }
                         } else {
                             facture.setDateReglementIn(true);
@@ -555,11 +559,10 @@ public class FactureService implements IFactureService {
                     } else {
                         if(null != facture.getDateReglement4()) {
                             dateReglementOne
-                                    .append(dateReglementOne.length() > 0 ? "\n" : "")
+                                    .append(!dateReglementOne.isEmpty() ? "\n" : "")
                                     .append(StaticVariables.sdfDDMMYY.format(facture.getDateReglement4()));
                         }
                     }
-                    /*********************************************************************************************/
 
                     facture.setDateReglementOneLettre(dateReglementOne.toString());
 
@@ -584,12 +587,12 @@ public class FactureService implements IFactureService {
             Map<Long, FactureDTO> map = listImprim.stream().collect(Collectors.toMap(FactureDTO::getId, f -> f, (oldValue, newValue) -> newValue));
             double mntTotal = map.values().stream().mapToDouble(f -> f.isCalculer() ? f.getMantantBF() : 0).sum();
 
-            parameters.put("mntTotal", methodCommun.convertrDouble(mntTotal) + "");
+            parameters.put("mntTotal", StaticVariables.convertDouble(mntTotal) + "");
 
             if(i == 1) {
                 TreeMap<String, Double> treeMap = listImprim.stream()
                         .filter(facture -> StringUtils.isNotBlank(facture.getNumRemise()))
-                        .collect(Collectors.toMap(FactureDTO::getNumRemise, FactureDTO::getTotalNumRemise, (existing, replacement) -> existing != null ? existing : replacement, TreeMap::new));
+                        .collect(Collectors.toMap(FactureDTO::getNumRemise, FactureDTO::getTotalNumRemise, (existing, replacement) -> existing, TreeMap::new));
                 treeMap.putAll(listImprim.stream()
                         .filter(facture -> StringUtils.isNotBlank(facture.getNumRemise2()))
                         .collect(Collectors.toMap(FactureDTO::getNumRemise2, FactureDTO::getTotalNumRemise, (existing, replacement) -> existing)));
@@ -604,12 +607,12 @@ public class FactureService implements IFactureService {
 
                 if(!treeMap.isEmpty()) {
                     for(Map.Entry<String, Double> entry : treeMap.entrySet()) {
-                        getMntReglementByNumRemise
+                        Object[] sums = factureRepository.getMntReglementByNumRemise(entry.getKey());
 
-                        double sumNumRemise = factureService.findQuerySum("select sum(mntReglement) from Facture where numRemise like '" + entry.getKey() + "'");
-                        double sumNumRemise2 = factureService.findQuerySum("select sum(mntReglement2) from Facture where numRemise2 like '" + entry.getKey() + "'");
-                        double sumNumRemise3 = factureService.findQuerySum("select sum(mntReglement3) from Facture where numRemise3 like '" + entry.getKey() + "'");
-                        double sumNumRemise4 = factureService.findQuerySum("select sum(mntReglement4) from Facture where numRemise4 like '" + entry.getKey() + "'");
+                        double sumNumRemise = sums[0] != null ? (Double) sums[0] : 0;
+                        double sumNumRemise2 = sums[1] != null ? (Double) sums[1] : 0;
+                        double sumNumRemise3 = sums[2] != null ? (Double) sums[2] : 0;
+                        double sumNumRemise4 = sums[3] != null ? (Double) sums[3] : 0;
 
                         entry.setValue(sumNumRemise + sumNumRemise2 + sumNumRemise3 + sumNumRemise4);
                     }
@@ -622,13 +625,13 @@ public class FactureService implements IFactureService {
                     }
                 });
             }
-            GeneratePDF.Imprimer(etatPrint, etatPrint.replace(".jrxml", ".pdf"), listImprim, parameters, "");
+            //GeneratePDF.Imprimer(etatPrint, etatPrint.replace(".jrxml", ".pdf"), listImprim, parameters, "");
         } else {
-            GeneratePDF.anullerImpr("aucun element");
+            //GeneratePDF.anullerImpr("aucun element");
         }
     }
 
-    private void imprimerParProduit() {
+    /*private void imprimerParProduit() {
         String etatPrint = "";
         List<Detfacture> listImprim = new ArrayList<Detfacture>();
         List<FournisseurProduit> listFournisseurProduit = new ArrayList<FournisseurProduit>();
@@ -823,7 +826,7 @@ public class FactureService implements IFactureService {
         List<Facture> listImprim = factureService.findByQuery(" where 1=1 " + query.toString() + " order by dateReglement,repertoireByClient.designation");
 
         /***********************************************  Espece  *************************************************/
-        listImprimEspece = detfactureService.findQuerySumDouble("select sum(mntReglement) from Facture where typeReglment=1 " + query.toString());
+        /*listImprimEspece = detfactureService.findQuerySumDouble("select sum(mntReglement) from Facture where typeReglment=1 " + query.toString());
         double doubleEspece = methodCommun.convertrDouble(listImprimEspece);
 
         double listImprimEspece2 = detfactureService.findQuerySumDouble("select sum(mntReglement2) from Facture where typeReglment2=1 " + query.toString());
@@ -833,7 +836,7 @@ public class FactureService implements IFactureService {
         double doubleEspece3 = methodCommun.convertrDouble(listImprimEspece3);
 
         /***********************************************  Cheque  *************************************************/
-        listImprimCheque = detfactureService.findQuerySumDouble("select sum(mntReglement) from Facture where typeReglment=2 " + query.toString());
+        /*listImprimCheque = detfactureService.findQuerySumDouble("select sum(mntReglement) from Facture where typeReglment=2 " + query.toString());
         double doubleCheque = methodCommun.convertrDouble(listImprimCheque);
 
         double listImprimCheque2 = detfactureService.findQuerySumDouble("select sum(mntReglement2) from Facture where typeReglment2=2 " + query.toString());
@@ -843,7 +846,7 @@ public class FactureService implements IFactureService {
         double doubleCheque3 = methodCommun.convertrDouble(listImprimCheque3);
 
         /***********************************************  Traite  ***************************************************/
-        listImprimTraite = detfactureService.findQuerySumDouble("select sum(mntReglement) from Facture where typeReglment=3 " + query.toString());
+        /*listImprimTraite = detfactureService.findQuerySumDouble("select sum(mntReglement) from Facture where typeReglment=3 " + query.toString());
         double doubleTraite = methodCommun.convertrDouble(listImprimTraite);
 
         double listImprimTraite2 = detfactureService.findQuerySumDouble("select sum(mntReglement2) from Facture where typeReglment2=3 " + query.toString());
@@ -853,7 +856,7 @@ public class FactureService implements IFactureService {
         double doubleTraite3 = methodCommun.convertrDouble(listImprimTraite3);
 
         /***********************************************  Virement  ***************************************************/
-        listImprimVirement = detfactureService.findQuerySumDouble("select sum(mntReglement) from Facture where typeReglment=4 " + query.toString());
+        /*listImprimVirement = detfactureService.findQuerySumDouble("select sum(mntReglement) from Facture where typeReglment=4 " + query.toString());
         double doubleVirement = methodCommun.convertrDouble(listImprimVirement);
 
         double listImprimVirement2 = detfactureService.findQuerySumDouble("select sum(mntReglement2) from Facture where typeReglment2=4 " + query.toString());
@@ -992,7 +995,7 @@ public class FactureService implements IFactureService {
 								/*typeReglementOne
 									.append(typeReglementOne.length() > 0 ? "\n" : "")
 									.append(getTypeReglement(facture2.getTypeReglment4()));*/
-                                facture2.setDateReglement4In(true);
+                                /*facture2.setDateReglement4In(true);
                                 facture2.setMntHT20Reglement4(facture2.getMntReglement4() / 1.2);
                                 facture2.setTva20Reglement4(facture2.getMntReglement4() - facture2.getMntHT20Reglement4());
 
@@ -1031,5 +1034,5 @@ public class FactureService implements IFactureService {
         } else {
             GeneratePDF.anullerImpr("aucun element");
         }
-    }
+    }*/
 }

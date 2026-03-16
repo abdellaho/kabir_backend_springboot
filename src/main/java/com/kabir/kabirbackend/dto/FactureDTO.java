@@ -13,7 +13,7 @@ import java.time.LocalDate;
  * DTO for {@link com.kabir.kabirbackend.entities.Facture}
  */
 @Data
-public class FactureDTO implements Serializable {
+public class FactureDTO implements Serializable, Cloneable {
     Long id;
     int numFacture;
     @NotNull
@@ -121,4 +121,14 @@ public class FactureDTO implements Serializable {
     String dateReglementOneLettre;
     @JsonIgnore
     double totalNumRemise;
+
+    @Override
+    public FactureDTO clone() {
+        try {
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return (FactureDTO) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }
