@@ -12,7 +12,7 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RepertoireValidationResponse {
+public class ValidationResponse {
 
     private boolean exists;
     private Map<String, String> errors = new HashMap<>();

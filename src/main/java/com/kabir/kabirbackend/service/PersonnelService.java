@@ -1,5 +1,6 @@
 package com.kabir.kabirbackend.service;
 
+import com.kabir.kabirbackend.config.responses.ValidationResponse;
 import com.kabir.kabirbackend.dto.AbsenceDTO;
 import com.kabir.kabirbackend.dto.PersonnelDTO;
 import com.kabir.kabirbackend.entities.Personnel;
@@ -152,5 +153,44 @@ public class PersonnelService implements IPersonnelService {
             personnelToEdit.setCanDelete(!isPersonnelUsed);
         }
         return list;
+    }
+
+    @Override
+    public ValidationResponse existingTest(PersonnelDTO dto) {
+        ValidationResponse response = new ValidationResponse();
+        Long id = dto.getId() == null ? -1L : dto.getId();
+
+        if (StringUtils.isNotBlank(dto.getDesignation())) {
+            if (personnelRepository.existsByDesignationIgnoreCaseAndIdNotAndSupprimerFalse(dto.getDesignation().trim(), id)) {
+                response.getErrors().put("designation", "Désignation existe déjà");
+            }
+        }
+
+        if (StringUtils.isNotBlank(dto.getTel1())) {
+            if (personnelRepository.existsByTelAndIdNotAndSupprimerFalse(dto.getTel1().trim(), id)) {
+                response.getErrors().put("tel1", "Tel 1 existe déjà");
+            }
+        }
+
+        if (StringUtils.isNotBlank(dto.getTel2())) {
+            if (personnelRepository.existsByTelAndIdNotAndSupprimerFalse(dto.getTel2().trim(), id)) {
+                response.getErrors().put("tel2", "Tel 2 existe déjà");
+            }
+        }
+
+        if (StringUtils.isNotBlank(dto.getCin())) {
+            if (personnelRepository.existsByCinIgnoreCaseAndIdNotAndSupprimerFalse(dto.getCin().trim(), id)) {
+                response.getErrors().put("ice", "CIN existe déjà");
+            }
+        }
+
+        if (StringUtils.isNotBlank(dto.getEmail())) {
+            if (personnelRepository.existsByEmailIgnoreCaseAndIdNotAndSupprimerFalse(dto.getEmail().trim(), id)) {
+                response.getErrors().put("ice", "Email existe déjà");
+            }
+        }
+
+        response.setExists(!response.getErrors().isEmpty());
+        return response;
     }
 }

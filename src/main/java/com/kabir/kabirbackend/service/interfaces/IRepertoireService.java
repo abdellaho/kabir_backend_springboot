@@ -1,17 +1,17 @@
 package com.kabir.kabirbackend.service.interfaces;
 
-import com.kabir.kabirbackend.config.responses.RepertoireValidationResponse;
+import com.kabir.kabirbackend.config.responses.ValidationResponse;
 import com.kabir.kabirbackend.dto.RepertoireDTO;
 
 import java.util.List;
 
 public interface IRepertoireService {
 
-    public RepertoireDTO save(RepertoireDTO repertoireDTO);
-    public RepertoireDTO findById(Long id);
-    public List<RepertoireDTO> findAll();
-    public void delete(Long id);
-    public List<RepertoireDTO> search(RepertoireDTO repertoireDTO);
+    RepertoireDTO save(RepertoireDTO repertoireDTO);
+    RepertoireDTO findById(Long id);
+    List<RepertoireDTO> findAll();
+    void delete(Long id);
+    List<RepertoireDTO> search(RepertoireDTO repertoireDTO);
 
     List<RepertoireDTO> searchClients(RepertoireDTO repertoireDTO);
 
@@ -19,5 +19,5 @@ public interface IRepertoireService {
 
     RepertoireDTO updateNbrOperation(Long id, Integer type);
 
-    RepertoireValidationResponse existingTest(RepertoireDTO dto);
+    ValidationResponse existingTest(RepertoireDTO dto);
 }

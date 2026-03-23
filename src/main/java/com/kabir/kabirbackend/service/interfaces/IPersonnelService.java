@@ -1,5 +1,6 @@
 package com.kabir.kabirbackend.service.interfaces;
 
+import com.kabir.kabirbackend.config.responses.ValidationResponse;
 import com.kabir.kabirbackend.dto.AbsenceDTO;
 import com.kabir.kabirbackend.dto.PersonnelDTO;
 
@@ -24,4 +25,6 @@ public interface IPersonnelService {
     List<PersonnelDTO> notInAbsenceAtDate(AbsenceDTO absenceDTO);
 
     List<PersonnelDTO> searchBySupprimerOrArchiver(PersonnelDTO personnelDTO);
+
+    ValidationResponse existingTest(PersonnelDTO dto);
 }

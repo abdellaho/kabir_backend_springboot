@@ -2,7 +2,7 @@ package com.kabir.kabirbackend.service;
 
 
 import com.kabir.kabirbackend.config.enums.ReportTypeEnum;
-import com.kabir.kabirbackend.config.responses.RepertoireValidationResponse;
+import com.kabir.kabirbackend.config.responses.ValidationResponse;
 import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.config.util.JasperReportsUtil;
 import com.kabir.kabirbackend.config.util.StaticVariables;
@@ -281,37 +281,36 @@ public class RepertoireService implements IRepertoireService {
     }
 
     @Override
-    public RepertoireValidationResponse existingTest(RepertoireDTO dto) {
-
-        RepertoireValidationResponse response = new RepertoireValidationResponse();
+    public ValidationResponse existingTest(RepertoireDTO dto) {
+        ValidationResponse response = new ValidationResponse();
         Long id = dto.getId() == null ? -1L : dto.getId();
 
         if (StringUtils.isNotBlank(dto.getDesignation())) {
-            if (repertoireRepository.existsByDesignationIgnoreCaseAndIdNot(dto.getDesignation().trim(), id)) {
+            if (repertoireRepository.existsByDesignationIgnoreCaseAndIdNotAndBloquerFalse(dto.getDesignation().trim(), id)) {
                 response.getErrors().put("designation", "Désignation existe déjà");
             }
         }
 
         if (StringUtils.isNotBlank(dto.getTel1())) {
-            if (repertoireRepository.existsByTelAndIdNot(dto.getTel1().trim(), id)) {
+            if (repertoireRepository.existsByTelAndIdNotAndBloquerFalse(dto.getTel1().trim(), id)) {
                 response.getErrors().put("tel1", "Tel 1 existe déjà");
             }
         }
 
         if (StringUtils.isNotBlank(dto.getTel2())) {
-            if (repertoireRepository.existsByTelAndIdNot(dto.getTel2().trim(), id)) {
+            if (repertoireRepository.existsByTelAndIdNotAndBloquerFalse(dto.getTel2().trim(), id)) {
                 response.getErrors().put("tel2", "Tel 2 existe déjà");
             }
         }
 
         if (StringUtils.isNotBlank(dto.getTel3())) {
-            if (repertoireRepository.existsByTelAndIdNot(dto.getTel3().trim(), id)) {
+            if (repertoireRepository.existsByTelAndIdNotAndBloquerFalse(dto.getTel3().trim(), id)) {
                 response.getErrors().put("tel3", "Tel 3 existe déjà");
             }
         }
 
         if (StringUtils.isNotBlank(dto.getIce())) {
-            if (repertoireRepository.existsByIceIgnoreCaseAndIdNot(dto.getIce().trim(), id)) {
+            if (repertoireRepository.existsByIceIgnoreCaseAndIdNotAndBloquerFalse(dto.getIce().trim(), id)) {
                 response.getErrors().put("ice", "ICE existe déjà");
             }
         }

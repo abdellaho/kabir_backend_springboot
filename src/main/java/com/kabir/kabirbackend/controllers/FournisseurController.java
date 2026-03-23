@@ -1,5 +1,6 @@
 package com.kabir.kabirbackend.controllers;
 
+import com.kabir.kabirbackend.config.responses.ValidationResponse;
 import com.kabir.kabirbackend.dto.FournisseurDTO;
 import com.kabir.kabirbackend.service.FournisseurService;
 import org.apache.commons.collections4.CollectionUtils;
@@ -100,6 +101,17 @@ class FournisseurController {
             return ResponseEntity.ok(CollectionUtils.isNotEmpty(fournisseurs));
         } catch (Exception e) {
             logger.error("Error checking if fournisseur exists: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @PostMapping("/existing")
+    public ResponseEntity<ValidationResponse> existing(@RequestBody FournisseurDTO fournisseurDTO) {
+        logger.info("Checking if fournisseur exists with data: {}", fournisseurDTO);
+        try {
+            return ResponseEntity.ok(fournisseurService.existingTest(fournisseurDTO));
+        } catch (Exception e) {
+            logger.error("Error checking if fournisseur exists with data: {}", e.getMessage());
             return ResponseEntity.badRequest().body(null);
         }
     }

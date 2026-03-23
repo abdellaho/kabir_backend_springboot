@@ -1,11 +1,13 @@
 package com.kabir.kabirbackend.service;
 
+import com.kabir.kabirbackend.config.responses.ValidationResponse;
 import com.kabir.kabirbackend.dto.FournisseurDTO;
 import com.kabir.kabirbackend.entities.Fournisseur;
 import com.kabir.kabirbackend.mapper.FournisseurMapper;
 import com.kabir.kabirbackend.repository.FournisseurRepository;
 import com.kabir.kabirbackend.service.interfaces.IFournisseurService;
 import com.kabir.kabirbackend.specifications.FournisseurSpecification;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,6 +118,39 @@ public class FournisseurService implements IFournisseurService {
         }
 
         return null;
+    }
+
+    @Override
+    public ValidationResponse existingTest(FournisseurDTO dto) {
+        ValidationResponse response = new ValidationResponse();
+        Long id = dto.getId() == null ? -1L : dto.getId();
+
+        if (StringUtils.isNotBlank(dto.getDesignation())) {
+            if (fournisseurRepository.existsByDesignationIgnoreCaseAndIdNotAndSupprimerFalse(dto.getDesignation().trim(), id)) {
+                response.getErrors().put("designation", "Désignation existe déjà");
+            }
+        }
+
+        if (StringUtils.isNotBlank(dto.getTel1())) {
+            if (fournisseurRepository.existsByTelAndIdNotAndSupprimerFalse(dto.getTel1().trim(), id)) {
+                response.getErrors().put("tel1", "Tel 1 existe déjà");
+            }
+        }
+
+        if (StringUtils.isNotBlank(dto.getTel2())) {
+            if (fournisseurRepository.existsByTelAndIdNotAndSupprimerFalse(dto.getTel2().trim(), id)) {
+                response.getErrors().put("tel2", "Tel 2 existe déjà");
+            }
+        }
+
+        if (StringUtils.isNotBlank(dto.getIce())) {
+            if (fournisseurRepository.existsByIceIgnoreCaseAndIdNotAndSupprimerFalse(dto.getIce().trim(), id)) {
+                response.getErrors().put("ice", "ICE existe déjà");
+            }
+        }
+
+        response.setExists(!response.getErrors().isEmpty());
+        return response;
     }
 
 }

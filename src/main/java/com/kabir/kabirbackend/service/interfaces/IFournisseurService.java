@@ -1,5 +1,6 @@
 package com.kabir.kabirbackend.service.interfaces;
 
+import com.kabir.kabirbackend.config.responses.ValidationResponse;
 import com.kabir.kabirbackend.dto.FournisseurDTO;
 
 import java.util.List;
@@ -13,4 +14,6 @@ public interface IFournisseurService {
     public List<FournisseurDTO> search(FournisseurDTO fournisseurDTO);
 
     List<FournisseurDTO> searchBySupprimerOrArchiver(FournisseurDTO fournisseurDTO);
+
+    ValidationResponse existingTest(FournisseurDTO dto);
 }

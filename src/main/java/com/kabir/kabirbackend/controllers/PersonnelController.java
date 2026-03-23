@@ -3,6 +3,7 @@ package com.kabir.kabirbackend.controllers;
 import com.kabir.kabirbackend.config.requests.AuthRequest;
 import com.kabir.kabirbackend.config.requests.RefreshToken;
 import com.kabir.kabirbackend.config.responses.LoginResponse;
+import com.kabir.kabirbackend.config.responses.ValidationResponse;
 import com.kabir.kabirbackend.config.security.JwtUtil;
 import com.kabir.kabirbackend.dto.AbsenceDTO;
 import com.kabir.kabirbackend.dto.PersonnelDTO;
@@ -175,6 +176,17 @@ class PersonnelController {
             return ResponseEntity.ok(CollectionUtils.isNotEmpty(personnel));
         } catch (Exception e) {
             logger.error("Error checking if personnel exists: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @PostMapping("/existing")
+    public ResponseEntity<ValidationResponse> existing(@RequestBody PersonnelDTO personnelDTO) {
+        logger.info("Checking if personnel exists with this criteria: {}", personnelDTO);
+        try {
+            return ResponseEntity.ok(personnelService.existingTest(personnelDTO));
+        } catch (Exception e) {
+            logger.error("Error checking if personnel exists with this criteria: {}", e.getMessage());
             return ResponseEntity.badRequest().body(null);
         }
     }

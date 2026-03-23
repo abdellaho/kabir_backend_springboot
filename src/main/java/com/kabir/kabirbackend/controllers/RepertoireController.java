@@ -1,7 +1,7 @@
 package com.kabir.kabirbackend.controllers;
 
 
-import com.kabir.kabirbackend.config.responses.RepertoireValidationResponse;
+import com.kabir.kabirbackend.config.responses.ValidationResponse;
 import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.RepertoireDTO;
 import com.kabir.kabirbackend.service.RepertoireService;
@@ -126,7 +126,7 @@ public class RepertoireController {
     }
 
     @PostMapping("/exist")
-    public ResponseEntity<RepertoireValidationResponse> exist(@RequestBody RepertoireDTO repertoireDTO) {
+    public ResponseEntity<ValidationResponse> exist(@RequestBody RepertoireDTO repertoireDTO) {
         logger.info("Searching repertoire if exist: {}", repertoireDTO);
         try {
             return ResponseEntity.ok(repertoireService.existingTest(repertoireDTO));
