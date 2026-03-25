@@ -4,7 +4,6 @@ import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.AbsenceDTO;
 import com.kabir.kabirbackend.entities.Absence;
 import com.kabir.kabirbackend.entities.Personnel;
-import com.kabir.kabirbackend.entities.Repertoire;
 import com.kabir.kabirbackend.mapper.AbsenceMapper;
 import com.kabir.kabirbackend.repository.AbsenceRepository;
 import com.kabir.kabirbackend.repository.PersonnelRepository;
@@ -78,6 +77,12 @@ public class AbsenceService implements IAbsenceService {
         return absenceRepository.findAll(AbsenceSpecification.builder().absenceDTO(absenceDTO).build()).stream()
                 .map(absenceMapper::toAbsenceDTO)
                 .toList();
+    }
+
+    @Override
+    public boolean checkIfExist(AbsenceDTO absenceDTO) {
+        logger.info("Checking if absence exists with AbsenceSpecification builder {}", absenceDTO);
+        return absenceRepository.exists(AbsenceSpecification.searchIfExist(absenceDTO));
     }
 
     @Override

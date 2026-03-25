@@ -135,7 +135,7 @@ public class AbsenceController {
     public ResponseEntity<Boolean> exist(@RequestBody AbsenceDTO absenceDTO) {
         logger.info("Searching absence if exist: {}", absenceDTO);
         try {
-            return ResponseEntity.ok(CollectionUtils.isNotEmpty(absenceService.search(absenceDTO)));
+            return ResponseEntity.ok(absenceService.checkIfExist(absenceDTO));
         } catch (Exception e) {
             logger.error("Error searching absence if exist: {}", absenceDTO, e);
             throw new RuntimeException("Error searching absence if exist: " + absenceDTO, e);

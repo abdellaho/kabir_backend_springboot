@@ -7,11 +7,13 @@ import java.util.List;
 
 public interface IAbsenceService {
 
-    public AbsenceDTO save(AbsenceDTO absenceDTO);
-    public AbsenceDTO findById(Long id);
-    public List<AbsenceDTO> findAll();
-    public void delete(Long id);
-    public List<AbsenceDTO> search(AbsenceDTO absenceDTO);
+    AbsenceDTO save(AbsenceDTO absenceDTO);
+    AbsenceDTO findById(Long id);
+    List<AbsenceDTO> findAll();
+    void delete(Long id);
+    List<AbsenceDTO> search(AbsenceDTO absenceDTO);
+
+    boolean checkIfExist(AbsenceDTO absenceDTO);
 
     List<AbsenceDTO> searchByCommon(CommonSearchModel commonSearchModel);
 }

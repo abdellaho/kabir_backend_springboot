@@ -39,13 +39,51 @@ public class AbsenceSpecification implements Specification<Absence> {
             if(commonSearchModel.isMatin()) {
                 predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("matin"), commonSearchModel.isMatin()));
             }
-            if(commonSearchModel.isApresMidi()) {
+            if (commonSearchModel.isApresMidi()) {
                 predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("apresMidi"), commonSearchModel.isApresMidi()));
             }
-            if(null != commonSearchModel.getPersonnelId() && commonSearchModel.getPersonnelId() > 0) {
+            if (null != commonSearchModel.getPersonnelId() && commonSearchModel.getPersonnelId() > 0) {
                 predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("personnel").get("id"), commonSearchModel.getPersonnelId()));
             }
 
+            query.orderBy(criteriaBuilder.desc(root.get("dateAbsence")));
+
+            return predicate;
+        };
+    }
+
+    public static Specification<Absence> searchIfExist(AbsenceDTO absenceDTO) {
+        return (root, query, criteriaBuilder) -> {
+            Predicate predicate = criteriaBuilder.conjunction();
+            if (absenceDTO != null) {
+                boolean bothExist = absenceDTO.isMatin() && absenceDTO.isApresMidi();
+
+                if (absenceDTO.getDateAbsence() != null) {
+                    predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("dateAbsence"), absenceDTO.getDateAbsence()));
+                }
+
+                if(absenceDTO.getPersonnelId() != null) {
+                    predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("personnel").get("id"), absenceDTO.getPersonnelId()));
+                }
+                
+                if(bothExist) {
+                    Predicate predicate1 = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("matin"), true));
+                    Predicate predicate2 = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("apresMidi"), true));
+                    predicate = criteriaBuilder.or(predicate1, predicate2);
+                } else {
+                    if(absenceDTO.isMatin()) {
+                        predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("matin"), true));
+                    }
+                    if(absenceDTO.isApresMidi()) {
+                        predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("apresMidi"), true));
+                    }
+                }
+
+                if(null != absenceDTO.getId()) {
+                    predicate = criteriaBuilder.and(predicate, criteriaBuilder.notEqual(root.get("id"), absenceDTO.getId()));
+                }
+            }
+            
             query.orderBy(criteriaBuilder.desc(root.get("dateAbsence")));
 
             return predicate;
@@ -67,7 +105,7 @@ public class AbsenceSpecification implements Specification<Absence> {
             if(absenceDTO.getPersonnelId() != null) {
                 predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("personnel").get("id"), absenceDTO.getPersonnelId()));
             }
-
+            
             if(null != absenceDTO.getId()) {
                 predicate = criteriaBuilder.and(predicate, criteriaBuilder.notEqual(root.get("id"), absenceDTO.getId()));
             }
