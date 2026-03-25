@@ -3,8 +3,8 @@ package com.kabir.kabirbackend.service;
 
 import com.kabir.kabirbackend.config.enums.StockOperation;
 import com.kabir.kabirbackend.config.enums.TypeQteToUpdate;
-import com.kabir.kabirbackend.config.responses.AchatFactureResponse;
 import com.kabir.kabirbackend.config.requests.RequestStockQte;
+import com.kabir.kabirbackend.config.responses.AchatFactureResponse;
 import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.AchatFactureDTO;
 import com.kabir.kabirbackend.dto.DetAchatFactureDTO;

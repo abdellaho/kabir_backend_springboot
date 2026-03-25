@@ -168,7 +168,7 @@ public class RepertoireSpecification implements Specification<Repertoire> {
 
             query.orderBy(criteriaBuilder.asc(root.get("designation")));
 
-            List<Integer> intCriteria = Arrays.asList(0, 1, 2, 3);
+            List<Integer> intCriteria = repertoireDTO.getTypeRepertoire() == 3 ? List.of(3) : Arrays.asList(0, 1, 2);
 
             return criteriaBuilder.and(
                     criteriaBuilder.equal(root.get("bloquer"), repertoireDTO.isBloquer()),

@@ -44,7 +44,7 @@ public class PersonnelSpecification implements Specification<Personnel> {
         };
     }
 
-    public static Specification<Personnel> notInAbsenceAtDate(AbsenceDTO absenceDTO) {
+    public static Specification<Personnel> notInAbsenceAtDate1(AbsenceDTO absenceDTO) {
         return (root, query, cb) -> {
             // typePersonnel != 1
             Predicate typePredicate = cb.notEqual(root.get("typePersonnel"), 1);
@@ -73,6 +73,67 @@ public class PersonnelSpecification implements Specification<Personnel> {
         };
     }
 
+    public static Specification<Personnel> notInAbsenceAtDate(AbsenceDTO absenceDTO) {
+        return (root, query, cb) -> {
+            // Base predicates
+            Predicate typePredicate = cb.notEqual(root.get("typePersonnel"), 1);
+            typePredicate = cb.and(typePredicate, cb.equal(root.get("supprimer"), false));
+            typePredicate = cb.and(typePredicate, cb.equal(root.get("archiver"), false));
+
+            // Subquery 1: personnel who have a single full-day absence row (matin=true AND apresMidi=true)
+            Subquery<Long> fullDaySubquery = query.subquery(Long.class);
+            Root<Absence> abs1 = fullDaySubquery.from(Absence.class);
+            List<Predicate> fullDayPreds = new ArrayList<>();
+            fullDayPreds.add(cb.equal(abs1.get("personnel").get("id"), root.get("id")));
+            fullDayPreds.add(cb.equal(abs1.get("dateAbsence"), absenceDTO.getDateAbsence()));
+            fullDayPreds.add(cb.isTrue(abs1.get("matin")));
+            fullDayPreds.add(cb.isTrue(abs1.get("apresMidi")));
+            if (absenceDTO.getPersonnelId() != null) {
+                fullDayPreds.add(cb.notEqual(abs1.get("personnel").get("id"), absenceDTO.getPersonnelId()));
+            }
+            fullDaySubquery.select(abs1.get("personnel").get("id")).where(fullDayPreds.toArray(new Predicate[0]));
+
+            // Subquery 2: personnel who have a matin-only row (matin=true AND apresMidi=false)
+            Subquery<Long> matinSubquery = query.subquery(Long.class);
+            Root<Absence> abs2 = matinSubquery.from(Absence.class);
+            List<Predicate> matinPreds = new ArrayList<>();
+            matinPreds.add(cb.equal(abs2.get("personnel").get("id"), root.get("id")));
+            matinPreds.add(cb.equal(abs2.get("dateAbsence"), absenceDTO.getDateAbsence()));
+            matinPreds.add(cb.isTrue(abs2.get("matin")));
+            matinPreds.add(cb.isFalse(abs2.get("apresMidi")));
+            if (absenceDTO.getPersonnelId() != null) {
+                matinPreds.add(cb.notEqual(abs2.get("personnel").get("id"), absenceDTO.getPersonnelId()));
+            }
+            matinSubquery.select(abs2.get("personnel").get("id")).where(matinPreds.toArray(new Predicate[0]));
+
+            // Subquery 3: personnel who have an apresMidi-only row (matin=false AND apresMidi=true)
+            Subquery<Long> apresMidiSubquery = query.subquery(Long.class);
+            Root<Absence> abs3 = apresMidiSubquery.from(Absence.class);
+            List<Predicate> apresMidiPreds = new ArrayList<>();
+            apresMidiPreds.add(cb.equal(abs3.get("personnel").get("id"), root.get("id")));
+            apresMidiPreds.add(cb.equal(abs3.get("dateAbsence"), absenceDTO.getDateAbsence()));
+            apresMidiPreds.add(cb.isFalse(abs3.get("matin")));
+            apresMidiPreds.add(cb.isTrue(abs3.get("apresMidi")));
+            if (absenceDTO.getPersonnelId() != null) {
+                apresMidiPreds.add(cb.notEqual(abs3.get("personnel").get("id"), absenceDTO.getPersonnelId()));
+            }
+            apresMidiSubquery.select(abs3.get("personnel").get("id")).where(apresMidiPreds.toArray(new Predicate[0]));
+
+            // Equivalent to:
+            // WHERE id NOT IN (
+            //   SELECT personnel.id FROM Absence WHERE (date=:date AND matin=true AND apresMidi=true)
+            //   OR ((date=:date AND matin=true AND apresMidi=false) AND (date=:date AND matin=false AND apresMidi=true))
+            // )
+            Predicate fullDayConflict    = cb.exists(fullDaySubquery);
+            Predicate bothHalfDayConflict = cb.and(cb.exists(matinSubquery), cb.exists(apresMidiSubquery));
+
+            Predicate notConflict = cb.not(cb.or(fullDayConflict, bothHalfDayConflict));
+
+            query.orderBy(cb.asc(root.get("designation")));
+
+            return cb.and(typePredicate, notConflict);
+        };
+    }
 
     @Override
     public Predicate toPredicate(Root<Personnel> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
