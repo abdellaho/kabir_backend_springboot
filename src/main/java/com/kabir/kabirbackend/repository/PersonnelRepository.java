@@ -45,6 +45,6 @@ public interface PersonnelRepository extends JpaRepository<Personnel, Long>, Jpa
 
     @Transactional
     @Modifying
-    @Query("DELETE FROM Personnel r WHERE r.supprimer = true AND r.dateSuppression >= :date")
-    int deleteBloquerOlderThan(@Param("date") LocalDate date);
+    @Query("DELETE FROM Personnel r WHERE r.supprimer = true AND r.dateSuppression <= :date")
+    void deleteBloquerOlderThan(@Param("date") LocalDate date);
 }

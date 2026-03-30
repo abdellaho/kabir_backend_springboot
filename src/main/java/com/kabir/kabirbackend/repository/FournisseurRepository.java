@@ -39,6 +39,6 @@ public interface FournisseurRepository extends JpaRepository<Fournisseur, Long>,
 
     @Transactional
     @Modifying
-    @Query("DELETE FROM Fournisseur r WHERE r.supprimer = true AND r.dateSuppression >= :date")
-    int deleteBloquerOlderThan(@Param("date") LocalDate date);
+    @Query("DELETE FROM Fournisseur r WHERE r.supprimer = true AND r.dateSuppression <= :date")
+    void deleteBloquerOlderThan(@Param("date") LocalDate date);
 }

@@ -4,6 +4,7 @@ package com.kabir.kabirbackend.config.jobs;
 import com.kabir.kabirbackend.repository.FournisseurRepository;
 import com.kabir.kabirbackend.repository.PersonnelRepository;
 import com.kabir.kabirbackend.repository.RepertoireRepository;
+import com.kabir.kabirbackend.repository.StockRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
@@ -21,15 +22,18 @@ public class OptimizeDB {
     private final RepertoireRepository repertoireRepository;
     private final FournisseurRepository fournisseurRepository;
     private final PersonnelRepository personnelRepository;
+    private final StockRepository stockRepository;
 
     public OptimizeDB(
             RepertoireRepository repertoireRepository,
             FournisseurRepository fournisseurRepository,
-            PersonnelRepository personnelRepository
+            PersonnelRepository personnelRepository,
+            StockRepository stockRepository
     ) {
         this.repertoireRepository = repertoireRepository;
         this.fournisseurRepository = fournisseurRepository;
         this.personnelRepository = personnelRepository;
+        this.stockRepository = stockRepository;
     }
 
     @Scheduled(cron = "0 0 14 * * ?")
@@ -44,5 +48,8 @@ public class OptimizeDB {
 
         logger.info("Deleting in personnel table rows that have dateSuppression older than {}", date);
         this.personnelRepository.deleteBloquerOlderThan(date);
+
+        logger.info("Deleting in stock table rows that have dateSuppression older than {}", date);
+        this.stockRepository.deleteBloquerOlderThan(date);
     }
 }

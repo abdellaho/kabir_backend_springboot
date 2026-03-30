@@ -4,10 +4,13 @@ import com.kabir.kabirbackend.config.util.StockSumProjection;
 import com.kabir.kabirbackend.entities.Stock;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -51,4 +54,24 @@ public interface StockRepository extends JpaRepository<Stock, Long>, JpaSpecific
         order by s.designation asc
     """)
     List<Stock> listStockArchive();
+
+    @Query(value = """
+        SELECT
+            EXISTS (SELECT 1 FROM DetAchatEtranger WHERE stock.id = :id)
+            OR EXISTS (SELECT 1 FROM DetAchatFacture WHERE stock.id = :id)
+            OR EXISTS (SELECT 1 FROM DetAchatLivraison WHERE stock.id = :id)
+            OR EXISTS (SELECT 1 FROM DetAchatSimple WHERE stock.id = :id)
+            OR EXISTS (SELECT 1 FROM DetailBonSortie WHERE stock.id = :id)
+            OR EXISTS (SELECT 1 FROM DetBulletinPai WHERE produit.id = :id)
+            OR EXISTS (SELECT 1 FROM DetFacture WHERE stock.id = :id)
+            OR EXISTS (SELECT 1 FROM DetImportation WHERE stock.id = :id)
+            OR EXISTS (SELECT 1 FROM DetLivraison WHERE stock.id = :id)
+            OR EXISTS (SELECT 1 FROM DetStockDepot WHERE stock.id = :id)
+        """)
+    boolean isUsed(Long id);
+
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM Stock r WHERE r.supprimer = true AND r.dateSuppression <= :date")
+    void deleteBloquerOlderThan(@Param("date") LocalDate date);
 }

@@ -132,4 +132,5 @@ public class StockDTO implements Serializable {
 
     private String fournisseurDesignation;
     private double prixVenteMinTemp;
+    boolean canDelete;
 }

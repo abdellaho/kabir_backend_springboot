@@ -13,13 +13,15 @@ public interface IStockService {
 
     public StockDTO save(StockDTO absenceDTO);
 
+    List<StockDTO> findAllWithDeleteOption();
+
     StockDTO findById(Long id);
     Stock findByIdStock(Long id);
     public List<StockDTO> findAll();
     public void delete(Long id);
     public List<StockDTO> search(StockDTO absenceDTO);
 
-    List<StockDTO> searchBySupprimerOrArchiver(StockDTO stockDTO);
+    List<StockDTO> searchBySupprimerOrArchiver(StockDTO stockDTO, boolean deleteOption);
 
     void updateQteStock(Long id, TypeQteToUpdate typeQteToUpdate, RequestStockQte requestStockQte);
 

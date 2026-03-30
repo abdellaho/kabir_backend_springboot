@@ -42,12 +42,24 @@ public class StockService implements IStockService {
     @Override
     public StockDTO save(StockDTO stockDTO) {
         logger.info("Saving stock: {}", stockDTO);
+        boolean isSave = true;
         try {
+            if(null != stockDTO.getId()) {
+                isSave = false;
+            }
+
             Optional<Fournisseur> optionalFournisseur = fournisseurRepository.findById(stockDTO.getFournisseurId());
             Stock stock = stockMapper.toStock(stockDTO);
             stock.setFournisseur(optionalFournisseur.orElse(null));
 
-            return stockMapper.toStockDTO(stockRepository.save(stock));
+            StockDTO stockEdit = stockMapper.toStockDTO(stockRepository.save(stock));
+            if(isSave) {
+                stockEdit.setCanDelete(true);
+            } else {
+                stockEdit.setCanDelete(!stockRepository.isUsed(stockEdit.getId()));
+            }
+
+            return stockEdit;
         } catch (Exception e) {
             logger.error("Error saving stock", e);
             throw new RuntimeException("Error saving stock", e);
@@ -60,6 +72,22 @@ public class StockService implements IStockService {
         try {
             List<Stock> stocks = stockRepository.findAll();
             return stocks.stream().map(stockMapper::toStockDTO).toList();
+        } catch (Exception e) {
+            logger.error("Error finding all stocks", e);
+            throw new RuntimeException("Error finding all stocks", e);
+        }
+    }
+
+    @Override
+    public List<StockDTO> findAllWithDeleteOption() {
+        logger.info("Finding all stocks with delete option");
+        try {
+            List<StockDTO> stocks = stockRepository.findAll().stream().map(stockMapper::toStockDTO).toList();
+            for (StockDTO stockDTO: stocks) {
+                boolean isUsed = stockRepository.isUsed(stockDTO.getId());
+                stockDTO.setCanDelete(!isUsed);
+            }
+            return stocks;
         } catch (Exception e) {
             logger.error("Error finding all stocks", e);
             throw new RuntimeException("Error finding all stocks", e);
@@ -107,8 +135,16 @@ public class StockService implements IStockService {
     }
 
     @Override
-    public List<StockDTO> searchBySupprimerOrArchiver(StockDTO stockDTO) {
-        return stockRepository.findAll(StockSpecification.searchBySupprimerOrArchiver(stockDTO)).stream().map(stockMapper::toStockDTO).toList();
+    public List<StockDTO> searchBySupprimerOrArchiver(StockDTO stockDTO, boolean deleteOption) {
+        List<StockDTO> stocks = stockRepository.findAll(StockSpecification.searchBySupprimerOrArchiver(stockDTO)).stream().map(stockMapper::toStockDTO).toList();
+        if(deleteOption) {
+            for (StockDTO stock : stocks) {
+                boolean isUsed = stockRepository.isUsed(stock.getId());
+                stock.setCanDelete(!isUsed);
+            }
+        }
+
+        return stocks;
     }
 
     @Override

@@ -123,12 +123,13 @@ public class StockDepotController {
     }
 
     @PostMapping("/imprimer")
-    public ResponseEntity<?> imprimer(@RequestBody DetStockDepotDTO detStockDepotDTO) {
-        logger.info("imprimer stock depot with same date as this: {}", detStockDepotDTO);
+    public ResponseEntity<?> imprimer(@RequestBody StockDepotDTO stockDepotDTO) {
+        logger.info("imprimer stock depot : {}", stockDepotDTO);
         try {
             Map<String, Object> params = new HashMap<>();
             try {
-                List<DetStockDepotDTO> stockDepotDTOList = stockDepotService.findAllDetails(detStockDepotDTO);
+                StockDepotResponse stockDepotResponse = stockDepotService.findByIdStockDepotResponse(stockDepotDTO.getId());
+                List<DetStockDepotDTO> stockDepotDTOList = stockDepotResponse.detStockDepots();
                 StringBuilder etatName = new StringBuilder("etatAchatLivraison");
 
                 if (CollectionUtils.isEmpty(stockDepotDTOList)) {
@@ -149,7 +150,7 @@ public class StockDepotController {
 
                 params.put("fournisseur", "");
                 params.put("fichier", StaticVariables.bundleFR.getBaseBundleName());
-                params.put("dateBL", StaticVariables.dateFormatDayFirst.format(detStockDepotDTO.getStockDepotDateOperation()));
+                params.put("dateBL", StaticVariables.dateFormatDayFirst.format(stockDepotDTO.getDateOperation()));
                 params.put("normalUser", true + "");
 
                 String logo = "";
@@ -170,7 +171,7 @@ public class StockDepotController {
                 return ResponseEntity.internalServerError().build();
             }
         } catch (Exception e) {
-            logger.error("Error printing : {}", detStockDepotDTO, e);
+            logger.error("Error printing : {}", stockDepotDTO, e);
             return ResponseEntity.internalServerError().build();
         }
     }

@@ -63,15 +63,13 @@ public class RepertoireService implements IRepertoireService {
                 isSave = false;
             }
 
-            Optional<Ville> villeOptional = villeRepository.findById(repertoireDTO.getVilleId());
-            if (villeOptional.isEmpty()) {
-                throw new RuntimeException("Ville not found");
-            }
-
+            Optional<Ville> villeOptional = null != repertoireDTO.getVilleId() ? villeRepository.findById(repertoireDTO.getVilleId()) : Optional.empty();
             Optional<Personnel> personnelOptional = null != repertoireDTO.getPersonnelId() ? personnelRepository.findById(repertoireDTO.getPersonnelId()) : Optional.empty();
+
             Repertoire repertoire = repertoireMapper.toRepertoire(repertoireDTO);
-            repertoire.setVille(villeOptional.get());
+            repertoire.setVille(villeOptional.orElse(null));
             repertoire.setPersonnel(personnelOptional.orElse(null));
+
             repertoire = repertoireRepository.save(repertoire);
 
             RepertoireDTO repertoireEdit = repertoireMapper.toRepertoireDTO(repertoire);
@@ -211,7 +209,7 @@ public class RepertoireService implements IRepertoireService {
             }
         }
 
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
 
         parameters.put("villeName", villeName.toString());
         parameters.put("fichier", StaticVariables.bundleFR.getBaseBundleName());
@@ -231,7 +229,7 @@ public class RepertoireService implements IRepertoireService {
             return JasperReportsUtil.anullerImpr(StaticVariables.bundleFR.getString("aucuneResultatTrouve"));
         }
 
-        StringBuilder villeName = new StringBuilder(), typeImprimer = new StringBuilder();
+        StringBuilder villeName = new StringBuilder();
         boolean avecCommercial = false;
 
         if (null != commonSearchModel.getVilleId() && commonSearchModel.getVilleId() > 0) {
@@ -242,7 +240,7 @@ public class RepertoireService implements IRepertoireService {
             avecCommercial = true;
         }
 
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
 
         parameters.put("villeName", villeName.toString());
         parameters.put("fichier", StaticVariables.bundleFR.getBaseBundleName());
@@ -259,7 +257,7 @@ public class RepertoireService implements IRepertoireService {
             return JasperReportsUtil.anullerImpr(StaticVariables.bundleFR.getString("aucuneResultatTrouve"));
         }
 
-        StringBuilder villeName = new StringBuilder(), typeImprimer = new StringBuilder();
+        StringBuilder villeName = new StringBuilder();
         boolean avecCommercial = false;
 
         if (null != commonSearchModel.getVilleId() && commonSearchModel.getVilleId() > 0) {
@@ -270,7 +268,7 @@ public class RepertoireService implements IRepertoireService {
             avecCommercial = true;
         }
 
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
 
         parameters.put("villeName", villeName.toString());
         parameters.put("fichier", StaticVariables.bundleFR.getBaseBundleName());

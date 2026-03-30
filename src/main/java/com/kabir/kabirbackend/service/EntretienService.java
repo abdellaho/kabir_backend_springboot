@@ -12,6 +12,7 @@ import com.kabir.kabirbackend.specifications.EntretienSpecification;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,7 +55,7 @@ public class EntretienService implements IEntretienService {
     @Override
     public List<EntretienDTO> findAll() {
         try {
-            List<Entretien> entretienList = entretienRepository.findAll();
+            List<Entretien> entretienList = entretienRepository.findAll(Sort.by(Sort.Direction.DESC, "dateEntretien"));
             return entretienList.stream().map(entretienMapper::toDTO).toList();
         } catch (Exception e) {
             logger.error("Error while finding all entretien", e);

@@ -180,13 +180,13 @@ public class PersonnelService implements IPersonnelService {
 
         if (StringUtils.isNotBlank(dto.getCin())) {
             if (personnelRepository.existsByCinIgnoreCaseAndIdNotAndSupprimerFalse(dto.getCin().trim(), id)) {
-                response.getErrors().put("ice", "CIN existe déjà");
+                response.getErrors().put("cin", "CIN existe déjà");
             }
         }
 
         if (StringUtils.isNotBlank(dto.getEmail())) {
             if (personnelRepository.existsByEmailIgnoreCaseAndIdNotAndSupprimerFalse(dto.getEmail().trim(), id)) {
-                response.getErrors().put("ice", "Email existe déjà");
+                response.getErrors().put("email", "Email existe déjà");
             }
         }
 

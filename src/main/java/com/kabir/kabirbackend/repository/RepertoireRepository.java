@@ -39,6 +39,6 @@ public interface RepertoireRepository extends JpaRepository<Repertoire, Long>, J
 
     @Transactional
     @Modifying
-    @Query("DELETE FROM Repertoire r WHERE r.bloquer = true AND r.dateSuppression >= :date")
-    int deleteBloquerOlderThan(@Param("date") LocalDate date);
+    @Query("DELETE FROM Repertoire r WHERE r.bloquer = true AND r.dateSuppression <= :date")
+    void deleteBloquerOlderThan(@Param("date") LocalDate date);
 }

@@ -94,6 +94,18 @@ class StockController {
         }
     }
 
+    @GetMapping("/with-delete-option")
+    public ResponseEntity<List<StockDTO>> getAllWithDeleteOption() {
+        logger.info("Fetching all stocks with delete option");
+        try {
+            List<StockDTO> stocks = stockService.findAllWithDeleteOption();
+            return ResponseEntity.ok(stocks);
+        } catch (Exception e) {
+            logger.error("Error fetching all stocks with delete option: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<StockDTO> getById(@PathVariable Long id) {
         logger.info("Fetching stock with id: {}", id);
@@ -158,10 +170,22 @@ class StockController {
     public ResponseEntity<List<StockDTO>> search(@RequestBody StockDTO stockDTO) {
         logger.info("Searching stocks: {}", stockDTO);
         try {
-            List<StockDTO> stocks = stockService.searchBySupprimerOrArchiver(stockDTO);
+            List<StockDTO> stocks = stockService.searchBySupprimerOrArchiver(stockDTO, false);
             return ResponseEntity.ok(stocks);
         } catch (Exception e) {
             logger.error("Error searching stocks: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @PostMapping("/search/with-delete-option")
+    public ResponseEntity<List<StockDTO>> searchWithDeleteOption(@RequestBody StockDTO stockDTO) {
+        logger.info("Searching stocks with delete option: {}", stockDTO);
+        try {
+            List<StockDTO> stocks = stockService.searchBySupprimerOrArchiver(stockDTO, true);
+            return ResponseEntity.ok(stocks);
+        } catch (Exception e) {
+            logger.error("Error searching stocks with delete option: {}", e.getMessage());
             return ResponseEntity.badRequest().body(null);
         }
     }
