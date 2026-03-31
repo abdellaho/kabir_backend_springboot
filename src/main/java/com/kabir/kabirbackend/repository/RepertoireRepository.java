@@ -10,21 +10,23 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Repository
 public interface RepertoireRepository extends JpaRepository<Repertoire, Long>, JpaSpecificationExecutor<Repertoire> {
 
-    boolean existsByDesignationIgnoreCaseAndIdNotAndBloquerFalse(String designation, Long id);
+    boolean existsByDesignationIgnoreCaseAndIdNotAndBloquerFalseAndTypeRepertoireIn(String designation, Long id, List<Integer> typeRepertoires);
+    boolean existsByIceIgnoreCaseAndIdNotAndBloquerFalseAndTypeRepertoireIn(String ice, Long id, List<Integer> typeRepertoires);
+
     @Query("""
         select case when count(r) > 0 then true else false end
         from Repertoire r
         where (r.tel1 = :tel or r.tel2 = :tel or r.tel3 = :tel)
-            and r.id <> :id
+            and (:id is null or r.id <> :id)
             and r.bloquer = false
+            and r.typeRepertoire in :typeRepertoires
     """)
-    boolean existsByTelAndIdNotAndBloquerFalse(@Param("tel") String tel, @Param("id") Long id);
-
-    boolean existsByIceIgnoreCaseAndIdNotAndBloquerFalse(String ice, Long id);
+    boolean existsByTelAndIdNotAndBloquerFalseAndTypeRepertoireIn(@Param("tel") String tel, @Param("id") Long id, @Param("typeRepertoires") List<Integer> typeRepertoires);
 
     @Query(value = """
         SELECT
