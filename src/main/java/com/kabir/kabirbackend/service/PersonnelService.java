@@ -1,6 +1,7 @@
 package com.kabir.kabirbackend.service;
 
 import com.kabir.kabirbackend.config.responses.ValidationResponse;
+import com.kabir.kabirbackend.config.security.encryption.Encryption;
 import com.kabir.kabirbackend.dto.AbsenceDTO;
 import com.kabir.kabirbackend.dto.PersonnelDTO;
 import com.kabir.kabirbackend.entities.Personnel;
@@ -192,5 +193,9 @@ public class PersonnelService implements IPersonnelService {
 
         response.setExists(!response.getErrors().isEmpty());
         return response;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(Encryption.strEncrypt("123", 7));
     }
 }

@@ -5,6 +5,7 @@ import com.kabir.kabirbackend.config.requests.RefreshToken;
 import com.kabir.kabirbackend.config.responses.LoginResponse;
 import com.kabir.kabirbackend.config.responses.ValidationResponse;
 import com.kabir.kabirbackend.config.security.JwtUtil;
+import com.kabir.kabirbackend.config.security.encryption.Encryption;
 import com.kabir.kabirbackend.dto.AbsenceDTO;
 import com.kabir.kabirbackend.dto.PersonnelDTO;
 import com.kabir.kabirbackend.service.PersonnelService;
@@ -125,6 +126,9 @@ class PersonnelController {
         logger.info("Fetching personnel with id: {}", id);
         try {
             PersonnelDTO personnel = personnelService.findById(id);
+            if(StringUtils.isNotBlank(personnel.getPassword()) && StringUtils.isNotBlank(personnel.getEmail())) {
+                personnel.setPasswordFake(Encryption.strDecrypt(personnel.getPassword(), 7));
+            }
             return ResponseEntity.ok(personnel);
         } catch (Exception e) {
             logger.error("Error fetching personnel with id: {}: {}", id, e.getMessage());
