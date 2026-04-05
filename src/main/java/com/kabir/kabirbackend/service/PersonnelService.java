@@ -103,7 +103,12 @@ public class PersonnelService implements IPersonnelService {
             if (personnel == null) {
                 throw new RuntimeException("Personnel not found");
             }
-            return personnelMapper.toDTO(personnel);
+            PersonnelDTO personnelEdit = personnelMapper.toDTO(personnel);
+            if(StringUtils.isNotBlank(personnelEdit.getPassword())) {
+                personnelEdit.setPasswordFake(Encryption.strDecrypt(personnelEdit.getPassword(), 7));
+            }
+
+            return personnelEdit;
         } catch (Exception e) {
             logger.error("Error finding personnel by id", e);
             throw new RuntimeException("Error finding personnel by id", e);
