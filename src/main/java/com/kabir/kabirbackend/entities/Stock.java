@@ -74,20 +74,20 @@ public class Stock {
     private int qteSortie;
 
     @NotNull
-    @Column(name = "qtePVMin1", nullable = false)
-    private int qtePVMin1;
+    @Column(name = "qtePVMin1", nullable = false, precision = 10)
+    private double qtePVMin1;
 
     @NotNull
-    @Column(name = "qtePVMin2", nullable = false)
-    private int qtePVMin2;
+    @Column(name = "qtePVMin2", nullable = false, precision = 10)
+    private double qtePVMin2;
 
     @NotNull
-    @Column(name = "qtePVMin3", nullable = false)
-    private int qtePVMin3;
+    @Column(name = "qtePVMin3", nullable = false, precision = 10)
+    private double qtePVMin3;
 
     @NotNull
-    @Column(name = "qtePVMin4", nullable = false)
-    private int qtePVMin4;
+    @Column(name = "qtePVMin4", nullable = false, precision = 10)
+    private double qtePVMin4;
 
     @NotNull
     @Column(name = "prixVentMin1", nullable = false, precision = 10)
