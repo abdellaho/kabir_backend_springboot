@@ -310,7 +310,7 @@ public class StockService implements IStockService {
                 stockDTO.setQteStockImport(operator == 1 ? stockDTO.getQteStockImport() - (qte + uniteGrat) : stockDTO.getQteStockImport() + (qte + uniteGrat));
                 break;
             case QTE_STOCK_FACTURER:
-                stockDTO.setQteFacturer(operator == 1 ? stockDTO.getQteFacturer() - qte : stockDTO.getQteFacturer() + qte);
+                stockDTO.setQteFacturer(operator == 1 ? stockDTO.getQteFacturer() + (qte + uniteGrat) : stockDTO.getQteFacturer() - (qte + uniteGrat));
                 break;
             case QTE_STOCK_SORTIE:
                 stockDTO.setQteSortie(operator == 1 ? stockDTO.getQteSortie() - qte : stockDTO.getQteSortie() + qte);

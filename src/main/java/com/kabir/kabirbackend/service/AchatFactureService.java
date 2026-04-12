@@ -19,6 +19,7 @@ import com.kabir.kabirbackend.specifications.AchatFactureSpecification;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -96,7 +97,7 @@ public class AchatFactureService implements IAchatFactureService {
             if(CollectionUtils.isNotEmpty(detAchatFactureDTOOld)) {
                 for(DetAchatFacture detAchatFacture : detAchatFactureDTOOld) {
                     if(null != detAchatFacture.getStock() && null != detAchatFacture.getStock().getId()) {
-                        stockService.updateQteStock(detAchatFacture.getStock().getId(), TypeQteToUpdate.QTE_STOCK_FACTURER, new RequestStockQte(detAchatFacture.getQteAcheter(), 1, detAchatFacture.getUniteGratuit()));
+                        stockService.updateQteStock(detAchatFacture.getStock().getId(), TypeQteToUpdate.QTE_STOCK_FACTURER, new RequestStockQte(detAchatFacture.getQteAcheter(), 2, detAchatFacture.getUniteGratuit()));
 
                         logger.info("Deleting detail achat facture by id: {}", detAchatFacture.getId());
                         detAchatFactureRepository.deleteById(detAchatFacture.getId());
@@ -145,7 +146,7 @@ public class AchatFactureService implements IAchatFactureService {
     public List<AchatFactureDTO> findAll() {
         logger.info("Finding all achatFactures");
         try {
-            List<AchatFacture> achatFactures = achatFactureRepository.findAll();
+            List<AchatFacture> achatFactures = achatFactureRepository.findAll(Sort.by(Sort.Direction.DESC, "dateReglement"));
             return achatFactures.stream().map(achatFactureMapper::toAchatFactureDTO).toList();
         } catch (Exception e) {
             logger.error("Error finding all achatFactures", e);
