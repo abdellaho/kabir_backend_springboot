@@ -5,10 +5,7 @@ import com.kabir.kabirbackend.config.responses.AchatSimpleResponse;
 import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.config.util.JasperReportsUtil;
 import com.kabir.kabirbackend.config.util.StaticVariables;
-import com.kabir.kabirbackend.dto.AchatFactureDTO;
 import com.kabir.kabirbackend.dto.AchatSimpleDTO;
-import com.kabir.kabirbackend.dto.DetAchatSimpleDTO;
-import com.kabir.kabirbackend.dto.DetStockDepotDTO;
 import com.kabir.kabirbackend.service.AchatSimpleService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
@@ -20,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.MessageFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
