@@ -26,6 +26,16 @@ public interface FournisseurRepository extends JpaRepository<Fournisseur, Long>,
     boolean existsByDesignationIgnoreCaseAndIdNotAndSupprimerFalse(String designation, Long id);
     boolean existsByIceIgnoreCaseAndIdNotAndSupprimerFalse(String ice, Long id);
 
+    @Query("""
+        select case when count(r) > 0 then true else false end
+        from Fournisseur r
+        where (r.tel1 = :tel or r.tel2 = :tel)
+            and r.id <> :id
+    """)
+    boolean existsByTelAndIdNot(@Param("tel") String tel, @Param("id") Long id);
+    boolean existsByDesignationIgnoreCaseAndIdNot(String designation, Long id);
+    boolean existsByIceIgnoreCaseAndIdNot(String ice, Long id);
+
     @Query(value = """
         SELECT
             EXISTS (SELECT 1 FROM Stock WHERE fournisseur.id = :id)

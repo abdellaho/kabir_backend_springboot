@@ -293,31 +293,31 @@ public class RepertoireService implements IRepertoireService {
         }
 
         if (StringUtils.isNotBlank(dto.getDesignation())) {
-            if (repertoireRepository.existsByDesignationIgnoreCaseAndIdNotAndBloquerFalseAndTypeRepertoireIn(dto.getDesignation().trim(), id, typeRepertoires)) {
+            if (repertoireRepository.existsByDesignationIgnoreCaseAndIdNotAndTypeRepertoireIn(dto.getDesignation().trim(), id, typeRepertoires)) {
                 response.getErrors().put("designation", "Désignation existe déjà");
             }
         }
 
         if (StringUtils.isNotBlank(dto.getTel1())) {
-            if (repertoireRepository.existsByTelAndIdNotAndBloquerFalseAndTypeRepertoireIn(dto.getTel1().trim(), id, typeRepertoires)) {
+            if (repertoireRepository.existsByTelAndIdNotAndTypeRepertoireIn(dto.getTel1().trim(), id, typeRepertoires)) {
                 response.getErrors().put("tel1", "Tel 1 existe déjà");
             }
         }
 
         if (StringUtils.isNotBlank(dto.getTel2())) {
-            if (repertoireRepository.existsByTelAndIdNotAndBloquerFalseAndTypeRepertoireIn(dto.getTel2().trim(), id, typeRepertoires)) {
+            if (repertoireRepository.existsByTelAndIdNotAndTypeRepertoireIn(dto.getTel2().trim(), id, typeRepertoires)) {
                 response.getErrors().put("tel2", "Tel 2 existe déjà");
             }
         }
 
         if (StringUtils.isNotBlank(dto.getTel3())) {
-            if (repertoireRepository.existsByTelAndIdNotAndBloquerFalseAndTypeRepertoireIn(dto.getTel3().trim(), id, typeRepertoires)) {
+            if (repertoireRepository.existsByTelAndIdNotAndTypeRepertoireIn(dto.getTel3().trim(), id, typeRepertoires)) {
                 response.getErrors().put("tel3", "Tel 3 existe déjà");
             }
         }
 
         if (StringUtils.isNotBlank(dto.getIce())) {
-            if (repertoireRepository.existsByIceIgnoreCaseAndIdNotAndBloquerFalseAndTypeRepertoireIn(dto.getIce().trim(), id, typeRepertoires)) {
+            if (repertoireRepository.existsByIceIgnoreCaseAndIdNotAndTypeRepertoireIn(dto.getIce().trim(), id, typeRepertoires)) {
                 response.getErrors().put("ice", "ICE existe déjà");
             }
         }

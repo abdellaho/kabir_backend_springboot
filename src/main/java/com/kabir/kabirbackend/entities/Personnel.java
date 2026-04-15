@@ -124,4 +124,37 @@ public class Personnel {
     @ColumnDefault("0")
     @Column(name = "supprimerRepertoire", nullable = false)
     private boolean supprimerRepertoire = false;
+
+    @Column(name = "consulterTransport", columnDefinition = "BOOLEAN DEFAULT 0")
+    boolean consulterTransport;
+    @Column(name = "ajouterTransport", columnDefinition = "BOOLEAN DEFAULT 0")
+    boolean ajouterTransport;
+    @Column(name = "modifierTransport", columnDefinition = "BOOLEAN DEFAULT 0")
+    boolean modifierTransport;
+    @Column(name = "supprimerTransport", columnDefinition = "BOOLEAN DEFAULT 0")
+    boolean supprimerTransport;
+    @Column(name = "consulterLivraison", columnDefinition = "BOOLEAN DEFAULT 0")
+    boolean consulterLivraison;
+    @Column(name = "ajouterLivraison", columnDefinition = "BOOLEAN DEFAULT 0")
+    boolean ajouterLivraison;
+    @Column(name = "modifierLivraison", columnDefinition = "BOOLEAN DEFAULT 0")
+    boolean modifierLivraison;
+    @Column(name = "supprimerLivraison", columnDefinition = "BOOLEAN DEFAULT 0")
+    boolean supprimerLivraison;
+    @Column(name = "consulterFacture", columnDefinition = "BOOLEAN DEFAULT 0")
+    boolean consulterFacture;
+    @Column(name = "ajouterFacture", columnDefinition = "BOOLEAN DEFAULT 0")
+    boolean ajouterFacture;
+    @Column(name = "modifierFacture", columnDefinition = "BOOLEAN DEFAULT 0")
+    boolean modifierFacture;
+    @Column(name = "supprimerFacture", columnDefinition = "BOOLEAN DEFAULT 0")
+    boolean supprimerFacture;
+    @Column(name = "consulterEntretien", columnDefinition = "BOOLEAN DEFAULT 0")
+    boolean consulterEntretien;
+    @Column(name = "ajouterEntretien", columnDefinition = "BOOLEAN DEFAULT 0")
+    boolean ajouterEntretien;
+    @Column(name = "modifierEntretien", columnDefinition = "BOOLEAN DEFAULT 0")
+    boolean modifierEntretien;
+    @Column(name = "supprimerEntretien", columnDefinition = "BOOLEAN DEFAULT 0")
+    boolean supprimerEntretien;
 }

@@ -89,6 +89,18 @@ public class Stock {
     @Column(name = "qtePVMin4", nullable = false, precision = 10)
     private double qtePVMin4;
 
+    @Column(name = "qtePVMin5", columnDefinition = "DECIMAL(10,2) default 0.0")
+    private double qtePVMin5;
+
+    @Column(name = "qtePVMin6", columnDefinition = "DECIMAL(10,2) default 0.0")
+    private double qtePVMin6;
+
+    @Column(name = "qtePVMin7", columnDefinition = "DECIMAL(10,2) default 0.0")
+    private double qtePVMin7;
+
+    @Column(name = "qtePVMin8", columnDefinition = "DECIMAL(10,2) default 0.0")
+    private double qtePVMin8;
+
     @NotNull
     @Column(name = "prixVentMin1", nullable = false, precision = 10)
     private double prixVentMin1;

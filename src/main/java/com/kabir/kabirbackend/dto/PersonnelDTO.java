@@ -66,5 +66,21 @@ public class PersonnelDTO implements Serializable {
     boolean modifierRepertoire;
     @NotNull
     boolean supprimerRepertoire;
+    boolean consulterTransport;
+    boolean ajouterTransport;
+    boolean modifierTransport;
+    boolean supprimerTransport;
+    boolean consulterLivraison;
+    boolean ajouterLivraison;
+    boolean modifierLivraison;
+    boolean supprimerLivraison;
+    boolean consulterFacture;
+    boolean ajouterFacture;
+    boolean modifierFacture;
+    boolean supprimerFacture;
+    boolean consulterEntretien;
+    boolean ajouterEntretien;
+    boolean modifierEntretien;
+    boolean supprimerEntretien;
     boolean canDelete;
 }

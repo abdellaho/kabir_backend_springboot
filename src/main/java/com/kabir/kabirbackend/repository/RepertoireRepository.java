@@ -28,6 +28,18 @@ public interface RepertoireRepository extends JpaRepository<Repertoire, Long>, J
     """)
     boolean existsByTelAndIdNotAndBloquerFalseAndTypeRepertoireIn(@Param("tel") String tel, @Param("id") Long id, @Param("typeRepertoires") List<Integer> typeRepertoires);
 
+    boolean existsByDesignationIgnoreCaseAndIdNotAndTypeRepertoireIn(String designation, Long id, List<Integer> typeRepertoires);
+    boolean existsByIceIgnoreCaseAndIdNotAndTypeRepertoireIn(String ice, Long id, List<Integer> typeRepertoires);
+
+    @Query("""
+        select case when count(r) > 0 then true else false end
+        from Repertoire r
+        where (r.tel1 = :tel or r.tel2 = :tel or r.tel3 = :tel)
+            and (:id is null or r.id <> :id)
+            and r.typeRepertoire in :typeRepertoires
+    """)
+    boolean existsByTelAndIdNotAndTypeRepertoireIn(@Param("tel") String tel, @Param("id") Long id, @Param("typeRepertoires") List<Integer> typeRepertoires);
+
     @Query(value = """
         SELECT
             EXISTS (SELECT 1 FROM Comptabilite WHERE repertoire.id = :id)

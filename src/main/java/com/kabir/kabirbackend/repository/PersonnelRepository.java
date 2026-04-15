@@ -33,6 +33,9 @@ public interface PersonnelRepository extends JpaRepository<Personnel, Long>, Jpa
     boolean existsByDesignationIgnoreCaseAndIdNotAndSupprimerFalse(String trim, Long id);
     boolean existsByCinIgnoreCaseAndIdNotAndSupprimerFalse(String trim, Long id);
     boolean existsByEmailIgnoreCaseAndIdNotAndSupprimerFalse(String trim, Long id);
+    boolean existsByDesignationIgnoreCaseAndIdNot(String trim, Long id);
+    boolean existsByCinIgnoreCaseAndIdNot(String trim, Long id);
+    boolean existsByEmailIgnoreCaseAndIdNot(String trim, Long id);
 
     @Query("""
         select case when count(r) > 0 then true else false end
@@ -42,6 +45,14 @@ public interface PersonnelRepository extends JpaRepository<Personnel, Long>, Jpa
             and r.supprimer = false
     """)
     boolean existsByTelAndIdNotAndSupprimerFalse(@Param("tel") String tel, @Param("id") Long id);
+
+    @Query("""
+        select case when count(r) > 0 then true else false end
+        from Personnel r
+        where (r.tel1 = :tel or r.tel2 = :tel)
+            and r.id <> :id
+    """)
+    boolean existsByTelAndIdNot(@Param("tel") String tel, @Param("id") Long id);
 
     @Transactional
     @Modifying

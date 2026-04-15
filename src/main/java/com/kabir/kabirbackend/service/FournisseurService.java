@@ -126,25 +126,25 @@ public class FournisseurService implements IFournisseurService {
         Long id = dto.getId() == null ? -1L : dto.getId();
 
         if (StringUtils.isNotBlank(dto.getDesignation())) {
-            if (fournisseurRepository.existsByDesignationIgnoreCaseAndIdNotAndSupprimerFalse(dto.getDesignation().trim(), id)) {
+            if (fournisseurRepository.existsByDesignationIgnoreCaseAndIdNot(dto.getDesignation().trim(), id)) {
                 response.getErrors().put("designation", "Désignation existe déjà");
             }
         }
 
         if (StringUtils.isNotBlank(dto.getTel1())) {
-            if (fournisseurRepository.existsByTelAndIdNotAndSupprimerFalse(dto.getTel1().trim(), id)) {
+            if (fournisseurRepository.existsByTelAndIdNot(dto.getTel1().trim(), id)) {
                 response.getErrors().put("tel1", "Tel 1 existe déjà");
             }
         }
 
         if (StringUtils.isNotBlank(dto.getTel2())) {
-            if (fournisseurRepository.existsByTelAndIdNotAndSupprimerFalse(dto.getTel2().trim(), id)) {
+            if (fournisseurRepository.existsByTelAndIdNot(dto.getTel2().trim(), id)) {
                 response.getErrors().put("tel2", "Tel 2 existe déjà");
             }
         }
 
         if (StringUtils.isNotBlank(dto.getIce())) {
-            if (fournisseurRepository.existsByIceIgnoreCaseAndIdNotAndSupprimerFalse(dto.getIce().trim(), id)) {
+            if (fournisseurRepository.existsByIceIgnoreCaseAndIdNot(dto.getIce().trim(), id)) {
                 response.getErrors().put("ice", "ICE existe déjà");
             }
         }

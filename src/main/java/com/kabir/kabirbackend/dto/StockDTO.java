@@ -63,6 +63,18 @@ public class StockDTO implements Serializable {
     private double qtePVMin4;
 
     @NotNull
+    private double qtePVMin5;
+
+    @NotNull
+    private double qtePVMin6;
+
+    @NotNull
+    private double qtePVMin7;
+
+    @NotNull
+    private double qtePVMin8;
+
+    @NotNull
     private int qteFacturer;
 
     @NotNull

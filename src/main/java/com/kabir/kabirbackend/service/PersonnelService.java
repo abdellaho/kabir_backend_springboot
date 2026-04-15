@@ -167,31 +167,31 @@ public class PersonnelService implements IPersonnelService {
         Long id = dto.getId() == null ? -1L : dto.getId();
 
         if (StringUtils.isNotBlank(dto.getDesignation())) {
-            if (personnelRepository.existsByDesignationIgnoreCaseAndIdNotAndSupprimerFalse(dto.getDesignation().trim(), id)) {
+            if (personnelRepository.existsByDesignationIgnoreCaseAndIdNot(dto.getDesignation().trim(), id)) {
                 response.getErrors().put("designation", "Désignation existe déjà");
             }
         }
 
         if (StringUtils.isNotBlank(dto.getTel1())) {
-            if (personnelRepository.existsByTelAndIdNotAndSupprimerFalse(dto.getTel1().trim(), id)) {
+            if (personnelRepository.existsByTelAndIdNot(dto.getTel1().trim(), id)) {
                 response.getErrors().put("tel1", "Tel 1 existe déjà");
             }
         }
 
         if (StringUtils.isNotBlank(dto.getTel2())) {
-            if (personnelRepository.existsByTelAndIdNotAndSupprimerFalse(dto.getTel2().trim(), id)) {
+            if (personnelRepository.existsByTelAndIdNot(dto.getTel2().trim(), id)) {
                 response.getErrors().put("tel2", "Tel 2 existe déjà");
             }
         }
 
         if (StringUtils.isNotBlank(dto.getCin())) {
-            if (personnelRepository.existsByCinIgnoreCaseAndIdNotAndSupprimerFalse(dto.getCin().trim(), id)) {
+            if (personnelRepository.existsByCinIgnoreCaseAndIdNot(dto.getCin().trim(), id)) {
                 response.getErrors().put("cin", "CIN existe déjà");
             }
         }
 
         if (StringUtils.isNotBlank(dto.getEmail())) {
-            if (personnelRepository.existsByEmailIgnoreCaseAndIdNotAndSupprimerFalse(dto.getEmail().trim(), id)) {
+            if (personnelRepository.existsByEmailIgnoreCaseAndIdNot(dto.getEmail().trim(), id)) {
                 response.getErrors().put("email", "Email existe déjà");
             }
         }

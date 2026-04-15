@@ -166,7 +166,7 @@ public class RepertoireSpecification implements Specification<Repertoire> {
     public static Specification<Repertoire> searchBySupprimerOrArchiverAndClientsOnly(RepertoireDTO repertoireDTO) {
         return (root, query, criteriaBuilder) -> {
 
-            query.orderBy(criteriaBuilder.asc(root.get("designation")));
+            query.orderBy(criteriaBuilder.desc(root.get("nbrOperationClient")), criteriaBuilder.asc(root.get("designation")));
 
             List<Integer> intCriteria = repertoireDTO.getTypeRepertoire() == 3 ? List.of(3) : Arrays.asList(0, 1, 2);
 

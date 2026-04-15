@@ -84,7 +84,7 @@ class AchatSimpleController {
         }
     }
 
-    @PatchMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<AchatSimpleDTO> update(@PathVariable Long id, @RequestBody AchatSimpleResponse achatSimpleResponse) {
         logger.info("Updating achat simple response : {}", achatSimpleResponse);
         try {
