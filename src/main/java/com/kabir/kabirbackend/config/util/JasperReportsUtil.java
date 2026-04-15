@@ -15,12 +15,13 @@ import net.sf.jasperreports.engine.export.JRXmlExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.export.*;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ResourceUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,8 @@ import java.util.Map;
 
 @Component
 public class JasperReportsUtil {
+
+    @Autowired private ResourceLoader resourceLoader;
 
     public byte[] exportJasperReportBytes(JasperPrint jasperPrint, ReportTypeEnum reportType) throws JRException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -104,9 +107,22 @@ public class JasperReportsUtil {
         String template = MessageFormat.format("{0}{1}{2}{3}", Constant.FOLDER_PATH_REPORT_DYNAMIC_FR, Constant.SLASH, fileName, Constant.EXTENSION_JRXML);
         //2.Create DataSource
         JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(dataSource);
+
+        // 4. Compile .jrxml template using InputStream (FIXED!)
+        String resourcePath = MessageFormat.format("classpath:{0}", template);
+
+        // Use ResourceLoader to get InputStream - works in JAR and dev
+        Resource resource = resourceLoader.getResource(resourcePath);
+
+        // Compile using InputStream instead of File path
+        JasperReport jasperReport;
+        try (InputStream reportStream = resource.getInputStream()) {
+            jasperReport = JasperCompileManager.compileReport(reportStream);
+        }
+
         //3.Compile .jrmxl template, stored in JasperReport object
-        String path = ResourceUtils.getFile(MessageFormat.format("classpath:{0}", template)).getAbsolutePath();
-        JasperReport jasperReport = JasperCompileManager.compileReport(path);
+        //String path = ResourceUtils.getFile(MessageFormat.format("classpath:{0}", template)).getAbsolutePath();
+        //JasperReport jasperReport = JasperCompileManager.compileReport(path);
         //4.Fill Report - by passing complied .jrxml object, paramters, datasource
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, beanCollectionDataSource);
         //5.Export Report - by using JasperExportManager
