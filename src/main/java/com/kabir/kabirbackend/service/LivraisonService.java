@@ -65,6 +65,10 @@ public class LivraisonService implements ILivraisonService {
         Repertoire oldRepertoire = null;
         Personnel personnelOperation = null;
         String repertoireObservation = livraisonDTO.getRepertoireObservation();
+        String repertoireAdresse = livraisonDTO.getRepertoireAdresse();
+        String repertoireTel1 = livraisonDTO.getRepertoireTel1();
+        String repertoireTel2 = livraisonDTO.getRepertoireTel2();
+        String repertoireDesignation = livraisonDTO.getRepertoireDesignation();
 
         try {
             if(!isSave && null != livraisonDTO.getRepertoireIdOld()) {
@@ -89,6 +93,10 @@ public class LivraisonService implements ILivraisonService {
 
             logger.info("Livraison repertoire observation: {}", repertoireObservation);
             livraison.getRepertoire().setObservation(repertoireObservation);
+            livraison.getRepertoire().setAdresse(repertoireAdresse);
+            livraison.getRepertoire().setTel1(repertoireTel1);
+            livraison.getRepertoire().setTel2(repertoireTel2);
+            livraison.getRepertoire().setDesignation(repertoireDesignation);
 
             updateRepertoire(oldRepertoire, livraison.getRepertoire());
 
