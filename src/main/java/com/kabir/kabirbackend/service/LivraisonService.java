@@ -92,13 +92,15 @@ public class LivraisonService implements ILivraisonService {
             enregistrerDetLivraison(livraison, isSave, livraisonResponse.detLivraisons());
 
             logger.info("Livraison repertoire observation: {}", repertoireObservation);
-            livraison.getRepertoire().setObservation(repertoireObservation);
-            livraison.getRepertoire().setAdresse(repertoireAdresse);
-            livraison.getRepertoire().setTel1(repertoireTel1);
-            livraison.getRepertoire().setTel2(repertoireTel2);
-            livraison.getRepertoire().setDesignation(repertoireDesignation);
+            Repertoire repertoireToUpdate = livraison.getRepertoire();
 
-            updateRepertoire(oldRepertoire, livraison.getRepertoire());
+            repertoireToUpdate.setObservation(repertoireObservation);
+            repertoireToUpdate.setAdresse(repertoireAdresse);
+            repertoireToUpdate.setTel1(repertoireTel1);
+            repertoireToUpdate.setTel2(repertoireTel2);
+            repertoireToUpdate.setDesignation(repertoireDesignation);
+
+            updateRepertoire(oldRepertoire, repertoireToUpdate);
 
             logger.info("Stock livraison saved successfully: {}", livraisonDTO);
         } catch (Exception e) {
@@ -318,22 +320,26 @@ public class LivraisonService implements ILivraisonService {
     public void updateRepertoireInformation(Repertoire repertoire, boolean updateNBrOperation, TypeOperation typeOperation, boolean updateObservation) {
         if(updateNBrOperation || updateObservation) {
             if(null != repertoire && null != repertoire.getId()) {
-                repertoire = repertoireRepository.findById(repertoire.getId()).orElse(null);
-                if(null != repertoire && null != repertoire.getId()) {
+                Repertoire repertoireToUpdate = repertoireRepository.findById(repertoire.getId()).orElse(null);
+                if(null != repertoireToUpdate && null != repertoireToUpdate.getId()) {
                     if(updateNBrOperation) {
                         if(typeOperation == TypeOperation.ADD) {
-                            repertoire.setNbrOperationClient(repertoire.getNbrOperationClient() + 1);
+                            repertoireToUpdate.setNbrOperationClient(repertoireToUpdate.getNbrOperationClient() + 1);
                         } else {
-                            repertoire.setNbrOperationClient(repertoire.getNbrOperationClient() - 1);
-                            if(repertoire.getNbrOperationClient() < 0) repertoire.setNbrOperationClient(0);
+                            repertoireToUpdate.setNbrOperationClient(repertoireToUpdate.getNbrOperationClient() - 1);
+                            if(repertoireToUpdate.getNbrOperationClient() < 0) repertoireToUpdate.setNbrOperationClient(0);
                         }
                     }
 
                     if(updateObservation) {
-                        repertoire.setObservation(repertoire.getObservation());
+                        repertoireToUpdate.setObservation(repertoire.getObservation());
+                        repertoireToUpdate.setDesignation(repertoire.getDesignation());
+                        repertoireToUpdate.setTel1(repertoire.getTel1());
+                        repertoireToUpdate.setTel2(repertoire.getTel2());
+                        repertoireToUpdate.setAdresse(repertoire.getAdresse());
                     }
 
-                    repertoireRepository.save(repertoire);
+                    repertoireRepository.save(repertoireToUpdate);
                 }
             }
         }
