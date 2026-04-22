@@ -25,6 +25,23 @@ public class StaticVariables {
         return montant;
     }
 
+    public static String extractDatabaseName(String url) {
+        String noParams = url.substring(0, url.contains("?") ? url.indexOf("?") : url.length());
+        return noParams.substring(noParams.lastIndexOf("/") + 1);
+    }
+
+    public static String extractHost(String url) {
+        String temp = url.replace("jdbc:mysql://", "");
+        temp = temp.substring(0, temp.indexOf("/"));
+        return temp.split(":")[0];
+    }
+
+    public static String extractPort(String url) {
+        String temp = url.replace("jdbc:mysql://", "");
+        temp = temp.substring(0, temp.indexOf("/"));
+        return temp.split(":")[1];
+    }
+
     public static Map<String, Object> getInfoEtablissement(Map<String, Object> parameters, List<EtablissementDTO> listEtablissement, boolean avecICE) {
         StringBuilder nameParamex = new StringBuilder();
         StringBuilder adresseParamex = new StringBuilder();
