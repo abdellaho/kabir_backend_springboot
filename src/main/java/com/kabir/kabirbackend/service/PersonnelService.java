@@ -18,11 +18,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 @Service
 public class PersonnelService implements IPersonnelService {
 
     private final Logger logger = LoggerFactory.getLogger(PersonnelService.class);
+    private static final ResourceBundle bundleFR = ResourceBundle.getBundle("i18n/ApplicationResources", Locale.of("fr"));
 
     private final PersonnelRepository personnelRepository;
     private final PersonnelMapper personnelMapper;
@@ -54,7 +57,11 @@ public class PersonnelService implements IPersonnelService {
             Personnel personnel = personnelMapper.toEntity(personnelDTO);
             if(StringUtils.isNotBlank(personnelDTO.getPasswordFake()) && StringUtils.isNotBlank(personnelDTO.getEmail())) {
                 personnel.setPassword(passwordEncoder.encode(personnelDTO.getPasswordFake()));
+            } else {
+                personnelDTO.setEmail("");
+                personnel.setPassword("");
             }
+
             personnel = personnelRepository.save(personnel);
 
             PersonnelDTO personnelEdit = personnelMapper.toDTO(personnel);
@@ -121,12 +128,12 @@ public class PersonnelService implements IPersonnelService {
         try {
             Personnel personnel = personnelRepository.findByEmail(email).orElse(null);
             if (personnel == null) {
-                throw new RuntimeException("Personnel not found");
+                throw new RuntimeException(bundleFR.getString("accountNotFound"));
             }
             return personnelMapper.toDTO(personnel);
         } catch (Exception e) {
             logger.error("Error finding personnel by id", e);
-            throw new RuntimeException("Error finding personnel by id", e);
+            throw new RuntimeException(bundleFR.getString("accountNotFound"), e);
         }
     }
 
@@ -198,6 +205,15 @@ public class PersonnelService implements IPersonnelService {
 
         response.setExists(!response.getErrors().isEmpty());
         return response;
+    }
+
+    public boolean hasAnyRights(PersonnelDTO personnelDTO) {
+        return personnelDTO.isConsulterFacture() || personnelDTO.isAjouterFacture() || personnelDTO.isModifierFacture() || personnelDTO.isSupprimerFacture()
+                || personnelDTO.isAjouterLivraison() || personnelDTO.isModifierLivraison() || personnelDTO.isConsulterLivraison() || personnelDTO.isSupprimerLivraison()
+                || personnelDTO.isConsulterEntretien() || personnelDTO.isAjouterEntretien() || personnelDTO.isModifierEntretien() || personnelDTO.isSupprimerEntretien()
+                || personnelDTO.isConsulterStock() || personnelDTO.isAjouterStock() || personnelDTO.isModifierStock() || personnelDTO.isSupprimerStock()
+                || personnelDTO.isConsulterTransport() || personnelDTO.isAjouterTransport() || personnelDTO.isModifierTransport() || personnelDTO.isSupprimerTransport()
+                || personnelDTO.isConsulterRepertoire() || personnelDTO.isAjouterRepertoire() || personnelDTO.isModifierRepertoire() || personnelDTO.isSupprimerRepertoire();
     }
 
     public static void main(String[] args) {

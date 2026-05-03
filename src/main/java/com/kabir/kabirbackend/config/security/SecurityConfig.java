@@ -51,6 +51,7 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new CustomPasswordEncoder();
@@ -72,8 +73,8 @@ public class SecurityConfig {
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exceptionHandling ->
-                        exceptionHandling.authenticationEntryPoint(unauthorizedHandler)
-                                .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                        exceptionHandling.authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                                //.authenticationEntryPoint()
                                 .accessDeniedHandler(new CustomAccessDeniedHandler())
                 );
 

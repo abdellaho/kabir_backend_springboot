@@ -23,12 +23,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 @RestController
 @RequestMapping("/personnel")
 class PersonnelController {
 
     private final Logger logger = LoggerFactory.getLogger(PersonnelController.class);
+    private static final ResourceBundle bundleFR = ResourceBundle.getBundle("i18n/ApplicationResources", Locale.of("fr"));
+
     private final PersonnelService personnelService;
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
@@ -223,7 +227,8 @@ class PersonnelController {
     public ResponseEntity<LoginResponse> login(@RequestBody AuthRequest request) {
         logger.info("Logging in: {}", request);
         LoginResponse loginResponse = authenticate(request, null);
-        if(null == loginResponse) throw new BadCredentialsException("Email ou mot de passe incorrect");
+        String responseMessage = StringUtils.isNotBlank(null != loginResponse ? loginResponse.message() : "") ? loginResponse.message() : bundleFR.getString("verifierLoginPassword");
+        if(null == loginResponse || null == loginResponse.user()) throw new BadCredentialsException(responseMessage);
 
         return ResponseEntity.ok(loginResponse);
     }
@@ -277,7 +282,7 @@ class PersonnelController {
         logger.info("Refreshing token");
         try {
             String token = jwtUtil.generateToken(jwtUtil.getUsernameFromToken(refreshToken.refreshToken()));
-            return ResponseEntity.ok(new LoginResponse(token, token, jwtUtil.getJwtExpirationMs(), null));
+            return ResponseEntity.ok(new LoginResponse(token, token, jwtUtil.getJwtExpirationMs(), null, ""));
         } catch (Exception e) {
             logger.error("Error refreshing token: {}", e.getMessage());
             return ResponseEntity.badRequest().body(null);
@@ -296,18 +301,43 @@ class PersonnelController {
     }
 
     private LoginResponse authenticate(AuthRequest request, PersonnelDTO personnelDTO) {
-        Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.email().trim(), request.password().trim()
-                )
-        );
-        if(null == personnelDTO) {
-            personnelDTO = personnelService.findByEmail(request.email().trim());
-        }
-        String token = jwtUtil.generateToken(request.email());
+        logger.info("Authenticating user: {}", request.email());
+        try {
+            Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.email().trim(), request.password().trim()));
+            if(null == personnelDTO) {
+                personnelDTO = personnelService.findByEmail(request.email().trim());
+            }
+            String token = jwtUtil.generateToken(request.email());
 
-        if(null == personnelDTO) return null;
-        return new LoginResponse(token, token, jwtUtil.getJwtExpirationMs(), personnelDTO);
+            if(null == personnelDTO) return null;
+
+            boolean hasRights = personnelService.hasAnyRights(personnelDTO);
+            if(personnelDTO.isEtatComptePersonnel()) {
+                if(hasRights) {
+                    return new LoginResponse(token, token, jwtUtil.getJwtExpirationMs(), personnelDTO, "");
+                } else {
+                    return new LoginResponse("", "", 0, null, bundleFR.getString("accountWithoutRights"));
+                }
+            } else {
+                return new LoginResponse("", "", 0, null, bundleFR.getString("accountDisabled"));
+            }
+        } catch (BadCredentialsException e) {
+            if(null == personnelDTO) {
+                personnelDTO = personnelService.findByEmail(request.email().trim());
+            }
+            if(null != personnelDTO) {
+                if(personnelDTO.isEtatComptePersonnel()) {
+                    personnelDTO.setEtatComptePersonnel(false);
+                    personnelService.save(personnelDTO);
+                } else {
+                    return new LoginResponse("", "", 0, null, bundleFR.getString("accountDisabled"));
+                }
+            }
+            return new LoginResponse("", "", 0, null, bundleFR.getString("verifierLoginPassword"));
+        } catch (Exception e) {
+            logger.error("Error authenticating user: {}", e.getMessage());
+            return new LoginResponse("", "", 0, null, e.getMessage());
+        }
     }
 
     @PostMapping("/auth/me")
@@ -322,7 +352,7 @@ class PersonnelController {
 
                     if (personnelDTO != null) {
                         String newToken = jwtUtil.generateToken(email);
-                        return ResponseEntity.ok(new LoginResponse(newToken, newToken, jwtUtil.getJwtExpirationMs(), personnelDTO));
+                        return ResponseEntity.ok(new LoginResponse(newToken, newToken, jwtUtil.getJwtExpirationMs(), personnelDTO, ""));
                     }
                 } catch (Exception e) {
                     return ResponseEntity.status(401).build();
@@ -340,7 +370,7 @@ class PersonnelController {
         }
 
         String newToken = jwtUtil.generateToken(email);
-        return ResponseEntity.ok(new LoginResponse(newToken, newToken, jwtUtil.getJwtExpirationMs(), personnelDTO));
+        return ResponseEntity.ok(new LoginResponse(newToken, newToken, jwtUtil.getJwtExpirationMs(), personnelDTO, ""));
     }
 
 }

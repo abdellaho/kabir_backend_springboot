@@ -10,11 +10,28 @@ import java.io.IOException;
 
 @Component
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
+
     @Override
     public void commence(HttpServletRequest request,
                          HttpServletResponse response,
                          AuthenticationException authException)
             throws IOException {
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Email ou mot de passe incorrect");
+
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        String message = authException.getMessage();
+
+        String json = """
+            {
+              "status": 401,
+              "error": "Unauthorized",
+              "message": "%s",
+              "path": "%s"
+            }
+            """.formatted(message, request.getRequestURI());
+
+        response.getWriter().write(json);
     }
 }

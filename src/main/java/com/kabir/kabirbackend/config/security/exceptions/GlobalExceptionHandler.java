@@ -120,7 +120,7 @@ public class GlobalExceptionHandler {
         body.put("timestamp", LocalDateTime.now());
         body.put("status", HttpStatus.UNAUTHORIZED.value());
         body.put("error", "Bad Credentials");
-        body.put("message", "Email ou mot de passe incorrect"); // Keep French or customize: "Invalid username or password"
+        body.put("message", ex.getMessage()); // Keep French or customize: "Invalid username or password"
         body.put("path", request.getDescription(false));
 
         return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
