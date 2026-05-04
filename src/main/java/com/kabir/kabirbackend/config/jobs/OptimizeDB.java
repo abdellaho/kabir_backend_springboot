@@ -185,52 +185,7 @@ public class OptimizeDB implements SchedulingConfigurer {
                     if(etablissement.getTypeExec() == 0) {
                         cronTabExpression = "0 " + Integer.parseInt(localDateTime.getMinute() + "") +" "+ Integer.parseInt(localDateTime.getHour() + "") + " * * *";
                     }else if(etablissement.getTypeExec() == 1) {
-                        String jours = "";
-                        if(etablissement.isDimanche()) {
-                            jours += "SUN";
-                        }
-                        if(etablissement.isLundi()) {
-                            if(jours.isEmpty()) {
-                                jours += "MON";
-                            }else {
-                                jours += ",MON";
-                            }
-                        }
-                        if(etablissement.isMardi()) {
-                            if(jours.isEmpty()) {
-                                jours += "TUE";
-                            }else {
-                                jours += ",TUE";
-                            }
-                        }
-                        if(etablissement.isMercredi()) {
-                            if(jours.isEmpty()) {
-                                jours += "WED";
-                            }else {
-                                jours += ",WED";
-                            }
-                        }
-                        if(etablissement.isJeudi()) {
-                            if(jours.isEmpty()) {
-                                jours += "THU";
-                            }else {
-                                jours += ",THU";
-                            }
-                        }
-                        if(etablissement.isVendredi()) {
-                            if(jours.isEmpty()) {
-                                jours += "FRI";
-                            }else {
-                                jours += ",FRI";
-                            }
-                        }
-                        if(etablissement.isSamedi()) {
-                            if(jours.isEmpty()) {
-                                jours += "SAT ";
-                            }else {
-                                jours += ",SAT ";
-                            }
-                        }
+                        String jours = getJours(etablissement);
                         cronTabExpression = "0 " + Integer.parseInt(localDateTime.getMinute() + "") + " " + Integer.parseInt(localDateTime.getHour() + "") + " * * " + jours;
                     }else if(etablissement.getTypeExec() == 2) {
                         cronTabExpression = "0 " + Integer.parseInt(localDateTime.getMinute() + "") + " " + Integer.parseInt(localDateTime.getHour() + "") + " " + etablissement.getNumJour() + " * *";
@@ -240,5 +195,55 @@ public class OptimizeDB implements SchedulingConfigurer {
         }
 
         return cronTabExpression;
+    }
+
+    private static String getJours(Etablissement etablissement) {
+        String jours = "";
+        if(etablissement.isDimanche()) {
+            jours += "SUN";
+        }
+        if(etablissement.isLundi()) {
+            if(jours.isEmpty()) {
+                jours += "MON";
+            }else {
+                jours += ",MON";
+            }
+        }
+        if(etablissement.isMardi()) {
+            if(jours.isEmpty()) {
+                jours += "TUE";
+            }else {
+                jours += ",TUE";
+            }
+        }
+        if(etablissement.isMercredi()) {
+            if(jours.isEmpty()) {
+                jours += "WED";
+            }else {
+                jours += ",WED";
+            }
+        }
+        if(etablissement.isJeudi()) {
+            if(jours.isEmpty()) {
+                jours += "THU";
+            }else {
+                jours += ",THU";
+            }
+        }
+        if(etablissement.isVendredi()) {
+            if(jours.isEmpty()) {
+                jours += "FRI";
+            }else {
+                jours += ",FRI";
+            }
+        }
+        if(etablissement.isSamedi()) {
+            if(jours.isEmpty()) {
+                jours += "SAT ";
+            }else {
+                jours += ",SAT ";
+            }
+        }
+        return jours;
     }
 }
