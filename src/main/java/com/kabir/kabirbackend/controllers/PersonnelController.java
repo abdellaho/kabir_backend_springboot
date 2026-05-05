@@ -130,9 +130,7 @@ class PersonnelController {
         logger.info("Fetching personnel with id: {}", id);
         try {
             PersonnelDTO personnel = personnelService.findById(id);
-            if(StringUtils.isNotBlank(personnel.getPassword()) && StringUtils.isNotBlank(personnel.getEmail())) {
-                personnel.setPasswordFake(Encryption.strDecrypt(personnel.getPassword(), 7));
-            }
+            updatePasswordFake(personnel);
             return ResponseEntity.ok(personnel);
         } catch (Exception e) {
             logger.error("Error fetching personnel with id: {}: {}", id, e.getMessage());
@@ -314,6 +312,8 @@ class PersonnelController {
             boolean hasRights = personnelService.hasAnyRights(personnelDTO);
             if(personnelDTO.isEtatComptePersonnel()) {
                 if(hasRights) {
+                    updatePasswordFake(personnelDTO);
+
                     return new LoginResponse(token, token, jwtUtil.getJwtExpirationMs(), personnelDTO, "");
                 } else {
                     return new LoginResponse("", "", 0, null, bundleFR.getString("accountWithoutRights"));
@@ -372,5 +372,27 @@ class PersonnelController {
         String newToken = jwtUtil.generateToken(email);
         return ResponseEntity.ok(new LoginResponse(newToken, newToken, jwtUtil.getJwtExpirationMs(), personnelDTO, ""));
     }
+
+    @PostMapping("/auth/mon-compte")
+    public ResponseEntity<LoginResponse> getMyAccount(@RequestBody PersonnelDTO personnelDTO) {
+        logger.info("Updating personnel account of this user: {}", personnelDTO);
+        try {
+            PersonnelDTO updatedPersonnel = personnelService.save(personnelDTO);
+            updatePasswordFake(updatedPersonnel);
+
+            String token = jwtUtil.generateToken(updatedPersonnel.getEmail());
+            return ResponseEntity.ok(new LoginResponse(token, token, jwtUtil.getJwtExpirationMs(), updatedPersonnel, ""));
+        } catch (Exception e) {
+            logger.error("Error updating personnel account: {}", e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    private void updatePasswordFake(PersonnelDTO personnelDTO) {
+        if(StringUtils.isNotBlank(personnelDTO.getPassword()) && StringUtils.isNotBlank(personnelDTO.getEmail())) {
+            personnelDTO.setPasswordFake(Encryption.strDecrypt(personnelDTO.getPassword(), 7));
+        }
+    }
+
 
 }
