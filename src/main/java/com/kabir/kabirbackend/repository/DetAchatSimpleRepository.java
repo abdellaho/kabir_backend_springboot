@@ -12,6 +12,6 @@ import java.util.List;
 @Repository
 public interface DetAchatSimpleRepository extends JpaRepository<DetAchatSimple, Long>, JpaSpecificationExecutor<DetAchatSimple> {
 
-    @Query("SELECT dsd FROM DetAchatSimple dsd WHERE dsd.achatSimple.id = :achatSimpleId")
+    @Query("SELECT dsd FROM DetAchatSimple dsd WHERE dsd.achatSimple.id = :achatSimpleId order by dsd.stock.designation")
     List<DetAchatSimple> findAllByAchatSimpleId(@Param("achatSimpleId") Long achatSimpleId);
 }

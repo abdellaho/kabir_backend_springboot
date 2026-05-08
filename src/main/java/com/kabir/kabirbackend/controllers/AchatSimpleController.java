@@ -114,6 +114,17 @@ class AchatSimpleController {
         }
     }
 
+    @GetMapping("/exist")
+    public ResponseEntity<Boolean> exist(@RequestBody AchatSimpleDTO achatSimpleDTO) {
+        logger.info("Searching achat simple if exist: {}", achatSimpleDTO);
+        try {
+            return ResponseEntity.ok(achatSimpleService.exist(achatSimpleDTO));
+        } catch (Exception e) {
+            logger.error("Error searching achat simple if exist: {}", achatSimpleDTO, e);
+            throw new RuntimeException("Error searching achat simple if exist: " + achatSimpleDTO, e);
+        }
+    }
+
     @PostMapping("/imprimer")
     public ResponseEntity<?> imprimer(@RequestBody AchatSimpleDTO achatSimpleDTO) {
         logger.info("imprimer achat simple : {}", achatSimpleDTO);
