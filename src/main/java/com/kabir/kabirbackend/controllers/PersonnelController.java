@@ -311,7 +311,7 @@ class PersonnelController {
 
             boolean hasRights = personnelService.hasAnyRights(personnelDTO);
             if(personnelDTO.isEtatComptePersonnel()) {
-                if(hasRights) {
+                if(hasRights || personnelDTO.getTypePersonnel() == 1) {
                     updatePasswordFake(personnelDTO);
 
                     return new LoginResponse(token, token, jwtUtil.getJwtExpirationMs(), personnelDTO, "");

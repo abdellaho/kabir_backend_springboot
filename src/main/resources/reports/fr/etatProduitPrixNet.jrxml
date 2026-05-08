@@ -44,19 +44,19 @@
 	<field name="prixVentMin" class="java.lang.Double">
 		<fieldDescription><![CDATA[prixVentMin2]]></fieldDescription>
 	</field>
-	<field name="qtePVMin" class="java.lang.Integer">
+	<field name="qtePVMin" class="java.lang.Double">
 		<fieldDescription><![CDATA[qtePVMin1]]></fieldDescription>
 	</field>
 	<field name="remiseMax" class="java.lang.Double">
 		<fieldDescription><![CDATA[remiseMax1]]></fieldDescription>
 	</field>
-	<field name="qtePVMin3" class="java.lang.Integer">
+	<field name="qtePVMin3" class="java.lang.Double">
 		<fieldDescription><![CDATA[qtePVMin3]]></fieldDescription>
 	</field>
 	<field name="prixVentMin3" class="java.lang.Double">
 		<fieldDescription><![CDATA[prixVentMin3]]></fieldDescription>
 	</field>
-	<field name="qtePVMin4" class="java.lang.Integer">
+	<field name="qtePVMin4" class="java.lang.Double">
 		<fieldDescription><![CDATA[qtePVMin4]]></fieldDescription>
 	</field>
 	<field name="prixVentMin4" class="java.lang.Double">

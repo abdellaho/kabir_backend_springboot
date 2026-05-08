@@ -50,7 +50,7 @@
 	<field name="qteStockImport" class="java.lang.Integer">
 		<fieldDescription><![CDATA[qteStockImport]]></fieldDescription>
 	</field>
-	<field name="qtePVMin" class="java.lang.Integer">
+	<field name="qtePVMin" class="java.lang.Double">
 		<fieldDescription><![CDATA[qtePVMin1]]></fieldDescription>
 	</field>
 	<field name="fournisseurID" class="java.lang.Long">
@@ -68,10 +68,10 @@
 	<field name="remiseMax4" class="java.lang.Double">
 		<fieldDescription><![CDATA[remiseMax4]]></fieldDescription>
 	</field>
-	<field name="qtePVMin3" class="java.lang.Integer">
+	<field name="qtePVMin3" class="java.lang.Double">
 		<fieldDescription><![CDATA[qtePVMin3]]></fieldDescription>
 	</field>
-	<field name="qtePVMin4" class="java.lang.Integer">
+	<field name="qtePVMin4" class="java.lang.Double">
 		<fieldDescription><![CDATA[qtePVMin4]]></fieldDescription>
 	</field>
 	<variable name="sommeMulti" class="java.lang.Double" resetType="Column" calculation="Sum">

@@ -57,7 +57,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("Qacht")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("qEntree")]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
 				<reportElement key="textField" mode="Opaque" x="0" y="0" width="496" height="25" forecolor="#000000" backcolor="#CCCCCC" uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf"/>

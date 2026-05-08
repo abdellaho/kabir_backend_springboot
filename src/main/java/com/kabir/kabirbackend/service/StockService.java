@@ -20,6 +20,7 @@ import com.kabir.kabirbackend.specifications.StockSpecification;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -188,7 +189,7 @@ public class StockService implements IStockService {
         logger.info("Request to print");
 
         if(printRequest.getType() != 1) {
-            List<StockDTO> listStock = stockRepository.findAll(StockSpecification.getListStockBasedOnIds(printRequest.getIds())).stream().map(stockMapper::toStockDTO).toList();
+            List<StockDTO> listStock = stockRepository.findAll(StockSpecification.getListStockBasedOnIds(printRequest.getIds()), Sort.by(Sort.Direction.ASC, "designation")).stream().map(stockMapper::toStockDTO).toList();
             if (CollectionUtils.isNotEmpty(listStock)) {
                 StockSumProjection stockSumProjection = stockRepository.getSumPattcQteFacturerAndStock();
 
@@ -246,7 +247,7 @@ public class StockService implements IStockService {
                 printResponse.setResponseBytes(bytes);
             }
         }else {
-            List<StockDTO> listStock = new ArrayList<>(stockRepository.findAll(StockSpecification.getListStockBasedOnIds(null)).stream().map(stockMapper::toStockDTO).toList());
+            List<StockDTO> listStock = new ArrayList<>(stockRepository.findAll(StockSpecification.getListStockBasedOnIds(null), Sort.by(Sort.Direction.ASC, "designation")).stream().map(stockMapper::toStockDTO).toList());
 
             StockSumProjection stockSumProjection = stockRepository.getSumPattcQteFacturerAndStock();
             StockSumProjection stockSumProjectionArchive = stockRepository.getSumPattcQteFacturerAndStockArchive();
