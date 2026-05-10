@@ -246,7 +246,12 @@ public class AchatSimpleService implements IAchatSimpleService {
 
     public boolean exist(AchatSimpleDTO achatSimpleDTO) {
         logger.info("Searching achat simple if exist: {}", achatSimpleDTO);
-        CommonSearchModel commonSearchModel = CommonSearchModel.builder().numCheque(achatSimpleDTO.getNumBlExterne()).fournisseurId(achatSimpleDTO.getFournisseurId()).build();
+        CommonSearchModel commonSearchModel = CommonSearchModel
+                .builder()
+                .id(achatSimpleDTO.getId())
+                .numCheque(achatSimpleDTO.getNumBlExterne())
+                .fournisseurId(achatSimpleDTO.getFournisseurId())
+                .build();
         List<AchatSimpleDTO> list = achatSimpleRepository.findAll(AchatSimpleSpecification.builder().build().searchByCommon(commonSearchModel)).stream()
                 .map(achatSimpleMapper::toDTO)
                 .toList();

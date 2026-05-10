@@ -1,6 +1,7 @@
 package com.kabir.kabirbackend.controllers;
 
 import com.kabir.kabirbackend.config.enums.ReportTypeEnum;
+import com.kabir.kabirbackend.config.jobs.OptimizeDB;
 import com.kabir.kabirbackend.config.responses.LivraisonResponse;
 import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.config.util.JasperReportsUtil;
@@ -37,12 +38,14 @@ class LivraisonController {
     private final LivraisonService livraisonService;
     private final EtablissementService etablissementService;
     private final DetLivraisonMapper detLivraisonMapper;
+    private final OptimizeDB optimizeDB;
 
-    LivraisonController(LivraisonService livraisonService, JasperReportsUtil jasperReportsUtil, EtablissementService etablissementService, DetLivraisonMapper detLivraisonMapper) {
+    LivraisonController(LivraisonService livraisonService, JasperReportsUtil jasperReportsUtil, EtablissementService etablissementService, DetLivraisonMapper detLivraisonMapper, OptimizeDB optimizeDB) {
         this.livraisonService = livraisonService;
         this.jasperReportsUtil = jasperReportsUtil;
         this.etablissementService = etablissementService;
         this.detLivraisonMapper = detLivraisonMapper;
+        this.optimizeDB = optimizeDB;
     }
 
     /*
@@ -328,4 +331,27 @@ class LivraisonController {
             return ResponseEntity.badRequest().body(null);
         }
     }
+
+    @GetMapping("/generate/backup-sql")
+    public ResponseEntity<?> generateBackupSql() {
+        logger.info("Request generate backup sql");
+        try {
+            byte[] bytes = optimizeDB.generateBackupDataBaseSqlFile();
+            if (null != bytes) {
+                ByteArrayResource resource = new ByteArrayResource(bytes);
+                String fileName = MessageFormat.format("backup_{0}.{1}", LocalDateTime.now(), "sql");
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION, MessageFormat.format("attachment; filename=\"{0}\"", fileName))
+                        .contentLength(resource.contentLength())
+                        .contentType(MediaType.parseMediaType("application/sql"))
+                        .body(resource);
+            } else {
+                return ResponseEntity.noContent().build();
+            }
+        } catch (Exception e) {
+            logger.error("Error generate backup sql: {}", e.getMessage());
+            return ResponseEntity.noContent().build();
+        }
+    }
+
 }

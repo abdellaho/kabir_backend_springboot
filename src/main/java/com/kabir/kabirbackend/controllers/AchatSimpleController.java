@@ -114,7 +114,7 @@ class AchatSimpleController {
         }
     }
 
-    @GetMapping("/exist")
+    @PostMapping("/exist")
     public ResponseEntity<Boolean> exist(@RequestBody AchatSimpleDTO achatSimpleDTO) {
         logger.info("Searching achat simple if exist: {}", achatSimpleDTO);
         try {

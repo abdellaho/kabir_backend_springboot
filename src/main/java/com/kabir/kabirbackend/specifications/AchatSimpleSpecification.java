@@ -32,6 +32,9 @@ public class AchatSimpleSpecification {
                     }
                 }
             }
+            if (commonSearchModel.getId() != null) {
+                predicate = criteriaBuilder.and(predicate, criteriaBuilder.notEqual(root.get("id"), commonSearchModel.getId()));
+            }
             if (commonSearchModel.getFournisseurId() != null) {
                 predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("fournisseur").get("id"), commonSearchModel.getFournisseurId()));
             }

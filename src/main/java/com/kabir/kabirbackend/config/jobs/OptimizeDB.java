@@ -16,6 +16,7 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.scheduling.support.CronTrigger;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -171,6 +172,73 @@ public class OptimizeDB implements SchedulingConfigurer {
                 }
             }
         }
+    }
+
+    public byte[] generateBackupDataBaseSqlFile() {
+        List<Etablissement> list = etablissementRepository.findAll();
+        if(CollectionUtils.isNotEmpty(list)) {
+            Etablissement etablissement = list.getFirst();
+            if(StringUtils.isNotEmpty(etablissement.getLienBackupDB())
+                    && StringUtils.isNotEmpty(etablissement.getLienDbDump())
+            ) {
+                try {
+                    ProcessBuilder processBuilder;
+
+                    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HHmmss");
+                    Date date = new Date();
+                    String filepath = "backup-" + dbName + "-(" + dateFormat.format(date) + ").sql";
+
+                    String outputFile = etablissement.getLienBackupDB() + File.separator + filepath;
+                    String mysqldumpPath = etablissement.getLienDbDump() + File.separator + "mysqldump";
+
+                    // Build command as LIST (important, no string concatenation)
+                    List<String> command = new ArrayList<>();
+                    command.add(mysqldumpPath);
+                    command.add("-h");
+                    command.add(dbHost);
+                    command.add("--port");
+                    command.add(dbPort);
+                    command.add("-u");
+                    command.add(username);
+
+                    if (StringUtils.isNotBlank(password)) {
+                        command.add("--password=" + password);
+                    }
+
+                    command.add(dbName);
+
+                    // Create process builder
+                    processBuilder = new ProcessBuilder(command);
+
+                    // Redirect output to file
+                    File file = new File(outputFile);
+                    processBuilder.redirectOutput(file);
+
+                    // Optional: capture errors
+                    processBuilder.redirectError(ProcessBuilder.Redirect.INHERIT);
+
+                    // Start process
+                    Process process = processBuilder.start();
+                    int processComplete = process.waitFor();
+
+                    if (processComplete == 0) {
+                        try {
+                            return Files.readAllBytes(file.toPath());
+                        } catch (Exception e) {
+                            logger.error(String.valueOf(e), e.getCause());
+                        }
+                        logger.info("Opération effectue avec succès");
+                    } else {
+                        logger.info("Opération effectue avec succès");
+                        System.out.println("Opération effectue avec succès");
+                    }
+                } catch (Exception e) {
+                    logger.error(String.valueOf(e), e.getCause());
+                }
+            }
+        }
+
+        return null;
     }
 
     private String cronConfig() {

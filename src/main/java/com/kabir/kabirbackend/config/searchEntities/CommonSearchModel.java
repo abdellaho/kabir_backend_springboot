@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommonSearchModel {
+    private Long id;
     private boolean searchByDate;
     private LocalDate dateDebut;
     private LocalDate dateFin;
@@ -21,6 +22,7 @@ public class CommonSearchModel {
     private Long personnelId;
     private Long operateurId;
     private boolean absence;
+    private boolean searchByMatinApresMidi;
     private boolean matin;
     private boolean apresMidi;
     private int etatcheque;

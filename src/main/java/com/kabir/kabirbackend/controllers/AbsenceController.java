@@ -146,7 +146,8 @@ public class AbsenceController {
     public ResponseEntity<List<AbsenceDTO>> searchByCommon(@RequestBody CommonSearchModel commonSearchModel) {
         logger.info("Searching absence by common: {}", commonSearchModel);
         try {
-            return ResponseEntity.ok(absenceService.searchByCommon(commonSearchModel));
+            List<AbsenceDTO> list = absenceService.searchByCommon(commonSearchModel);
+            return ResponseEntity.ok(list);
         } catch (Exception e) {
             logger.error("Error searching absence by common: {}", commonSearchModel, e);
             return ResponseEntity.internalServerError().build();
