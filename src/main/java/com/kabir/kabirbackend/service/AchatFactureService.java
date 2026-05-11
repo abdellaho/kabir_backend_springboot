@@ -3,6 +3,7 @@ package com.kabir.kabirbackend.service;
 
 import com.kabir.kabirbackend.config.enums.StockOperation;
 import com.kabir.kabirbackend.config.enums.TypeQteToUpdate;
+import com.kabir.kabirbackend.config.imprimer.AchatFactureImprimer;
 import com.kabir.kabirbackend.config.requests.RequestStockQte;
 import com.kabir.kabirbackend.config.responses.AchatFactureResponse;
 import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
@@ -312,5 +313,25 @@ public class AchatFactureService implements IAchatFactureService {
         return achatFactureRepository.findAll(AchatFactureSpecification.builder().build().searchByCommon(commonSearchModel)).stream()
                 .map(achatFactureMapper::toAchatFactureDTO)
                 .toList();
+    }
+
+    public List<AchatFactureImprimer> getAchatFactureImprimer(AchatFactureResponse achatFactureResponse) {
+        List<AchatFactureImprimer> list = new ArrayList<>();
+
+        list.add(new AchatFactureImprimer(1, achatFactureResponse.achatFacture(), null, null));
+
+        if(CollectionUtils.isNotEmpty(achatFactureResponse.detAchatFactures())) {
+            for(DetAchatFactureDTO detAchatFactureDTO : achatFactureResponse.detAchatFactures()) {
+                list.add(new AchatFactureImprimer(2, achatFactureResponse.achatFacture(), null, detAchatFactureDTO));
+            }
+        }
+
+        if(CollectionUtils.isNotEmpty(achatFactureResponse.detAchatFactures())) {
+            for(DetAchatFactureTVADTO detAchatFactureTVADTO : achatFactureResponse.detAchatFactureTVA()) {
+                list.add(new AchatFactureImprimer(3, achatFactureResponse.achatFacture(), detAchatFactureTVADTO, null));
+            }
+        }
+
+        return list;
     }
 }

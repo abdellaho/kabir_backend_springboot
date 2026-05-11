@@ -1,23 +1,35 @@
 package com.kabir.kabirbackend.controllers;
 
+import com.kabir.kabirbackend.config.enums.ReportTypeEnum;
+import com.kabir.kabirbackend.config.util.JasperReportsUtil;
+import com.kabir.kabirbackend.config.util.StaticVariables;
 import com.kabir.kabirbackend.dto.VilleDTO;
 import com.kabir.kabirbackend.service.VilleService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.MessageFormat;
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/ville")
 class VilleController {
     private static final Logger logger = LoggerFactory.getLogger(VilleController.class);
     private final VilleService villeService;
+    private final JasperReportsUtil jasperReportsUtil;
 
-    public VilleController(VilleService villeService) {
+    public VilleController(VilleService villeService, JasperReportsUtil jasperReportsUtil) {
         this.villeService = villeService;
+        this.jasperReportsUtil = jasperReportsUtil;
     }
 
     /*
@@ -113,6 +125,55 @@ class VilleController {
         } catch (Exception e) {
             logger.error("Error searching villes: {}", e.getMessage());
             return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @GetMapping("/imprimer")
+    public ResponseEntity<?> imprimer() {
+        logger.info("imprimer villes");
+        try {
+            Map<String, Object> params = new HashMap<>();
+            try {
+                List<VilleDTO> list = villeService.findAll();
+                StringBuilder etatName = new StringBuilder("etatVilles");
+
+                if (CollectionUtils.isEmpty(list)) {
+                    byte[] bytes = JasperReportsUtil.anullerImpr("Aucune ville trouvé");
+                    ByteArrayResource resource;
+                    if (bytes != null) {
+                        resource = new ByteArrayResource(bytes);
+
+                        return ResponseEntity.ok()
+                                .header(HttpHeaders.CONTENT_DISPOSITION, MessageFormat.format("attachment; filename=\"{0}\"", etatName.toString()))
+                                .contentLength(resource.contentLength())
+                                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                                .body(resource);
+                    } else {
+                        return ResponseEntity.noContent().build();
+                    }
+                }
+
+                params.put("fichier", StaticVariables.bundleFR.getBaseBundleName());
+
+                byte[] bytes = jasperReportsUtil.jasperReportInBytes(list, params, etatName.toString(), ReportTypeEnum.PDF, "");
+                if (null != bytes) {
+                    ByteArrayResource resource = new ByteArrayResource(bytes);
+                    String fileName = MessageFormat.format(etatName + "_{0}.{1}", LocalDateTime.now(), "pdf");
+                    return ResponseEntity.ok()
+                            .header(HttpHeaders.CONTENT_DISPOSITION, MessageFormat.format("attachment; filename=\"{0}\"", fileName))
+                            .contentLength(resource.contentLength())
+                            .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                            .body(resource);
+                } else {
+                    throw new Exception("File Download Failed");
+                }
+            } catch (Exception e) {
+                logger.debug("Exception while trying to print villes : {}", e.getMessage());
+                return ResponseEntity.internalServerError().build();
+            }
+        } catch (Exception e) {
+            logger.error("Error printing villes ", e);
+            return ResponseEntity.internalServerError().build();
         }
     }
 
