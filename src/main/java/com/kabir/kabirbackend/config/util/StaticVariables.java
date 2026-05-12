@@ -17,6 +17,10 @@ public class StaticVariables {
     public static final DateTimeFormatter sdfDDMMYY = DateTimeFormatter.ofPattern("dd/MM/yy");
     public static final DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
 
+    public static double toDouble(Object o){
+        return o == null ? 0d : ((Number)o).doubleValue();
+    }
+
     public static double convertDouble(double montant) {
         DecimalFormat format = new DecimalFormat("#.00");
         String tt = format.format(montant);

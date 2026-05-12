@@ -21,6 +21,7 @@ public class CommonSearchModel {
     private Long repertoireId;
     private Long personnelId;
     private Long operateurId;
+    private Long stockId;
     private boolean absence;
     private boolean searchByMatinApresMidi;
     private boolean matin;

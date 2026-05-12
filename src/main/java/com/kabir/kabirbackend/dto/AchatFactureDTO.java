@@ -1,5 +1,6 @@
 package com.kabir.kabirbackend.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -41,5 +42,7 @@ public class AchatFactureDTO implements Serializable {
     Long fournisseurId;
     String fournisseurDesignation;
     String fournisseurIce;
+    @JsonIgnore
+    private String typeTVA;
 
 }

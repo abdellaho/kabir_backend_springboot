@@ -65,4 +65,32 @@ public class AchatFactureSpecification implements Specification<AchatFacture> {
 
         return predicate;
     }
+
+    public static Specification<AchatFacture> searchToPrint(CommonSearchModel commonSearchModel) {
+        return (root, query, criteriaBuilder) -> {
+            Predicate predicate = criteriaBuilder.conjunction();
+
+            if(commonSearchModel.isSearchByDate()) {
+                if(null != commonSearchModel.getDateDebut() && null != commonSearchModel.getDateFin()) {
+                    if(commonSearchModel.getDateDebut().equals(commonSearchModel.getDateFin())) {
+                        predicate = criteriaBuilder.and(predicate, criteriaBuilder.greaterThanOrEqualTo(root.get("dateReglement"), commonSearchModel.getDateDebut()));
+                    } else {
+                        predicate = criteriaBuilder.and(predicate, criteriaBuilder.between(root.get("dateReglement"), commonSearchModel.getDateDebut(), commonSearchModel.getDateFin()));
+                    }
+                } else {
+                    if(null != commonSearchModel.getDateDebut()) {
+                        predicate = criteriaBuilder.and(predicate, criteriaBuilder.greaterThanOrEqualTo(root.get("dateReglement"), commonSearchModel.getDateDebut()));
+                    }
+                    if(null != commonSearchModel.getDateFin()) {
+                        predicate = criteriaBuilder.and(predicate, criteriaBuilder.lessThanOrEqualTo(root.get("dateReglement"), commonSearchModel.getDateFin()));
+                    }
+                }
+            }
+            if(null != commonSearchModel.getFournisseurId()) {
+                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("fournisseur").get("id"), commonSearchModel.getPersonnelId()));
+            }
+
+            return predicate;
+        };
+    }
 }

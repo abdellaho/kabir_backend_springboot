@@ -84,5 +84,8 @@ public interface FactureRepository extends JpaRepository<Facture, Long>, JpaSpec
     )
     Object[] getMntReglementByNumRemise(@Param("numRemise") String numRemise);
 
+    @Query("SELECT SUM(f.mntReglement), SUM(f.mntReglement2) FROM Facture f WHERE f.typeReglment = :typeReglment AND (f.dateReglement BETWEEN :dateDebut AND :dateFin OR f.dateReglement2 BETWEEN :dateDebut AND :dateFin)")
+    Object[] getSumMntReglement(@Param("dateDebut") LocalDate dateDebut, @Param("dateFin") LocalDate dateFin, @Param("typeReglment") int typeReglment);
+
 
 }

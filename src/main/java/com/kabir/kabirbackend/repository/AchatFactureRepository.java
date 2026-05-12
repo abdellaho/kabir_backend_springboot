@@ -17,4 +17,7 @@ public interface AchatFactureRepository extends JpaRepository<AchatFacture, Long
     @Query("SELECT SUM(l.mantantTotHTVA) FROM AchatFacture l WHERE l.dateReglement BETWEEN :dateDebut AND :dateFin")
     Double getSumMantantTotHTVA(@Param("dateDebut") LocalDate dateDebut, @Param("dateFin") LocalDate dateFin);
 
+    @Query("SELECT SUM(l.mantantTotTTC) FROM AchatFacture l WHERE l.dateReglement BETWEEN :dateDebut AND :dateFin AND (:typeReglement IS NULL OR l.typeReglment = :typeReglement)")
+    Double getSumMantantTotTTC(@Param("dateDebut") LocalDate dateDebut, @Param("dateFin") LocalDate dateFin, @Param("typeReglement") Integer typeReglement);
+
 }
