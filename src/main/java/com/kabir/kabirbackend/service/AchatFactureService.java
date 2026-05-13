@@ -354,14 +354,14 @@ public class AchatFactureService implements IAchatFactureService {
         commonSearchModel.setSearchByDate(true);
         Long personnelId = null;
 
-        double listImprimEspece = 0.0;
-        double listImprimCheque = 0.0;
-        double listImprimCarte = 0.0;
-        double listImprimPrelevement = 0.0;
-        double listImprimTraite = 0.0;
-        double listImprimVirement = 0.0;
-        double listImprimEspeceFacture = 0.0;
-        double listImprimEspeceFacture2 = 0.0;
+        double mntEspece = 0.0;
+        double mntCheque = 0.0;
+        double mntCarte = 0.0;
+        double mntPrelevement = 0.0;
+        double mntTraite = 0.0;
+        double mntVirement = 0.0;
+        double mntEspeceFacture = 0.0;
+        double mntEspeceFacture2 = 0.0;
 
         List<AchatFactureDTO> listImprim;
         List<DetAchatFactureDTO> listDetachatfactureImpr;
@@ -434,21 +434,8 @@ public class AchatFactureService implements IAchatFactureService {
                     printResponse.setEtatName("listeVenteAchatFacture");
                     if(i == 2) printResponse.setEtatName("listeVenteAchatFactureImportTVA");
 
-                    listImprimEspece = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 1, personnelId);
-                    listImprimCheque = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 2, personnelId);
-                    listImprimCarte = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 6, personnelId);
-                    listImprimPrelevement = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 5, personnelId);
-                    listImprimTraite = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 3, personnelId);
-                    listImprimVirement = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 4, personnelId);
-
-                    parameters.put("Espece", listImprimEspece + "");
-                    parameters.put("Cheque", listImprimCheque + "");
-
-                    parameters.put("Virement", listImprimVirement + "");
-                    parameters.put("Traite", listImprimTraite + "");
-
-                    parameters.put("Prelevement", listImprimPrelevement + "");
-                    parameters.put("Carte", listImprimCarte + "");
+                    getMontantReglement(commonSearchModel, personnelId, mntEspece, mntCheque, mntVirement, mntTraite, mntPrelevement, mntCarte);
+                    addReglementParameters(parameters, mntEspece, mntCheque, mntVirement, mntTraite, mntPrelevement, mntCarte);
 
                     if(i == 0) {
                         byte[] bytes = jasperReportsUtil.jasperReportInBytes(listImprim, parameters, printResponse.getEtatName(), ReportTypeEnum.PDF, "");
@@ -489,14 +476,9 @@ public class AchatFactureService implements IAchatFactureService {
                         if(i == 0) list.addAll(listImprim.stream().map(achatFactureModif -> new AchatFactureImport(0, achatFactureModif, null, null)).toList());
                         else list.addAll(listImprimTVA.stream().map(achatFactureModif -> new AchatFactureImport(0, achatFactureModif, null, null)).toList());
 
-                        listImprimEspece = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 1, personnelId);
-                        listImprimCheque = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 2, personnelId);
-                        listImprimCarte = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 6, personnelId);
-                        listImprimPrelevement = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 5, personnelId);
-                        listImprimTraite = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 3, personnelId);
-                        listImprimVirement = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 4, personnelId);
-                        listImprimEspeceFacture = factureRepository.getSumMntReglement(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 1, personnelId);
-                        listImprimEspeceFacture2 = factureRepository.getSumMntReglement2(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 1, personnelId);
+                        getMontantReglement(commonSearchModel, personnelId, mntEspece, mntCheque, mntVirement, mntTraite, mntPrelevement, mntCarte);
+                        mntEspeceFacture = factureRepository.getSumMntReglement(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 1, personnelId);
+                        mntEspeceFacture2 = factureRepository.getSumMntReglement2(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 1, personnelId);
 
                         if(i == 2) {
                             double mntTotalTTC = listImprim.stream().mapToDouble(AchatFactureDTO::getMantantTotTTC).sum();
@@ -536,17 +518,10 @@ public class AchatFactureService implements IAchatFactureService {
                         }
                     }
 
-                    parameters.put("Espece", listImprimEspece + "");
-                    parameters.put("Cheque", listImprimCheque + "");
+                    addReglementParameters(parameters, mntEspece, mntCheque, mntVirement, mntTraite, mntPrelevement, mntCarte);
 
-                    parameters.put("Virement", listImprimVirement + "");
-                    parameters.put("Traite", listImprimTraite + "");
-
-                    parameters.put("Prelevement", listImprimPrelevement + "");
-                    parameters.put("Carte", listImprimCarte + "");
-
-                    parameters.put("EspeceFacture", (listImprimEspeceFacture + listImprimEspeceFacture2) + "");
-                    parameters.put("Caisse", (listImprimEspeceFacture + listImprimEspeceFacture2 - listImprimEspece) + "");
+                    parameters.put("EspeceFacture", (mntEspeceFacture + mntEspeceFacture2) + "");
+                    parameters.put("Caisse", (mntEspeceFacture + mntEspeceFacture2 - mntEspece) + "");
 
                     byte[] bytes = jasperReportsUtil.jasperReportInBytes(list, parameters, printResponse.getEtatName(), ReportTypeEnum.PDF, "");
                     printResponse.setResponseBytes(bytes);
@@ -565,14 +540,7 @@ public class AchatFactureService implements IAchatFactureService {
                             .stream().map(detAchatFactureMapper::toDTO).toList();
 
                     if (CollectionUtils.isNotEmpty(listDetachatfactureImpr)) {
-                        parameters.put("Espece", listImprimEspece + "");
-                        parameters.put("Cheque", listImprimCheque + "");
-
-                        parameters.put("Virement", listImprimVirement + "");
-                        parameters.put("Traite", listImprimTraite + "");
-
-                        parameters.put("Prelevement", listImprimPrelevement + "");
-                        parameters.put("Carte", listImprimCarte + "");
+                        addReglementParameters(parameters, mntEspece, mntCheque, mntVirement, mntTraite, mntPrelevement, mntCarte);
 
                         byte[] bytes = jasperReportsUtil.jasperReportInBytes(listDetachatfactureImpr, parameters, printResponse.getEtatName(), ReportTypeEnum.PDF, "");
                         printResponse.setResponseBytes(bytes);
@@ -695,17 +663,10 @@ public class AchatFactureService implements IAchatFactureService {
                         list.addAll(listRepertoireInfos.stream().map(achatFactureModif -> new AchatFactureImport(2, null, null, achatFactureModif)).toList());
                     }
 
-                    parameters.put("Espece", listImprimEspece + "");
-                    parameters.put("Cheque", listImprimCheque + "");
+                    addReglementParameters(parameters, mntEspece, mntCheque, mntVirement, mntTraite, mntPrelevement, mntCarte);
 
-                    parameters.put("Virement", listImprimVirement + "");
-                    parameters.put("Traite", listImprimTraite + "");
-
-                    parameters.put("Prelevement", listImprimPrelevement + "");
-                    parameters.put("Carte", listImprimCarte + "");
-
-                    parameters.put("EspeceFacture", (listImprimEspeceFacture + listImprimEspeceFacture2) + "");
-                    parameters.put("Caisse", (listImprimEspeceFacture + listImprimEspeceFacture2 - listImprimEspece) + "");
+                    parameters.put("EspeceFacture", (mntEspeceFacture + mntEspeceFacture2) + "");
+                    parameters.put("Caisse", (mntEspeceFacture + mntEspeceFacture2 - mntEspece) + "");
 
                     byte[] bytes = jasperReportsUtil.jasperReportInBytes(list, parameters, printResponse.getEtatName(), ReportTypeEnum.PDF, "");
                     printResponse.setResponseBytes(bytes);
@@ -717,5 +678,25 @@ public class AchatFactureService implements IAchatFactureService {
         }
 
         return printResponse;
+    }
+
+    public void addReglementParameters(Map<String, Object> parameters, double espece, double cheque, double virement, double traite, double prelevement, double carte) {
+        parameters.put("Espece", espece + "");
+        parameters.put("Cheque", cheque + "");
+
+        parameters.put("Virement", virement + "");
+        parameters.put("Traite", traite + "");
+
+        parameters.put("Prelevement", prelevement + "");
+        parameters.put("Carte", carte + "");
+    }
+
+    public void getMontantReglement(CommonSearchModel commonSearchModel, Long personnelId, double espece, double cheque, double virement, double traite, double prelevement, double carte ) {
+        espece = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 1, personnelId);
+        cheque = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 2, personnelId);
+        virement = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 6, personnelId);
+        traite = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 5, personnelId);
+        prelevement = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 3, personnelId);
+        carte = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 4, personnelId);
     }
 }
