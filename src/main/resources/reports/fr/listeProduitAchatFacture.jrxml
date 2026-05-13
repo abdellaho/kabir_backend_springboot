@@ -59,7 +59,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("Produit")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("Produit")]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
 				<reportElement uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf" key="textField" mode="Opaque" x="449" y="43" width="80" height="20" forecolor="#000000" backcolor="#CCCCCC"/>
@@ -73,7 +73,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("qteAchat")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("qteAchat")]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
 				<reportElement uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf" key="textField" mode="Opaque" x="529" y="43" width="91" height="20" forecolor="#000000" backcolor="#CCCCCC"/>
@@ -87,7 +87,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("Montant")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("Montant")]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
 				<reportElement uuid="54c416a3-4646-47ac-a8e8-7184b43c7132" key="textField" mode="Transparent" x="0" y="0" width="620" height="28" forecolor="#000000" backcolor="#CCCCCC"/>
@@ -186,7 +186,7 @@
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("totalMtt")+" : "]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("totalMtt")+" : "]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>

@@ -100,6 +100,9 @@ public class AchatFacture {
     @Column(name = "mnt_ttc", nullable = false, precision = 10)
     private double mntTtc;
 
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Personnel operateur;
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)

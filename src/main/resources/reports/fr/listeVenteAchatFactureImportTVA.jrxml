@@ -23,88 +23,70 @@
 	<parameter name="mntTotalTTC" class="java.lang.String"/>
 	<parameter name="mntTotalHT" class="java.lang.String"/>
 	<field name="Client" class="java.lang.String">
-		<fieldDescription><![CDATA[achatfacture.repertoire.designation]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.fournisseurDesignation]]></fieldDescription>
 	</field>
-	<field name="dateLivr" class="java.util.Date">
-		<fieldDescription><![CDATA[achatfacture.dateAF]]></fieldDescription>
+	<field name="dateLivr" class="java.time.LocalDate">
+		<fieldDescription><![CDATA[achatFacture.dateAF]]></fieldDescription>
 	</field>
 	<field name="numBl" class="java.lang.String">
-		<fieldDescription><![CDATA[achatfacture.numeroFacExterne]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.numeroFacExterne]]></fieldDescription>
 	</field>
 	<field name="Montant" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.mantantTotTTC]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.mantantTotTTC]]></fieldDescription>
 	</field>
-	<field name="benificeDh" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.mantantBFBenefice]]></fieldDescription>
-	</field>
-	<field name="dateReg" class="java.util.Date">
-		<fieldDescription><![CDATA[achatfacture.dateReglement]]></fieldDescription>
+	<field name="dateReg" class="java.time.LocalDate">
+		<fieldDescription><![CDATA[achatFacture.dateReglement]]></fieldDescription>
 	</field>
 	<field name="modeReg" class="java.lang.Integer">
-		<fieldDescription><![CDATA[achatfacture.typeReglment]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.typeReglment]]></fieldDescription>
 	</field>
 	<field name="tva7" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.montantTVA7]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.tva7]]></fieldDescription>
 	</field>
 	<field name="tva20" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.montantTVA20]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.tva20]]></fieldDescription>
 	</field>
 	<field name="mtHT" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.mantantTotHT]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.mantantTotHT]]></fieldDescription>
 	</field>
 	<field name="numF" class="java.lang.String">
-		<fieldDescription><![CDATA[achatfacture.numeroIF]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.numeroIF]]></fieldDescription>
 	</field>
 	<field name="ice" class="java.lang.String">
-		<fieldDescription><![CDATA[achatfacture.repertoire.ice]]></fieldDescription>
-	</field>
-	<field name="tva10" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.montantTVA10]]></fieldDescription>
-	</field>
-	<field name="tva14" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.montantTVA14]]></fieldDescription>
-	</field>
-	<field name="montantDroitSupplementaire" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.montantDroitSupplementaire]]></fieldDescription>
-	</field>
-	<field name="dateAvances" class="java.util.Date">
-		<fieldDescription><![CDATA[achatfacture.dateAvances]]></fieldDescription>
-	</field>
-	<field name="mantantAvancs" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.mantantAvancs]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.fournisseurIce]]></fieldDescription>
 	</field>
 	<field name="type" class="java.lang.Integer">
 		<fieldDescription><![CDATA[type]]></fieldDescription>
 	</field>
 	<field name="Fournisseur" class="java.lang.String">
-		<fieldDescription><![CDATA[improtations.repertoireFour.designation]]></fieldDescription>
+		<fieldDescription><![CDATA[importation.repertoireFour.designation]]></fieldDescription>
 	</field>
 	<field name="codeFacture" class="java.lang.String">
-		<fieldDescription><![CDATA[improtations.codeFacture]]></fieldDescription>
+		<fieldDescription><![CDATA[importation.codeFacture]]></fieldDescription>
 	</field>
 	<field name="mntFacture" class="java.lang.Double">
-		<fieldDescription><![CDATA[improtations.mntFacture]]></fieldDescription>
+		<fieldDescription><![CDATA[importation.mntFacture]]></fieldDescription>
 	</field>
-	<field name="dateAvances1" class="java.util.Date">
-		<fieldDescription><![CDATA[improtations.dateAvances1]]></fieldDescription>
+	<field name="dateAvances1" class="java.time.LocalDate">
+		<fieldDescription><![CDATA[importation.dateAvances1]]></fieldDescription>
 	</field>
-	<field name="dateAvances2" class="java.util.Date">
-		<fieldDescription><![CDATA[improtations.dateAvances2]]></fieldDescription>
+	<field name="dateAvances2" class="java.time.LocalDate">
+		<fieldDescription><![CDATA[importation.dateAvances2]]></fieldDescription>
 	</field>
 	<field name="mantantAvancs1" class="java.lang.Double">
-		<fieldDescription><![CDATA[improtations.mantantAvancs1]]></fieldDescription>
+		<fieldDescription><![CDATA[importation.mantantAvancs1]]></fieldDescription>
 	</field>
 	<field name="mantantAvancs2" class="java.lang.Double">
-		<fieldDescription><![CDATA[improtations.mantantAvancs2]]></fieldDescription>
+		<fieldDescription><![CDATA[importation.mantantAvancs2]]></fieldDescription>
 	</field>
 	<field name="totalPaye" class="java.lang.Double">
-		<fieldDescription><![CDATA[improtations.totalPaye]]></fieldDescription>
+		<fieldDescription><![CDATA[importation.totalPaye]]></fieldDescription>
 	</field>
 	<field name="devisEuroDolar" class="java.lang.String">
-		<fieldDescription><![CDATA[improtations.devisEuroDolar]]></fieldDescription>
+		<fieldDescription><![CDATA[importation.devisEuroDolar]]></fieldDescription>
 	</field>
-	<field name="dateFacture" class="java.util.Date">
-		<fieldDescription><![CDATA[improtations.dateFacture]]></fieldDescription>
+	<field name="dateFacture" class="java.time.LocalDate">
+		<fieldDescription><![CDATA[importation.dateFacture]]></fieldDescription>
 	</field>
 	<field name="repertoireInfo" class="java.lang.String">
 		<fieldDescription><![CDATA[repertoireInfo.repertoire.designation]]></fieldDescription>
@@ -119,48 +101,11 @@
 		<fieldDescription><![CDATA[repertoireInfo.montantTTC]]></fieldDescription>
 	</field>
 	<field name="typeTVA" class="java.lang.String">
-		<fieldDescription><![CDATA[achatfacture.typeTVA]]></fieldDescription>
-	</field>
-	<field name="mntHtTVA7" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.mntHtTVA7]]></fieldDescription>
-	</field>
-	<field name="mntHtTVA10" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.mntHtTVA10]]></fieldDescription>
-	</field>
-	<field name="mntHtTVA14" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.mntHtTVA14]]></fieldDescription>
-	</field>
-	<field name="mntHtTVA20" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.mntHtTVA20]]></fieldDescription>
-	</field>
-	<field name="mntTtcTVA7" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.mntTtcTVA7]]></fieldDescription>
-	</field>
-	<field name="mntTtcTVA10" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.mntTtcTVA10]]></fieldDescription>
-	</field>
-	<field name="mntTtcTVA14" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.mntTtcTVA14]]></fieldDescription>
-	</field>
-	<field name="mntTtcTVA20" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.mntTtcTVA20]]></fieldDescription>
-	</field>
-	<field name="tva13" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.montantTVA13]]></fieldDescription>
-	</field>
-	<field name="mntHtTVA13" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.mntHtTVA13]]></fieldDescription>
-	</field>
-	<field name="mntTtcTVA13" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.mntTtcTVA13]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.typeTVA]]></fieldDescription>
 	</field>
 	<variable name="TotMont" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{Montant}]]></variableExpression>
 		<initialValueExpression><![CDATA[$F{Montant}]]></initialValueExpression>
-	</variable>
-	<variable name="tBenDH" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[$F{benificeDh}]]></variableExpression>
-		<initialValueExpression><![CDATA[$F{benificeDh}]]></initialValueExpression>
 	</variable>
 	<variable name="TotMntHT" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{mtHT}]]></variableExpression>
@@ -176,70 +121,6 @@
 	</variable>
 	<variable name="curentPage" class="java.lang.Integer" resetType="Page" incrementType="Report">
 		<variableExpression><![CDATA[$V{PAGE_NUMBER}]]></variableExpression>
-	</variable>
-	<variable name="TotTva14" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[$F{typeTVA}.equals("14%") ? $F{tva14} : 0]]></variableExpression>
-		<initialValueExpression><![CDATA[$F{typeTVA}.equals("14%") ? $F{tva14} : 0]]></initialValueExpression>
-	</variable>
-	<variable name="TotTva10" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[$F{typeTVA}.equals("10%") ? $F{tva10} : 0]]></variableExpression>
-		<initialValueExpression><![CDATA[$F{typeTVA}.equals("10%") ? $F{tva10} : 0]]></initialValueExpression>
-	</variable>
-	<variable name="totmontantDroitSupplementaire" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[$F{montantDroitSupplementaire}]]></variableExpression>
-		<initialValueExpression><![CDATA[$F{montantDroitSupplementaire}]]></initialValueExpression>
-	</variable>
-	<variable name="totTVA" class="java.lang.Double" resetType="Group" resetGroup="typeTVA" calculation="Sum">
-		<variableExpression><![CDATA[($F{typeTVA}.equals("7%") ? $F{tva7} :
-    ($F{typeTVA}.equals("10%") ? $F{tva10} :
-        ($F{typeTVA}.equals("13%") ? $F{tva13} :
-            ($F{typeTVA}.equals("14%") ? $F{tva14} : $F{tva20})
-        )
-    )
-)]]></variableExpression>
-		<initialValueExpression><![CDATA[($F{typeTVA}.equals("7%") ? $F{tva7} :
-    ($F{typeTVA}.equals("10%") ? $F{tva10} :
-        ($F{typeTVA}.equals("13%") ? $F{tva13} :
-            ($F{typeTVA}.equals("14%") ? $F{tva14} : $F{tva20})
-        )
-    )
-)]]></initialValueExpression>
-	</variable>
-	<variable name="totHT" class="java.lang.Double" resetType="Group" resetGroup="typeTVA" calculation="Sum">
-		<variableExpression><![CDATA[($F{typeTVA}.equals("7%") ? $F{mntHtTVA7} :
-    ($F{typeTVA}.equals("10%") ? $F{mntHtTVA10} :
-        ($F{typeTVA}.equals("13%") ? $F{mntHtTVA13} :
-            ($F{typeTVA}.equals("14%") ? $F{mntHtTVA14} : $F{mntHtTVA20})
-        )
-    )
-)]]></variableExpression>
-		<initialValueExpression><![CDATA[($F{typeTVA}.equals("7%") ? $F{mntHtTVA7} :
-    ($F{typeTVA}.equals("10%") ? $F{mntHtTVA10} :
-        ($F{typeTVA}.equals("13%") ? $F{mntHtTVA13} :
-            ($F{typeTVA}.equals("14%") ? $F{mntHtTVA14} : $F{mntHtTVA20})
-        )
-    )
-)]]></initialValueExpression>
-	</variable>
-	<variable name="totTTC" class="java.lang.Double" resetType="Group" resetGroup="typeTVA" calculation="Sum">
-		<variableExpression><![CDATA[($F{typeTVA}.equals("7%") ? $F{mntTtcTVA7} :
-    ($F{typeTVA}.equals("10%") ? $F{mntTtcTVA10} :
-        ($F{typeTVA}.equals("13%") ? $F{mntTtcTVA13} :
-            ($F{typeTVA}.equals("14%") ? $F{mntTtcTVA14} : $F{mntTtcTVA20})
-        )
-    )
-)]]></variableExpression>
-		<initialValueExpression><![CDATA[($F{typeTVA}.equals("7%") ? $F{mntTtcTVA7} :
-    ($F{typeTVA}.equals("10%") ? $F{mntTtcTVA10} :
-        ($F{typeTVA}.equals("13%") ? $F{mntTtcTVA13} :
-            ($F{typeTVA}.equals("14%") ? $F{mntTtcTVA14} : $F{mntTtcTVA20})
-        )
-    )
-)]]></initialValueExpression>
-	</variable>
-	<variable name="TotTva13" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[$F{typeTVA}.equals("13%") ? $F{tva13} : 0]]></variableExpression>
-		<initialValueExpression><![CDATA[$F{typeTVA}.equals("13%") ? $F{tva13} : 0]]></initialValueExpression>
 	</variable>
 	<group name="typeTVA">
 		<groupExpression><![CDATA[$F{typeTVA}]]></groupExpression>
@@ -406,38 +287,6 @@
 		<groupFooter>
 			<band height="25">
 				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
-					<reportElement uuid="158e0b3b-53b8-445f-addc-8b67091efcf8" positionType="Float" stretchType="RelativeToTallestObject" x="414" y="0" width="60" height="25">
-						<printWhenExpression><![CDATA[$F{type}==0]]></printWhenExpression>
-					</reportElement>
-					<box rightPadding="0">
-						<pen lineWidth="0.5"/>
-						<topPen lineWidth="0.5"/>
-						<leftPen lineWidth="0.5"/>
-						<bottomPen lineWidth="0.5"/>
-						<rightPen lineWidth="0.5"/>
-					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="Arial" size="12" isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$V{totTVA}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
-					<reportElement uuid="3b2fe002-12c0-4cfb-a606-9730f9e5c874" positionType="Float" stretchType="RelativeToTallestObject" x="534" y="0" width="76" height="25">
-						<printWhenExpression><![CDATA[$F{type}==0]]></printWhenExpression>
-					</reportElement>
-					<box rightPadding="0">
-						<pen lineWidth="0.5"/>
-						<topPen lineWidth="0.5"/>
-						<leftPen lineWidth="0.5"/>
-						<bottomPen lineWidth="0.5"/>
-						<rightPen lineWidth="0.5"/>
-					</box>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="Arial" size="12" isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$V{totTTC}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
 					<reportElement uuid="3b2fe002-12c0-4cfb-a606-9730f9e5c874" positionType="Float" stretchType="RelativeToTallestObject" x="474" y="0" width="60" height="25">
 						<printWhenExpression><![CDATA[$F{type}==0]]></printWhenExpression>
 					</reportElement>
@@ -495,28 +344,6 @@
 	</title>
 	<detail>
 		<band height="25" splitType="Stretch">
-			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement uuid="3b2fe002-12c0-4cfb-a606-9730f9e5c874" positionType="Float" stretchType="RelativeToTallestObject" x="474" y="0" width="60" height="25">
-					<printWhenExpression><![CDATA[$F{type}==0]]></printWhenExpression>
-				</reportElement>
-				<box rightPadding="0">
-					<pen lineWidth="0.5"/>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="12" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[($F{typeTVA}.equals("7%") ? $F{mntHtTVA7} :
-    ($F{typeTVA}.equals("10%") ? $F{mntHtTVA10} :
-        ($F{typeTVA}.equals("13%") ? $F{mntHtTVA13} :
-            ($F{typeTVA}.equals("14%") ? $F{mntHtTVA14} : $F{mntHtTVA20})
-        )
-    )
-)]]></textFieldExpression>
-			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement uuid="53c321e5-6b72-4194-9e2b-3e6ca6b11981" positionType="Float" stretchType="RelativeToTallestObject" x="259" y="0" width="90" height="25">
 					<printWhenExpression><![CDATA[$F{type}==0]]></printWhenExpression>
@@ -598,13 +425,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($F{typeTVA}.equals("7%") ? $F{tva7} :
-    ($F{typeTVA}.equals("10%") ? $F{tva10} :
-        ($F{typeTVA}.equals("13%") ? $F{tva13} :
-            ($F{typeTVA}.equals("14%") ? $F{tva14} : $F{tva20})
-        )
-    )
-)]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{typeTVA}.equals("7%") ? $F{tva7} : $F{tva20}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yy" isBlankWhenNull="true">
 				<reportElement uuid="24955451-6003-4a7e-818e-22a388f9617d" positionType="Float" stretchType="RelativeToTallestObject" x="349" y="0" width="65" height="25">
@@ -621,28 +442,6 @@
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{dateReg}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement uuid="3b2fe002-12c0-4cfb-a606-9730f9e5c874" positionType="Float" stretchType="RelativeToTallestObject" x="534" y="0" width="76" height="25">
-					<printWhenExpression><![CDATA[$F{type}==0]]></printWhenExpression>
-				</reportElement>
-				<box rightPadding="0">
-					<pen lineWidth="0.5"/>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="12" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[($F{typeTVA}.equals("7%") ? $F{mntTtcTVA7} :
-    ($F{typeTVA}.equals("10%") ? $F{mntTtcTVA10} :
-        ($F{typeTVA}.equals("13%") ? $F{mntTtcTVA13} :
-            ($F{typeTVA}.equals("14%") ? $F{mntTtcTVA14} : $F{mntTtcTVA20})
-        )
-    )
-)]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -740,7 +539,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$V{TotTVa7} + $V{TotTva10} + $V{TotTva13} + $V{TotTva14} + $V{TotTVa20}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{TotTVa7} + $V{TotTVa20}]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>

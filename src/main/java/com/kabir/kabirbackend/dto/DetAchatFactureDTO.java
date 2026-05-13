@@ -1,10 +1,12 @@
 package com.kabir.kabirbackend.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 /**
  * DTO for {@link com.kabir.kabirbackend.entities.DetAchatFacture}
@@ -29,6 +31,12 @@ public class DetAchatFactureDTO implements Serializable {
     private double tva7;
     private Long achatFactureId;
     private String achatFactureCodeAF;
+    @JsonIgnore
+    private LocalDate achatFactureDateAF;
+    @JsonIgnore
+    private String achatFactureFournisseurDesignation;
+    @JsonIgnore
+    private String achatFactureNumeroFacExterne;
     private Long stockId;
     private String stockDesignation;
     private double stockPvttc;

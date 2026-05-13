@@ -47,6 +47,7 @@ public class AchatFactureService implements IAchatFactureService {
     private final DetAchatFactureTVAMapper detAchatFactureTVAMapper;
     private final FactureRepository factureRepository;
     private final JasperReportsUtil jasperReportsUtil;
+    private final PersonnelRepository personnelRepository;
 
     public AchatFactureService(AchatFactureRepository achatFactureRepository,
                                AchatFactureMapper achatFactureMapper,
@@ -58,7 +59,8 @@ public class AchatFactureService implements IAchatFactureService {
                                DetAchatFactureTVARepository detAchatFactureTVARepository,
                                DetAchatFactureTVAMapper detAchatFactureTVAMapper,
                                FactureRepository factureRepository,
-                               JasperReportsUtil jasperReportsUtil
+                               JasperReportsUtil jasperReportsUtil,
+                               PersonnelRepository personnelRepository
                                ) {
         this.achatFactureRepository = achatFactureRepository;
         this.achatFactureMapper = achatFactureMapper;
@@ -71,6 +73,7 @@ public class AchatFactureService implements IAchatFactureService {
         this.detAchatFactureTVAMapper = detAchatFactureTVAMapper;
         this.factureRepository = factureRepository;
         this.jasperReportsUtil = jasperReportsUtil;
+        this.personnelRepository = personnelRepository;
     }
 
     @Override
@@ -346,9 +349,10 @@ public class AchatFactureService implements IAchatFactureService {
     }
 
     public PrintResponse imprimer(Integer i, CommonSearchModel commonSearchModel) throws Exception {
-        Map<String, Object> parameters = new HashMap<String, Object>();
+        Map<String, Object> parameters = new HashMap<>();
         PrintResponse printResponse = new PrintResponse();
         commonSearchModel.setSearchByDate(true);
+        Long personnelId = null;
 
         double listImprimEspece = 0.0;
         double listImprimCheque = 0.0;
@@ -359,30 +363,26 @@ public class AchatFactureService implements IAchatFactureService {
         double listImprimEspeceFacture = 0.0;
         double listImprimEspeceFacture2 = 0.0;
 
-        List<AchatFactureDTO> listImprim = new ArrayList<>();
-        List<DetAchatFactureDTO> listDetachatfactureImpr = new ArrayList<>();
-
-        String dateDb = "";
-        String dateFn = "";
+        List<AchatFactureDTO> listImprim;
+        List<DetAchatFactureDTO> listDetachatfactureImpr;
 
         if(null == commonSearchModel.getDateDebut() && null == commonSearchModel.getDateFin()) {
             commonSearchModel.setDateFin(LocalDate.now());
             commonSearchModel.setDateDebut(commonSearchModel.getDateFin().minusYears(1));
         }
 
-        String dat1 = StaticVariables.sdfDDMMYY.format(commonSearchModel.getDateDebut());
-        String dat2 = StaticVariables.sdfDDMMYY.format(commonSearchModel.getDateFin());
+        parameters.put("dateDb", StaticVariables.bundleFR.getString("datedebut") + " : " + StaticVariables.sdfDDMMYY.format(commonSearchModel.getDateDebut()));
+        parameters.put("dateFn", StaticVariables.bundleFR.getString("dateFin") + " : " + StaticVariables.sdfDDMMYY.format(commonSearchModel.getDateFin()));
+        parameters.put("fichier", StaticVariables.bundleFR.getBaseBundleName());
 
-        dateDb = StaticVariables.bundleFR.getString("datedebut") + " : " + StaticVariables.sdfDDMMYY.format(commonSearchModel.getDateDebut());
-        dateFn = StaticVariables.bundleFR.getString("dateFin") + " : " + StaticVariables.sdfDDMMYY.format(commonSearchModel.getDateFin());
-
-        /*if(i != 0 && i != 2) {
-            if (utilisateurConnecte.getTypeUser() != 1) {
-                queryDetAchFCt += " and achatFacture.employeOperateur =" + utilisateurConnecte.getId();
-                query += " and employeOperateur =" + utilisateurConnecte.getId();
-                queryBilan += " and employeOperateur =" + utilisateurConnecte.getId();
+        if(i != 0 && i != 2) {
+            if(null != commonSearchModel.getPersonnelId()) {
+                Personnel personnel = personnelRepository.findById(commonSearchModel.getPersonnelId()).orElse(null);
+                if(null != personnel && personnel.getTypePersonnel() != 1) {
+                    personnelId = personnel.getId();
+                }
             }
-        }*/
+        }
 
         if(i == 0 || i == 2) {
             printResponse.setEtatName("listeVenteAchatFactureImport");
@@ -434,15 +434,12 @@ public class AchatFactureService implements IAchatFactureService {
                     printResponse.setEtatName("listeVenteAchatFacture");
                     if(i == 2) printResponse.setEtatName("listeVenteAchatFactureImportTVA");
 
-                    listImprimEspece = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 1);
-                    listImprimCheque = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 2);
-                    listImprimCarte = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 6);
-                    listImprimPrelevement = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 5);
-                    listImprimTraite = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 3);
-                    listImprimVirement = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 4);
-
-                    parameters.put("dateDb", dateDb);
-                    parameters.put("dateFn", dateFn);
+                    listImprimEspece = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 1, personnelId);
+                    listImprimCheque = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 2, personnelId);
+                    listImprimCarte = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 6, personnelId);
+                    listImprimPrelevement = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 5, personnelId);
+                    listImprimTraite = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 3, personnelId);
+                    listImprimVirement = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 4, personnelId);
 
                     parameters.put("Espece", listImprimEspece + "");
                     parameters.put("Cheque", listImprimCheque + "");
@@ -452,8 +449,6 @@ public class AchatFactureService implements IAchatFactureService {
 
                     parameters.put("Prelevement", listImprimPrelevement + "");
                     parameters.put("Carte", listImprimCarte + "");
-
-                    parameters.put("fichier", StaticVariables.bundleFR.getBaseBundleName());
 
                     if(i == 0) {
                         byte[] bytes = jasperReportsUtil.jasperReportInBytes(listImprim, parameters, printResponse.getEtatName(), ReportTypeEnum.PDF, "");
@@ -476,8 +471,8 @@ public class AchatFactureService implements IAchatFactureService {
                     printResponse.setResponseBytes(bytes);
                 }
             }else {
-                List<RepertoireInfo> listRepertoireInfos = new ArrayList<RepertoireInfo>();
-                Map<Long, RepertoireInfo> hashMap = new HashMap<Long, RepertoireInfo>();
+                List<RepertoireInfo> listRepertoireInfos = new ArrayList<>();
+                Map<Long, RepertoireInfo> hashMap = new HashMap<>();
 
                 if(i == 2) printResponse.setEtatName("listeVenteAchatFactureImportTVA");
 
@@ -494,14 +489,14 @@ public class AchatFactureService implements IAchatFactureService {
                         if(i == 0) list.addAll(listImprim.stream().map(achatFactureModif -> new AchatFactureImport(0, achatFactureModif, null, null)).toList());
                         else list.addAll(listImprimTVA.stream().map(achatFactureModif -> new AchatFactureImport(0, achatFactureModif, null, null)).toList());
 
-                        listImprimEspece = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 1);
-                        listImprimCheque = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 2);
-                        listImprimCarte = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 6);
-                        listImprimPrelevement = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 5);
-                        listImprimTraite = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 3);
-                        listImprimVirement = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 4);
-                        listImprimEspeceFacture = factureRepository.getSumMntReglement(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 1);
-                        listImprimEspeceFacture2 = factureRepository.getSumMntReglement2(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 1);
+                        listImprimEspece = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 1, personnelId);
+                        listImprimCheque = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 2, personnelId);
+                        listImprimCarte = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 6, personnelId);
+                        listImprimPrelevement = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 5, personnelId);
+                        listImprimTraite = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 3, personnelId);
+                        listImprimVirement = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 4, personnelId);
+                        listImprimEspeceFacture = factureRepository.getSumMntReglement(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 1, personnelId);
+                        listImprimEspeceFacture2 = factureRepository.getSumMntReglement2(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 1, personnelId);
 
                         if(i == 2) {
                             double mntTotalTTC = listImprim.stream().mapToDouble(AchatFactureDTO::getMantantTotTTC).sum();
@@ -541,9 +536,6 @@ public class AchatFactureService implements IAchatFactureService {
                         }
                     }
 
-                    parameters.put("dateDb", dateDb);
-                    parameters.put("dateFn", dateFn);
-
                     parameters.put("Espece", listImprimEspece + "");
                     parameters.put("Cheque", listImprimCheque + "");
 
@@ -556,7 +548,6 @@ public class AchatFactureService implements IAchatFactureService {
                     parameters.put("EspeceFacture", (listImprimEspeceFacture + listImprimEspeceFacture2) + "");
                     parameters.put("Caisse", (listImprimEspeceFacture + listImprimEspeceFacture2 - listImprimEspece) + "");
 
-                    parameters.put("fichier", StaticVariables.bundleFR.getBaseBundleName());
                     byte[] bytes = jasperReportsUtil.jasperReportInBytes(list, parameters, printResponse.getEtatName(), ReportTypeEnum.PDF, "");
                     printResponse.setResponseBytes(bytes);
                 } else {
@@ -574,9 +565,6 @@ public class AchatFactureService implements IAchatFactureService {
                             .stream().map(detAchatFactureMapper::toDTO).toList();
 
                     if (CollectionUtils.isNotEmpty(listDetachatfactureImpr)) {
-                        parameters.put("dateDb", dateDb);
-                        parameters.put("dateFn", dateFn);
-
                         parameters.put("Espece", listImprimEspece + "");
                         parameters.put("Cheque", listImprimCheque + "");
 
@@ -586,8 +574,6 @@ public class AchatFactureService implements IAchatFactureService {
                         parameters.put("Prelevement", listImprimPrelevement + "");
                         parameters.put("Carte", listImprimCarte + "");
 
-                        parameters.put("fichier", StaticVariables.bundleFR.getBaseBundleName());
-
                         byte[] bytes = jasperReportsUtil.jasperReportInBytes(listDetachatfactureImpr, parameters, printResponse.getEtatName(), ReportTypeEnum.PDF, "");
                         printResponse.setResponseBytes(bytes);
                     } else {
@@ -596,8 +582,8 @@ public class AchatFactureService implements IAchatFactureService {
                     }
                 }else {
                     printResponse.setEtatName("listeProduitAchatFacture");
-                    List<FournisseurProduit> listFournisseurProduit = new ArrayList<FournisseurProduit>();
-                    Map<Long,FournisseurProduit> map = new LinkedHashMap<Long, FournisseurProduit>();
+                    List<FournisseurProduit> listFournisseurProduit = new ArrayList<>();
+                    Map<Long,FournisseurProduit> map = new LinkedHashMap<>();
 
                     CommonSearchModel commonSearchModelTemp = CommonSearchModel
                             .builder()
@@ -649,11 +635,7 @@ public class AchatFactureService implements IAchatFactureService {
                     }
 
                     if (CollectionUtils.isNotEmpty(listFournisseurProduit)) {
-                        parameters.put("dateDb", dateDb);
-                        parameters.put("dateFn", dateFn);
                         parameters.put("valeur", 0 + "");
-
-                        parameters.put("fichier", StaticVariables.bundleFR.getBaseBundleName());
                         parameters.put("titleText", "");
 
                         byte[] bytes = jasperReportsUtil.jasperReportInBytes(listFournisseurProduit, parameters, printResponse.getEtatName(), ReportTypeEnum.PDF, "");
@@ -677,8 +659,8 @@ public class AchatFactureService implements IAchatFactureService {
                         .map(achatFactureMapper::toAchatFactureDTO)
                         .toList();
 
-                List<RepertoireInfo> listRepertoireInfos = new ArrayList<RepertoireInfo>();
-                Map<Long, RepertoireInfo> hashMap = new HashMap<Long, RepertoireInfo>();
+                List<RepertoireInfo> listRepertoireInfos = new ArrayList<>();
+                Map<Long, RepertoireInfo> hashMap = new HashMap<>();
                 if (CollectionUtils.isNotEmpty(listImprim)) {
                         for (AchatFactureDTO achatFacture : listImprim) {
                             FournisseurDTO fournisseurDTO = new FournisseurDTO();
@@ -689,7 +671,7 @@ public class AchatFactureService implements IAchatFactureService {
                             hashMap.put(achatFacture.getFournisseurId(), new RepertoireInfo(fournisseurDTO, 0.0, 0.0, 0.0));
                         }
 
-                    List<AchatFactureImport> list = new ArrayList<AchatFactureImport>(listImprim.stream().map(achatFactureModif -> new AchatFactureImport(0, achatFactureModif, null, null)).toList());
+                    List<AchatFactureImport> list = new ArrayList<>(listImprim.stream().map(achatFactureModif -> new AchatFactureImport(0, achatFactureModif, null, null)).toList());
 
                     if(!hashMap.isEmpty()) {
                         for (Map.Entry<Long, RepertoireInfo> entry : hashMap.entrySet()) {
@@ -710,11 +692,8 @@ public class AchatFactureService implements IAchatFactureService {
                             listRepertoireInfos.add(repertoireInfo);
                         }
 
-                        list.addAll(listRepertoireInfos.stream().map(achatFactureModif -> new AchatFactureImport(2, null, null, achatFactureModif)).collect(Collectors.toList()));
+                        list.addAll(listRepertoireInfos.stream().map(achatFactureModif -> new AchatFactureImport(2, null, null, achatFactureModif)).toList());
                     }
-
-                    parameters.put("dateDb", dateDb);
-                    parameters.put("dateFn", dateFn);
 
                     parameters.put("Espece", listImprimEspece + "");
                     parameters.put("Cheque", listImprimCheque + "");
@@ -727,8 +706,6 @@ public class AchatFactureService implements IAchatFactureService {
 
                     parameters.put("EspeceFacture", (listImprimEspeceFacture + listImprimEspeceFacture2) + "");
                     parameters.put("Caisse", (listImprimEspeceFacture + listImprimEspeceFacture2 - listImprimEspece) + "");
-
-                    parameters.put("fichier", StaticVariables.bundleFR.getBaseBundleName());
 
                     byte[] bytes = jasperReportsUtil.jasperReportInBytes(list, parameters, printResponse.getEtatName(), ReportTypeEnum.PDF, "");
                     printResponse.setResponseBytes(bytes);

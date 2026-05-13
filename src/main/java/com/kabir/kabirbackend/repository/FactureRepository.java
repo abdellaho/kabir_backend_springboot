@@ -84,11 +84,11 @@ public interface FactureRepository extends JpaRepository<Facture, Long>, JpaSpec
     )
     Object[] getMntReglementByNumRemise(@Param("numRemise") String numRemise);
 
-    @Query("SELECT SUM(f.mntReglement) FROM Facture f WHERE f.typeReglment = :typeReglment AND (f.dateReglement BETWEEN :dateDebut AND :dateFin OR f.dateReglement2 BETWEEN :dateDebut AND :dateFin)")
-    Double getSumMntReglement(@Param("dateDebut") LocalDate dateDebut, @Param("dateFin") LocalDate dateFin, @Param("typeReglment") int typeReglment);
+    @Query("SELECT SUM(f.mntReglement) FROM Facture f WHERE f.typeReglment = :typeReglment AND (f.dateReglement BETWEEN :dateDebut AND :dateFin OR f.dateReglement2 BETWEEN :dateDebut AND :dateFin) AND (:operateurId IS NULL OR f.employeOperateur.id = :operateurId)")
+    Double getSumMntReglement(@Param("dateDebut") LocalDate dateDebut, @Param("dateFin") LocalDate dateFin, @Param("typeReglment") int typeReglment, @Param("operateurId") Long operateurId);
 
-    @Query("SELECT SUM(f.mntReglement2) FROM Facture f WHERE f.typeReglment2 = :typeReglment AND (f.dateReglement BETWEEN :dateDebut AND :dateFin OR f.dateReglement2 BETWEEN :dateDebut AND :dateFin)")
-    Double getSumMntReglement2(@Param("dateDebut") LocalDate dateDebut, @Param("dateFin") LocalDate dateFin, @Param("typeReglment") int typeReglment);
+    @Query("SELECT SUM(f.mntReglement2) FROM Facture f WHERE f.typeReglment2 = :typeReglment AND (f.dateReglement BETWEEN :dateDebut AND :dateFin OR f.dateReglement2 BETWEEN :dateDebut AND :dateFin) AND (:operateurId IS NULL OR f.employeOperateur.id = :operateurId)")
+    Double getSumMntReglement2(@Param("dateDebut") LocalDate dateDebut, @Param("dateFin") LocalDate dateFin, @Param("typeReglment") int typeReglment, @Param("operateurId") Long operateurId);
 
 
 }

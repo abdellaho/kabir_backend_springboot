@@ -21,111 +21,77 @@
 	<parameter name="EspeceFacture" class="java.lang.String"/>
 	<parameter name="Caisse" class="java.lang.String"/>
 	<field name="Client" class="java.lang.String">
-		<fieldDescription><![CDATA[achatfacture.repertoire.designation]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.fournisseurDesignation]]></fieldDescription>
 	</field>
-	<field name="dateLivr" class="java.util.Date">
-		<fieldDescription><![CDATA[achatfacture.dateAF]]></fieldDescription>
+	<field name="dateLivr" class="java.time.LocalDate">
+		<fieldDescription><![CDATA[achatFacture.dateAF]]></fieldDescription>
 	</field>
 	<field name="numBl" class="java.lang.String">
-		<fieldDescription><![CDATA[achatfacture.numeroFacExterne]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.numeroFacExterne]]></fieldDescription>
 	</field>
 	<field name="Montant" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.mantantTotTTC]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.mantantTotTTC]]></fieldDescription>
 	</field>
-	<field name="benificeDh" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.mantantBFBenefice]]></fieldDescription>
-	</field>
-	<field name="dateReg" class="java.util.Date">
-		<fieldDescription><![CDATA[achatfacture.dateReglement]]></fieldDescription>
+	<field name="dateReg" class="java.time.LocalDate">
+		<fieldDescription><![CDATA[achatFacture.dateReglement]]></fieldDescription>
 	</field>
 	<field name="modeReg" class="java.lang.Integer">
-		<fieldDescription><![CDATA[achatfacture.typeReglment]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.typeReglment]]></fieldDescription>
 	</field>
 	<field name="tva7" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.montantTVA7]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.tva7]]></fieldDescription>
 	</field>
 	<field name="tva20" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.montantTVA20]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.tva20]]></fieldDescription>
 	</field>
 	<field name="mtHT" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.mantantTotHT]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.mantantTotHT]]></fieldDescription>
 	</field>
 	<field name="numF" class="java.lang.String">
-		<fieldDescription><![CDATA[achatfacture.numeroIF]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.numeroIF]]></fieldDescription>
 	</field>
 	<field name="ice" class="java.lang.String">
-		<fieldDescription><![CDATA[achatfacture.repertoire.ice]]></fieldDescription>
-	</field>
-	<field name="tva10" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.montantTVA10]]></fieldDescription>
-	</field>
-	<field name="tva14" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.montantTVA14]]></fieldDescription>
-	</field>
-	<field name="montantDroitSupplementaire" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.montantDroitSupplementaire]]></fieldDescription>
-	</field>
-	<field name="dateAvances" class="java.util.Date">
-		<fieldDescription><![CDATA[achatfacture.dateAvances]]></fieldDescription>
-	</field>
-	<field name="mantantAvancs" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.mantantAvancs]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.fournisseurIce]]></fieldDescription>
 	</field>
 	<field name="type" class="java.lang.Integer">
 		<fieldDescription><![CDATA[type]]></fieldDescription>
 	</field>
 	<field name="Fournisseur" class="java.lang.String">
-		<fieldDescription><![CDATA[improtations.repertoireFour.designation]]></fieldDescription>
+		<fieldDescription><![CDATA[importation.repertoireFour.designation]]></fieldDescription>
 	</field>
 	<field name="codeFacture" class="java.lang.String">
-		<fieldDescription><![CDATA[improtations.codeFacture]]></fieldDescription>
+		<fieldDescription><![CDATA[importation.codeFacture]]></fieldDescription>
 	</field>
 	<field name="mntFacture" class="java.lang.Double">
-		<fieldDescription><![CDATA[improtations.mntFacture]]></fieldDescription>
+		<fieldDescription><![CDATA[importation.mntFacture]]></fieldDescription>
 	</field>
-	<field name="dateAvances1" class="java.util.Date">
-		<fieldDescription><![CDATA[improtations.dateAvances1]]></fieldDescription>
+	<field name="dateAvances1" class="java.time.LocalDate">
+		<fieldDescription><![CDATA[importation.dateAvances1]]></fieldDescription>
 	</field>
-	<field name="dateAvances2" class="java.util.Date">
-		<fieldDescription><![CDATA[improtations.dateAvances2]]></fieldDescription>
+	<field name="dateAvances2" class="java.time.LocalDate">
+		<fieldDescription><![CDATA[importation.dateAvances2]]></fieldDescription>
 	</field>
 	<field name="mantantAvancs1" class="java.lang.Double">
-		<fieldDescription><![CDATA[improtations.mantantAvancs1]]></fieldDescription>
+		<fieldDescription><![CDATA[importation.mantantAvancs1]]></fieldDescription>
 	</field>
 	<field name="mantantAvancs2" class="java.lang.Double">
-		<fieldDescription><![CDATA[improtations.mantantAvancs2]]></fieldDescription>
+		<fieldDescription><![CDATA[importation.mantantAvancs2]]></fieldDescription>
 	</field>
 	<field name="totalPaye" class="java.lang.Double">
-		<fieldDescription><![CDATA[improtations.totalPaye]]></fieldDescription>
+		<fieldDescription><![CDATA[importation.totalPaye]]></fieldDescription>
 	</field>
 	<field name="devisEuroDolar" class="java.lang.String">
-		<fieldDescription><![CDATA[improtations.devisEuroDolar]]></fieldDescription>
+		<fieldDescription><![CDATA[importation.devisEuroDolar]]></fieldDescription>
 	</field>
 	<field name="dateFacture" class="java.util.Date">
-		<fieldDescription><![CDATA[improtations.dateFacture]]></fieldDescription>
+		<fieldDescription><![CDATA[importation.dateFacture]]></fieldDescription>
 	</field>
 	<field name="repertoireInfo" class="java.lang.String">
 		<fieldDescription><![CDATA[repertoireInfo.repertoire.designation]]></fieldDescription>
 	</field>
-	<field name="montantTvaInfo" class="java.lang.Double">
-		<fieldDescription><![CDATA[repertoireInfo.montantTva]]></fieldDescription>
-	</field>
-	<field name="montantHTInfo" class="java.lang.Double">
-		<fieldDescription><![CDATA[repertoireInfo.montantHT]]></fieldDescription>
-	</field>
-	<field name="montantTTCInfo" class="java.lang.Double">
-		<fieldDescription><![CDATA[repertoireInfo.montantTTC]]></fieldDescription>
-	</field>
-	<field name="tva13" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.montantTVA13]]></fieldDescription>
-	</field>
 	<variable name="TotMont" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{Montant}]]></variableExpression>
 		<initialValueExpression><![CDATA[$F{Montant}]]></initialValueExpression>
-	</variable>
-	<variable name="tBenDH" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[$F{benificeDh}]]></variableExpression>
-		<initialValueExpression><![CDATA[$F{benificeDh}]]></initialValueExpression>
 	</variable>
 	<variable name="TotMntHT" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{mtHT}]]></variableExpression>
@@ -141,22 +107,6 @@
 	</variable>
 	<variable name="curentPage" class="java.lang.Integer" resetType="Page" incrementType="Report">
 		<variableExpression><![CDATA[$V{PAGE_NUMBER}]]></variableExpression>
-	</variable>
-	<variable name="TotTva14" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[$F{tva14}]]></variableExpression>
-		<initialValueExpression><![CDATA[$F{tva14}]]></initialValueExpression>
-	</variable>
-	<variable name="TotTva10" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[$F{tva10}]]></variableExpression>
-		<initialValueExpression><![CDATA[$F{tva10}]]></initialValueExpression>
-	</variable>
-	<variable name="totmontantDroitSupplementaire" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[$F{montantDroitSupplementaire}]]></variableExpression>
-		<initialValueExpression><![CDATA[$F{montantDroitSupplementaire}]]></initialValueExpression>
-	</variable>
-	<variable name="TotTva13" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[$F{tva13}]]></variableExpression>
-		<initialValueExpression><![CDATA[$F{tva13}]]></initialValueExpression>
 	</variable>
 	<group name="type">
 		<groupExpression><![CDATA[$F{type}]]></groupExpression>
@@ -557,7 +507,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{tva7} + $F{tva10} + $F{tva13} + $F{tva14} + $F{tva20}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{tva7} + $F{tva20}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement uuid="056521b7-6b7c-435e-ad35-d5e9df772599" positionType="Float" stretchType="RelativeToTallestObject" x="120" y="0" width="73" height="25">
@@ -687,7 +637,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{mtHT} + $F{montantDroitSupplementaire}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{mtHT}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -716,7 +666,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="14" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$V{TotMntHT}+$V{totmontantDroitSupplementaire}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{TotMntHT}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
 				<reportElement uuid="e25a6a42-2932-4bf2-8831-4d41bc246d85" key="textField" mode="Transparent" x="455" y="58" width="75" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
@@ -730,7 +680,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="14" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("MontantProdHT")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("MontantProdHT")]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
 				<reportElement uuid="e2aa9d5c-b535-41f0-bdca-ceae9cbbc5ee" key="textField" mode="Transparent" x="305" y="58" width="75" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
@@ -744,35 +694,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="14" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("tva20")]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="false">
-				<reportElement uuid="db9cfad4-417f-44cf-bce9-2eb231be8831" key="textField" mode="Transparent" x="230" y="58" width="75" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
-				<box>
-					<pen lineWidth="0.5"/>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="14" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("tva14")]]></textFieldExpression>
-			</textField>
-			<textField pattern="#,##0.00" isBlankWhenNull="false">
-				<reportElement uuid="39fcfce1-1bd7-40c1-be82-816b49ef17eb" key="textField" mode="Transparent" x="230" y="83" width="75" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
-				<box>
-					<pen lineWidth="0.5"/>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="14" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{TotTva14}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("tva20")]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00" isBlankWhenNull="false">
 				<reportElement uuid="cf47d900-4064-448c-93ff-17e09f10c697" key="textField" mode="Transparent" x="305" y="83" width="75" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
@@ -841,7 +763,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$V{TotTVa7} + $V{TotTva10} + $V{TotTva13} + $V{TotTva14} + $V{TotTVa20}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{TotTVa7} + $V{TotTVa20}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
 				<reportElement uuid="d5fdd1d9-7744-434b-82c3-2ed7ba39f17f" key="textField" mode="Transparent" x="5" y="58" width="75" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
@@ -855,35 +777,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="14" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("tva7")]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="false">
-				<reportElement uuid="10a369bf-1f41-45de-a85c-27cefdd868d2" key="textField" mode="Transparent" x="80" y="58" width="75" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
-				<box>
-					<pen lineWidth="0.5"/>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="14" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("tva10")]]></textFieldExpression>
-			</textField>
-			<textField pattern="#,##0.00" isBlankWhenNull="false">
-				<reportElement uuid="0d0e72e8-df04-46fa-828c-4a729392220a" key="textField" mode="Transparent" x="80" y="83" width="75" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
-				<box>
-					<pen lineWidth="0.5"/>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="14" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{TotTva10}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("tva7")]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00" isBlankWhenNull="false">
 				<reportElement uuid="3997bc9d-4e64-4aee-8557-02572fb26ee8" key="textField" mode="Transparent" x="5" y="83" width="75" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
@@ -1009,35 +903,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="14" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("traite")]]></textFieldExpression>
-			</textField>
-			<textField pattern="#,##0.00" isBlankWhenNull="false">
-				<reportElement uuid="39fcfce1-1bd7-40c1-be82-816b49ef17eb" key="textField" mode="Transparent" x="155" y="83" width="75" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
-				<box>
-					<pen lineWidth="0.5"/>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="14" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{TotTva13}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="false">
-				<reportElement uuid="db9cfad4-417f-44cf-bce9-2eb231be8831" key="textField" mode="Transparent" x="155" y="58" width="75" height="25" forecolor="#000000" backcolor="#CCCCCC"/>
-				<box>
-					<pen lineWidth="0.5"/>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="14" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("tva13")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("traite")]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>

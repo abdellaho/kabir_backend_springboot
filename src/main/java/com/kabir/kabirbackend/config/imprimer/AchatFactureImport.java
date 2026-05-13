@@ -15,18 +15,18 @@ import lombok.NoArgsConstructor;
 public class AchatFactureImport {
 	
 	private int type;
-	private AchatFactureDTO AchatFactureDTO;
+	private AchatFactureDTO achatFacture;
 	private Importation importation;
 	private RepertoireInfo repertoireInfo;
 
-	public AchatFactureImport(AchatFactureDTO AchatFactureDTO, Importation importation) {
-		this.AchatFactureDTO = AchatFactureDTO;
+	public AchatFactureImport(AchatFactureDTO achatFacture, Importation importation) {
+		this.achatFacture = achatFacture;
 		this.importation = importation;
 	}
 	
-	public AchatFactureImport(int type, AchatFactureDTO AchatFactureDTO, Importation importation) {
+	public AchatFactureImport(int type, AchatFactureDTO achatFacture, Importation importation) {
 		this.type = type;
-		this.AchatFactureDTO = AchatFactureDTO;
+		this.achatFacture = achatFacture;
 		this.importation = importation;
 	}
 	

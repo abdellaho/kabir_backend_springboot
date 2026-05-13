@@ -90,6 +90,10 @@ public class AchatFactureSpecification implements Specification<AchatFacture> {
                 predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("fournisseur").get("id"), commonSearchModel.getPersonnelId()));
             }
 
+            if(null != commonSearchModel.getPersonnelId()) {
+                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("operateur").get("id"), commonSearchModel.getPersonnelId()));
+            }
+
             return predicate;
         };
     }

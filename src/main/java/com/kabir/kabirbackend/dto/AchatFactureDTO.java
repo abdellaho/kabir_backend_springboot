@@ -44,5 +44,6 @@ public class AchatFactureDTO implements Serializable {
     String fournisseurIce;
     @JsonIgnore
     private String typeTVA;
+    private Long operateurId;
 
 }

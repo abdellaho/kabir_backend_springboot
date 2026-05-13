@@ -48,88 +48,70 @@
 	<parameter name="mntHT14DateRegl" class="java.lang.String"/>
 	<parameter name="mntHT20DateRegl" class="java.lang.String"/>
 	<field name="Client" class="java.lang.String">
-		<fieldDescription><![CDATA[achatfacture.repertoire.designation]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.fournisseurDesignation]]></fieldDescription>
 	</field>
-	<field name="dateLivr" class="java.util.Date">
-		<fieldDescription><![CDATA[achatfacture.dateAF]]></fieldDescription>
+	<field name="dateLivr" class="java.time.LocalDate">
+		<fieldDescription><![CDATA[achatFacture.dateAF]]></fieldDescription>
 	</field>
 	<field name="numBl" class="java.lang.String">
-		<fieldDescription><![CDATA[achatfacture.numeroFacExterne]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.numeroFacExterne]]></fieldDescription>
 	</field>
 	<field name="Montant" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.mantantTotTTC]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.mantantTotTTC]]></fieldDescription>
 	</field>
-	<field name="benificeDh" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.mantantBFBenefice]]></fieldDescription>
-	</field>
-	<field name="dateReg" class="java.util.Date">
-		<fieldDescription><![CDATA[achatfacture.dateReglement]]></fieldDescription>
+	<field name="dateReg" class="java.time.LocalDate">
+		<fieldDescription><![CDATA[achatFacture.dateReglement]]></fieldDescription>
 	</field>
 	<field name="modeReg" class="java.lang.Integer">
-		<fieldDescription><![CDATA[achatfacture.typeReglment]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.typeReglment]]></fieldDescription>
 	</field>
 	<field name="tva7" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.montantTVA7]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.tva7]]></fieldDescription>
 	</field>
 	<field name="tva20" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.montantTVA20]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.tva20]]></fieldDescription>
 	</field>
 	<field name="mtHT" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.mantantTotHT]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.mantantTotHT]]></fieldDescription>
 	</field>
 	<field name="numF" class="java.lang.String">
-		<fieldDescription><![CDATA[achatfacture.numeroIF]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.numeroIF]]></fieldDescription>
 	</field>
 	<field name="ice" class="java.lang.String">
-		<fieldDescription><![CDATA[achatfacture.repertoire.ice]]></fieldDescription>
-	</field>
-	<field name="tva10" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.montantTVA10]]></fieldDescription>
-	</field>
-	<field name="tva14" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.montantTVA14]]></fieldDescription>
-	</field>
-	<field name="montantDroitSupplementaire" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.montantDroitSupplementaire]]></fieldDescription>
-	</field>
-	<field name="dateAvances" class="java.util.Date">
-		<fieldDescription><![CDATA[achatfacture.dateAvances]]></fieldDescription>
-	</field>
-	<field name="mantantAvancs" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.mantantAvancs]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.fournisseurIce]]></fieldDescription>
 	</field>
 	<field name="type" class="java.lang.Integer">
 		<fieldDescription><![CDATA[type]]></fieldDescription>
 	</field>
 	<field name="Fournisseur" class="java.lang.String">
-		<fieldDescription><![CDATA[improtations.repertoireFour.designation]]></fieldDescription>
+		<fieldDescription><![CDATA[importation.repertoireFour.designation]]></fieldDescription>
 	</field>
 	<field name="codeFacture" class="java.lang.String">
-		<fieldDescription><![CDATA[improtations.codeFacture]]></fieldDescription>
+		<fieldDescription><![CDATA[importation.codeFacture]]></fieldDescription>
 	</field>
 	<field name="mntFacture" class="java.lang.Double">
-		<fieldDescription><![CDATA[improtations.mntFacture]]></fieldDescription>
+		<fieldDescription><![CDATA[importation.mntFacture]]></fieldDescription>
 	</field>
-	<field name="dateAvances1" class="java.util.Date">
-		<fieldDescription><![CDATA[improtations.dateAvances1]]></fieldDescription>
+	<field name="dateAvances1" class="java.time.LocalDate">
+		<fieldDescription><![CDATA[importation.dateAvances1]]></fieldDescription>
 	</field>
-	<field name="dateAvances2" class="java.util.Date">
-		<fieldDescription><![CDATA[improtations.dateAvances2]]></fieldDescription>
+	<field name="dateAvances2" class="java.time.LocalDate">
+		<fieldDescription><![CDATA[importation.dateAvances2]]></fieldDescription>
 	</field>
 	<field name="mantantAvancs1" class="java.lang.Double">
-		<fieldDescription><![CDATA[improtations.mantantAvancs1]]></fieldDescription>
+		<fieldDescription><![CDATA[importation.mantantAvancs1]]></fieldDescription>
 	</field>
 	<field name="mantantAvancs2" class="java.lang.Double">
-		<fieldDescription><![CDATA[improtations.mantantAvancs2]]></fieldDescription>
+		<fieldDescription><![CDATA[importation.mantantAvancs2]]></fieldDescription>
 	</field>
 	<field name="totalPaye" class="java.lang.Double">
-		<fieldDescription><![CDATA[improtations.totalPaye]]></fieldDescription>
+		<fieldDescription><![CDATA[importation.totalPaye]]></fieldDescription>
 	</field>
 	<field name="devisEuroDolar" class="java.lang.String">
-		<fieldDescription><![CDATA[improtations.devisEuroDolar]]></fieldDescription>
+		<fieldDescription><![CDATA[importation.devisEuroDolar]]></fieldDescription>
 	</field>
-	<field name="dateFacture" class="java.util.Date">
-		<fieldDescription><![CDATA[improtations.dateFacture]]></fieldDescription>
+	<field name="dateFacture" class="java.time.LocalDate">
+		<fieldDescription><![CDATA[importation.dateFacture]]></fieldDescription>
 	</field>
 	<field name="repertoireInfo" class="java.lang.String">
 		<fieldDescription><![CDATA[repertoireInfo.repertoire.designation]]></fieldDescription>
@@ -144,10 +126,10 @@
 		<fieldDescription><![CDATA[repertoireInfo.montantTTC]]></fieldDescription>
 	</field>
 	<field name="mantantTotHTVA" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.mantantTotHTVA]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.mantantTotHTVA]]></fieldDescription>
 	</field>
 	<field name="mantantTotHT" class="java.lang.Double">
-		<fieldDescription><![CDATA[achatfacture.mantantTotHT]]></fieldDescription>
+		<fieldDescription><![CDATA[achatFacture.mantantTotHT]]></fieldDescription>
 	</field>
 	<field name="annee" class="java.lang.String">
 		<fieldDescription><![CDATA[repertoireInfo.annee]]></fieldDescription>
@@ -155,10 +137,6 @@
 	<variable name="TotMont" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{Montant}]]></variableExpression>
 		<initialValueExpression><![CDATA[$F{Montant}]]></initialValueExpression>
-	</variable>
-	<variable name="tBenDH" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[$F{benificeDh}]]></variableExpression>
-		<initialValueExpression><![CDATA[$F{benificeDh}]]></initialValueExpression>
 	</variable>
 	<variable name="TotMntHT" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{mtHT}]]></variableExpression>
@@ -174,18 +152,6 @@
 	</variable>
 	<variable name="curentPage" class="java.lang.Integer" resetType="Page" incrementType="Report">
 		<variableExpression><![CDATA[$V{PAGE_NUMBER}]]></variableExpression>
-	</variable>
-	<variable name="TotTva14" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[$F{tva14}]]></variableExpression>
-		<initialValueExpression><![CDATA[$F{tva14}]]></initialValueExpression>
-	</variable>
-	<variable name="TotTva10" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[$F{tva10}]]></variableExpression>
-		<initialValueExpression><![CDATA[$F{tva10}]]></initialValueExpression>
-	</variable>
-	<variable name="totmontantDroitSupplementaire" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[$F{montantDroitSupplementaire}]]></variableExpression>
-		<initialValueExpression><![CDATA[$F{montantDroitSupplementaire}]]></initialValueExpression>
 	</variable>
 	<variable name="totalMontantHT" class="java.lang.Double" resetType="Group" resetGroup="type" calculation="Sum">
 		<variableExpression><![CDATA[($F{type} == 2 ? $F{montantHTInfo} : 0)]]></variableExpression>

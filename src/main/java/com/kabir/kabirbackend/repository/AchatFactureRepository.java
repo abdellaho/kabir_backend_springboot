@@ -18,10 +18,10 @@ public interface AchatFactureRepository extends JpaRepository<AchatFacture, Long
     @Query("SELECT SUM(l.mantantTotHTVA) FROM AchatFacture l WHERE l.dateReglement BETWEEN :dateDebut AND :dateFin")
     Double getSumMantantTotHTVA(@Param("dateDebut") LocalDate dateDebut, @Param("dateFin") LocalDate dateFin);
 
-    @Query("SELECT SUM(l.mantantTotTTC) FROM AchatFacture l WHERE l.dateReglement BETWEEN :dateDebut AND :dateFin AND (:typeReglement IS NULL OR l.typeReglment = :typeReglement)")
-    Double getSumMantantTotTTC(@Param("dateDebut") LocalDate dateDebut, @Param("dateFin") LocalDate dateFin, @Param("typeReglement") Integer typeReglement);
+    @Query("SELECT SUM(l.mantantTotTTC) FROM AchatFacture l WHERE l.dateReglement BETWEEN :dateDebut AND :dateFin AND (:typeReglement IS NULL OR l.typeReglment = :typeReglement) AND (:operateurId IS NULL OR l.operateur.id = :operateurId)")
+    Double getSumMantantTotTTC(@Param("dateDebut") LocalDate dateDebut, @Param("dateFin") LocalDate dateFin, @Param("typeReglement") Integer typeReglement, @Param("operateurId") Long operateurId);
 
-    @Query("SELECT af FROM AchatFacture af WHERE af.id in (SELECT daf.achatFacture.id FROM DetAchatFacture daf where daf.achatFacture.dateAF BETWEEN :dateDebut AND :dateFin)")
-    List<AchatFacture> findAllByDates(@Param("dateDebut") LocalDate dateDebut, @Param("dateFin") LocalDate dateFin);
+    @Query("SELECT af FROM AchatFacture af WHERE af.id in (SELECT daf.achatFacture.id FROM DetAchatFacture daf where daf.achatFacture.dateAF BETWEEN :dateDebut AND :dateFin AND (:operateurId IS NULL OR daf.achatFacture.operateur.id = :operateurId))")
+    List<AchatFacture> findAllByDates(@Param("dateDebut") LocalDate dateDebut, @Param("dateFin") LocalDate dateFin, @Param("operateurId") Long operateurId);
 
 }
