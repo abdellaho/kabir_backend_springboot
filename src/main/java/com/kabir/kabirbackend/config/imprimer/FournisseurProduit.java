@@ -1,10 +1,10 @@
 package com.kabir.kabirbackend.config.imprimer;
 
+import com.kabir.kabirbackend.dto.FournisseurDTO;
+import com.kabir.kabirbackend.dto.StockDTO;
+
 import java.io.Serializable;
 import java.util.Comparator;
-
-import ma.kabir.modele.Repertoire;
-import ma.kabir.modele.Stock;
 
 public class FournisseurProduit implements Serializable {
 
@@ -13,8 +13,8 @@ public class FournisseurProduit implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private Repertoire repertoire;
-	private Stock stock;
+	private FournisseurDTO repertoire;
+	private StockDTO stock;
 	private int qteLivre;
 	private double montant;
 	private double beneficeDH;
@@ -27,7 +27,7 @@ public class FournisseurProduit implements Serializable {
 		super();
 	}
 	
-	public FournisseurProduit(Repertoire repertoire, Stock stock,
+	public FournisseurProduit(FournisseurDTO repertoire, StockDTO stock,
 			int qteLivre, double montant, double beneficeDH) {
 		super();
 		this.repertoire = repertoire;
@@ -37,7 +37,7 @@ public class FournisseurProduit implements Serializable {
 		this.beneficeDH = beneficeDH;
 	}
 	
-	public FournisseurProduit(Repertoire repertoire, Stock stock, int qteLivre, double montant, double beneficeDH, int type) {
+	public FournisseurProduit(FournisseurDTO repertoire, StockDTO stock, int qteLivre, double montant, double beneficeDH, int type) {
 		super();
 		this.repertoire = repertoire;
 		this.stock =  stock;
@@ -57,19 +57,19 @@ public class FournisseurProduit implements Serializable {
 		this.sumBeneficeDH = sumBeneficeDH;
 	}
 	
-	public Repertoire getRepertoire() {
+	public FournisseurDTO getRepertoire() {
 		return repertoire;
 	}
 	
-	public void setRepertoire(Repertoire repertoire) {
+	public void setRepertoire(FournisseurDTO repertoire) {
 		this.repertoire = repertoire;
 	}
 	 
-	public Stock getStock() {
+	public StockDTO getStock() {
 		return stock;
 	}
 	
-	public void setStock(Stock stock) {
+	public void setStock(StockDTO stock) {
 		this.stock = stock;
 	}
 	
@@ -118,8 +118,8 @@ public class FournisseurProduit implements Serializable {
 		@Override
 		public int compare(FournisseurProduit arg0, FournisseurProduit arg1) {
 			// TODO Auto-generated method stub
-			FournisseurProduit p=arg0;
-			FournisseurProduit q=arg1;
+			FournisseurProduit p = arg0;
+			FournisseurProduit q = arg1;
 			  if(p.sumBeneficeDH == q.sumBeneficeDH){
 				  return p.repertoire.getDesignation().compareTo(q.repertoire.getDesignation());
 			  } else if (p.sumBeneficeDH < q.sumBeneficeDH)  return 1;
@@ -131,8 +131,8 @@ public class FournisseurProduit implements Serializable {
     public static final Comparator<FournisseurProduit> ID_COMPARATORProdui = new Comparator<FournisseurProduit>() {
 		@Override
 		public int compare(FournisseurProduit arg0, FournisseurProduit arg1) {
-			FournisseurProduit p=arg0;
-			FournisseurProduit q=arg1;
+			FournisseurProduit p = arg0;
+			FournisseurProduit q = arg1;
 			  if(p.beneficeDH == q.beneficeDH){
 				  return p.stock.getDesignation().compareTo(q.stock.getDesignation());
 			  } else if (p.beneficeDH < q.beneficeDH)  return 1;

@@ -241,7 +241,6 @@ public class StockService implements IStockService {
 
                 byte[] bytes = jasperReportsUtil.jasperReportInBytes(listStock, parameters, printResponse.getEtatName(), ReportTypeEnum.PDF, "");
                 printResponse.setResponseBytes(bytes);
-
             } else {
                 byte[] bytes = JasperReportsUtil.anullerImpr(StaticVariables.bundleFR.getString("aucuneResultatTrouve"));
                 printResponse.setResponseBytes(bytes);

@@ -319,7 +319,8 @@ public class FactureService implements IFactureService {
     }
 
     private double toDouble(Object o){
-        return o == null ? 0d : ((Number)o).doubleValue();
+        return StaticVariables.toDouble(o);
+        //return o == null ? 0d : ((Number)o).doubleValue();
     }
 
     public static boolean isDateBetween(LocalDate start, LocalDate end, LocalDate date) {

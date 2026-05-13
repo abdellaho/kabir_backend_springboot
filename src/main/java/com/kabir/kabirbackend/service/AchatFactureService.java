@@ -1,19 +1,20 @@
 package com.kabir.kabirbackend.service;
 
 
+import com.kabir.kabirbackend.config.enums.ReportTypeEnum;
 import com.kabir.kabirbackend.config.enums.StockOperation;
 import com.kabir.kabirbackend.config.enums.TypeQteToUpdate;
 import com.kabir.kabirbackend.config.imprimer.AchatFactureImport;
 import com.kabir.kabirbackend.config.imprimer.AchatFactureImprimer;
+import com.kabir.kabirbackend.config.imprimer.FournisseurProduit;
 import com.kabir.kabirbackend.config.imprimer.RepertoireInfo;
+import com.kabir.kabirbackend.config.requests.PrintResponse;
 import com.kabir.kabirbackend.config.requests.RequestStockQte;
 import com.kabir.kabirbackend.config.responses.AchatFactureResponse;
 import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
+import com.kabir.kabirbackend.config.util.JasperReportsUtil;
 import com.kabir.kabirbackend.config.util.StaticVariables;
-import com.kabir.kabirbackend.dto.AchatFactureDTO;
-import com.kabir.kabirbackend.dto.DetAchatFactureDTO;
-import com.kabir.kabirbackend.dto.DetAchatFactureTVADTO;
-import com.kabir.kabirbackend.dto.FournisseurDTO;
+import com.kabir.kabirbackend.dto.*;
 import com.kabir.kabirbackend.entities.*;
 import com.kabir.kabirbackend.mapper.AchatFactureMapper;
 import com.kabir.kabirbackend.mapper.DetAchatFactureMapper;
@@ -27,9 +28,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -48,6 +46,7 @@ public class AchatFactureService implements IAchatFactureService {
     private final DetAchatFactureTVARepository detAchatFactureTVARepository;
     private final DetAchatFactureTVAMapper detAchatFactureTVAMapper;
     private final FactureRepository factureRepository;
+    private final JasperReportsUtil jasperReportsUtil;
 
     public AchatFactureService(AchatFactureRepository achatFactureRepository,
                                AchatFactureMapper achatFactureMapper,
@@ -58,7 +57,8 @@ public class AchatFactureService implements IAchatFactureService {
                                FournisseurRepository fournisseurRepository,
                                DetAchatFactureTVARepository detAchatFactureTVARepository,
                                DetAchatFactureTVAMapper detAchatFactureTVAMapper,
-                               FactureRepository factureRepository
+                               FactureRepository factureRepository,
+                               JasperReportsUtil jasperReportsUtil
                                ) {
         this.achatFactureRepository = achatFactureRepository;
         this.achatFactureMapper = achatFactureMapper;
@@ -70,6 +70,7 @@ public class AchatFactureService implements IAchatFactureService {
         this.detAchatFactureTVARepository = detAchatFactureTVARepository;
         this.detAchatFactureTVAMapper = detAchatFactureTVAMapper;
         this.factureRepository = factureRepository;
+        this.jasperReportsUtil = jasperReportsUtil;
     }
 
     @Override
@@ -100,7 +101,7 @@ public class AchatFactureService implements IAchatFactureService {
     public void delete(Long id) {
         logger.info("Deleting achat facture by id: {}", id);
         try {
-            List<DetAchatFacture> detAchatFactureDTOOld = detAchatFactureRepository.findAllByAchatFactureId(id);
+            List<DetAchatFacture> detAchatFactureDTOOld = detAchatFactureRepository.findAllByAchatFactureId(id, Sort.by("id").descending());
             List<DetAchatFactureTVA> detAchatFactureTVAOld = detAchatFactureTVARepository.findAllByAchatFactureId(id);
             logger.info("List of det Achat Facture to delete: {}", detAchatFactureDTOOld.size());
 
@@ -133,7 +134,7 @@ public class AchatFactureService implements IAchatFactureService {
         try {
             AchatFactureDTO achatFactureDTO = achatFactureMapper.toAchatFactureDTO(achatFactureRepository.findById(id).orElse(null));
             if(null != achatFactureDTO && null != achatFactureDTO.getId()) {
-                List<DetAchatFactureDTO> list = detAchatFactureRepository.findAllByAchatFactureId(id).stream()
+                List<DetAchatFactureDTO> list = detAchatFactureRepository.findAllByAchatFactureId(id, Sort.by("id").ascending()).stream()
                         .map(detAchatFactureMapper::toDTO)
                         .toList();
 
@@ -215,7 +216,7 @@ public class AchatFactureService implements IAchatFactureService {
     public void enregistrerDetAchatFacture(AchatFacture achatFacture, boolean isSave, List<DetAchatFactureDTO> detAchatFactureDTOs) {
         List<DetAchatFacture> detAchatFactureOld = new ArrayList<>();
         if(!isSave) {
-            detAchatFactureOld = detAchatFactureRepository.findAllByAchatFactureId(achatFacture.getId());
+            detAchatFactureOld = detAchatFactureRepository.findAllByAchatFactureId(achatFacture.getId(), Sort.by("id").ascending());
         }
 
         List<DetAchatFacture> listToDelete = getDetStockDepotOldNotAnymore(detAchatFactureOld, detAchatFactureDTOs);
@@ -319,7 +320,7 @@ public class AchatFactureService implements IAchatFactureService {
 
     @Override
     public List<AchatFactureDTO> searchByCommon(CommonSearchModel commonSearchModel) {
-        return achatFactureRepository.findAll(AchatFactureSpecification.builder().build().searchByCommon(commonSearchModel)).stream()
+        return achatFactureRepository.findAll(AchatFactureSpecification.searchByCommon(commonSearchModel)).stream()
                 .map(achatFactureMapper::toAchatFactureDTO)
                 .toList();
     }
@@ -344,9 +345,10 @@ public class AchatFactureService implements IAchatFactureService {
         return list;
     }
 
-    public void imprimer(Integer i, CommonSearchModel commonSearchModel) {
+    public PrintResponse imprimer(Integer i, CommonSearchModel commonSearchModel) throws Exception {
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        PrintResponse printResponse = new PrintResponse();
         commonSearchModel.setSearchByDate(true);
-        String etatPrint = "";
 
         double listImprimEspece = 0.0;
         double listImprimCheque = 0.0;
@@ -360,10 +362,6 @@ public class AchatFactureService implements IAchatFactureService {
         List<AchatFactureDTO> listImprim = new ArrayList<>();
         List<DetAchatFactureDTO> listDetachatfactureImpr = new ArrayList<>();
 
-        String query = "";
-        String queryBilan = "";
-        String queryFacture = "";
-        String queryDetAchFCt = "";
         String dateDb = "";
         String dateFn = "";
 
@@ -378,40 +376,33 @@ public class AchatFactureService implements IAchatFactureService {
         dateDb = StaticVariables.bundleFR.getString("datedebut") + " : " + StaticVariables.sdfDDMMYY.format(commonSearchModel.getDateDebut());
         dateFn = StaticVariables.bundleFR.getString("dateFin") + " : " + StaticVariables.sdfDDMMYY.format(commonSearchModel.getDateFin());
 
-        query += " and dateReglement between '" + dat1 + "' and '" + dat2 + "' ";
-        queryBilan += " and dateAF between '" + dat1 + "' and '" + dat2 + "' ";
-        queryDetAchFCt += " and achatFacture.dateAF between '" + dat1 + "' and '" + dat2 + "' ";
-        queryFacture += " and ((dateReglement between '" + dat1 + "' and '" + dat2 + "') or (dateReglement2 between '" + dat1 + "' and '" + dat2 + "')) ";
-
-        if(i != 0 && i != 2) {
-            /*if (utilisateurConnecte.getTypeUser() != 1) {
+        /*if(i != 0 && i != 2) {
+            if (utilisateurConnecte.getTypeUser() != 1) {
                 queryDetAchFCt += " and achatFacture.employeOperateur =" + utilisateurConnecte.getId();
                 query += " and employeOperateur =" + utilisateurConnecte.getId();
                 queryBilan += " and employeOperateur =" + utilisateurConnecte.getId();
-            }*/
-        }
+            }
+        }*/
 
         if(i == 0 || i == 2) {
-            etatPrint = "listeVenteAchatFactureImport";
+            printResponse.setEtatName("listeVenteAchatFactureImport");
 
             List<AchatFactureImport> list = new ArrayList<>();
             List<AchatFactureDTO> listImprimTVA = new ArrayList<>();
             List<Importation> listImprotationsImp = new ArrayList<>();
 
-            if(i == 0) {
+            if(i != 0) {
                 if (commonSearchModel.getFournisseurId() != 0) {
-                    query += " and repertoire=" + commonSearchModel.getFournisseurId();
-                    queryDetAchFCt += " and achatFacture.repertoire=" + commonSearchModel.getFournisseurId();
+                    commonSearchModel.setFournisseurId(null);
                 }
             }
-
 
             listImprim = achatFactureRepository.findAll(AchatFactureSpecification.searchToPrint(commonSearchModel), Sort.by("dateReglement").ascending().and(Sort.by("repertoire.designation").ascending()))
                     .stream()
                     .map(achatFactureMapper::toAchatFactureDTO)
                     .toList();
 
-            if(i == 2) {
+            /*if(i == 2) {
                 for(int j = 0; j < 5; j++) {
                     String queryTemp = query;
 
@@ -436,12 +427,12 @@ public class AchatFactureService implements IAchatFactureService {
                         listImprimTVA.addAll(listTemp);
                     }
                 }
-            }
+            }*/
 
             if (commonSearchModel.getFournisseurId() != 0) {
-                if (!listImprim.isEmpty() || !listImprimTVA.isEmpty()) {
-                    etatPrint = "listeVenteAchatFacture.jrxml";
-                    if(i == 2) etatPrint = "listeVenteAchatFactureImportTVA.jrxml";
+                if (CollectionUtils.isNotEmpty(listImprim) || CollectionUtils.isNotEmpty(listImprimTVA)) {
+                    printResponse.setEtatName("listeVenteAchatFacture");
+                    if(i == 2) printResponse.setEtatName("listeVenteAchatFactureImportTVA");
 
                     listImprimEspece = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 1);
                     listImprimCheque = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 2);
@@ -450,7 +441,6 @@ public class AchatFactureService implements IAchatFactureService {
                     listImprimTraite = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 3);
                     listImprimVirement = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 4);
 
-                    Map<String, String> parameters = new HashMap<String, String>();
                     parameters.put("dateDb", dateDb);
                     parameters.put("dateFn", dateFn);
 
@@ -465,8 +455,10 @@ public class AchatFactureService implements IAchatFactureService {
 
                     parameters.put("fichier", StaticVariables.bundleFR.getBaseBundleName());
 
-                    if(i == 0) GeneratePDF.Imprimer(etatPrint, etatPrint.replace(".jrxml", ".pdf"), listImprim, parameters, "");
-                    else {
+                    if(i == 0) {
+                        byte[] bytes = jasperReportsUtil.jasperReportInBytes(listImprim, parameters, printResponse.getEtatName(), ReportTypeEnum.PDF, "");
+                        printResponse.setResponseBytes(bytes);
+                    } else {
                         double mntTotalTTC = listImprim.stream().mapToDouble(AchatFactureDTO::getMantantTotTTC).sum();
                         double mntTotalHT = listImprim.stream().mapToDouble(AchatFactureDTO::getMantantTotHT).sum();
                         double mntTotalSupp = 0;//listImprim.stream().mapToDouble(AchatFactureDTO::get).sum();
@@ -474,19 +466,20 @@ public class AchatFactureService implements IAchatFactureService {
                         parameters.put("mntTotalTTC", mntTotalTTC + "");
                         parameters.put("mntTotalHT", (mntTotalHT + mntTotalSupp) + "");
 
-                        list.addAll(listImprimTVA.stream().map(achatFactureModif -> new AchatFactureImport(0, achatFactureModif, null, null)).collect(Collectors.toList()));
+                        list.addAll(listImprimTVA.stream().map(achatFactureModif -> new AchatFactureImport(0, achatFactureModif, null, null)).toList());
 
-                        GeneratePDF.Imprimer(etatPrint, etatPrint.replace(".jrxml", ".pdf"), list, parameters, "");
+                        byte[] bytes = jasperReportsUtil.jasperReportInBytes(list, parameters, printResponse.getEtatName(), ReportTypeEnum.PDF, "");
+                        printResponse.setResponseBytes(bytes);
                     }
                 } else {
-                    GeneratePDF.anullerImpr("aucun element");
+                    byte[] bytes = JasperReportsUtil.anullerImpr(StaticVariables.bundleFR.getString("aucuneResultatTrouve"));
+                    printResponse.setResponseBytes(bytes);
                 }
             }else {
                 List<RepertoireInfo> listRepertoireInfos = new ArrayList<RepertoireInfo>();
                 Map<Long, RepertoireInfo> hashMap = new HashMap<Long, RepertoireInfo>();
-                Map<String, String> parameters = new HashMap<String, String>();
 
-                if(i == 2) etatPrint = "listeVenteAchatFactureImportTVA.jrxml";
+                if(i == 2) printResponse.setEtatName("listeVenteAchatFactureImportTVA");
 
                 if (CollectionUtils.isNotEmpty(listImprim) || CollectionUtils.isNotEmpty(listImprotationsImp)) {
                     if (CollectionUtils.isNotEmpty(listImprim)) {
@@ -498,8 +491,8 @@ public class AchatFactureService implements IAchatFactureService {
                             hashMap.put(achatFacture.getFournisseurId(), new RepertoireInfo(fournisseurDTO, 0.0, 0.0, 0.0));
                         }
 
-                        if(i == 0) list.addAll(listImprim.stream().map(achatFactureModif -> new AchatFactureImport(0, achatFactureModif, null, null)).collect(Collectors.toList()));
-                        else list.addAll(listImprimTVA.stream().map(achatFactureModif -> new AchatFactureImport(0, achatFactureModif, null, null)).collect(Collectors.toList()));
+                        if(i == 0) list.addAll(listImprim.stream().map(achatFactureModif -> new AchatFactureImport(0, achatFactureModif, null, null)).toList());
+                        else list.addAll(listImprimTVA.stream().map(achatFactureModif -> new AchatFactureImport(0, achatFactureModif, null, null)).toList());
 
                         listImprimEspece = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 1);
                         listImprimCheque = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 2);
@@ -507,9 +500,8 @@ public class AchatFactureService implements IAchatFactureService {
                         listImprimPrelevement = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 5);
                         listImprimTraite = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 3);
                         listImprimVirement = achatFactureRepository.getSumMantantTotTTC(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 4);
-                        Object[] stats = factureRepository.getSumMntReglement(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 1);
-                        listImprimEspeceFacture = factureRepository. achatfactureService.findQuerySum("select sum(mntReglement) from Facture where typeReglment=1 " + queryFacture);
-                        listImprimEspeceFacture2 = achatfactureService.findQuerySum("select sum(mntReglement2) from Facture where typeReglment2=1 " + queryFacture);
+                        listImprimEspeceFacture = factureRepository.getSumMntReglement(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 1);
+                        listImprimEspeceFacture2 = factureRepository.getSumMntReglement2(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), 1);
 
                         if(i == 2) {
                             double mntTotalTTC = listImprim.stream().mapToDouble(AchatFactureDTO::getMantantTotTTC).sum();
@@ -523,10 +515,10 @@ public class AchatFactureService implements IAchatFactureService {
 
                     if(i == 0) {
                         if(CollectionUtils.isNotEmpty(listImprotationsImp)) {
-                            list.addAll(listImprotationsImp.stream().map(importation -> new AchatFactureImport(1, null, importation, null)).collect(Collectors.toList()));
+                            list.addAll(listImprotationsImp.stream().map(importation -> new AchatFactureImport(1, null, importation, null)).toList());
                         }
 
-                        if(hashMap.size() > 0) {
+                        if(!hashMap.isEmpty()) {
                             for (Map.Entry<Long, RepertoireInfo> entry : hashMap.entrySet()) {
                                 RepertoireInfo repertoireInfo = entry.getValue();
                                 double mntTva7 = 0;//listImprim.stream().filter(achatFacture -> achatFacture.getFournisseurId().equals(entry.getKey())).mapToDouble(AchatFactureDTO::getMontantTVA7).sum();
@@ -565,21 +557,23 @@ public class AchatFactureService implements IAchatFactureService {
                     parameters.put("Caisse", (listImprimEspeceFacture + listImprimEspeceFacture2 - listImprimEspece) + "");
 
                     parameters.put("fichier", StaticVariables.bundleFR.getBaseBundleName());
-                    GeneratePDF.Imprimer(etatPrint, etatPrint.replace(".jrxml", ".pdf"), list, parameters, "");
+                    byte[] bytes = jasperReportsUtil.jasperReportInBytes(list, parameters, printResponse.getEtatName(), ReportTypeEnum.PDF, "");
+                    printResponse.setResponseBytes(bytes);
                 } else {
-                    GeneratePDF.anullerImpr("aucun element");
+                    byte[] bytes = JasperReportsUtil.anullerImpr(StaticVariables.bundleFR.getString("aucuneResultatTrouve"));
+                    printResponse.setResponseBytes(bytes);
                 }
             }
         }else {
             if(i == 1) {//Bilan
                 if (commonSearchModel.getStockId() != 0) {
-                    etatPrint = "listeAchatFactureProduit.jrxml";
+                    printResponse.setEtatName("listeAchatFactureProduit");
 
-                    queryDetAchFCt += " and stock=" + commonSearchModel.getStockId();
-                    listDetachatfactureImpr = detachatfactureService.findByQuery(" where 1=1 " + queryDetAchFCt + " order by achatFacture.dateAF desc ,achatFacture.repertoire asc");
+                    listDetachatfactureImpr = detAchatFactureRepository
+                            .findAllByDates(commonSearchModel.getDateDebut(), commonSearchModel.getDateFin(), commonSearchModel.getStockId(), Sort.by(Sort.Direction.DESC, "achatFacture.dateAF"))
+                            .stream().map(detAchatFactureMapper::toDTO).toList();
 
-                    if (listDetachatfactureImpr.size() > 0) {
-                        Map<String, String> parameters = new HashMap<String, String>();
+                    if (CollectionUtils.isNotEmpty(listDetachatfactureImpr)) {
                         parameters.put("dateDb", dateDb);
                         parameters.put("dateFn", dateFn);
 
@@ -593,50 +587,68 @@ public class AchatFactureService implements IAchatFactureService {
                         parameters.put("Carte", listImprimCarte + "");
 
                         parameters.put("fichier", StaticVariables.bundleFR.getBaseBundleName());
-                        GeneratePDF.Imprimer(etatPrint, etatPrint.replace(".jrxml", ".pdf"), listDetachatfactureImpr, parameters, "");
+
+                        byte[] bytes = jasperReportsUtil.jasperReportInBytes(listDetachatfactureImpr, parameters, printResponse.getEtatName(), ReportTypeEnum.PDF, "");
+                        printResponse.setResponseBytes(bytes);
                     } else {
-                        GeneratePDF.anullerImpr("aucun element");
+                        byte[] bytes = JasperReportsUtil.anullerImpr(StaticVariables.bundleFR.getString("aucuneResultatTrouve"));
+                        printResponse.setResponseBytes(bytes);
                     }
                 }else {
-                    etatPrint = "listeProduitAchatFacture.jrxml";
+                    printResponse.setEtatName("listeProduitAchatFacture");
                     List<FournisseurProduit> listFournisseurProduit = new ArrayList<FournisseurProduit>();
                     Map<Long,FournisseurProduit> map = new LinkedHashMap<Long, FournisseurProduit>();
 
-                    List<Achatfacture> listAchatFacture = achatfactureService.findByQuery(" where id in (select achatFacture from Detachatfacture where 1=1 " + queryDetAchFCt + ")");
-                    for (Achatfacture achatFacture : listAchatFacture) {
-                        List<Detachatfacture> listAllDetImpr = detachatfactureService.findByQuery(" where achatFacture=" + achatFacture.getId() + " order by stock.designation");
-                        if(null != listAllDetImpr && listAllDetImpr.size() > 0) {
-                            for (Detachatfacture detAchatFacture : listAllDetImpr) {
-                                if(map.containsKey(detAchatFacture.getStock().getId())) {
-                                    FournisseurProduit fournisseurProduitOld = map.get(detAchatFacture.getStock().getId());
+                    CommonSearchModel commonSearchModelTemp = CommonSearchModel
+                            .builder()
+                            .searchByDate(true)
+                            .dateDebut(commonSearchModel.getDateDebut())
+                            .dateFin(commonSearchModel.getDateFin())
+                            .build();
+                    List<AchatFactureDTO> listAchatFacture = achatFactureRepository.findAll(AchatFactureSpecification.searchByCommon(commonSearchModelTemp))
+                            .stream()
+                            .map(achatFactureMapper::toAchatFactureDTO).toList();
+                    for (AchatFactureDTO achatFacture : listAchatFacture) {
+                        List<DetAchatFactureDTO> listAllDetImpr = detAchatFactureRepository.findAllByAchatFactureId(achatFacture.getId(), Sort.by("stock.designation").ascending())
+                                .stream()
+                                .map(detAchatFactureMapper::toDTO).toList();
+                        if(CollectionUtils.isNotEmpty(listAllDetImpr)) {
+                            for (DetAchatFactureDTO detAchatFacture : listAllDetImpr) {
+                                if(map.containsKey(detAchatFacture.getStockId())) {
+                                    FournisseurProduit fournisseurProduitOld = map.get(detAchatFacture.getStockId());
                                     if(null != fournisseurProduitOld) {
                                         fournisseurProduitOld.setMontant(fournisseurProduitOld.getMontant() + detAchatFacture.getMantantTTC());
-                                        fournisseurProduitOld.setQteLivre(fournisseurProduitOld.getQteLivre() + detAchatFacture.getQteacheter());
+                                        fournisseurProduitOld.setQteLivre(fournisseurProduitOld.getQteLivre() + detAchatFacture.getQteAcheter());
                                         fournisseurProduitOld.setBeneficeDH(fournisseurProduitOld.getBeneficeDH() + detAchatFacture.getBeneficeDH());
 
-                                        map.put(detAchatFacture.getStock().getId(),fournisseurProduitOld);
+                                        map.put(detAchatFacture.getStockId(),fournisseurProduitOld);
                                     }
                                 }else {
+                                    StockDTO stockDTO = new StockDTO();
+                                    stockDTO.setId(detAchatFacture.getStockId());
+                                    stockDTO.setDesignation(detAchatFacture.getStockDesignation());
+                                    stockDTO.setPvttc(detAchatFacture.getStockPvttc());
+                                    stockDTO.setQteStock(detAchatFacture.getStockQteStock());
+                                    stockDTO.setQteStockImport(detAchatFacture.getStockQteStock());
+
                                     FournisseurProduit fournisseurProduit = new FournisseurProduit();
-                                    fournisseurProduit.setStock(detAchatFacture.getStock());
-                                    fournisseurProduit.setQteLivre(detAchatFacture.getQteacheter());
+                                    fournisseurProduit.setStock(stockDTO);
+                                    fournisseurProduit.setQteLivre(detAchatFacture.getQteAcheter());
                                     fournisseurProduit.setMontant(detAchatFacture.getMantantTTC());
                                     fournisseurProduit.setBeneficeDH(detAchatFacture.getBeneficeDH());
 
-                                    map.put(detAchatFacture.getStock().getId(), fournisseurProduit);
+                                    map.put(detAchatFacture.getStockId(), fournisseurProduit);
                                 }
                             }
                         }
                     }
 
-                    if(map.size() > 0) {
+                    if(!map.isEmpty()) {
                         listFournisseurProduit.addAll(map.values());
-                        Collections.sort(listFournisseurProduit, FournisseurProduit.parOrdreAlphabetiqueStock);
+                        listFournisseurProduit.sort(FournisseurProduit.parOrdreAlphabetiqueStock);
                     }
 
-                    if (listFournisseurProduit.size() > 0) {
-                        Map<String, String> parameters = new HashMap<String, String>();
-
+                    if (CollectionUtils.isNotEmpty(listFournisseurProduit)) {
                         parameters.put("dateDb", dateDb);
                         parameters.put("dateFn", dateFn);
                         parameters.put("valeur", 0 + "");
@@ -644,42 +656,56 @@ public class AchatFactureService implements IAchatFactureService {
                         parameters.put("fichier", StaticVariables.bundleFR.getBaseBundleName());
                         parameters.put("titleText", "");
 
-                        GeneratePDF.Imprimer(etatPrint, etatPrint.replace(".jrxml", ".pdf"), listFournisseurProduit, parameters,"");
+                        byte[] bytes = jasperReportsUtil.jasperReportInBytes(listFournisseurProduit, parameters, printResponse.getEtatName(), ReportTypeEnum.PDF, "");
+                        printResponse.setResponseBytes(bytes);
                     } else {
-                        GeneratePDF.anullerImpr("aucun element");
+                        byte[] bytes = JasperReportsUtil.anullerImpr(StaticVariables.bundleFR.getString("aucuneResultatTrouve"));
+                        printResponse.setResponseBytes(bytes);
                     }
                 }
             }else {//Fournisseur
-                etatPrint = "listeVenteAchatFactureImportBilan.jrxml";
+                printResponse.setEtatName("listeVenteAchatFactureImportBilan");
 
-                List<AchatFactureImport> list = new ArrayList<AchatFactureImport>();
-
-                listImprim = achatfactureService.findByQuery("where 1=1 " + queryBilan + " order by dateAF asc, repertoire.designation");
+                CommonSearchModel commonSearchModelTemp = CommonSearchModel
+                        .builder()
+                        .searchByDate(true)
+                        .dateDebut(commonSearchModel.getDateDebut())
+                        .dateFin(commonSearchModel.getDateFin())
+                        .build();
+                listImprim = achatFactureRepository.findAll(AchatFactureSpecification.searchByCommon(commonSearchModelTemp), Sort.by("dateAF").ascending().and(Sort.by("repertoire.designation").ascending()))
+                        .stream()
+                        .map(achatFactureMapper::toAchatFactureDTO)
+                        .toList();
 
                 List<RepertoireInfo> listRepertoireInfos = new ArrayList<RepertoireInfo>();
                 Map<Long, RepertoireInfo> hashMap = new HashMap<Long, RepertoireInfo>();
-                if (listImprim.size() > 0) {
-                        for (Achatfacture achatFacture : listImprim) {
-                            hashMap.put(achatFacture.getRepertoire().getId(), new RepertoireInfo(achatFacture.getRepertoire(), 0.0, 0.0, 0.0));
+                if (CollectionUtils.isNotEmpty(listImprim)) {
+                        for (AchatFactureDTO achatFacture : listImprim) {
+                            FournisseurDTO fournisseurDTO = new FournisseurDTO();
+                            fournisseurDTO.setId(achatFacture.getFournisseurId());
+                            fournisseurDTO.setDesignation(achatFacture.getFournisseurDesignation());
+                            fournisseurDTO.setIce(achatFacture.getFournisseurIce());
+
+                            hashMap.put(achatFacture.getFournisseurId(), new RepertoireInfo(fournisseurDTO, 0.0, 0.0, 0.0));
                         }
 
-                        list.addAll(listImprim.stream().map(achatFactureModif -> new AchatFactureImport(0, achatFactureModif, null, null)).collect(Collectors.toList()));
+                    List<AchatFactureImport> list = new ArrayList<AchatFactureImport>(listImprim.stream().map(achatFactureModif -> new AchatFactureImport(0, achatFactureModif, null, null)).toList());
 
-                    if(hashMap.size() > 0) {
+                    if(!hashMap.isEmpty()) {
                         for (Map.Entry<Long, RepertoireInfo> entry : hashMap.entrySet()) {
                             RepertoireInfo repertoireInfo = entry.getValue();
-                            double mntTva7 = listImprim.stream().filter(achatFacture -> achatFacture.getRepertoire().getId().equals(entry.getKey())).mapToDouble(Achatfacture::getMontantTVA7).sum();
-                            double mntTva10 = listImprim.stream().filter(achatFacture -> achatFacture.getRepertoire().getId().equals(entry.getKey())).mapToDouble(Achatfacture::getMontantTVA10).sum();
-                            double mntTva13 = listImprim.stream().filter(achatFacture -> achatFacture.getRepertoire().getId().equals(entry.getKey())).mapToDouble(Achatfacture::getMontantTVA13).sum();
-                            double mntTva14 = listImprim.stream().filter(achatFacture -> achatFacture.getRepertoire().getId().equals(entry.getKey())).mapToDouble(Achatfacture::getMontantTVA14).sum();
-                            double mntTva20 = listImprim.stream().filter(achatFacture -> achatFacture.getRepertoire().getId().equals(entry.getKey())).mapToDouble(Achatfacture::getMontantTVA20).sum();
+                            double mntTva7 = 0;//listImprim.stream().filter(achatFacture -> achatFacture.getFournisseurId().equals(entry.getKey())).mapToDouble(AchatFactureDTO::getMontantTVA7).sum();
+                            double mntTva10 = 0;//listImprim.stream().filter(achatFacture -> achatFacture.getFournisseurId().equals(entry.getKey())).mapToDouble(AchatFactureDTO::getMontantTVA10).sum();
+                            double mntTva13 = 0;//listImprim.stream().filter(achatFacture -> achatFacture.getFournisseurId().equals(entry.getKey())).mapToDouble(AchatFactureDTO::getMontantTVA13).sum();
+                            double mntTva14 = 0;//listImprim.stream().filter(achatFacture -> achatFacture.getFournisseurId().equals(entry.getKey())).mapToDouble(AchatFactureDTO::getMontantTVA14).sum();
+                            double mntTva20 = 0;//listImprim.stream().filter(achatFacture -> achatFacture.getFournisseurId().equals(entry.getKey())).mapToDouble(AchatFactureDTO::getMontantTVA20).sum();
 
-                            double mntHT = listImprim.stream().filter(achatFacture -> achatFacture.getRepertoire().getId().equals(entry.getKey())).mapToDouble(Achatfacture::getMantantTotHT).sum();
-                            double mntDroitSuppl = listImprim.stream().filter(achatFacture -> achatFacture.getRepertoire().getId().equals(entry.getKey())).mapToDouble(Achatfacture::getMontantDroitSupplementaire).sum();
+                            double mntHT = listImprim.stream().filter(achatFacture -> achatFacture.getFournisseurId().equals(entry.getKey())).mapToDouble(AchatFactureDTO::getMantantTotHT).sum();
+                            double mntDroitSuppl = 0;//listImprim.stream().filter(achatFacture -> achatFacture.getFournisseurId().equals(entry.getKey())).mapToDouble(AchatFactureDTO::getMontantDroitSupplementaire).sum();
 
                             repertoireInfo.setMontantTva(mntTva7 + mntTva10 + mntTva13 + mntTva14 + mntTva20);
                             repertoireInfo.setMontantHT(mntHT + mntDroitSuppl);
-                            repertoireInfo.setMontantTTC(listImprim.stream().filter(achatFacture -> achatFacture.getRepertoire().getId().equals(entry.getKey())).mapToDouble(Achatfacture::getMantantTotTTC).sum());
+                            repertoireInfo.setMontantTTC(listImprim.stream().filter(achatFacture -> achatFacture.getFournisseurId().equals(entry.getKey())).mapToDouble(AchatFactureDTO::getMantantTotTTC).sum());
 
                             listRepertoireInfos.add(repertoireInfo);
                         }
@@ -687,7 +713,6 @@ public class AchatFactureService implements IAchatFactureService {
                         list.addAll(listRepertoireInfos.stream().map(achatFactureModif -> new AchatFactureImport(2, null, null, achatFactureModif)).collect(Collectors.toList()));
                     }
 
-                    Map<String, String> parameters = new HashMap<String, String>();
                     parameters.put("dateDb", dateDb);
                     parameters.put("dateFn", dateFn);
 
@@ -704,11 +729,16 @@ public class AchatFactureService implements IAchatFactureService {
                     parameters.put("Caisse", (listImprimEspeceFacture + listImprimEspeceFacture2 - listImprimEspece) + "");
 
                     parameters.put("fichier", StaticVariables.bundleFR.getBaseBundleName());
-                    GeneratePDF.Imprimer(etatPrint, etatPrint.replace(".jrxml", ".pdf"), list, parameters, "");
+
+                    byte[] bytes = jasperReportsUtil.jasperReportInBytes(list, parameters, printResponse.getEtatName(), ReportTypeEnum.PDF, "");
+                    printResponse.setResponseBytes(bytes);
                 } else {
-                    GeneratePDF.anullerImpr("aucun element");
+                    byte[] bytes = JasperReportsUtil.anullerImpr(StaticVariables.bundleFR.getString("aucuneResultatTrouve"));
+                    printResponse.setResponseBytes(bytes);
                 }
             }
         }
+
+        return printResponse;
     }
 }

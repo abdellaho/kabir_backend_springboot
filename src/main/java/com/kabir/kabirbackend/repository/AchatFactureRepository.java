@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 public interface AchatFactureRepository extends JpaRepository<AchatFacture, Long>, JpaSpecificationExecutor<AchatFacture> {
@@ -19,5 +20,8 @@ public interface AchatFactureRepository extends JpaRepository<AchatFacture, Long
 
     @Query("SELECT SUM(l.mantantTotTTC) FROM AchatFacture l WHERE l.dateReglement BETWEEN :dateDebut AND :dateFin AND (:typeReglement IS NULL OR l.typeReglment = :typeReglement)")
     Double getSumMantantTotTTC(@Param("dateDebut") LocalDate dateDebut, @Param("dateFin") LocalDate dateFin, @Param("typeReglement") Integer typeReglement);
+
+    @Query("SELECT af FROM AchatFacture af WHERE af.id in (SELECT daf.achatFacture.id FROM DetAchatFacture daf where daf.achatFacture.dateAF BETWEEN :dateDebut AND :dateFin)")
+    List<AchatFacture> findAllByDates(@Param("dateDebut") LocalDate dateDebut, @Param("dateFin") LocalDate dateFin);
 
 }

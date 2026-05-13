@@ -18,7 +18,7 @@ import org.springframework.data.jpa.domain.Specification;
 @Builder
 public class AchatFactureSpecification implements Specification<AchatFacture> {
 
-    public Specification<AchatFacture> searchByCommon(CommonSearchModel commonSearchModel) {
+    public static Specification<AchatFacture> searchByCommon(CommonSearchModel commonSearchModel) {
         return (root, query, criteriaBuilder) -> {
             Predicate predicate = criteriaBuilder.conjunction();
 
