@@ -4,6 +4,7 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+    <import value="java.time.format.DateTimeFormatter"/>
 	<parameter name="fichier" class="java.lang.String"/>
 	<field name="type" class="java.lang.Integer">
 		<fieldDescription><![CDATA[type]]></fieldDescription>

@@ -2,16 +2,13 @@ package com.kabir.kabirbackend.controllers;
 
 import com.kabir.kabirbackend.config.enums.ReportTypeEnum;
 import com.kabir.kabirbackend.config.imprimer.AchatFactureImprimer;
+import com.kabir.kabirbackend.config.requests.PrintResponse;
 import com.kabir.kabirbackend.config.responses.AchatFactureResponse;
 import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.config.util.JasperReportsUtil;
 import com.kabir.kabirbackend.config.util.StaticVariables;
 import com.kabir.kabirbackend.dto.AchatFactureDTO;
-import com.kabir.kabirbackend.dto.DetAchatFactureDTO;
-import com.kabir.kabirbackend.dto.DetAchatFactureTVADTO;
-import com.kabir.kabirbackend.dto.VilleDTO;
 import com.kabir.kabirbackend.service.AchatFactureService;
-import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ByteArrayResource;
@@ -142,7 +139,7 @@ class AchatFactureController {
         }
     }
 
-    @PostMapping("/imprimer/{id}")
+    @GetMapping("/imprimer/{id}")
     public ResponseEntity<?> imprimer(@PathVariable Long id) {
         logger.info("imprimer achat facture with ID {}", id);
         try {
@@ -190,6 +187,29 @@ class AchatFactureController {
             }
         } catch (Exception e) {
             logger.error("Error printing achat facture with ID {}", id, e);
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PostMapping("/imprimer/type/{type}")
+    ResponseEntity<?> imprimerByType(@PathVariable("type") Integer type, @RequestBody CommonSearchModel commonSearchModel) {
+        logger.info("imprimer achat facture by type: {}", type);
+        try {
+            PrintResponse printResponse = achatFactureService.imprimer(type, commonSearchModel);
+            byte[] bytes = printResponse.getResponseBytes();
+            if(null != bytes) {
+                ByteArrayResource resource = new ByteArrayResource(bytes);
+                String fileName = MessageFormat.format(printResponse.getEtatName() + "_{0}.{1}", LocalDateTime.now(), "pdf");
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION, MessageFormat.format("attachment; filename=\"{0}\"", fileName))
+                        .contentLength(resource.contentLength())
+                        .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                        .body(resource);
+            } else {
+                return ResponseEntity.noContent().build();
+            }
+        } catch (Exception e) {
+            logger.error("Error printing achat facture by type: {}", commonSearchModel, e);
             return ResponseEntity.internalServerError().build();
         }
     }
