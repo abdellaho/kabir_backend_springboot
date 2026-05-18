@@ -148,20 +148,7 @@ public class OptimizeDB implements SchedulingConfigurer {
                     int processComplete = process.waitFor();
 
                     if (processComplete == 0) {
-                        try {
-                            if(null != etablissement.getHostMail() && !etablissement.getHostMail().isEmpty()
-                                    && null != etablissement.getFromMail() && !etablissement.getFromMail().isEmpty()
-                                    && null != etablissement.getUserMail() && !etablissement.getUserMail().isEmpty()
-                                    && null != etablissement.getPaswordMail() && !etablissement.getPaswordMail().isEmpty()
-                                    && etablissement.getPort() > 0) {
-                                String bodyText = "<meta http-equiv='Content-Type' content='text/html; charset= utf-8 '>"
-                                        + " Mr vous avez recu une nouvelle sauvegarde de base de donnee";
-
-                                emailService.sendEmail(etablissement, etablissement.getFromMail(), etablissement.getFromMail(), "Sauvegarde Base Donnee", bodyText, true, file);
-                            }
-                        } catch (Exception e) {
-                            logger.error(String.valueOf(e), e.getCause());
-                        }
+                        sendEmail(etablissement, file);
                         logger.info("Opération effectue avec succès");
                     } else {
                         logger.info("Opération effectue avec succès");
@@ -223,6 +210,8 @@ public class OptimizeDB implements SchedulingConfigurer {
 
                     if (processComplete == 0) {
                         try {
+                            sendEmail(etablissement, file);
+
                             return Files.readAllBytes(file.toPath());
                         } catch (Exception e) {
                             logger.error(String.valueOf(e), e.getCause());
@@ -239,6 +228,23 @@ public class OptimizeDB implements SchedulingConfigurer {
         }
 
         return null;
+    }
+
+    private void sendEmail(Etablissement etablissement, File file) {
+        try {
+            if(null != etablissement.getHostMail() && !etablissement.getHostMail().isEmpty()
+                    && null != etablissement.getEmail() && !etablissement.getEmail().isEmpty()
+                    //&& null != etablissement.getUserMail() && !etablissement.getUserMail().isEmpty()
+                    && null != etablissement.getPaswordMail() && !etablissement.getPaswordMail().isEmpty()
+                    && etablissement.getPort() > 0) {
+                String bodyText = "<meta http-equiv='Content-Type' content='text/html; charset= utf-8 '>"
+                        + " Mr vous avez recu une nouvelle sauvegarde de base de donnee";
+
+                emailService.sendEmail(etablissement, etablissement.getEmail(), etablissement.getEmail(), "Sauvegarde Base Donnee", bodyText, true, file);
+            }
+        } catch (Exception e) {
+            logger.error(String.valueOf(e), e.getCause());
+        }
     }
 
     private String cronConfig() {

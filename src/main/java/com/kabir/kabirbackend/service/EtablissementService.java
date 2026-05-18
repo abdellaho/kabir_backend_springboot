@@ -1,10 +1,12 @@
 package com.kabir.kabirbackend.service;
 
+import com.kabir.kabirbackend.config.security.encryption.Encryption;
 import com.kabir.kabirbackend.dto.EtablissementDTO;
 import com.kabir.kabirbackend.entities.Etablissement;
 import com.kabir.kabirbackend.mapper.EtablissementMapper;
 import com.kabir.kabirbackend.repository.EtablissementRepository;
 import com.kabir.kabirbackend.service.interfaces.IEtablissementService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,11 @@ public class EtablissementService implements IEtablissementService {
         try {
             logger.info("Saving new EtablissementDTO: {}", etablissementDTO);
             Etablissement etablissement = etablissementMapper.toEtablissement(etablissementDTO);
+            etablissement.setPaswordMail("");
+
+            if(StringUtils.isNotBlank(etablissementDTO.getPaswordMailFake())) {
+                etablissement.setPaswordMail(Encryption.strEncrypt(etablissementDTO.getPaswordMailFake(), 7));
+            }
             etablissement = etablissementRepository.save(etablissement);
             return etablissementMapper.toEtablissementDTO(etablissement);
         } catch (Exception e) {
@@ -41,6 +48,7 @@ public class EtablissementService implements IEtablissementService {
         try {
             logger.info("Finding all EtablissementDTOs");
             List<Etablissement> etablissements = etablissementRepository.findAll();
+            etablissements.stream().filter(x -> StringUtils.isNotBlank(x.getPaswordMail())).forEach(x -> x.setPaswordMailFake(Encryption.strDecrypt(x.getPaswordMail(), 7)));
             return etablissements.stream().map(etablissementMapper::toEtablissementDTO).toList();
         } catch (Exception e) {
             logger.error("Error finding all EtablissementDTOs: {}", e.getMessage());
@@ -53,6 +61,9 @@ public class EtablissementService implements IEtablissementService {
         try {
             logger.info("Finding EtablissementDTO by id: {}", id);
             Etablissement etablissement = etablissementRepository.findById(id).orElse(null);
+            if(null != etablissement && StringUtils.isNotBlank(etablissement.getPaswordMail())) {
+                etablissement.setPaswordMailFake(Encryption.strDecrypt(etablissement.getPaswordMailFake(), 7));
+            }
             return etablissementMapper.toEtablissementDTO(etablissement);
         } catch (Exception e) {
             logger.error("Error finding EtablissementDTO by id: {}", e.getMessage());

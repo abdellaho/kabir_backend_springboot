@@ -47,7 +47,7 @@ public class EmailService {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost(etablissement.getHostMail());
         mailSender.setPort(etablissement.getPort());
-        mailSender.setUsername(etablissement.getUserMail());
+        mailSender.setUsername(etablissement.getEmail());
         mailSender.setPassword(Encryption.strDecrypt(etablissement.getPaswordMail(), 7));
 
         Properties props = mailSender.getJavaMailProperties();
