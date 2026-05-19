@@ -50,6 +50,7 @@ public class PersonnelDTO implements Serializable {
     boolean archiver;
     @NotNull
     boolean supprimer;
+    boolean passwordReset;
     @NotNull
     boolean consulterStock;
     @NotNull

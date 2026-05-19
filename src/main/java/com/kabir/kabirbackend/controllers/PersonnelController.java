@@ -320,6 +320,12 @@ class PersonnelController {
 
             if(null == personnelDTO) return null;
 
+            if(personnelDTO.isPasswordReset()) {
+                personnelDTO.setPasswordReset(false);
+                updatePasswordFake(personnelDTO);
+                personnelService.save(personnelDTO);
+            }
+
             boolean hasRights = personnelService.hasAnyRights(personnelDTO);
             if(personnelDTO.isEtatComptePersonnel()) {
                 if(hasRights || personnelDTO.getTypePersonnel() == 1) {
@@ -352,17 +358,20 @@ class PersonnelController {
 
                 if(personnelDTO.getTypePersonnel() != 1) {
                     if(canSendEmail) {
-                        String custom = new PasswordGenerator.Builder()
-                                .length(8)
-                                .withUppercase(true)
-                                .withSpecial(false)
-                                .build()
-                                .generate();
-                        personnelDTO.setPasswordFake(custom);
-                        personnelService.save(personnelDTO);
+                        if(!personnelDTO.isPasswordReset()) {
+                            String custom = new PasswordGenerator.Builder()
+                                    .length(8)
+                                    .withUppercase(true)
+                                    .withSpecial(false)
+                                    .build()
+                                    .generate();
+                            personnelDTO.setPasswordFake(custom);
+                            personnelDTO.setPasswordReset(true);
+                            personnelService.save(personnelDTO);
 
-                        personnelService.sendEmail(etablissement, personnelDTO);
-                        return new LoginResponse("", "", 0, null, bundleFR.getString("verifierLoginPassword"));
+                            personnelService.sendEmail(etablissement, personnelDTO);
+                            return new LoginResponse("", "", 0, null, bundleFR.getString("verifierLoginPassword"));
+                        }
                     } else {
                         if(personnelDTO.isEtatComptePersonnel()) {
                             personnelDTO.setEtatComptePersonnel(false);

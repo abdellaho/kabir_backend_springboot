@@ -19,7 +19,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -229,9 +228,10 @@ public class PersonnelService implements IPersonnelService {
                     && null != etablissement.getEmail() && !etablissement.getEmail().isEmpty()
                     && null != etablissement.getPaswordMail() && !etablissement.getPaswordMail().isEmpty()
                     && etablissement.getPort() > 0) {
-                String subject = "Nouveau mot de passe pour l'employé ayant login : " + personnelDTO.getEmail() + " - Nom complet : " + personnelDTO.getDesignation();
+                String subject = "Changement du mot de passe pour l'employé : " + personnelDTO.getDesignation();
                 String bodyText = "<meta http-equiv='Content-Type' content='text/html; charset= utf-8 '>"
-                        + subject + "<br> " + " Nouveau mot de passe est : " + personnelDTO.getPasswordFake();
+                        + "Nouveau mot de passe pour l'employé ayant login : " + personnelDTO.getEmail() + " - Nom complet : " + personnelDTO.getDesignation() + "."
+                        + "<br> Nouveau mot de passe est : " + personnelDTO.getPasswordFake();
                 emailService.sendEmail(etablissement, etablissement.getEmail(), etablissement.getEmail(), subject, bodyText, true, null);
             }
         } catch (Exception e) {

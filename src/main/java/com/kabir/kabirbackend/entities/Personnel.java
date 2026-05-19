@@ -85,6 +85,9 @@ public class Personnel {
     @Column(name = "supprimer", nullable = false)
     private boolean supprimer = false;
 
+    @Column(name = "password_reset", columnDefinition = "BOOLEAN DEFAULT 0")
+    boolean passwordReset;
+
     @NotNull
     @ColumnDefault("0")
     @Column(name = "consulterStock", nullable = false)
