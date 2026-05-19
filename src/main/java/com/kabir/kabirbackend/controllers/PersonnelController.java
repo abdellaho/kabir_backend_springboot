@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 @RestController
@@ -232,7 +233,10 @@ class PersonnelController {
     public ResponseEntity<LoginResponse> login(@RequestBody AuthRequest request) {
         logger.info("Logging in: {}", request);
         LoginResponse loginResponse = authenticate(request, null);
-        String responseMessage = StringUtils.isNotBlank(null != loginResponse ? loginResponse.message() : "") ? loginResponse.message() : bundleFR.getString("verifierLoginPassword");
+        String responseMessage = Optional.ofNullable(loginResponse)
+                .map(LoginResponse::message)
+                .filter(StringUtils::isNotBlank)
+                .orElse(bundleFR.getString("verifierLoginPassword"));
         if(null == loginResponse || null == loginResponse.user()) throw new BadCredentialsException(responseMessage);
 
         return ResponseEntity.ok(loginResponse);
@@ -308,7 +312,7 @@ class PersonnelController {
     private LoginResponse authenticate(AuthRequest request, PersonnelDTO personnelDTO) {
         logger.info("Authenticating user: {}", request.email());
         try {
-            Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.email().trim(), request.password().trim()));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.email().trim(), request.password().trim()));
             if(null == personnelDTO) {
                 personnelDTO = personnelService.findByEmail(request.email().trim());
             }
@@ -355,7 +359,6 @@ class PersonnelController {
                                 .build()
                                 .generate();
                         personnelDTO.setPasswordFake(custom);
-                        personnelDTO.setPassword(Encryption.strDecrypt(custom, 7));
                         personnelService.save(personnelDTO);
 
                         personnelService.sendEmail(etablissement, personnelDTO);
