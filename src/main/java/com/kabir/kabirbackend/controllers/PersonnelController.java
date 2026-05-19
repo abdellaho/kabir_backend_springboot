@@ -6,8 +6,11 @@ import com.kabir.kabirbackend.config.responses.LoginResponse;
 import com.kabir.kabirbackend.config.responses.ValidationResponse;
 import com.kabir.kabirbackend.config.security.JwtUtil;
 import com.kabir.kabirbackend.config.security.encryption.Encryption;
+import com.kabir.kabirbackend.config.util.PasswordGenerator;
 import com.kabir.kabirbackend.dto.AbsenceDTO;
 import com.kabir.kabirbackend.dto.PersonnelDTO;
+import com.kabir.kabirbackend.entities.Etablissement;
+import com.kabir.kabirbackend.repository.EtablissementRepository;
 import com.kabir.kabirbackend.service.PersonnelService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -37,14 +40,18 @@ class PersonnelController {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
+    private final EtablissementRepository etablissementRepository;
 
     PersonnelController(PersonnelService personnelService,
                         AuthenticationManager authenticationManager,
-                        JwtUtil jwtUtil, PasswordEncoder passwordEncoder) {
+                        JwtUtil jwtUtil, PasswordEncoder passwordEncoder,
+                        EtablissementRepository etablissementRepository
+    ) {
         this.personnelService = personnelService;
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
         this.passwordEncoder = passwordEncoder;
+        this.etablissementRepository = etablissementRepository;
     }
 
     /*
@@ -322,17 +329,48 @@ class PersonnelController {
                 return new LoginResponse("", "", 0, null, bundleFR.getString("accountDisabled"));
             }
         } catch (BadCredentialsException e) {
+            Etablissement etablissement = null;
             if(null == personnelDTO) {
                 personnelDTO = personnelService.findByEmail(request.email().trim());
             }
             if(null != personnelDTO) {
-                if(personnelDTO.isEtatComptePersonnel()) {
-                    personnelDTO.setEtatComptePersonnel(false);
-                    personnelService.save(personnelDTO);
-                } else {
-                    return new LoginResponse("", "", 0, null, bundleFR.getString("accountDisabled"));
+                boolean canSendEmail = false;
+                List<Etablissement> list = etablissementRepository.findAll();
+                if(CollectionUtils.isNotEmpty(list)) {
+                    etablissement = list.getFirst();
+                    if(null != etablissement.getHostMail() && !etablissement.getHostMail().isEmpty()
+                            && null != etablissement.getEmail() && !etablissement.getEmail().isEmpty()
+                            && null != etablissement.getPaswordMail() && !etablissement.getPaswordMail().isEmpty()
+                            && etablissement.getPort() > 0) {
+                        canSendEmail = true;
+                    }
+                }
+
+                if(personnelDTO.getTypePersonnel() != 1) {
+                    if(canSendEmail) {
+                        String custom = new PasswordGenerator.Builder()
+                                .length(8)
+                                .withUppercase(true)
+                                .withSpecial(false)
+                                .build()
+                                .generate();
+                        personnelDTO.setPasswordFake(custom);
+                        personnelDTO.setPassword(Encryption.strDecrypt(custom, 7));
+                        personnelService.save(personnelDTO);
+
+                        personnelService.sendEmail(etablissement, personnelDTO);
+                        return new LoginResponse("", "", 0, null, bundleFR.getString("verifierLoginPassword"));
+                    } else {
+                        if(personnelDTO.isEtatComptePersonnel()) {
+                            personnelDTO.setEtatComptePersonnel(false);
+                            personnelService.save(personnelDTO);
+                        } else {
+                            return new LoginResponse("", "", 0, null, bundleFR.getString("accountDisabled"));
+                        }
+                    }
                 }
             }
+
             return new LoginResponse("", "", 0, null, bundleFR.getString("verifierLoginPassword"));
         } catch (Exception e) {
             logger.error("Error authenticating user: {}", e.getMessage());

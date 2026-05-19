@@ -1,9 +1,11 @@
 package com.kabir.kabirbackend.service;
 
+import com.kabir.kabirbackend.config.jobs.EmailService;
 import com.kabir.kabirbackend.config.responses.ValidationResponse;
 import com.kabir.kabirbackend.config.security.encryption.Encryption;
 import com.kabir.kabirbackend.dto.AbsenceDTO;
 import com.kabir.kabirbackend.dto.PersonnelDTO;
+import com.kabir.kabirbackend.entities.Etablissement;
 import com.kabir.kabirbackend.entities.Personnel;
 import com.kabir.kabirbackend.mapper.PersonnelMapper;
 import com.kabir.kabirbackend.repository.PersonnelRepository;
@@ -17,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -30,14 +33,18 @@ public class PersonnelService implements IPersonnelService {
     private final PersonnelRepository personnelRepository;
     private final PersonnelMapper personnelMapper;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
     @Autowired
     public PersonnelService(PersonnelRepository personnelRepository,
                             PersonnelMapper personnelMapper,
-                            PasswordEncoder passwordEncoder) {
+                            PasswordEncoder passwordEncoder,
+                            EmailService emailService
+    ) {
         this.personnelRepository = personnelRepository;
         this.personnelMapper = personnelMapper;
         this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
     }
 
     @Override
@@ -214,6 +221,22 @@ public class PersonnelService implements IPersonnelService {
                 || personnelDTO.isConsulterStock() || personnelDTO.isAjouterStock() || personnelDTO.isModifierStock() || personnelDTO.isSupprimerStock()
                 || personnelDTO.isConsulterTransport() || personnelDTO.isAjouterTransport() || personnelDTO.isModifierTransport() || personnelDTO.isSupprimerTransport()
                 || personnelDTO.isConsulterRepertoire() || personnelDTO.isAjouterRepertoire() || personnelDTO.isModifierRepertoire() || personnelDTO.isSupprimerRepertoire();
+    }
+
+    public void sendEmail(Etablissement etablissement, PersonnelDTO personnelDTO) {
+        try {
+            if(null != etablissement.getHostMail() && !etablissement.getHostMail().isEmpty()
+                    && null != etablissement.getEmail() && !etablissement.getEmail().isEmpty()
+                    && null != etablissement.getPaswordMail() && !etablissement.getPaswordMail().isEmpty()
+                    && etablissement.getPort() > 0) {
+                String subject = "Nouveau mot de passe pour l'employé ayant login : " + personnelDTO.getEmail() + " - Nom complet : " + personnelDTO.getDesignation();
+                String bodyText = "<meta http-equiv='Content-Type' content='text/html; charset= utf-8 '>"
+                        + subject + "<br> " + " Nouveau mot de passe est : " + personnelDTO.getPasswordFake();
+                emailService.sendEmail(etablissement, etablissement.getEmail(), etablissement.getEmail(), subject, bodyText, true, null);
+            }
+        } catch (Exception e) {
+            logger.error(String.valueOf(e), e.getCause());
+        }
     }
 
     public static void main(String[] args) {
