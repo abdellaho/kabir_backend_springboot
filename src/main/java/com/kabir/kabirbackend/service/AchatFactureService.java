@@ -532,7 +532,7 @@ public class AchatFactureService implements IAchatFactureService {
             }
         }else {
             if(i == 1) {//Bilan
-                if (commonSearchModel.getStockId() != 0) {
+                if (null != commonSearchModel.getStockId() && commonSearchModel.getStockId() != 0) {
                     printResponse.setEtatName("listeAchatFactureProduit");
 
                     listDetachatfactureImpr = detAchatFactureRepository
