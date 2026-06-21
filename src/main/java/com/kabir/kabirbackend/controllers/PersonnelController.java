@@ -251,7 +251,7 @@ class PersonnelController {
 
                 personnelDTO.setLogin(request.email());
                 personnelDTO.setEmail(request.email());
-                personnelDTO.setPassword(passwordEncoder.encode(request.password()));
+                personnelDTO.setPasswordFake(request.password());
                 personnelDTO.setTypePersonnel(1);
                 personnelDTO.setDesignation("Administrateur");
                 personnelDTO.setEtatComptePersonnel(true);
