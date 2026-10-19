@@ -35,6 +35,8 @@ public class DetLivraisonDTO implements Serializable {
     private LocalDate livraisonDateBl;
     private String livraisonRepertoireDesignation;
     private String livraisonRepertoireTel1;
+    private String livraisonRepertoireTel2;
+    private String livraisonRepertoireIce;
     private String livraisonRepertoireAdresse;
     private Long stockId;
     private String stockDesignation;

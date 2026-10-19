@@ -17,4 +17,5 @@ public class VilleDTO implements Serializable {
     @Size(max = 191)
     @NotBlank
     String nomVille;
+    int nbrRepertoire;
 }

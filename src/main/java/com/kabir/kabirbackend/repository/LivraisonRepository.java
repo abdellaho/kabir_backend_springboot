@@ -27,4 +27,11 @@ public interface LivraisonRepository extends JpaRepository<Livraison, Long>, Jpa
         group by l.repertoire.id
     """)
     List<Object[]> findLastDatesForRepertoires(@Param("ids") List<Long> ids);
+
+    /**
+     * Last BL date of one client, over every date (legacy {@code imprimerProduitsClient}
+     * "dernierDate" = {@code max(dateBl) from Livraison where repertoireByClient = id}).
+     */
+    @Query("select max(l.dateBl) from Livraison l where l.repertoire.id = :repertoireId")
+    LocalDate findMaxDateBlByRepertoireId(@Param("repertoireId") Long repertoireId);
 }

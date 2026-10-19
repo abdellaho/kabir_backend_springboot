@@ -25,10 +25,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @RequestMapping("/personnel")
@@ -42,6 +45,9 @@ class PersonnelController {
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
     private final EtablissementRepository etablissementRepository;
+
+    // Simple rate limiting: key by login or IP (we'll use login for now)
+    private final ConcurrentHashMap<String, AtomicLong> lastForgotRequest = new ConcurrentHashMap<>();
 
     PersonnelController(PersonnelService personnelService,
                         AuthenticationManager authenticationManager,
@@ -321,9 +327,18 @@ class PersonnelController {
             if(null == personnelDTO) return null;
 
             if(personnelDTO.isPasswordReset()) {
-                personnelDTO.setPasswordReset(false);
-                updatePasswordFake(personnelDTO);
-                personnelService.save(personnelDTO);
+                // Check expiry (30 min)
+                if (personnelDTO.getPasswordResetTime() != null &&
+                        personnelDTO.getPasswordResetTime().isBefore(LocalDateTime.now().minusMinutes(30))) {
+                    personnelDTO.setPasswordReset(false);
+                    personnelDTO.setPasswordResetTime(null);
+                    personnelService.save(personnelDTO);
+                } else {
+                    personnelDTO.setPasswordReset(false);
+                    personnelDTO.setPasswordResetTime(null);
+                    updatePasswordFake(personnelDTO);
+                    personnelService.save(personnelDTO);
+                }
             }
 
             boolean hasRights = personnelService.hasAnyRights(personnelDTO);
@@ -367,6 +382,7 @@ class PersonnelController {
                                     .generate();
                             personnelDTO.setPasswordFake(custom);
                             personnelDTO.setPasswordReset(true);
+                            personnelDTO.setPasswordResetTime(LocalDateTime.now());
                             personnelService.save(personnelDTO);
 
                             personnelService.sendEmail(etablissement, personnelDTO);
@@ -436,6 +452,57 @@ class PersonnelController {
             logger.error("Error updating personnel account: {}", e.getMessage());
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    public static class ForgotPasswordRequest {
+        private String login;
+
+        public String getLogin() {
+            return login;
+        }
+
+        public void setLogin(String login) {
+            this.login = login;
+        }
+    }
+
+    @PostMapping("/auth/forgot-password")
+    public ResponseEntity<String> forgotPassword(@RequestBody ForgotPasswordRequest request) {
+        logger.info("Forgot password request for login: {}", request.getLogin());
+        if (request.getLogin() == null || request.getLogin().trim().isEmpty()) {
+            return ResponseEntity.ok(bundleFR.getString("verifierLoginPassword"));
+        }
+
+        String loginKey = request.getLogin().trim();
+        String throttleKey = loginKey.toLowerCase(Locale.ROOT);
+        long now = System.currentTimeMillis();
+        AtomicLong last = lastForgotRequest.get(throttleKey);
+        if (last != null && (now - last.get()) < 60000) { // 60 seconds
+            return ResponseEntity.ok(bundleFR.getString("verifierLoginPassword"));
+        }
+
+        try {
+            PersonnelDTO personnelDTO = personnelService.findByEmail(loginKey);
+            if (personnelDTO != null) {
+                Etablissement etablissement = null;
+                List<Etablissement> list = etablissementRepository.findAll();
+                if (CollectionUtils.isNotEmpty(list)) {
+                    etablissement = list.getFirst();
+                    boolean canSendEmail = etablissement.getHostMail() != null && !etablissement.getHostMail().isEmpty()
+                            && etablissement.getEmail() != null && !etablissement.getEmail().isEmpty()
+                            && etablissement.getPaswordMail() != null && !etablissement.getPaswordMail().isEmpty()
+                            && etablissement.getPort() > 0;
+                    if (canSendEmail && personnelDTO.getTypePersonnel() != 1) {
+                        personnelService.sendForgotPasswordEmail(etablissement, personnelDTO);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            logger.warn("Forgot password lookup failed: {}", e.getMessage());
+        }
+
+        lastForgotRequest.put(throttleKey, new AtomicLong(now));
+        return ResponseEntity.ok(bundleFR.getString("verifierLoginPassword"));
     }
 
     private void updatePasswordFake(PersonnelDTO personnelDTO) {

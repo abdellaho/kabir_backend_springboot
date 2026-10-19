@@ -36,4 +36,17 @@ public class DetFactureDTO implements Serializable {
     private String stockDesignation;
     private double stockPvttc;
     private int stockQteFacturer;
+    private double stockBenifice;
+    private double stockTva;
+    private String factureRepertoireDesignation;
+    private String factureRepertoireTel1;
+    private String factureRepertoireAdresse;
+    private String factureRepertoireIce;
+    private String factureRepertoireIfe;
+    private String factureTypePaiement;
+    private double factureMantantBFHT;
+    private double factureTva7Total;
+    private double factureTva20Total;
+    private boolean factureFacturer100;
+    private LocalDate factureDateReglement;
 }

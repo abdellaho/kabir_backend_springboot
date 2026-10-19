@@ -9,6 +9,7 @@ public interface IVilleService {
     public VilleDTO save(VilleDTO absenceDTO);
     public VilleDTO findById(Long id);
     public List<VilleDTO> findAll();
+    public List<VilleDTO> findAllWithRepertoireCount();
     public void delete(Long id);
     public List<VilleDTO> search(VilleDTO absenceDTO);
 }

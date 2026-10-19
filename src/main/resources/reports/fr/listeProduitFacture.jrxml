@@ -13,13 +13,13 @@
 	<parameter name="dateFn" class="java.lang.String"/>
 	<parameter name="dateDb" class="java.lang.String"/>
 	<field name="Client" class="java.lang.String">
-		<fieldDescription><![CDATA[facture.repertoireByClient.designation]]></fieldDescription>
+		<fieldDescription><![CDATA[factureRepertoireDesignation]]></fieldDescription>
 	</field>
-	<field name="dateLivr" class="java.util.Date">
-		<fieldDescription><![CDATA[facture.dateReglement]]></fieldDescription>
+	<field name="dateLivr" class="java.time.LocalDate">
+		<fieldDescription><![CDATA[factureDateReglement]]></fieldDescription>
 	</field>
 	<field name="numBl" class="java.lang.String">
-		<fieldDescription><![CDATA[facture.codeBF]]></fieldDescription>
+		<fieldDescription><![CDATA[factureCodeBF]]></fieldDescription>
 	</field>
 	<field name="qteLivr" class="java.lang.Integer">
 		<fieldDescription><![CDATA[qteFacturer]]></fieldDescription>
@@ -28,10 +28,10 @@
 		<fieldDescription><![CDATA[montantProduit]]></fieldDescription>
 	</field>
 	<field name="benifice" class="java.lang.Double">
-		<fieldDescription><![CDATA[stock.benifice]]></fieldDescription>
+		<fieldDescription><![CDATA[stockBenifice]]></fieldDescription>
 	</field>
 	<field name="Produit" class="java.lang.String">
-		<fieldDescription><![CDATA[stock.designation]]></fieldDescription>
+		<fieldDescription><![CDATA[stockDesignation]]></fieldDescription>
 	</field>
 	<field name="benificeDh" class="java.lang.Double">
 		<fieldDescription><![CDATA[beneficeDH]]></fieldDescription>

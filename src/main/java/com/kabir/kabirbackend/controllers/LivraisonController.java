@@ -2,6 +2,9 @@ package com.kabir.kabirbackend.controllers;
 
 import com.kabir.kabirbackend.config.enums.ReportTypeEnum;
 import com.kabir.kabirbackend.config.jobs.OptimizeDB;
+import com.kabir.kabirbackend.config.requests.LivraisonLivrerRequest;
+import com.kabir.kabirbackend.config.requests.LivraisonNumChequeRequest;
+import com.kabir.kabirbackend.config.requests.LivraisonPrintRequest;
 import com.kabir.kabirbackend.config.responses.LivraisonResponse;
 import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.config.util.JasperReportsUtil;
@@ -241,6 +244,66 @@ class LivraisonController {
             return ResponseEntity.ok(livraisons);
         } catch (Exception e) {
             logger.error("Error searching livraison by common: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @PostMapping("/imprimer/etat")
+    public ResponseEntity<?> imprimerEtat(@RequestBody LivraisonPrintRequest request) {
+        logger.info("Request imprimer etat livraison: {}", request);
+        try {
+            byte[] bytes = livraisonService.imprimerEtat(request);
+            if (null != bytes) {
+                ByteArrayResource resource = new ByteArrayResource(bytes);
+                String fileName = MessageFormat.format("livraison_etat_{0}.{1}", LocalDateTime.now(), "pdf");
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION, MessageFormat.format("attachment; filename=\"{0}\"", fileName))
+                        .contentLength(resource.contentLength())
+                        .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                        .body(resource);
+            } else {
+                throw new Exception("File Download Failed");
+            }
+        } catch (Exception e) {
+            logger.error("Error imprimer etat livraison: {}", e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PostMapping("/imprimer/num-cheque")
+    public ResponseEntity<?> imprimerParNumCheque(@RequestBody LivraisonNumChequeRequest request) {
+        logger.info("Request imprimer livraison etat by numCheque: {}", request);
+        try {
+            byte[] bytes = livraisonService.imprimerParNumCheque(null == request ? null : request.getNumCheque());
+            if (null != bytes) {
+                ByteArrayResource resource = new ByteArrayResource(bytes);
+                String fileName = MessageFormat.format("livraison_num_cheque_{0}.{1}", LocalDateTime.now(), "pdf");
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION, MessageFormat.format("attachment; filename=\"{0}\"", fileName))
+                        .contentLength(resource.contentLength())
+                        .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                        .body(resource);
+            } else {
+                throw new Exception("File Download Failed");
+            }
+        } catch (Exception e) {
+            logger.error("Error imprimer livraison etat by numCheque: {}", e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PatchMapping("/{id}/livrer")
+    public ResponseEntity<LivraisonDTO> livrer(@PathVariable Long id, @RequestBody LivraisonLivrerRequest request) {
+        logger.info("Livrer livraison id: {} value: {}", id, request);
+        try {
+            LivraisonDTO updatedLivraison = livraisonService.livrer(id, null == request ? 0 : request.getLivrernonlivrer());
+            if (null == updatedLivraison) {
+                logger.error("Livraison not found with id: {}", id);
+                return ResponseEntity.badRequest().body(null);
+            }
+            return ResponseEntity.ok(updatedLivraison);
+        } catch (Exception e) {
+            logger.error("Error livrer livraison: {}", e.getMessage());
             return ResponseEntity.badRequest().body(null);
         }
     }

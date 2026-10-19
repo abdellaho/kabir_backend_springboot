@@ -51,8 +51,23 @@ public interface RepertoireRepository extends JpaRepository<Repertoire, Long>, J
         """)
     boolean isRepertoireUsed(Long id);
 
+    @Query("""
+        select r.ville.id as villeId, count(r) as nbrRepertoire
+        from Repertoire r
+        where r.archiver = false
+            and r.bloquer = false
+            and r.ville is not null
+        group by r.ville.id
+    """)
+    List<VilleRepertoireCount> countActiveByVilleId();
+
     @Transactional
     @Modifying
     @Query("DELETE FROM Repertoire r WHERE r.bloquer = true AND r.dateSuppression <= :date")
     void deleteBloquerOlderThan(@Param("date") LocalDate date);
+
+    interface VilleRepertoireCount {
+        Long getVilleId();
+        Long getNbrRepertoire();
+    }
 }

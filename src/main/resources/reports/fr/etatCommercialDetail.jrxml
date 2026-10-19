@@ -14,9 +14,9 @@
 	<parameter name="dateDb" class="java.lang.String"/>
 	<parameter name="commercialName" class="java.lang.String"/>
 	<field name="Client" class="java.lang.String">
-		<fieldDescription><![CDATA[repertoireByClient.designation]]></fieldDescription>
+		<fieldDescription><![CDATA[repertoire.designation]]></fieldDescription>
 	</field>
-	<field name="dateLivr" class="java.util.Date">
+	<field name="dateLivr" class="java.time.LocalDate">
 		<fieldDescription><![CDATA[dateBl]]></fieldDescription>
 	</field>
 	<field name="numBl" class="java.lang.String">
@@ -29,7 +29,7 @@
 		<fieldDescription><![CDATA[mantantBLBenefice]]></fieldDescription>
 	</field>
 	<field name="commercial" class="java.lang.String">
-		<fieldDescription><![CDATA[repertoireByCommercial.designation]]></fieldDescription>
+		<fieldDescription><![CDATA[personnel.designation]]></fieldDescription>
 	</field>
 	<variable name="TotMont" class="java.lang.Double" calculation="Sum">
 		<variableExpression><![CDATA[$F{Montant}]]></variableExpression>

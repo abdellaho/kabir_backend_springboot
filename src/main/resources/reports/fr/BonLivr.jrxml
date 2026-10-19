@@ -55,6 +55,15 @@
 	<field name="prixVente" class="java.lang.Double">
 		<fieldDescription><![CDATA[prixVente]]></fieldDescription>
 	</field>
+	<field name="tel2" class="java.lang.String">
+		<fieldDescription><![CDATA[livraisonRepertoireTel2]]></fieldDescription>
+	</field>
+	<field name="repertoireIce" class="java.lang.String">
+		<fieldDescription><![CDATA[livraisonRepertoireIce]]></fieldDescription>
+	</field>
+	<field name="stockPvttc" class="java.lang.Double">
+		<fieldDescription><![CDATA[stockPvttc]]></fieldDescription>
+	</field>
 	<variable name="TotalQteLivr" class="java.lang.Integer" calculation="Sum">
 		<variableExpression><![CDATA[$F{qteLivr}]]></variableExpression>
 		<initialValueExpression><![CDATA[$F{qteLivr}]]></initialValueExpression>
@@ -185,7 +194,9 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Arial" size="13"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("libTel")+" : "+$F{tel}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("libTel") + " : " + $F{tel}
++ (($F{tel2} != null && $F{tel2}.length() > 0 && $F{tel2}.trim() != "") ? (" / " + $F{tel2}) : "")
++ (($F{repertoireIce} != null && $F{repertoireIce}.length() > 0 && $F{repertoireIce}.trim() != "") ? (" - " + $P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("ice") + " : " + $F{repertoireIce}) : "")]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -220,7 +231,10 @@
 				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("remise")]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" mode="Opaque" x="306" y="0" width="74" height="22" forecolor="#000000" backcolor="#CCCCCC" uuid="7009b3f8-435e-4f1c-a255-c949ea199be8"/>
+				<reportElement key="textField" mode="Opaque" x="315" y="0" width="65" height="22" forecolor="#000000" backcolor="#CCCCCC" uuid="7009b3f8-435e-4f1c-a255-c949ea199be8">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -234,7 +248,12 @@
 				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("prix")]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" mode="Opaque" x="256" y="0" width="50" height="22" forecolor="#000000" backcolor="#CCCCCC" uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf"/>
+				<reportElement key="textField" mode="Opaque" x="275" y="0" width="40" height="22" forecolor="#000000" backcolor="#CCCCCC" uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -248,7 +267,7 @@
 				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("qte")]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement key="textField" mode="Opaque" x="0" y="0" width="256" height="22" forecolor="#000000" backcolor="#CCCCCC" uuid="a63e2e2f-1664-46da-867c-6be79c370752"/>
+				<reportElement key="textField" mode="Opaque" x="0" y="0" width="220" height="22" forecolor="#000000" backcolor="#CCCCCC" uuid="a63e2e2f-1664-46da-867c-6be79c370752"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -261,12 +280,29 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("Produit")]]></textFieldExpression>
 			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField" mode="Opaque" x="220" y="0" width="55" height="22" forecolor="#000000" backcolor="#CCCCCC" uuid="54884f1d-b171-4580-8f20-f605a937e345"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("pph")]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="30" splitType="Stretch">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="256" y="0" width="50" height="30" uuid="3822896d-07fd-4c50-b78c-89af8af087e6"/>
+				<reportElement stretchType="RelativeToTallestObject" x="275" y="0" width="40" height="30" uuid="3822896d-07fd-4c50-b78c-89af8af087e6">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
 				<box rightPadding="0">
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -308,7 +344,7 @@
 				<textFieldExpression><![CDATA[$F{remiseLiv}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="256" height="30" uuid="0dccdf23-b60c-4e43-92ad-96973285f8c5"/>
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="220" height="30" uuid="0dccdf23-b60c-4e43-92ad-96973285f8c5"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -322,7 +358,10 @@
 				<textFieldExpression><![CDATA[$F{Produit}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="306" y="0" width="74" height="30" uuid="979eb9c1-2975-46bf-b0fc-a7b9f94c77e7"/>
+				<reportElement stretchType="RelativeToTallestObject" x="315" y="0" width="65" height="30" uuid="979eb9c1-2975-46bf-b0fc-a7b9f94c77e7">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
 				<box rightPadding="0">
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -334,6 +373,20 @@
 					<font fontName="Arial" size="13" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{prixVente}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="220" y="0" width="55" height="30" uuid="cb874757-2917-4a35-a537-f234b9fdb819"/>
+				<box rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{stockPvttc}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

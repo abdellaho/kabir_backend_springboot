@@ -96,7 +96,7 @@ $P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("revendeur"))
 	</pageHeader>
 	<columnHeader>
 		<band height="25" splitType="Stretch">
-			<textField isBlankWhenNull="false">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
 				<reportElement key="textField" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="240" height="25" forecolor="#000000" backcolor="#CCCCCC" uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf"/>
 				<box>
 					<pen lineWidth="0.5"/>
@@ -110,7 +110,7 @@ $P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("revendeur"))
 				</textElement>
 				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("designation")]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="false">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
 				<reportElement key="textField" stretchType="RelativeToTallestObject" mode="Opaque" x="240" y="0" width="90" height="25" forecolor="#000000" backcolor="#CCCCCC" uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf"/>
 				<box>
 					<pen lineWidth="0.5"/>
@@ -124,7 +124,7 @@ $P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("revendeur"))
 				</textElement>
 				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("tel1")]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="false">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
 				<reportElement key="textField" stretchType="RelativeToTallestObject" mode="Opaque" x="420" y="0" width="90" height="25" forecolor="#000000" backcolor="#CCCCCC" uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf"/>
 				<box>
 					<pen lineWidth="0.5"/>
@@ -138,7 +138,7 @@ $P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("revendeur"))
 				</textElement>
 				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("tel3")]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="false">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
 				<reportElement key="textField" stretchType="RelativeToTallestObject" mode="Opaque" x="510" y="0" width="30" height="25" forecolor="#000000" backcolor="#CCCCCC" uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf"/>
 				<box>
 					<pen lineWidth="0.5"/>
@@ -152,7 +152,7 @@ $P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("revendeur"))
 				</textElement>
 				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("bl")]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="false">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
 				<reportElement key="textField" stretchType="RelativeToTallestObject" mode="Opaque" x="540" y="0" width="70" height="25" forecolor="#000000" backcolor="#CCCCCC" uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf">
 					<printWhenExpression><![CDATA[$P{showDate}.equals("1")]]></printWhenExpression>
 				</reportElement>
@@ -168,7 +168,7 @@ $P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("revendeur"))
 				</textElement>
 				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("dernierBL")]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="false">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
 				<reportElement key="textField" stretchType="RelativeToTallestObject" mode="Opaque" x="330" y="0" width="90" height="25" forecolor="#000000" backcolor="#CCCCCC" uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf"/>
 				<box>
 					<pen lineWidth="0.5"/>
@@ -182,7 +182,7 @@ $P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("revendeur"))
 				</textElement>
 				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("tel2")]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="false">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
 				<reportElement key="textField" stretchType="RelativeToTallestObject" mode="Opaque" x="610" y="0" width="90" height="25" forecolor="#000000" backcolor="#CCCCCC" uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf">
 					<printWhenExpression><![CDATA[$P{showDate}.equals("1")]]></printWhenExpression>
 				</reportElement>
@@ -202,7 +202,7 @@ $P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("revendeur"))
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
-			<textField isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="240" height="20" uuid="d3a3a324-01b6-4d4e-af39-581fb2ffd69b"/>
 				<box>
 					<pen lineWidth="0.5"/>
@@ -216,7 +216,7 @@ $P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("revendeur"))
 				</textElement>
 				<textFieldExpression><![CDATA[$F{designation}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="240" y="0" width="90" height="20" uuid="26793d82-0b8f-4e12-bdde-4f90576e00ce"/>
 				<box>
 					<pen lineWidth="0.5"/>
@@ -230,7 +230,7 @@ $P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("revendeur"))
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tel1}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="420" y="0" width="90" height="20" uuid="eda8f61f-249f-4ca9-b536-343e37c80ac4"/>
 				<box>
 					<pen lineWidth="0.5"/>
@@ -244,7 +244,7 @@ $P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("revendeur"))
 				</textElement>
 				<textFieldExpression><![CDATA[($F{tel3} !=null ? $F{tel3} : "")]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="510" y="0" width="30" height="20" uuid="eda8f61f-249f-4ca9-b536-343e37c80ac4"/>
 				<box>
 					<pen lineWidth="0.5"/>
@@ -258,7 +258,7 @@ $P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("revendeur"))
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nbrOperationClient}]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yy" isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yy" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="540" y="0" width="70" height="20" uuid="eda8f61f-249f-4ca9-b536-343e37c80ac4">
 					<printWhenExpression><![CDATA[$P{showDate}.equals("1")]]></printWhenExpression>
 				</reportElement>
@@ -274,7 +274,7 @@ $P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("revendeur"))
 				</textElement>
 				<textFieldExpression><![CDATA[$F{dateDernierBL}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="330" y="0" width="90" height="20" uuid="eda8f61f-249f-4ca9-b536-343e37c80ac4"/>
 				<box>
 					<pen lineWidth="0.5"/>
@@ -288,7 +288,7 @@ $P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("revendeur"))
 				</textElement>
 				<textFieldExpression><![CDATA[($F{tel2} !=null ? $F{tel2} : "")]]></textFieldExpression>
 			</textField>
-			<textField pattern="" isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="610" y="0" width="90" height="20" uuid="eda8f61f-249f-4ca9-b536-343e37c80ac4"/>
 				<box>
 					<pen lineWidth="0.5"/>

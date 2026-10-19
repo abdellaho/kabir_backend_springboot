@@ -90,5 +90,56 @@ public interface FactureRepository extends JpaRepository<Facture, Long>, JpaSpec
     @Query("SELECT SUM(f.mntReglement2) FROM Facture f WHERE f.typeReglment2 = :typeReglment AND (f.dateReglement BETWEEN :dateDebut AND :dateFin OR f.dateReglement2 BETWEEN :dateDebut AND :dateFin) AND (:operateurId IS NULL OR f.employeOperateur.id = :operateurId)")
     Double getSumMntReglement2(@Param("dateDebut") LocalDate dateDebut, @Param("dateFin") LocalDate dateFin, @Param("typeReglment") int typeReglment, @Param("operateurId") Long operateurId);
 
+    /**
+     * Bilan main list: factures whose {@code dateBF} is in the range, ordered dateBF
+     * then client designation (legacy {@code imprimerBilan} "query").
+     */
+    @Query("""
+        SELECT f FROM Facture f
+        WHERE f.dateBF BETWEEN :dateDebut AND :dateFin
+          AND (:operateurId IS NULL OR f.employeOperateur.id = :operateurId)
+        ORDER BY f.dateBF, f.repertoire.designation
+    """)
+    List<Facture> findBilanMainList(@Param("dateDebut") LocalDate dateDebut, @Param("dateFin") LocalDate dateFin, @Param("operateurId") Long operateurId);
+
+    /**
+     * Bilan "spec" list: factures whose {@code dateReglement} is in the given year
+     * bounds, ordered dateBF then client designation (legacy {@code imprimerBilan}
+     * "querySpec").
+     */
+    @Query("""
+        SELECT f FROM Facture f
+        WHERE f.dateReglement BETWEEN :reglementDebut AND :reglementFin
+          AND (:operateurId IS NULL OR f.employeOperateur.id = :operateurId)
+        ORDER BY f.dateBF, f.repertoire.designation
+    """)
+    List<Facture> findBilanSpecList(@Param("reglementDebut") LocalDate reglementDebut, @Param("reglementFin") LocalDate reglementFin, @Param("operateurId") Long operateurId);
+
+    /**
+     * Bilan payment sums set: factures whose {@code dateReglement} is in the range
+     * (legacy {@code imprimerBilan} "queryFactureDateRegl").
+     */
+    @Query("""
+        SELECT f FROM Facture f
+        WHERE f.dateReglement BETWEEN :dateDebut AND :dateFin
+          AND (:operateurId IS NULL OR f.employeOperateur.id = :operateurId)
+    """)
+    List<Facture> findBilanReglementList(@Param("dateDebut") LocalDate dateDebut, @Param("dateFin") LocalDate dateFin, @Param("operateurId") Long operateurId);
+
+    /**
+     * Client "Consulter" list: big OR over the four settlement dates, optional client
+     * and optional operator (legacy {@code imprimerParClient}).
+     */
+    @Query("""
+        SELECT f FROM Facture f
+        WHERE ((f.dateReglement BETWEEN :dateDebut AND :dateFin)
+            OR (f.dateReglement2 BETWEEN :dateDebut AND :dateFin)
+            OR (f.dateReglement3 BETWEEN :dateDebut AND :dateFin)
+            OR (f.dateReglement4 BETWEEN :dateDebut AND :dateFin))
+          AND (:repertoireId IS NULL OR f.repertoire.id = :repertoireId)
+          AND (:operateurId IS NULL OR f.employeOperateur.id = :operateurId)
+        ORDER BY f.dateReglement, f.repertoire.designation
+    """)
+    List<Facture> findParClientList(@Param("dateDebut") LocalDate dateDebut, @Param("dateFin") LocalDate dateFin, @Param("repertoireId") Long repertoireId, @Param("operateurId") Long operateurId);
 
 }

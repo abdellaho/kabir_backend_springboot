@@ -74,7 +74,7 @@ public class AbsenceService implements IAbsenceService {
     @Override
     public List<AbsenceDTO> search(AbsenceDTO absenceDTO) {
         logger.info("Searching absence by date and personnel id with AbsenceSpecification builder {}", absenceDTO);
-        return absenceRepository.findAll(AbsenceSpecification.builder().absenceDTO(absenceDTO).build()).stream()
+        return absenceRepository.findAll(new AbsenceSpecification(absenceDTO)).stream()
                 .map(absenceMapper::toAbsenceDTO)
                 .toList();
     }
@@ -92,7 +92,7 @@ public class AbsenceService implements IAbsenceService {
             commonSearchModel.setDateDebut(LocalDate.now().minusDays(90));
             commonSearchModel.setDateFin(LocalDate.now());
         }
-        return absenceRepository.findAll(AbsenceSpecification.builder().build().searchByCommon(commonSearchModel)).stream()
+        return absenceRepository.findAll(new AbsenceSpecification(null).searchByCommon(commonSearchModel)).stream()
                 .map(absenceMapper::toAbsenceDTO)
                 .toList();
     }

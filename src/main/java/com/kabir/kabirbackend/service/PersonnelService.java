@@ -239,6 +239,28 @@ public class PersonnelService implements IPersonnelService {
         }
     }
 
+    public void sendForgotPasswordEmail(Etablissement etablissement, PersonnelDTO personnelDTO) {
+        try {
+            if(null != etablissement.getHostMail() && !etablissement.getHostMail().isEmpty()
+                    && null != etablissement.getEmail() && !etablissement.getEmail().isEmpty()
+                    && null != etablissement.getPaswordMail() && !etablissement.getPaswordMail().isEmpty()
+                    && etablissement.getPort() > 0) {
+                String subject = "Demande de réinitialisation du mot de passe : " + personnelDTO.getDesignation();
+                String bodyText = "<meta http-equiv='Content-Type' content='text/html; charset= utf-8 '>"
+                        + "Une demande de réinitialisation de mot de passe a été effectuée pour l'utilisateur :"
+                        + "<br> Login : " + personnelDTO.getLogin()
+                        + "<br> Nom complet : " + personnelDTO.getDesignation()
+                        + (StringUtils.isNotBlank(personnelDTO.getEmail()) ? ("<br> Email : " + personnelDTO.getEmail()) : "")
+                        //+ "<br> Etablissement : " + etablissement.getNom()
+                        //+ "<br><br> Merci de contacter l'administrateur pour réactiver le compte et changer le mot de passe."
+                ;
+                emailService.sendEmail(etablissement, etablissement.getEmail(), etablissement.getEmail(), subject, bodyText, true, null);
+            }
+        } catch (Exception e) {
+            logger.error(String.valueOf(e), e.getCause());
+        }
+    }
+
     public static void main(String[] args) {
         System.out.println(Encryption.strEncrypt("123", 7));
     }

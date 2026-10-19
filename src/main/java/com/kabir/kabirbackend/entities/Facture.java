@@ -236,9 +236,8 @@ public class Facture {
     @JoinColumn(name = "employeOperateurId")
     private Personnel employeOperateur;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "personnelId", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @JoinColumn(name = "personnelId", nullable = true)
     private Personnel personnel;
 
     @NotNull

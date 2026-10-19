@@ -83,20 +83,37 @@ public class FactureDTO implements Serializable, Cloneable {
     boolean facturer100;
     @JsonIgnore
     boolean calculer;
-    //boolean disableMontant;
-    //@NotNull
-    //@Size(max = 191)
-    //String typeTVA;
-    //boolean dateReglementIn;
-    //boolean dateReglement2In;
-    //boolean dateReglement3In;
-    //boolean dateReglement4In;
-    //double tva20Reglement1;
-    //double tva20Reglement2;
-    //double tva20Reglement3;
-    //double tva20Reglement4;
-    //double mntHT20Reglement1;
-    //double mntHT20Reglement2;
+    @JsonIgnore
+    @Size(max = 191)
+    String typeTVA;
+    @JsonIgnore
+    boolean dateReglement2In;
+    @JsonIgnore
+    boolean dateReglement3In;
+    @JsonIgnore
+    boolean dateReglement4In;
+    @JsonIgnore
+    double tva20Reglement1;
+    @JsonIgnore
+    double tva20Reglement2;
+    @JsonIgnore
+    double tva20Reglement3;
+    @JsonIgnore
+    double tva20Reglement4;
+    @JsonIgnore
+    double mntHT20Reglement1;
+    @JsonIgnore
+    double mntHT20Reglement2;
+    @JsonIgnore
+    double mntHT20Reglement3;
+    @JsonIgnore
+    double mntHT20Reglement4;
+    @JsonIgnore
+    double totalNumRemise2;
+    @JsonIgnore
+    double totalNumRemise3;
+    @JsonIgnore
+    double totalNumRemise4;
     @JsonIgnore
     double mntHT20One;
     @JsonIgnore

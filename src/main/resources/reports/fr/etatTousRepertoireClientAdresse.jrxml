@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="etatTousProduit" pageWidth="740" pageHeight="1100" columnWidth="700" leftMargin="20" rightMargin="20" topMargin="5" bottomMargin="20" uuid="1e00699f-9064-4c2b-a246-b87a4b32800a">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
@@ -51,7 +52,7 @@
 	<title>
 		<band height="77" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="e6c28fe6-5696-4af3-8080-a4ce9fddf70b" key="textField" mode="Transparent" x="0" y="7" width="688" height="35" forecolor="#000000" backcolor="#CCCCCC"/>
+				<reportElement key="textField" mode="Transparent" x="0" y="7" width="688" height="35" forecolor="#000000" backcolor="#CCCCCC" uuid="e6c28fe6-5696-4af3-8080-a4ce9fddf70b"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -74,7 +75,7 @@
     )]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="af1944c1-41ef-4bb1-b3c9-8b04ee86da4f" key="textField" mode="Transparent" x="0" y="42" width="688" height="35" forecolor="#000000" backcolor="#CCCCCC"/>
+				<reportElement key="textField" mode="Transparent" x="0" y="42" width="688" height="35" forecolor="#000000" backcolor="#CCCCCC" uuid="af1944c1-41ef-4bb1-b3c9-8b04ee86da4f"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -94,8 +95,8 @@
 	</pageHeader>
 	<columnHeader>
 		<band height="20" splitType="Stretch">
-			<textField isBlankWhenNull="false">
-				<reportElement uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf" key="textField" mode="Opaque" x="0" y="0" width="270" height="20" forecolor="#000000" backcolor="#CCCCCC"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement key="textField" mode="Opaque" x="0" y="0" width="270" height="20" forecolor="#000000" backcolor="#CCCCCC" uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -108,8 +109,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("designation")]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="false">
-				<reportElement uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf" key="textField" mode="Opaque" x="270" y="0" width="90" height="20" forecolor="#000000" backcolor="#CCCCCC"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement key="textField" mode="Opaque" x="270" y="0" width="90" height="20" forecolor="#000000" backcolor="#CCCCCC" uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -122,8 +123,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("tel1")]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="false">
-				<reportElement uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf" key="textField" mode="Opaque" x="360" y="0" width="340" height="20" forecolor="#000000" backcolor="#CCCCCC"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement key="textField" mode="Opaque" x="360" y="0" width="340" height="20" forecolor="#000000" backcolor="#CCCCCC" uuid="e7191a4b-168e-4f3a-b94c-920d3d3c63cf"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -141,7 +142,7 @@
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="d3a3a324-01b6-4d4e-af39-581fb2ffd69b" x="0" y="0" width="270" height="20"/>
+				<reportElement x="0" y="0" width="270" height="20" uuid="d3a3a324-01b6-4d4e-af39-581fb2ffd69b"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -155,7 +156,7 @@
 				<textFieldExpression><![CDATA[$F{designation}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="26793d82-0b8f-4e12-bdde-4f90576e00ce" x="270" y="0" width="90" height="20"/>
+				<reportElement x="270" y="0" width="90" height="20" uuid="26793d82-0b8f-4e12-bdde-4f90576e00ce"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -169,7 +170,7 @@
 				<textFieldExpression><![CDATA[$F{tel1}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="eda8f61f-249f-4ca9-b536-343e37c80ac4" x="360" y="0" width="340" height="20"/>
+				<reportElement x="360" y="0" width="340" height="20" uuid="eda8f61f-249f-4ca9-b536-343e37c80ac4"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -185,12 +186,15 @@
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="8" splitType="Stretch"/>
+		<band splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
 	</columnFooter>
 	<pageFooter>
 		<band height="21" splitType="Stretch">
 			<textField evaluationTime="Auto">
-				<reportElement uuid="d3651a56-6c94-4975-a044-c47672696380" x="0" y="1" width="100" height="20"/>
+				<reportElement x="0" y="1" width="100" height="20" uuid="d3651a56-6c94-4975-a044-c47672696380"/>
 				<textElement>
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>

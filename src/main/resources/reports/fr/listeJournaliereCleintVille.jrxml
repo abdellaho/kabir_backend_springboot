@@ -13,9 +13,9 @@
 	<parameter name="dateFn" class="java.lang.String"/>
 	<parameter name="dateDb" class="java.lang.String"/>
 	<field name="Client" class="java.lang.String">
-		<fieldDescription><![CDATA[livraison.repertoireByClient.designation]]></fieldDescription>
+		<fieldDescription><![CDATA[livraison.repertoire.designation]]></fieldDescription>
 	</field>
-	<field name="dateLivr" class="java.util.Date">
+	<field name="dateLivr" class="java.time.LocalDate">
 		<fieldDescription><![CDATA[livraison.dateBl]]></fieldDescription>
 	</field>
 	<field name="numBl" class="java.lang.String">
@@ -28,7 +28,7 @@
 		<fieldDescription><![CDATA[livraison.mantantBLBenefice]]></fieldDescription>
 	</field>
 	<field name="commercial" class="java.lang.String">
-		<fieldDescription><![CDATA[livraison.repertoireByCommercial.designation]]></fieldDescription>
+		<fieldDescription><![CDATA[livraison.personnel.designation]]></fieldDescription>
 	</field>
 	<field name="sumBenDH" class="java.lang.Double">
 		<fieldDescription><![CDATA[sumBeneficeDH]]></fieldDescription>

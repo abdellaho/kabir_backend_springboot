@@ -88,6 +88,9 @@ public class Personnel {
     @Column(name = "password_reset", columnDefinition = "BOOLEAN DEFAULT 0")
     boolean passwordReset;
 
+    @Column(name = "password_reset_time")
+    private java.time.LocalDateTime passwordResetTime;
+
     @NotNull
     @ColumnDefault("0")
     @Column(name = "consulterStock", nullable = false)

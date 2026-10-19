@@ -51,6 +51,7 @@ public class PersonnelDTO implements Serializable {
     @NotNull
     boolean supprimer;
     boolean passwordReset;
+    java.time.LocalDateTime passwordResetTime;
     @NotNull
     boolean consulterStock;
     @NotNull

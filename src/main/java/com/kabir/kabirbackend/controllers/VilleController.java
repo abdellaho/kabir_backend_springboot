@@ -45,10 +45,12 @@ class VilleController {
      */
 
     @GetMapping
-    public ResponseEntity<List<VilleDTO>> getAll() {
-        logger.info("Fetching all villes");
+    public ResponseEntity<List<VilleDTO>> getAll(@RequestParam(required = false, defaultValue = "false") boolean withCount) {
+        logger.info("Fetching all villes (withCount={})", withCount);
         try {
-            List<VilleDTO> villes = villeService.findAll();
+            List<VilleDTO> villes = withCount
+                    ? villeService.findAllWithRepertoireCount()
+                    : villeService.findAll();
             return ResponseEntity.ok(villes);
         } catch (Exception e) {
             logger.error("Error fetching all villes: {}", e.getMessage());

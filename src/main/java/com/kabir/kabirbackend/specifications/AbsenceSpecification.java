@@ -7,14 +7,20 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.jpa.domain.Specification;
 
 
 @Data
-@Builder
 public class AbsenceSpecification implements Specification<Absence> {
+    private AbsenceDTO absenceDTO;
+
+    public AbsenceSpecification() {
+    }
+
+    public AbsenceSpecification(AbsenceDTO absenceDTO) {
+        this.absenceDTO = absenceDTO;
+    }
 
     public Specification<Absence> searchByCommon(CommonSearchModel commonSearchModel) {
         return (root, query, criteriaBuilder) -> {
@@ -92,8 +98,6 @@ public class AbsenceSpecification implements Specification<Absence> {
             return predicate;
         };
     }
-
-    private AbsenceDTO absenceDTO;
 
     @Override
     public Predicate toPredicate(Root<Absence> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {

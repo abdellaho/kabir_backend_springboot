@@ -1,14 +1,20 @@
 package com.kabir.kabirbackend.controllers;
 
+import com.kabir.kabirbackend.config.requests.FacturePrintRequest;
 import com.kabir.kabirbackend.config.responses.FactureResponse;
 import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.FactureDTO;
 import com.kabir.kabirbackend.service.FactureService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -118,6 +124,50 @@ public class FactureController {
         } catch (Exception e) {
             logger.error("Error searching facture by common: {}", commonSearchModel, e);
             throw new RuntimeException("Error searching facture by common: " + commonSearchModel, e);
+        }
+    }
+
+    @GetMapping("/imprimer/{id}")
+    public ResponseEntity<?> imprimerFacture(@PathVariable Long id) {
+        logger.info("Request imprimer facture with id: {}", id);
+        try {
+            byte[] bytes = factureService.imprimerFacture(id);
+            if (null != bytes) {
+                ByteArrayResource resource = new ByteArrayResource(bytes);
+                String fileName = MessageFormat.format("facture_{0}.{1}", LocalDateTime.now(), "pdf");
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION, MessageFormat.format("attachment; filename=\"{0}\"", fileName))
+                        .contentLength(resource.contentLength())
+                        .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                        .body(resource);
+            } else {
+                throw new Exception("File Download Failed");
+            }
+        } catch (Exception e) {
+            logger.error("Error imprimer facture: {}", e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PostMapping("/imprimer/etat")
+    public ResponseEntity<?> imprimerEtat(@RequestBody FacturePrintRequest request) {
+        logger.info("Request imprimer etat facture: {}", request);
+        try {
+            byte[] bytes = factureService.imprimerEtat(request);
+            if (null != bytes) {
+                ByteArrayResource resource = new ByteArrayResource(bytes);
+                String fileName = MessageFormat.format("facture_etat_{0}.{1}", LocalDateTime.now(), "pdf");
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION, MessageFormat.format("attachment; filename=\"{0}\"", fileName))
+                        .contentLength(resource.contentLength())
+                        .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                        .body(resource);
+            } else {
+                throw new Exception("File Download Failed");
+            }
+        } catch (Exception e) {
+            logger.error("Error imprimer etat facture: {}", e.getMessage());
+            return ResponseEntity.internalServerError().build();
         }
     }
 }

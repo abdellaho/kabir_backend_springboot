@@ -112,9 +112,10 @@ public class RepertoireSpecification implements Specification<Repertoire> {
 
             predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("bloquer"), false));
             predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("archiver"), false));
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("typeRepertoire"), commonSearchModel.getTypeRepertoire()));
 
-            Expression<Integer> typeRepertoire = root.get("typeRepertoire");
-            predicate = criteriaBuilder.and(predicate, typeRepertoire.in(List.of(1, 2)));
+            /*Expression<Integer> typeRepertoire = root.get("typeRepertoire");
+            predicate = criteriaBuilder.and(predicate, typeRepertoire.in(List.of(1, 2)));*/
 
             if(null != commonSearchModel.getVilleId() && commonSearchModel.getVilleId() > 0) {
                 predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("ville").get("id"), commonSearchModel.getVilleId()));

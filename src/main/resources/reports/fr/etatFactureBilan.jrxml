@@ -36,9 +36,9 @@
 	<parameter name="ht20DateRegl" class="java.lang.String"/>
 	<parameter name="ht20DateFacture" class="java.lang.String"/>
 	<field name="Client" class="java.lang.String">
-		<fieldDescription><![CDATA[repertoireByClient.designation]]></fieldDescription>
+		<fieldDescription><![CDATA[repertoireDesignation]]></fieldDescription>
 	</field>
-	<field name="dateLivr" class="java.util.Date">
+	<field name="dateLivr" class="java.time.LocalDate">
 		<fieldDescription><![CDATA[dateBF]]></fieldDescription>
 	</field>
 	<field name="numBl" class="java.lang.String">
@@ -50,7 +50,7 @@
 	<field name="benificeDh" class="java.lang.Double">
 		<fieldDescription><![CDATA[mantantBFBenefice]]></fieldDescription>
 	</field>
-	<field name="dateReg" class="java.util.Date">
+	<field name="dateReg" class="java.time.LocalDate">
 		<fieldDescription><![CDATA[dateReglement]]></fieldDescription>
 	</field>
 	<field name="modeReg" class="java.lang.String">
@@ -68,7 +68,7 @@
 	<field name="mntHT7" class="java.lang.Double"/>
 	<field name="mntHT2O" class="java.lang.Double"/>
 	<field name="ice" class="java.lang.String">
-		<fieldDescription><![CDATA[repertoireByClient.ice]]></fieldDescription>
+		<fieldDescription><![CDATA[repertoireIce]]></fieldDescription>
 	</field>
 	<field name="numeroLibil" class="java.lang.String">
 		<fieldDescription><![CDATA[numeroLibil]]></fieldDescription>
@@ -82,7 +82,7 @@
 	<field name="typeReglment2" class="java.lang.Integer">
 		<fieldDescription><![CDATA[typeReglment2]]></fieldDescription>
 	</field>
-	<field name="dateReglement2" class="java.util.Date">
+	<field name="dateReglement2" class="java.time.LocalDate">
 		<fieldDescription><![CDATA[dateReglement2]]></fieldDescription>
 	</field>
 	<field name="numCheque" class="java.lang.String">
@@ -544,8 +544,8 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yy").format($F{dateReg})
-+ ($F{dateReglement2} != null ? "\n" + new SimpleDateFormat("dd/MM/yy").format($F{dateReglement2})
+				<textFieldExpression><![CDATA[$F{dateReg}.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yy"))
++ ($F{dateReglement2} != null ? "\n" + $F{dateReglement2}.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yy"))
     : "" )]]></textFieldExpression>
 			</textField>
 		</band>

@@ -25,13 +25,13 @@
 	<parameter name="sommeHT7" class="java.lang.String"/>
 	<parameter name="lienimage" class="java.lang.String"/>
 	<field name="Client" class="java.lang.String">
-		<fieldDescription><![CDATA[facture.repertoireByClient.designation]]></fieldDescription>
+		<fieldDescription><![CDATA[factureRepertoireDesignation]]></fieldDescription>
 	</field>
-	<field name="dateLivr" class="java.util.Date">
-		<fieldDescription><![CDATA[facture.dateBF]]></fieldDescription>
+	<field name="dateLivr" class="java.time.LocalDate">
+		<fieldDescription><![CDATA[factureDateBF]]></fieldDescription>
 	</field>
 	<field name="numBl" class="java.lang.String">
-		<fieldDescription><![CDATA[facture.codeBF]]></fieldDescription>
+		<fieldDescription><![CDATA[factureCodeBF]]></fieldDescription>
 	</field>
 	<field name="qteLivr" class="java.lang.Integer">
 		<fieldDescription><![CDATA[qteFacturer]]></fieldDescription>
@@ -40,22 +40,22 @@
 		<fieldDescription><![CDATA[montantProduit]]></fieldDescription>
 	</field>
 	<field name="benifice" class="java.lang.Double">
-		<fieldDescription><![CDATA[stock.benifice]]></fieldDescription>
+		<fieldDescription><![CDATA[stockBenifice]]></fieldDescription>
 	</field>
 	<field name="Produit" class="java.lang.String">
-		<fieldDescription><![CDATA[stock.designation]]></fieldDescription>
+		<fieldDescription><![CDATA[stockDesignation]]></fieldDescription>
 	</field>
 	<field name="benificeDh" class="java.lang.Double">
 		<fieldDescription><![CDATA[beneficeDH]]></fieldDescription>
 	</field>
 	<field name="reglement" class="java.lang.String">
-		<fieldDescription><![CDATA[facture.typePaiement]]></fieldDescription>
+		<fieldDescription><![CDATA[factureTypePaiement]]></fieldDescription>
 	</field>
 	<field name="tel" class="java.lang.String">
-		<fieldDescription><![CDATA[facture.repertoireByClient.tel1]]></fieldDescription>
+		<fieldDescription><![CDATA[factureRepertoireTel1]]></fieldDescription>
 	</field>
 	<field name="adresse" class="java.lang.String">
-		<fieldDescription><![CDATA[facture.repertoireByClient.adresse]]></fieldDescription>
+		<fieldDescription><![CDATA[factureRepertoireAdresse]]></fieldDescription>
 	</field>
 	<field name="remiseLiv" class="java.lang.Double">
 		<fieldDescription><![CDATA[remiseFacture]]></fieldDescription>
@@ -64,28 +64,28 @@
 		<fieldDescription><![CDATA[prixVente]]></fieldDescription>
 	</field>
 	<field name="tva" class="java.lang.Double">
-		<fieldDescription><![CDATA[stock.tva]]></fieldDescription>
+		<fieldDescription><![CDATA[stockTva]]></fieldDescription>
 	</field>
 	<field name="totMntHT" class="java.lang.Double">
-		<fieldDescription><![CDATA[facture.mantantBFHT]]></fieldDescription>
+		<fieldDescription><![CDATA[factureMantantBFHT]]></fieldDescription>
 	</field>
 	<field name="tva7" class="java.lang.Double">
-		<fieldDescription><![CDATA[facture.tva7Total]]></fieldDescription>
+		<fieldDescription><![CDATA[factureTva7Total]]></fieldDescription>
 	</field>
 	<field name="tva20" class="java.lang.Double">
-		<fieldDescription><![CDATA[facture.tva20Total]]></fieldDescription>
+		<fieldDescription><![CDATA[factureTva20Total]]></fieldDescription>
 	</field>
 	<field name="montantProduitHT" class="java.lang.Double">
 		<fieldDescription><![CDATA[montantProduitHT]]></fieldDescription>
 	</field>
 	<field name="ice" class="java.lang.String">
-		<fieldDescription><![CDATA[facture.repertoireByClient.ice]]></fieldDescription>
+		<fieldDescription><![CDATA[factureRepertoireIce]]></fieldDescription>
 	</field>
 	<field name="ife" class="java.lang.String">
-		<fieldDescription><![CDATA[facture.repertoireByClient.ife]]></fieldDescription>
+		<fieldDescription><![CDATA[factureRepertoireIfe]]></fieldDescription>
 	</field>
 	<field name="facturer100" class="java.lang.Boolean">
-		<fieldDescription><![CDATA[facture.facturer100]]></fieldDescription>
+		<fieldDescription><![CDATA[factureFacturer100]]></fieldDescription>
 	</field>
 	<field name="tva7DetFacxture" class="java.lang.Double">
 		<fieldDescription><![CDATA[tva7]]></fieldDescription>
@@ -238,22 +238,6 @@
 					<font fontName="Arial" size="20" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("FACTURE")+" "+$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier} ).getString("NumEmp")+" : "+$F{numBl}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
-				<reportElement key="textField" stretchType="RelativeToTallestObject" mode="Transparent" x="1" y="95" width="540" height="25" forecolor="#000000" backcolor="#CCCCCC" uuid="9922445c-ab55-4c60-8fc2-980f8598b11b">
-					<printWhenExpression><![CDATA[$V{PAGE_NUMBER}.equals(1)]]></printWhenExpression>
-				</reportElement>
-				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="13" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{inforParamex}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
