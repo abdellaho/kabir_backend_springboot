@@ -84,9 +84,11 @@ public class AchatFactureService implements IAchatFactureService {
 
         try {
             Optional<Fournisseur> optionalFournisseur = null != achatFactureDTO.getFournisseurId() ? fournisseurRepository.findById(achatFactureDTO.getFournisseurId()) : Optional.empty();
+            Optional<Personnel> optionalOperateur = null != achatFactureDTO.getOperateurId() ? personnelRepository.findById(achatFactureDTO.getOperateurId()) : Optional.empty();
 
             AchatFacture achatFacture = achatFactureMapper.toAchatFacture(achatFactureDTO);
             achatFacture.setFournisseur(optionalFournisseur.orElse(null));
+            achatFacture.setOperateur(optionalOperateur.orElse(null));
             achatFactureDTO = achatFactureMapper.toAchatFactureDTO(achatFactureRepository.save(achatFacture));
 
             enregistrerDetAchatFacture(achatFacture, isSave, achatFactureResponse.detAchatFactures());
@@ -95,6 +97,7 @@ public class AchatFactureService implements IAchatFactureService {
             logger.info("Achat facture saved successfully: {}", achatFactureDTO);
         } catch (Exception e) {
             logger.error("Failed to save achat facture: {}", e.getMessage());
+            throw e;
         }
 
         return achatFactureDTO;

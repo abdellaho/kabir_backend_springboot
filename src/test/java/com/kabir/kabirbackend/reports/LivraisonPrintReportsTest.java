@@ -2,6 +2,7 @@ package com.kabir.kabirbackend.reports;
 
 import com.kabir.kabirbackend.config.util.StaticVariables;
 import com.kabir.kabirbackend.dto.LivraisonClientPrintDTO;
+import com.kabir.kabirbackend.dto.LivraisonProduitCommissionPrintDTO;
 import com.kabir.kabirbackend.dto.LivraisonProduitPrintDTO;
 import com.kabir.kabirbackend.dto.LivraisonVillePrintDTO;
 import com.kabir.kabirbackend.dto.NumChequePrintDTO;
@@ -94,6 +95,12 @@ class LivraisonPrintReportsTest {
         return repertoire;
     }
 
+    private static Repertoire clientWithType(Long id, String designation, int typeRepertoire) {
+        Repertoire repertoire = client(id, designation);
+        repertoire.setTypeRepertoire(typeRepertoire);
+        return repertoire;
+    }
+
     private static Personnel commercial(Long id, String designation) {
         Personnel personnel = new Personnel();
         personnel.setId(id);
@@ -155,6 +162,26 @@ class LivraisonPrintReportsTest {
         rows.add(new LivraisonProduitPrintDTO("Produit B", 5L, 750.0, 0));
         rows.add(new LivraisonProduitPrintDTO("Produit C", 3L, 0.0, 1));
         fill("etatCommercialDetailProduit", rows);
+    }
+
+    @Test
+    void etatCommercialDetailByTypeRepertoireFills() throws Exception {
+        List<Livraison> rows = new ArrayList<>();
+        Livraison revendeur = livraison("26-0002", LocalDate.of(2026, 9, 20), 900.0, 120.0);
+        revendeur.setRepertoire(clientWithType(3L, "Revendeur Test", 2));
+        Livraison pharmacie = livraison("26-0001", LocalDate.of(2026, 9, 15), 1500.0, 300.0);
+        pharmacie.setRepertoire(clientWithType(1L, "Pharmacie Test", 0));
+        rows.add(revendeur);
+        rows.add(pharmacie);
+        fill("etatCommercialDetailByTypeRepertoire", rows);
+    }
+
+    @Test
+    void etatCommercialDetailProduitByCommissionFills() throws Exception {
+        List<LivraisonProduitCommissionPrintDTO> rows = new ArrayList<>();
+        rows.add(new LivraisonProduitCommissionPrintDTO("Produit A", 12L, 3400.0, 0, 283.33, 2.5, 85.0));
+        rows.add(new LivraisonProduitCommissionPrintDTO("Produit B", 5L, 750.0, 0, 150.0, 1.0, 7.5));
+        fill("etatCommercialDetailProduitByCommission", rows);
     }
 
     @Test

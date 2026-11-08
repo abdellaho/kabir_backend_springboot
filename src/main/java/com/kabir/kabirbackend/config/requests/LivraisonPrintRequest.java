@@ -22,7 +22,7 @@ import java.time.LocalDate;
  *     <li>6 = Consulter Client + Produit</li>
  * </ul>
  * {@code byBlOrProduit} mirrors the legacy radio of the commercial dialog:
- * 0 = par BL, 1 = par Produit.
+ * 0 = par BL, 1 = par Produit, 2 = par Type, 3 = par Commission.
  */
 @Data
 @Builder

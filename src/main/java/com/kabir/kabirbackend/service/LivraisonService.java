@@ -14,6 +14,7 @@ import com.kabir.kabirbackend.config.util.StaticVariables;
 import com.kabir.kabirbackend.dto.DetLivraisonDTO;
 import com.kabir.kabirbackend.dto.LivraisonClientPrintDTO;
 import com.kabir.kabirbackend.dto.LivraisonDTO;
+import com.kabir.kabirbackend.dto.LivraisonProduitCommissionPrintDTO;
 import com.kabir.kabirbackend.dto.LivraisonProduitPrintDTO;
 import com.kabir.kabirbackend.dto.LivraisonVillePrintDTO;
 import com.kabir.kabirbackend.dto.NumChequePrintDTO;
@@ -757,16 +758,33 @@ public class LivraisonService implements ILivraisonService {
 
         String etatName;
         List<?> dataSource;
-        if (request.getByBlOrProduit() == 1) {
-            dataSource = buildCommercialProduitRows(range[0], range[1], personnelId);
-            etatName = "etatCommercialDetailProduit";
-        } else {
-            List<Livraison> livraisons = new ArrayList<>(livraisonRepository.findAll(
-                    LivraisonSpecification.searchByCommon(buildSearch(request, range[0], range[1], null, personnelId))));
-            // legacy: order by dateBl
-            livraisons.sort(Comparator.comparing(Livraison::getDateBl, Comparator.nullsFirst(Comparator.naturalOrder())));
-            dataSource = livraisons;
-            etatName = "etatCommercialDetail";
+        switch (request.getByBlOrProduit()) {
+            case 1 -> {
+                dataSource = buildCommercialProduitRows(range[0], range[1], personnelId);
+                etatName = "etatCommercialDetailProduit";
+            }
+            case 2 -> {
+                List<Livraison> livraisons = new ArrayList<>(livraisonRepository.findAll(
+                        LivraisonSpecification.searchByCommon(buildSearch(request, range[0], range[1], null, personnelId))));
+                // legacy: order by repertoireByClient.typeRepertoire desc, then dateBl
+                livraisons.sort(Comparator.comparingInt((Livraison l) -> l.getRepertoire().getTypeRepertoire())
+                        .reversed()
+                        .thenComparing(Livraison::getDateBl, Comparator.nullsFirst(Comparator.naturalOrder())));
+                dataSource = livraisons;
+                etatName = "etatCommercialDetailByTypeRepertoire";
+            }
+            case 3 -> {
+                dataSource = buildCommercialCommissionRows(range[0], range[1], personnelId);
+                etatName = "etatCommercialDetailProduitByCommission";
+            }
+            default -> {
+                List<Livraison> livraisons = new ArrayList<>(livraisonRepository.findAll(
+                        LivraisonSpecification.searchByCommon(buildSearch(request, range[0], range[1], null, personnelId))));
+                // legacy: order by dateBl
+                livraisons.sort(Comparator.comparing(Livraison::getDateBl, Comparator.nullsFirst(Comparator.naturalOrder())));
+                dataSource = livraisons;
+                etatName = "etatCommercialDetail";
+            }
         }
 
         if (dataSource.isEmpty()) {
@@ -806,6 +824,53 @@ public class LivraisonService implements ILivraisonService {
 
         paid.addAll(free);
         return paid;
+    }
+
+    /**
+     * Consulter Commercial, mode "par Commission": one row per delivered product with
+     * its paid and free quantities merged, then P.U = montantProduit / qteLivrer,
+     * Taux = stock.commission and Commission = Taux * 0.01 * montantProduit
+     * (legacy {@code LivraisonActionBeans.imprimerCommercialDetail} with
+     * byBlOrProduit == 3, adapted to the new single stock commission rate).
+     */
+    private List<LivraisonProduitCommissionPrintDTO> buildCommercialCommissionRows(LocalDate dateDebut, LocalDate dateFin, Long personnelId) {
+        List<Object[]> paidRows = detLivraisonRepository.sumMontantProduitByStock(dateDebut, dateFin, personnelId);
+        List<Object[]> freeRows = detLivraisonRepository.sumFreeQteByStock(dateDebut, dateFin, personnelId);
+
+        Map<Long, Stock> stocks = findStocks(paidRows, freeRows);
+
+        // union of paid and free stock ids: quantity = paid + free, amount = paid only
+        Map<Long, long[]> qteByStock = new LinkedHashMap<>();
+        Map<Long, Double> montantByStock = new HashMap<>();
+        for (Object[] row : paidRows) {
+            Long stockId = toLong(row[0]);
+            if (null != stockId) {
+                qteByStock.computeIfAbsent(stockId, key -> new long[1])[0] += toNumber(row[1]).longValue();
+                montantByStock.merge(stockId, toNumber(row[2]).doubleValue(), Double::sum);
+            }
+        }
+        for (Object[] row : freeRows) {
+            Long stockId = toLong(row[0]);
+            if (null != stockId) {
+                qteByStock.computeIfAbsent(stockId, key -> new long[1])[0] += toNumber(row[1]).longValue();
+            }
+        }
+
+        List<LivraisonProduitCommissionPrintDTO> rows = new ArrayList<>();
+        for (Map.Entry<Long, long[]> entry : qteByStock.entrySet()) {
+            Stock stock = stocks.get(entry.getKey());
+            if (null == stock) {
+                continue;
+            }
+            long qte = entry.getValue()[0];
+            double montant = montantByStock.getOrDefault(entry.getKey(), 0d);
+            double prixUnitaire = qte != 0 ? montant / qte : 0;
+            double taux = stock.getCommission();
+            double commission = taux * 0.01 * montant;
+            rows.add(new LivraisonProduitCommissionPrintDTO(stock.getDesignation(), qte, montant, 0, prixUnitaire, taux, commission));
+        }
+        rows.sort(Comparator.comparing(LivraisonProduitCommissionPrintDTO::getMontantProduit).reversed());
+        return rows;
     }
 
     private byte[] imprimerEtatProduit(LivraisonPrintRequest request) throws Exception {

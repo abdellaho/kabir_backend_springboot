@@ -231,14 +231,29 @@ public class RepertoireService implements IRepertoireService {
 
         StringBuilder villeName = new StringBuilder();
         boolean avecCommercial = false;
+        boolean villeSelected = false;
 
         if (null != commonSearchModel.getVilleId() && commonSearchModel.getVilleId() > 0) {
             villeName.append("Ville : ").append(listRepertoires.getFirst().getVilleNomVille());
+            villeSelected = true;
         }
 
         if (null != commonSearchModel.getPersonnelId() && commonSearchModel.getPersonnelId() > 0) {
             avecCommercial = true;
         }
+
+        Comparator<RepertoireDTO> comparator = Comparator.nullsLast(Comparator.comparing(RepertoireDTO::getDateDernierBL, Comparator.nullsLast(Comparator.reverseOrder())));
+
+        List<Long> ids = listRepertoires.stream().map(RepertoireDTO::getId).toList();
+        List<Object[]> rows = livraisonRepository.findLastDatesForRepertoires(ids);
+        Map<Long, LocalDate> map = rows.stream().collect(Collectors.toMap(r -> (Long) r[0], r -> (LocalDate) r[1]));
+        listRepertoires.forEach(r ->r.setDateDernierBL(map.get(r.getId())));
+
+        if(Integer.valueOf(0).equals(commonSearchModel.getTypeImprimRepertoire()) && !villeSelected) {
+            comparator = Comparator.nullsLast(Comparator.comparing(RepertoireDTO::getDateDernierBL));
+        }
+
+        listRepertoires.sort(comparator);
 
         Map<String, Object> parameters = new HashMap<>();
 

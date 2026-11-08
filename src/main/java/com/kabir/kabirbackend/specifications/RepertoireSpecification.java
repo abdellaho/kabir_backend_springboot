@@ -124,7 +124,7 @@ public class RepertoireSpecification implements Specification<Repertoire> {
                 predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("personnel").get("id"), commonSearchModel.getPersonnelId()));
             }
 
-            predicate = criteriaBuilder.and(predicate, criteriaBuilder.greaterThan(root.get("nbrOperationClient"), 0));
+            //predicate = criteriaBuilder.and(predicate, criteriaBuilder.greaterThan(root.get("nbrOperationClient"), 0));
             query.orderBy(criteriaBuilder.desc(root.get("nbrOperationClient")), criteriaBuilder.asc(root.get("designation")));
 
             return predicate;
