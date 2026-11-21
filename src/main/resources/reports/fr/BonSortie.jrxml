@@ -29,34 +29,34 @@
 	<parameter name="iceParamex" class="java.lang.String"/>
 	<parameter name="inforParamex" class="java.lang.String"/>
 	<field name="Client" class="java.lang.String">
-		<fieldDescription><![CDATA[bonSortie.repertoire.designation]]></fieldDescription>
+		<fieldDescription><![CDATA[client]]></fieldDescription>
 	</field>
 	<field name="dateLivr" class="java.util.Date">
-		<fieldDescription><![CDATA[bonSortie.dateOperation]]></fieldDescription>
+		<fieldDescription><![CDATA[dateLivr]]></fieldDescription>
 	</field>
 	<field name="numBl" class="java.lang.String">
-		<fieldDescription><![CDATA[bonSortie.codeSortie]]></fieldDescription>
+		<fieldDescription><![CDATA[numBl]]></fieldDescription>
 	</field>
 	<field name="qteLivr" class="java.lang.Integer">
-		<fieldDescription><![CDATA[qteSortie]]></fieldDescription>
+		<fieldDescription><![CDATA[qteLivr]]></fieldDescription>
 	</field>
 	<field name="Montant" class="java.lang.Double">
-		<fieldDescription><![CDATA[mntProduit]]></fieldDescription>
+		<fieldDescription><![CDATA[montant]]></fieldDescription>
 	</field>
 	<field name="benifice" class="java.lang.Double">
-		<fieldDescription><![CDATA[stock.benifice]]></fieldDescription>
+		<fieldDescription><![CDATA[benifice]]></fieldDescription>
 	</field>
 	<field name="Produit" class="java.lang.String">
-		<fieldDescription><![CDATA[stock.designation]]></fieldDescription>
+		<fieldDescription><![CDATA[produit]]></fieldDescription>
 	</field>
 	<field name="prixAchatBiggerPrixVente" class="java.lang.Boolean">
-		<fieldDescription><![CDATA[stock.prixAchatBiggerPrixVente]]></fieldDescription>
+		<fieldDescription><![CDATA[prixAchatBiggerPrixVente]]></fieldDescription>
 	</field>
 	<field name="prixVentMin1" class="java.lang.Double">
-		<fieldDescription><![CDATA[stock.prixVentMin1]]></fieldDescription>
+		<fieldDescription><![CDATA[prixVentMin1]]></fieldDescription>
 	</field>
 	<field name="prixVentMin" class="java.lang.Double">
-		<fieldDescription><![CDATA[stock.prixVentMin2]]></fieldDescription>
+		<fieldDescription><![CDATA[prixVentMin2]]></fieldDescription>
 	</field>
 	<variable name="TotalQteLivr" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{qteLivr}]]></variableExpression>

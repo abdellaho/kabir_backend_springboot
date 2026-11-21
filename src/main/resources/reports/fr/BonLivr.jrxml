@@ -358,7 +358,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="13" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{Montant}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Montant}.intValue()]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="393" y="0" width="47" height="30" uuid="4137c624-1f88-4490-a938-805c22328251">
@@ -464,7 +464,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="16" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$V{TotMont}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{TotMont}.intValue()]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>

@@ -306,14 +306,15 @@ public class StockService implements IStockService {
                 stockDTO.setQteStock(operator == 1 ? stockDTO.getQteStock() - qte : stockDTO.getQteStock() + qte);
                 break;
             case QTE_STOCK_IMPORT:
-                stockDTO.setQteStock(operator == 1 ? stockDTO.getQteStock() + (qte + uniteGrat) : stockDTO.getQteStock() - (qte + uniteGrat));
-                stockDTO.setQteFacturer(operator == 1 ? stockDTO.getQteFacturer() + (qte + uniteGrat) : stockDTO.getQteFacturer() - (qte + uniteGrat));
+                stockDTO.setQteStockImport(operator == 1 ? stockDTO.getQteStockImport() - (qte + uniteGrat) : stockDTO.getQteStockImport() + (qte + uniteGrat));
+                //stockDTO.setQteStock(operator == 1 ? stockDTO.getQteStock() + (qte + uniteGrat) : stockDTO.getQteStock() - (qte + uniteGrat));
+                //stockDTO.setQteFacturer(operator == 1 ? stockDTO.getQteFacturer() + (qte + uniteGrat) : stockDTO.getQteFacturer() - (qte + uniteGrat));
                 break;
             case QTE_STOCK_FACTURER:
                 stockDTO.setQteFacturer(operator == 1 ? stockDTO.getQteFacturer() + (qte + uniteGrat) : stockDTO.getQteFacturer() - (qte + uniteGrat));
                 break;
             case QTE_STOCK_SORTIE:
-                stockDTO.setQteSortie(operator == 1 ? stockDTO.getQteSortie() - qte : stockDTO.getQteSortie() + qte);
+                stockDTO.setQteStockImport(operator == 1 ? stockDTO.getQteStockImport() + qte : stockDTO.getQteStockImport() - qte);
                 break;
             case QTE_STOCK_DEPOT:
                 stockDTO.setQteStock(operator == 1 ? stockDTO.getQteStock() + qte : stockDTO.getQteStock() - qte);

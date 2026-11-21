@@ -3,13 +3,17 @@ package com.kabir.kabirbackend.controllers;
 import com.kabir.kabirbackend.config.responses.BonSortieResponse;
 import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.BonSortieDTO;
-import com.kabir.kabirbackend.dto.FactureDTO;
 import com.kabir.kabirbackend.service.BonSortieService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -119,6 +123,28 @@ public class BonSortieController {
         } catch (Exception e) {
             logger.error("Error searching bon sortie by common: {}", commonSearchModel, e);
             throw new RuntimeException("Error searching bon sortie by common: " + commonSearchModel, e);
+        }
+    }
+
+    @GetMapping("/imprimer/{id}")
+    public ResponseEntity<?> imprimerBonSortie(@PathVariable Long id) {
+        logger.info("Request imprimer bon sortie with id: {}", id);
+        try {
+            byte[] bytes = bonSortieService.imprimerBonSortie(id);
+            if (null != bytes) {
+                ByteArrayResource resource = new ByteArrayResource(bytes);
+                String fileName = MessageFormat.format("bon_sortie_{0}.{1}", LocalDateTime.now(), "pdf");
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION, MessageFormat.format("attachment; filename=\"{0}\"", fileName))
+                        .contentLength(resource.contentLength())
+                        .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                        .body(resource);
+            } else {
+                throw new Exception("File Download Failed");
+            }
+        } catch (Exception e) {
+            logger.error("Error printing bon sortie with id: {}", id, e);
+            throw new RuntimeException("Error printing bon sortie with id: " + id, e);
         }
     }
 }

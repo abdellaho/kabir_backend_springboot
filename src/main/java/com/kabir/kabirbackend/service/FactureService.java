@@ -119,6 +119,7 @@ public class FactureService implements IFactureService {
     }
 
     @Override
+    @Transactional
     public FactureDTO save(FactureResponse factureResponse) {
         logger.info("Saving facture response: {}", factureResponse);
 
@@ -133,6 +134,10 @@ public class FactureService implements IFactureService {
             }
             if(null != factureDTO.getLivraisonId() && factureDTO.getLivraisonId() != 0) {
                 livraison = livraisonRepository.findById(factureDTO.getLivraisonId()).orElse(null);
+            }
+
+            if (null == factureResponse.facture().getRepertoireId()) {
+                throw new IllegalArgumentException("repertoireId is required");
             }
 
             Optional<Repertoire> optionalRepertoire = repertoireRepository.findById(factureResponse.facture().getRepertoireId());
@@ -157,7 +162,8 @@ public class FactureService implements IFactureService {
 
             logger.info("Stock facture saved successfully: {}", factureDTO);
         } catch (Exception e) {
-            logger.error("Failed to save facture: {}", e.getMessage());
+            logger.error("Failed to save facture", e);
+            throw new RuntimeException("Failed to save facture", e);
         }
 
         return factureDTO;
@@ -481,7 +487,7 @@ public class FactureService implements IFactureService {
         Map<String, Object> parameters = new HashMap<>();
         StaticVariables.getInfoEtablissement(parameters, etablissementService.findAll(), true);
         parameters.put("fichier", StaticVariables.bundleFR.getBaseBundleName());
-        parameters.put("MntTotalLettre", MontantEnLettreUtil.convertir(facture.getMantantBF()));
+        parameters.put("MntTotalLettre", MontantEnLettreUtil.convertir((int) facture.getMantantBF()));
 
         Double sommeHT20 = detFactureRepository.sumTva20(id);
         Double sommeHT7 = detFactureRepository.sumTva7(id);

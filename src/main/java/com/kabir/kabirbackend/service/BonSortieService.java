@@ -1,10 +1,14 @@
 package com.kabir.kabirbackend.service;
 
+import com.kabir.kabirbackend.config.enums.ReportTypeEnum;
 import com.kabir.kabirbackend.config.enums.TypeQteToUpdate;
 import com.kabir.kabirbackend.config.requests.RequestStockQte;
 import com.kabir.kabirbackend.config.responses.BonSortieResponse;
 import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
+import com.kabir.kabirbackend.config.util.JasperReportsUtil;
+import com.kabir.kabirbackend.config.util.StaticVariables;
 import com.kabir.kabirbackend.dto.BonSortieDTO;
+import com.kabir.kabirbackend.dto.BonSortiePrintDTO;
 import com.kabir.kabirbackend.dto.DetailBonSortieDTO;
 import com.kabir.kabirbackend.entities.*;
 import com.kabir.kabirbackend.mapper.BonSortieMapper;
@@ -18,9 +22,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -38,7 +47,10 @@ public class BonSortieService implements IBonSortieService {
     private final StockRepository stockRepository;
     private final RepertoireRepository repertoireRepository;
     private final PersonnelRepository personnelRepository;
+    private final EtablissementService etablissementService;
+    private final JasperReportsUtil jasperReportsUtil;
 
+    private static final String AUCUN_ELEMENT = "aucun element";
 
     public BonSortieService(
             BonSortieRepository bonSortieRepository,
@@ -48,7 +60,9 @@ public class BonSortieService implements IBonSortieService {
             StockService stockService,
             StockRepository stockRepository,
             RepertoireRepository repertoireRepository,
-            PersonnelRepository personnelRepository
+            PersonnelRepository personnelRepository,
+            EtablissementService etablissementService,
+            JasperReportsUtil jasperReportsUtil
     ) {
         this.bonSortieRepository = bonSortieRepository;
         this.bonSortieMapper = bonSortieMapper;
@@ -58,6 +72,8 @@ public class BonSortieService implements IBonSortieService {
         this.detailBonSortieRepository = detailBonSortieRepository;
         this.repertoireRepository = repertoireRepository;
         this.personnelRepository = personnelRepository;
+        this.etablissementService = etablissementService;
+        this.jasperReportsUtil = jasperReportsUtil;
     }
 
     @Override
@@ -132,7 +148,7 @@ public class BonSortieService implements IBonSortieService {
             if(CollectionUtils.isNotEmpty(detailBonSortieDTOOld)) {
                 for(DetailBonSortie detStockDepot : detailBonSortieDTOOld) {
                     if(null != detStockDepot.getStock() && null != detStockDepot.getStock().getId()) {
-                        stockService.updateQteStock(detStockDepot.getStock().getId(), TypeQteToUpdate.QTE_STOCK, new RequestStockQte(detStockDepot.getQteSortie(), 1, null));
+                        stockService.updateQteStock(detStockDepot.getStock().getId(), TypeQteToUpdate.QTE_STOCK_SORTIE, new RequestStockQte(detStockDepot.getQteSortie(), 1, null));
 
                         logger.info("Deleting detail bon sortie by id: {}", detStockDepot.getId());
                         detailBonSortieRepository.deleteById(detStockDepot.getId());
@@ -248,6 +264,60 @@ public class BonSortieService implements IBonSortieService {
         return bonSortieRepository.findAll(BonSortieSpecification.builder().build().searchByCommon(commonSearchModel)).stream()
                 .map(bonSortieMapper::toDTO)
                 .toList();
+    }
+
+    /**
+     * Legacy {@code BonSortieActionBeans.imprimerBonSortie()}: prints the details of one
+     * bon de sortie (ordered by {@code stock.designation}) with the {@code BonSortie.jrxml}
+     * template.
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public byte[] imprimerBonSortie(Long id) throws Exception {
+        logger.info("Printing bon sortie with id: {}", id);
+        if (null == id || id == 0) {
+            return JasperReportsUtil.anullerImpr(AUCUN_ELEMENT);
+        }
+
+        BonSortie bonSortie = bonSortieRepository.findById(id).orElse(null);
+        if (null == bonSortie) {
+            return JasperReportsUtil.anullerImpr(AUCUN_ELEMENT);
+        }
+
+        List<DetailBonSortie> listDetailBonSortie = detailBonSortieRepository.findAllByBonSortieId(id);
+        if (CollectionUtils.isEmpty(listDetailBonSortie)) {
+            return JasperReportsUtil.anullerImpr(AUCUN_ELEMENT);
+        }
+
+        listDetailBonSortie.sort(Comparator.comparing(
+                detail -> null != detail.getStock() ? detail.getStock().getDesignation() : null,
+                Comparator.nullsFirst(Comparator.naturalOrder())));
+
+        String client = null != bonSortie.getCommercial() ? bonSortie.getCommercial().getDesignation() : "";
+        Date dateLivr = null != bonSortie.getDateOperation() ? Date.from(bonSortie.getDateOperation()) : null;
+
+        List<BonSortiePrintDTO> rows = new ArrayList<>();
+        for (DetailBonSortie detail : listDetailBonSortie) {
+            Stock stock = detail.getStock();
+            rows.add(new BonSortiePrintDTO(
+                    client,
+                    dateLivr,
+                    bonSortie.getCodeSortie(),
+                    detail.getQteSortie(),
+                    detail.getMntProduit(),
+                    null != stock ? stock.getBenifice() : 0.0,
+                    null != stock ? stock.getDesignation() : "",
+                    false,
+                    null != stock ? stock.getPrixVentMin1() : 0.0,
+                    null != stock ? stock.getPrixVentMin2() : 0.0
+            ));
+        }
+
+        Map<String, Object> parameters = new HashMap<>();
+        StaticVariables.getInfoEtablissement(parameters, etablissementService.findAll(), true);
+        parameters.put("fichier", StaticVariables.bundleFR.getBaseBundleName());
+
+        return jasperReportsUtil.jasperReportInBytes(rows, parameters, "BonSortie", ReportTypeEnum.PDF, "");
     }
 
 }

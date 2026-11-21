@@ -77,7 +77,7 @@ public class FactureController {
             return ResponseEntity.ok(factureService.save(stockDepotResponse));
         } catch (Exception e) {
             logger.error("Error creating facture response : {}", stockDepotResponse, e);
-            throw new RuntimeException("Error creating facture response : " + stockDepotResponse, e);
+            return ResponseEntity.badRequest().body(null);
         }
     }
 
@@ -88,7 +88,7 @@ public class FactureController {
             return ResponseEntity.ok(factureService.save(stockDepotResponse));
         } catch (Exception e) {
             logger.error("Error updating facture response : {}", stockDepotResponse, e);
-            throw new RuntimeException("Error updating facture response : " + stockDepotResponse, e);
+            return ResponseEntity.badRequest().body(null);
         }
     }
 

@@ -17,4 +17,6 @@ public interface IBonSortieService {
     int getLastNumBonSortie(BonSortieDTO bonSortieDTO);
 
     List<BonSortieDTO> searchByCommon(CommonSearchModel commonSearchModel);
+
+    byte[] imprimerBonSortie(Long id) throws Exception;
 }

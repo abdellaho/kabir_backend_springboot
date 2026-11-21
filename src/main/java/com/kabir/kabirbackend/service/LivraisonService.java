@@ -31,6 +31,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DecimalFormat;
 import java.time.LocalDate;
@@ -80,6 +81,7 @@ public class LivraisonService implements ILivraisonService {
     }
 
     @Override
+    @Transactional
     public LivraisonDTO save(LivraisonResponse livraisonResponse) {
         logger.info("Saving livraison response: {}", livraisonResponse);
 
@@ -101,6 +103,13 @@ public class LivraisonService implements ILivraisonService {
                 personnelOperation = personnelRepository.findById(livraisonDTO.getEmployeOperateurId()).orElse(null);
             }
 
+            if (null == livraisonResponse.livraison().getRepertoireId()) {
+                throw new IllegalArgumentException("repertoireId is required");
+            }
+            if (null == livraisonResponse.livraison().getPersonnelId()) {
+                throw new IllegalArgumentException("personnelId is required");
+            }
+
             Optional<Repertoire> optionalRepertoire = repertoireRepository.findById(livraisonResponse.livraison().getRepertoireId());
             Optional<Personnel> optionalPersonnel = personnelRepository.findById(livraisonResponse.livraison().getPersonnelId());
 
@@ -118,16 +127,25 @@ public class LivraisonService implements ILivraisonService {
             Repertoire repertoireToUpdate = livraison.getRepertoire();
 
             repertoireToUpdate.setObservation(repertoireObservation);
-            repertoireToUpdate.setAdresse(repertoireAdresse);
-            repertoireToUpdate.setTel1(repertoireTel1);
-            repertoireToUpdate.setTel2(repertoireTel2);
-            repertoireToUpdate.setDesignation(repertoireDesignation);
+            if (StringUtils.isNotBlank(repertoireAdresse)) {
+                repertoireToUpdate.setAdresse(repertoireAdresse);
+            }
+            if (StringUtils.isNotBlank(repertoireTel1)) {
+                repertoireToUpdate.setTel1(repertoireTel1);
+            }
+            if (StringUtils.isNotBlank(repertoireTel2)) {
+                repertoireToUpdate.setTel2(repertoireTel2);
+            }
+            if (StringUtils.isNotBlank(repertoireDesignation)) {
+                repertoireToUpdate.setDesignation(repertoireDesignation);
+            }
 
             updateRepertoire(oldRepertoire, repertoireToUpdate);
 
             logger.info("Stock livraison saved successfully: {}", livraisonDTO);
         } catch (Exception e) {
-            logger.error("Failed to save livraison: {}", e.getMessage());
+            logger.error("Failed to save livraison", e);
+            throw new RuntimeException("Failed to save livraison", e);
         }
 
         return livraisonDTO;
@@ -185,10 +203,14 @@ public class LivraisonService implements ILivraisonService {
             List<DetLivraison> detLivraisonDTOOld = detLivraisonRepository.findByLivraisonId(id);
             logger.info("List of DetLivraison to delete: {}", detLivraisonDTOOld.size());
 
+            boolean isPersonnelIsCommercialExterne = doesPersonnelIsCommercialExterne(livraison);
+
             if(CollectionUtils.isNotEmpty(detLivraisonDTOOld)) {
                 for(DetLivraison detStockDepot : detLivraisonDTOOld) {
                     if(null != detStockDepot.getStock() && null != detStockDepot.getStock().getId()) {
-                        stockService.updateQteStock(detStockDepot.getStock().getId(), TypeQteToUpdate.QTE_STOCK, new RequestStockQte(detStockDepot.getQteLivrer(),  StockOperation.ADD_TO_STOCK.getValue(), null));
+                        if(!isPersonnelIsCommercialExterne) {
+                            stockService.updateQteStock(detStockDepot.getStock().getId(), TypeQteToUpdate.QTE_STOCK, new RequestStockQte(detStockDepot.getQteLivrer(),  StockOperation.ADD_TO_STOCK.getValue(), null));
+                        }
 
                         logger.info("Deleting detail livraison by id: {}", detStockDepot.getId());
                         detLivraisonRepository.deleteById(detStockDepot.getId());
@@ -235,20 +257,32 @@ public class LivraisonService implements ILivraisonService {
                 .collect(Collectors.toList());
     }
 
+    public boolean doesPersonnelIsCommercialExterne(Livraison livraison) {
+        return null != livraison && null != livraison.getPersonnel() && livraison.getPersonnel().getTypePersonnel() == 6;
+    }
+
     public void enregistrerDetLivraison(Livraison livraison, boolean isSave, List<DetLivraisonDTO> detLivraisonDTOs) {
+        boolean isPersonnelIsCommercialExterne = doesPersonnelIsCommercialExterne(livraison);
+        boolean isPersonnelIsCommercialExterneOld = false;
+
         List<DetLivraison> detLivraisonDTOOld = new ArrayList<>();
+        Livraison livraisonOld = null;
         if(!isSave) {
             detLivraisonDTOOld = detLivraisonRepository.findByLivraisonId(livraison.getId());
+            livraisonOld = livraisonRepository.getReferenceById(livraison.getId());
+            isPersonnelIsCommercialExterneOld = doesPersonnelIsCommercialExterne(livraisonOld);
         }
 
         List<DetLivraison> listToDelete = getDetStockDepotOldNotAnymore(detLivraisonDTOOld, detLivraisonDTOs);
         if(CollectionUtils.isNotEmpty(listToDelete)) {
             logger.info("Deleting det stock depot: {}", listToDelete.size());
-            for(DetLivraison detLivraison : listToDelete) {
-                if(null != detLivraison.getStock() && null != detLivraison.getStock().getId()) {
-                    stockService.updateQteStock(detLivraison.getStock().getId(), TypeQteToUpdate.QTE_STOCK, new RequestStockQte(detLivraison.getQteLivrer(), StockOperation.ADD_TO_STOCK.getValue(), null));
-                }
 
+            for(DetLivraison detLivraison : listToDelete) {
+                if(!isPersonnelIsCommercialExterneOld) {
+                    if(null != detLivraison.getStock() && null != detLivraison.getStock().getId()) {
+                        stockService.updateQteStock(detLivraison.getStock().getId(), TypeQteToUpdate.QTE_STOCK, new RequestStockQte(detLivraison.getQteLivrer(), StockOperation.ADD_TO_STOCK.getValue(), null));
+                    }
+                }
                 detLivraisonRepository.delete(detLivraison);
             }
         }
@@ -265,25 +299,27 @@ public class LivraisonService implements ILivraisonService {
                     return detLivraison;
                 })
                 .toList();
-        updateStockAndSaveDetStockDepot(listToSave, detLivraisonDTOOld);
+        updateStockAndSaveDetStockDepot(listToSave, detLivraisonDTOOld, isPersonnelIsCommercialExterne);
     }
 
-    public void updateStockAndSaveDetStockDepot(List<DetLivraison> listToSave, List<DetLivraison> detLivraisonDTOOld) {
+    public void updateStockAndSaveDetStockDepot(List<DetLivraison> listToSave, List<DetLivraison> detLivraisonDTOOld, boolean isPersonnelIsCommercialExterne) {
         if(CollectionUtils.isNotEmpty(listToSave)) {
             for(DetLivraison detLivraison : listToSave) {
-                if(null == detLivraison.getId()) {
-                    stockService.updateQteStock(detLivraison.getStock().getId(), TypeQteToUpdate.QTE_STOCK, new RequestStockQte(detLivraison.getQteLivrer(), StockOperation.DELETE_FROM_STOCK.getValue(), null));
-                } else {
-                    int qte = detLivraison.getQteLivrer();
-                    int operation = 1;//Supprimer from qte stock
-                    qte = updateQte(detLivraisonDTOOld, detLivraison, qte);
+                if(!isPersonnelIsCommercialExterne) {
+                    if (null == detLivraison.getId()) {
+                        stockService.updateQteStock(detLivraison.getStock().getId(), TypeQteToUpdate.QTE_STOCK, new RequestStockQte(detLivraison.getQteLivrer(), StockOperation.DELETE_FROM_STOCK.getValue(), null));
+                    } else {
+                        int qte = detLivraison.getQteLivrer();
+                        int operation = 1;//Supprimer from qte stock
+                        qte = updateQte(detLivraisonDTOOld, detLivraison, qte);
 
-                    if(qte != 0) {
-                        if(qte < 0) {
-                            qte = Math.abs(qte);
-                            operation = 2;//Ajouter from qte stock
+                        if (qte != 0) {
+                            if (qte < 0) {
+                                qte = Math.abs(qte);
+                                operation = 2;//Ajouter from qte stock
+                            }
+                            stockService.updateQteStock(detLivraison.getStock().getId(), TypeQteToUpdate.QTE_STOCK, new RequestStockQte(qte, operation, null));
                         }
-                        stockService.updateQteStock(detLivraison.getStock().getId(), TypeQteToUpdate.QTE_STOCK, new RequestStockQte(qte, operation, null));
                     }
                 }
 
