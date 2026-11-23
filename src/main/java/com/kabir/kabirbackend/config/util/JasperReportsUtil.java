@@ -8,6 +8,7 @@ import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfWriter;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.design.JRDesignStyle;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
@@ -22,6 +23,8 @@ import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +34,40 @@ import java.util.Map;
 public class JasperReportsUtil {
 
     @Autowired private ResourceLoader resourceLoader;
+
+    private String kacstLetterFontPath;
+
+    private synchronized String getKacstLetterFontPath() throws Exception {
+        if (kacstLetterFontPath != null) {
+            return kacstLetterFontPath;
+        }
+        Resource resource = resourceLoader.getResource("classpath:reports/fr/KacstLetter.ttf");
+        if (resource.isFile()) {
+            kacstLetterFontPath = resource.getFile().getAbsolutePath();
+            return kacstLetterFontPath;
+        }
+        var tempFont = Files.createTempFile("KacstLetter", ".ttf");
+        tempFont.toFile().deleteOnExit();
+        try (InputStream fontStream = resource.getInputStream()) {
+            Files.copy(fontStream, tempFont, StandardCopyOption.REPLACE_EXISTING);
+        }
+        kacstLetterFontPath = tempFont.toFile().getAbsolutePath();
+        return kacstLetterFontPath;
+    }
+
+    void applyDefaultPdfFont(JasperPrint jasperPrint) throws Exception {
+        if (jasperPrint.getStylesList().stream().anyMatch(style -> "KacstLetterNormal".equals(style.getName()))) {
+            return;
+        }
+        JRDesignStyle style = new JRDesignStyle();
+        style.setName("KacstLetterNormal");
+        style.setDefault(true);
+        style.setFontName("Arial");
+        style.setPdfFontName(getKacstLetterFontPath());
+        style.setPdfEncoding("Identity-H");
+        style.setPdfEmbedded(true);
+        jasperPrint.addStyle(style);
+    }
 
     public byte[] exportJasperReportBytes(JasperPrint jasperPrint, ReportTypeEnum reportType) throws JRException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -125,6 +162,7 @@ public class JasperReportsUtil {
         //JasperReport jasperReport = JasperCompileManager.compileReport(path);
         //4.Fill Report - by passing complied .jrxml object, paramters, datasource
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, beanCollectionDataSource);
+        applyDefaultPdfFont(jasperPrint);
         //5.Export Report - by using JasperExportManager
         return exportJasperReportBytes(jasperPrint, reportTypeEnum);
     }

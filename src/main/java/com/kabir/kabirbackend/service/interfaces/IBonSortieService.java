@@ -1,5 +1,6 @@
 package com.kabir.kabirbackend.service.interfaces;
 
+import com.kabir.kabirbackend.config.requests.BonSortiePrintRequest;
 import com.kabir.kabirbackend.config.responses.BonSortieResponse;
 import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.BonSortieDTO;
@@ -19,4 +20,6 @@ public interface IBonSortieService {
     List<BonSortieDTO> searchByCommon(CommonSearchModel commonSearchModel);
 
     byte[] imprimerBonSortie(Long id) throws Exception;
+
+    byte[] imprimerEtat(BonSortiePrintRequest request) throws Exception;
 }

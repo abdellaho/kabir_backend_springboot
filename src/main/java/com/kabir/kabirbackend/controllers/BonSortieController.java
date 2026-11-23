@@ -1,5 +1,6 @@
 package com.kabir.kabirbackend.controllers;
 
+import com.kabir.kabirbackend.config.requests.BonSortiePrintRequest;
 import com.kabir.kabirbackend.config.responses.BonSortieResponse;
 import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.dto.BonSortieDTO;
@@ -145,6 +146,28 @@ public class BonSortieController {
         } catch (Exception e) {
             logger.error("Error printing bon sortie with id: {}", id, e);
             throw new RuntimeException("Error printing bon sortie with id: " + id, e);
+        }
+    }
+
+    @PostMapping("/imprimer/etat")
+    public ResponseEntity<?> imprimerEtat(@RequestBody BonSortiePrintRequest request) {
+        logger.info("Request imprimer bon sortie etat: {}", request);
+        try {
+            byte[] bytes = bonSortieService.imprimerEtat(request);
+            if (null != bytes) {
+                ByteArrayResource resource = new ByteArrayResource(bytes);
+                String fileName = MessageFormat.format("etat_bon_sortie_{0}.{1}", LocalDateTime.now(), "pdf");
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION, MessageFormat.format("attachment; filename=\"{0}\"", fileName))
+                        .contentLength(resource.contentLength())
+                        .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                        .body(resource);
+            } else {
+                throw new Exception("File Download Failed");
+            }
+        } catch (Exception e) {
+            logger.error("Error printing bon sortie etat: {}", request, e);
+            throw new RuntimeException("Error printing bon sortie etat", e);
         }
     }
 }

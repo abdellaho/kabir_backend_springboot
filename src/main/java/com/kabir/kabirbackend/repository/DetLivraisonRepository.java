@@ -107,4 +107,37 @@ public interface DetLivraisonRepository extends JpaRepository<DetLivraison, Long
     """)
     List<Object[]> sumQteAndMontantByNumCheque(@Param("stockIds") List<Long> stockIds,
                                                @Param("numCheque") String numCheque);
+
+    /**
+     * Detail rows of the bon de sortie "Consulter" etat for one commercial and
+     * date range, optionally restricted to one product.
+     */
+    @Query("""
+        select d from DetLivraison d
+        join fetch d.livraison
+        join fetch d.stock
+        where d.livraison.personnel.id = :personnelId
+          and d.livraison.dateBl between :dateDebut and :dateFin
+          and (:stockId is null or d.stock.id = :stockId)
+        order by d.stock.designation, d.livraison.dateBl
+    """)
+    List<DetLivraison> findPrintDetails(@Param("personnelId") Long personnelId,
+                                        @Param("dateDebut") LocalDate dateDebut,
+                                        @Param("dateFin") LocalDate dateFin,
+                                        @Param("stockId") Long stockId);
+
+    /**
+     * Summary quantities per product from the livraisons.
+     * Returns rows of {@code [stockId, stockDesignation, stockPvttc, sumQteLivrer]}.
+     */
+    @Query("""
+        select d.stock.id, d.stock.designation, d.stock.pvttc, sum(d.qteLivrer)
+        from DetLivraison d
+        where d.livraison.personnel.id = :personnelId
+          and d.livraison.dateBl between :dateDebut and :dateFin
+        group by d.stock.id, d.stock.designation, d.stock.pvttc
+    """)
+    List<Object[]> sumQteByStock(@Param("personnelId") Long personnelId,
+                                 @Param("dateDebut") LocalDate dateDebut,
+                                 @Param("dateFin") LocalDate dateFin);
 }

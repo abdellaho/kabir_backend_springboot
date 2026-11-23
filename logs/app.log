@@ -1,20 +1,30 @@
-2026-11-21 16:51:04 [main] INFO  c.k.k.KabirBackendApplication - Starting KabirBackendApplication using Java 21.0.12.1 with PID 12492 (C:\Users\Abdellah El\IdeaProjects\Kabir Project\target\classes started by Abdellah El in C:\Users\Abdellah El\IdeaProjects\Kabir Project)
-2026-11-21 16:51:04 [main] DEBUG c.k.k.KabirBackendApplication - Running with Spring Boot v4.0.4, Spring v7.0.6
-2026-11-21 16:51:04 [main] INFO  c.k.k.KabirBackendApplication - No active profile set, falling back to 1 default profile: "default"
-2026-11-21 16:51:08 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2026-11-21 16:51:08 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 754 ms. Found 44 JPA repository interfaces.
-2026-11-21 16:51:11 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2026-11-21 16:51:11 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2026-11-21 16:51:11 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.18]
-2026-11-21 16:51:11 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 7251 ms
-2026-11-21 16:51:12 [main] INFO  org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
-2026-11-21 16:51:12 [main] INFO  org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.2.7.Final
-2026-11-21 16:51:15 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2026-11-21 16:51:15 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2026-11-21 16:51:17 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@152035eb
-2026-11-21 16:51:17 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2026-11-21 16:51:17 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2026-11-21 16:51:17 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+2026-11-23 00:13:16 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /personnel/auth/refresh-token
+2026-11-23 00:13:16 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing POST /personnel/auth/refresh-token
+2026-11-23 00:13:16 [http-nio-8080-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2026-11-23 00:13:16 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured POST /personnel/auth/refresh-token
+2026-11-23 00:13:16 [http-nio-8080-exec-1] INFO  c.k.k.c.PersonnelController - Refreshing token
+2026-11-23 00:19:35 [SpringApplicationShutdownHook] INFO  o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-11-23 00:19:35 [tomcat-shutdown] INFO  o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-11-23 00:19:35 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-11-23 00:19:35 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-11-23 00:19:35 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-11-23 01:34:33 [main] INFO  c.k.k.KabirBackendApplication - Starting KabirBackendApplication using Java 21.0.12.1 with PID 22912 (C:\Users\Abdellah El\IdeaProjects\Kabir Project\target\classes started by Abdellah El in C:\Users\Abdellah El\IdeaProjects\Kabir Project)
+2026-11-23 01:34:33 [main] DEBUG c.k.k.KabirBackendApplication - Running with Spring Boot v4.0.4, Spring v7.0.6
+2026-11-23 01:34:33 [main] INFO  c.k.k.KabirBackendApplication - No active profile set, falling back to 1 default profile: "default"
+2026-11-23 01:34:35 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-23 01:34:36 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 442 ms. Found 44 JPA repository interfaces.
+2026-11-23 01:34:37 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-11-23 01:34:37 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-11-23 01:34:37 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.18]
+2026-11-23 01:34:38 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 4548 ms
+2026-11-23 01:34:38 [main] INFO  org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-23 01:34:38 [main] INFO  org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.2.7.Final
+2026-11-23 01:34:40 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-23 01:34:40 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-11-23 01:34:41 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1a8e44fe
+2026-11-23 01:34:41 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-11-23 01:34:42 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-11-23 01:34:42 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
 	Database JDBC URL [jdbc:mysql://localhost:3307/paramex?createDatabaseIfNotExist=true]
 	Database driver: MySQL Connector/J
 	Database dialect: MySQLDialect
@@ -26,9 +36,9 @@
 	Pool: DataSourceConnectionProvider
 	Minimum pool size: undefined/unknown
 	Maximum pool size: undefined/unknown
-2026-11-21 16:51:24 [main] INFO  org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2026-11-21 16:51:26 [main] WARN  o.h.t.s.i.ExceptionHandlerLoggedImpl - GenerationTarget encountered exception accepting command : Error executing DDL "alter table achatfacture add constraint FK4v9xrq61yj5h8hxrk8jxw9ggf foreign key (operateur_id) references personnel (id)" via JDBC [Cannot add or update a child row: a foreign key constraint fails (`paramex`.`#sql-16e4_360`, CONSTRAINT `FK4v9xrq61yj5h8hxrk8jxw9ggf` FOREIGN KEY (`operateur_id`) REFERENCES `personnel` (`id`))]
-org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table achatfacture add constraint FK4v9xrq61yj5h8hxrk8jxw9ggf foreign key (operateur_id) references personnel (id)" via JDBC [Cannot add or update a child row: a foreign key constraint fails (`paramex`.`#sql-16e4_360`, CONSTRAINT `FK4v9xrq61yj5h8hxrk8jxw9ggf` FOREIGN KEY (`operateur_id`) REFERENCES `personnel` (`id`))]
+2026-11-23 01:34:46 [main] INFO  org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-23 01:34:48 [main] WARN  o.h.t.s.i.ExceptionHandlerLoggedImpl - GenerationTarget encountered exception accepting command : Error executing DDL "alter table achatfacture add constraint FK4v9xrq61yj5h8hxrk8jxw9ggf foreign key (operateur_id) references personnel (id)" via JDBC [Cannot add or update a child row: a foreign key constraint fails (`paramex`.`#sql-16e4_4ee`, CONSTRAINT `FK4v9xrq61yj5h8hxrk8jxw9ggf` FOREIGN KEY (`operateur_id`) REFERENCES `personnel` (`id`))]
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "alter table achatfacture add constraint FK4v9xrq61yj5h8hxrk8jxw9ggf foreign key (operateur_id) references personnel (id)" via JDBC [Cannot add or update a child row: a foreign key constraint fails (`paramex`.`#sql-16e4_4ee`, CONSTRAINT `FK4v9xrq61yj5h8hxrk8jxw9ggf` FOREIGN KEY (`operateur_id`) REFERENCES `personnel` (`id`))]
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:81)
 	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlString(AbstractSchemaMigrator.java:566)
 	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlStrings(AbstractSchemaMigrator.java:506)
@@ -152,7 +162,7 @@ org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "a
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1365)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354)
 	at com.kabir.kabirbackend.KabirBackendApplication.main(KabirBackendApplication.java:12)
-Caused by: java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`paramex`.`#sql-16e4_360`, CONSTRAINT `FK4v9xrq61yj5h8hxrk8jxw9ggf` FOREIGN KEY (`operateur_id`) REFERENCES `personnel` (`id`))
+Caused by: java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`paramex`.`#sql-16e4_4ee`, CONSTRAINT `FK4v9xrq61yj5h8hxrk8jxw9ggf` FOREIGN KEY (`operateur_id`) REFERENCES `personnel` (`id`))
 	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:109)
 	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:114)
 	at com.mysql.cj.jdbc.StatementImpl.executeInternal(StatementImpl.java:839)
@@ -161,153 +171,74 @@ Caused by: java.sql.SQLIntegrityConstraintViolationException: Cannot add or upda
 	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java)
 	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:76)
 	... 122 common frames omitted
-2026-11-21 16:51:26 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2026-11-21 16:51:26 [main] INFO  o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
-2026-11-21 16:51:28 [main] DEBUG c.k.k.config.security.JwtFilter - Filter 'jwtFilter' configured for use
-2026-11-21 16:51:36 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
-2026-11-21 16:51:37 [main] WARN  o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2026-11-21 16:51:38 [main] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
-2026-11-21 16:51:40 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/api'
-2026-11-21 16:51:40 [main] INFO  c.k.k.config.jobs.OptimizeDB - Next cron execution with expression: 0 3 22 * * *
-2026-11-21 16:51:40 [main] INFO  c.k.k.KabirBackendApplication - Started KabirBackendApplication in 37.26 seconds (process running for 40.019)
-2026-11-21 16:53:18 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2026-11-21 16:53:18 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2026-11-21 16:53:18 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
-2026-11-21 16:53:18 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /personnel/auth/admin-exist
-2026-11-21 16:53:18 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /personnel/auth/admin-exist
-2026-11-21 16:53:18 [http-nio-8080-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
-2026-11-21 16:53:18 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /personnel/auth/admin-exist
-2026-11-21 16:53:18 [http-nio-8080-exec-2] INFO  c.k.k.c.PersonnelController - Checking if an admin exists
-2026-11-21 16:53:22 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /personnel/auth/login
-2026-11-21 16:53:22 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing POST /personnel/auth/login
-2026-11-21 16:53:22 [http-nio-8080-exec-4] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
-2026-11-21 16:53:22 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured POST /personnel/auth/login
-2026-11-21 16:53:22 [http-nio-8080-exec-4] INFO  c.k.k.c.PersonnelController - Logging in: AuthRequest[email=abdellah.elouarga@gmail.com, password=123]
-2026-11-21 16:53:22 [http-nio-8080-exec-4] INFO  c.k.k.c.PersonnelController - Authenticating user: abdellah.elouarga@gmail.com
-2026-11-21 16:53:22 [http-nio-8080-exec-4] DEBUG o.s.s.a.d.DaoAuthenticationProvider - Authenticated user
-2026-11-21 16:53:22 [http-nio-8080-exec-4] INFO  c.k.k.service.PersonnelService - Finding personnel by email: abdellah.elouarga@gmail.com
-2026-11-21 16:54:04 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /livraison/searchByCommon
-2026-11-21 16:54:04 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /stock/search
-2026-11-21 16:54:04 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /personnel/all-except-admin
-2026-11-21 16:54:04 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /repertoire/search/clients
-2026-11-21 16:54:04 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /ville
-2026-11-21 16:54:04 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing POST /stock/search
-2026-11-21 16:54:04 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing POST /personnel/all-except-admin
-2026-11-21 16:54:04 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing POST /livraison/searchByCommon
-2026-11-21 16:54:04 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing POST /repertoire/search/clients
-2026-11-21 16:54:04 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /ville
-2026-11-21 16:54:04 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured POST /personnel/all-except-admin
-2026-11-21 16:54:04 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured POST /livraison/searchByCommon
-2026-11-21 16:54:04 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured POST /stock/search
-2026-11-21 16:54:04 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured POST /repertoire/search/clients
-2026-11-21 16:54:04 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /ville
-2026-11-21 16:54:04 [http-nio-8080-exec-4] INFO  c.k.k.controllers.VilleController - Fetching all villes (withCount=false)
-2026-11-21 16:54:04 [http-nio-8080-exec-4] INFO  c.k.k.service.VilleService - Finding all villes (withCount=false)
-2026-11-21 16:54:04 [http-nio-8080-exec-10] INFO  c.k.k.c.PersonnelController - Fetching all personnel except admins
-2026-11-21 16:54:04 [http-nio-8080-exec-10] INFO  c.k.k.service.PersonnelService - Finding all personnels except admins
-2026-11-21 16:54:04 [http-nio-8080-exec-1] INFO  c.k.k.c.LivraisonController - Searching livraison by common: CommonSearchModel(id=null, searchByDate=false, dateDebut=null, dateFin=null, fournisseurId=null, repertoireId=null, personnelId=null, operateurId=null, stockId=null, absence=false, searchByMatinApresMidi=false, matin=false, apresMidi=false, etatcheque=0, compteCaisse=false, numCheque=, numRemise=, typeRepertoire=0, villeId=0, voitureId=null, typeImprimRepertoire=0)
-2026-11-21 16:54:04 [http-nio-8080-exec-1] INFO  c.k.k.service.LivraisonService - Searching livraison by common: CommonSearchModel(id=null, searchByDate=false, dateDebut=null, dateFin=null, fournisseurId=null, repertoireId=null, personnelId=null, operateurId=null, stockId=null, absence=false, searchByMatinApresMidi=false, matin=false, apresMidi=false, etatcheque=0, compteCaisse=false, numCheque=, numRemise=, typeRepertoire=0, villeId=0, voitureId=null, typeImprimRepertoire=0)
-2026-11-21 16:54:04 [http-nio-8080-exec-3] INFO  c.k.k.c.RepertoireController - Searching repertoire only clients: RepertoireDTO(id=null, designation=, tel1=, tel2=, tel3=, adresse=, email=, typeRepertoire=0, typeReglment=0, ife=, ice=, archiver=false, bloquer=false, sysDate=2026-11-21T15:54:04.119Z, dateSuppression=null, observation=, nbrOperationClient=0, plafond=0.0, personnelId=null, personnelDesignation=, villeId=null, villeNomVille=, dateDernierBL=null, canDelete=false)
-2026-11-21 16:54:04 [http-nio-8080-exec-2] INFO  c.k.k.controllers.StockController - Searching stocks: StockDTO(id=null, designation=, sysDate=2026-11-21T15:54:04.112Z, pahtGrossiste=0.0, tva=0.0, pattc=0.0, pvttc=0.0, pvaht=0.0, benifice=0.0, qteStock=0, qteSortie=0, qtePVMin1=0.0, qtePVMin2=0.0, qtePVMin3=0.0, qtePVMin4=0.0, qtePVMin5=0.0, qtePVMin6=0.0, qtePVMin7=0.0, qtePVMin8=0.0, qteFacturer=0, prixVentMin1=0.0, prixVentMin2=0.0, prixVentMin3=0.0, prixVentMin4=0.0, remiseMax1=0.0, remiseMax2=0.0, remiseMax3=0.0, remiseMax4=0.0, prixImport=0.0, commission=0.0, archiver=false, supprimer=false, qteStockImport=0, montant1=0.0, montant2=0.0, montant3=0.0, prime1=0.0, prime2=0.0, prime3=0.0, typeProduit=0, dateSuppression=null, fournisseurId=null, fournisseurDesignation=, prixVenteMinTemp=0.0, canDelete=false)
-2026-11-21 16:56:07 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /personnel/auth/me
-2026-11-21 16:56:07 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing POST /personnel/auth/me
-2026-11-21 16:56:07 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured POST /personnel/auth/me
-2026-11-21 16:56:07 [http-nio-8080-exec-10] INFO  c.k.k.service.PersonnelService - Finding personnel by email: abdellah.elouarga@gmail.com
-2026-11-21 16:56:09 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /livraison/searchByCommon
-2026-11-21 16:56:09 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /stock/search
-2026-11-21 16:56:09 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /personnel/all-except-admin
-2026-11-21 16:56:09 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /repertoire/search/clients
-2026-11-21 16:56:09 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /ville
-2026-11-21 16:56:09 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing POST /stock/search
-2026-11-21 16:56:09 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing POST /personnel/all-except-admin
-2026-11-21 16:56:09 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /ville
-2026-11-21 16:56:09 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing POST /repertoire/search/clients
-2026-11-21 16:56:09 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing POST /livraison/searchByCommon
-2026-11-21 16:56:09 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured POST /personnel/all-except-admin
-2026-11-21 16:56:09 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /ville
-2026-11-21 16:56:09 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured POST /repertoire/search/clients
-2026-11-21 16:56:09 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured POST /livraison/searchByCommon
-2026-11-21 16:56:09 [http-nio-8080-exec-8] INFO  c.k.k.c.PersonnelController - Fetching all personnel except admins
-2026-11-21 16:56:09 [http-nio-8080-exec-4] INFO  c.k.k.controllers.VilleController - Fetching all villes (withCount=false)
-2026-11-21 16:56:09 [http-nio-8080-exec-8] INFO  c.k.k.service.PersonnelService - Finding all personnels except admins
-2026-11-21 16:56:09 [http-nio-8080-exec-6] INFO  c.k.k.c.RepertoireController - Searching repertoire only clients: RepertoireDTO(id=null, designation=, tel1=, tel2=, tel3=, adresse=, email=, typeRepertoire=0, typeReglment=0, ife=, ice=, archiver=false, bloquer=false, sysDate=2026-11-21T15:56:08.972Z, dateSuppression=null, observation=, nbrOperationClient=0, plafond=0.0, personnelId=null, personnelDesignation=, villeId=null, villeNomVille=, dateDernierBL=null, canDelete=false)
-2026-11-21 16:56:09 [http-nio-8080-exec-4] INFO  c.k.k.service.VilleService - Finding all villes (withCount=false)
-2026-11-21 16:56:09 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured POST /stock/search
-2026-11-21 16:56:09 [http-nio-8080-exec-5] INFO  c.k.k.c.LivraisonController - Searching livraison by common: CommonSearchModel(id=null, searchByDate=false, dateDebut=null, dateFin=null, fournisseurId=null, repertoireId=null, personnelId=null, operateurId=null, stockId=null, absence=false, searchByMatinApresMidi=false, matin=false, apresMidi=false, etatcheque=0, compteCaisse=false, numCheque=, numRemise=, typeRepertoire=0, villeId=0, voitureId=null, typeImprimRepertoire=0)
-2026-11-21 16:56:09 [http-nio-8080-exec-5] INFO  c.k.k.service.LivraisonService - Searching livraison by common: CommonSearchModel(id=null, searchByDate=false, dateDebut=null, dateFin=null, fournisseurId=null, repertoireId=null, personnelId=null, operateurId=null, stockId=null, absence=false, searchByMatinApresMidi=false, matin=false, apresMidi=false, etatcheque=0, compteCaisse=false, numCheque=, numRemise=, typeRepertoire=0, villeId=0, voitureId=null, typeImprimRepertoire=0)
-2026-11-21 16:56:09 [http-nio-8080-exec-9] INFO  c.k.k.controllers.StockController - Searching stocks: StockDTO(id=null, designation=, sysDate=2026-11-21T15:56:08.968Z, pahtGrossiste=0.0, tva=0.0, pattc=0.0, pvttc=0.0, pvaht=0.0, benifice=0.0, qteStock=0, qteSortie=0, qtePVMin1=0.0, qtePVMin2=0.0, qtePVMin3=0.0, qtePVMin4=0.0, qtePVMin5=0.0, qtePVMin6=0.0, qtePVMin7=0.0, qtePVMin8=0.0, qteFacturer=0, prixVentMin1=0.0, prixVentMin2=0.0, prixVentMin3=0.0, prixVentMin4=0.0, remiseMax1=0.0, remiseMax2=0.0, remiseMax3=0.0, remiseMax4=0.0, prixImport=0.0, commission=0.0, archiver=false, supprimer=false, qteStockImport=0, montant1=0.0, montant2=0.0, montant3=0.0, prime1=0.0, prime2=0.0, prime3=0.0, typeProduit=0, dateSuppression=null, fournisseurId=null, fournisseurDesignation=, prixVenteMinTemp=0.0, canDelete=false)
-2026-11-21 16:56:44 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /personnel/auth/me
-2026-11-21 16:56:45 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing POST /personnel/auth/me
-2026-11-21 16:56:45 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured POST /personnel/auth/me
-2026-11-21 16:56:45 [http-nio-8080-exec-3] INFO  c.k.k.service.PersonnelService - Finding personnel by email: abdellah.elouarga@gmail.com
-2026-11-21 16:56:47 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /livraison/searchByCommon
-2026-11-21 16:56:47 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /personnel/all-except-admin
-2026-11-21 16:56:47 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /repertoire/search/clients
-2026-11-21 16:56:47 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /stock/search
-2026-11-21 16:56:47 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /ville
-2026-11-21 16:56:47 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing POST /repertoire/search/clients
-2026-11-21 16:56:47 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing POST /stock/search
-2026-11-21 16:56:47 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing POST /livraison/searchByCommon
-2026-11-21 16:56:47 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /ville
-2026-11-21 16:56:47 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing POST /personnel/all-except-admin
-2026-11-21 16:56:47 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured POST /repertoire/search/clients
-2026-11-21 16:56:47 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /ville
-2026-11-21 16:56:47 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured POST /personnel/all-except-admin
-2026-11-21 16:56:47 [http-nio-8080-exec-10] INFO  c.k.k.controllers.VilleController - Fetching all villes (withCount=false)
-2026-11-21 16:56:47 [http-nio-8080-exec-10] INFO  c.k.k.service.VilleService - Finding all villes (withCount=false)
-2026-11-21 16:56:47 [http-nio-8080-exec-6] INFO  c.k.k.c.RepertoireController - Searching repertoire only clients: RepertoireDTO(id=null, designation=, tel1=, tel2=, tel3=, adresse=, email=, typeRepertoire=0, typeReglment=0, ife=, ice=, archiver=false, bloquer=false, sysDate=2026-11-21T15:56:47.354Z, dateSuppression=null, observation=, nbrOperationClient=0, plafond=0.0, personnelId=null, personnelDesignation=, villeId=null, villeNomVille=, dateDernierBL=null, canDelete=false)
-2026-11-21 16:56:47 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured POST /livraison/searchByCommon
-2026-11-21 16:56:47 [http-nio-8080-exec-9] INFO  c.k.k.c.PersonnelController - Fetching all personnel except admins
-2026-11-21 16:56:47 [http-nio-8080-exec-9] INFO  c.k.k.service.PersonnelService - Finding all personnels except admins
-2026-11-21 16:56:47 [http-nio-8080-exec-5] INFO  c.k.k.c.LivraisonController - Searching livraison by common: CommonSearchModel(id=null, searchByDate=false, dateDebut=null, dateFin=null, fournisseurId=null, repertoireId=null, personnelId=null, operateurId=null, stockId=null, absence=false, searchByMatinApresMidi=false, matin=false, apresMidi=false, etatcheque=0, compteCaisse=false, numCheque=, numRemise=, typeRepertoire=0, villeId=0, voitureId=null, typeImprimRepertoire=0)
-2026-11-21 16:56:47 [http-nio-8080-exec-5] INFO  c.k.k.service.LivraisonService - Searching livraison by common: CommonSearchModel(id=null, searchByDate=false, dateDebut=null, dateFin=null, fournisseurId=null, repertoireId=null, personnelId=null, operateurId=null, stockId=null, absence=false, searchByMatinApresMidi=false, matin=false, apresMidi=false, etatcheque=0, compteCaisse=false, numCheque=, numRemise=, typeRepertoire=0, villeId=0, voitureId=null, typeImprimRepertoire=0)
-2026-11-21 16:56:47 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured POST /stock/search
-2026-11-21 16:56:47 [http-nio-8080-exec-3] INFO  c.k.k.controllers.StockController - Searching stocks: StockDTO(id=null, designation=, sysDate=2026-11-21T15:56:47.352Z, pahtGrossiste=0.0, tva=0.0, pattc=0.0, pvttc=0.0, pvaht=0.0, benifice=0.0, qteStock=0, qteSortie=0, qtePVMin1=0.0, qtePVMin2=0.0, qtePVMin3=0.0, qtePVMin4=0.0, qtePVMin5=0.0, qtePVMin6=0.0, qtePVMin7=0.0, qtePVMin8=0.0, qteFacturer=0, prixVentMin1=0.0, prixVentMin2=0.0, prixVentMin3=0.0, prixVentMin4=0.0, remiseMax1=0.0, remiseMax2=0.0, remiseMax3=0.0, remiseMax4=0.0, prixImport=0.0, commission=0.0, archiver=false, supprimer=false, qteStockImport=0, montant1=0.0, montant2=0.0, montant3=0.0, prime1=0.0, prime2=0.0, prime3=0.0, typeProduit=0, dateSuppression=null, fournisseurId=null, fournisseurDesignation=, prixVenteMinTemp=0.0, canDelete=false)
-2026-11-21 17:04:58 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /personnel/auth/me
-2026-11-21 17:04:58 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing POST /personnel/auth/me
-2026-11-21 17:04:58 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured POST /personnel/auth/me
-2026-11-21 17:04:58 [http-nio-8080-exec-9] INFO  c.k.k.service.PersonnelService - Finding personnel by email: abdellah.elouarga@gmail.com
-2026-11-21 17:05:06 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /personnel/auth/me
-2026-11-21 17:05:06 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing POST /personnel/auth/me
-2026-11-21 17:05:06 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured POST /personnel/auth/me
-2026-11-21 17:05:06 [http-nio-8080-exec-6] INFO  c.k.k.service.PersonnelService - Finding personnel by email: abdellah.elouarga@gmail.com
-2026-11-21 17:06:32 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /personnel/auth/me
-2026-11-21 17:06:32 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing POST /personnel/auth/me
-2026-11-21 17:06:32 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured POST /personnel/auth/me
-2026-11-21 17:06:32 [http-nio-8080-exec-8] INFO  c.k.k.service.PersonnelService - Finding personnel by email: abdellah.elouarga@gmail.com
-2026-11-21 17:08:52 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /personnel/auth/me
-2026-11-21 17:08:52 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing POST /personnel/auth/me
-2026-11-21 17:08:52 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured POST /personnel/auth/me
-2026-11-21 17:08:52 [http-nio-8080-exec-1] INFO  c.k.k.service.PersonnelService - Finding personnel by email: abdellah.elouarga@gmail.com
-2026-11-21 17:09:46 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /livraison/searchByCommon
-2026-11-21 17:09:46 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /stock/search
-2026-11-21 17:09:46 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /personnel/all-except-admin
-2026-11-21 17:09:46 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /repertoire/search/clients
-2026-11-21 17:09:46 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /ville
-2026-11-21 17:09:46 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing POST /stock/search
-2026-11-21 17:09:46 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing POST /livraison/searchByCommon
-2026-11-21 17:09:46 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /ville
-2026-11-21 17:09:46 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing POST /repertoire/search/clients
-2026-11-21 17:09:46 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing POST /personnel/all-except-admin
-2026-11-21 17:09:46 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured POST /personnel/all-except-admin
-2026-11-21 17:09:46 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /ville
-2026-11-21 17:09:46 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured POST /repertoire/search/clients
-2026-11-21 17:09:46 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured POST /livraison/searchByCommon
-2026-11-21 17:09:46 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured POST /stock/search
-2026-11-21 17:09:46 [http-nio-8080-exec-2] INFO  c.k.k.controllers.VilleController - Fetching all villes (withCount=false)
-2026-11-21 17:09:46 [http-nio-8080-exec-2] INFO  c.k.k.service.VilleService - Finding all villes (withCount=false)
-2026-11-21 17:09:46 [http-nio-8080-exec-7] INFO  c.k.k.c.LivraisonController - Searching livraison by common: CommonSearchModel(id=null, searchByDate=false, dateDebut=null, dateFin=null, fournisseurId=null, repertoireId=null, personnelId=null, operateurId=null, stockId=null, absence=false, searchByMatinApresMidi=false, matin=false, apresMidi=false, etatcheque=0, compteCaisse=false, numCheque=, numRemise=, typeRepertoire=0, villeId=0, voitureId=null, typeImprimRepertoire=0)
-2026-11-21 17:09:46 [http-nio-8080-exec-1] INFO  c.k.k.c.PersonnelController - Fetching all personnel except admins
-2026-11-21 17:09:46 [http-nio-8080-exec-4] INFO  c.k.k.c.RepertoireController - Searching repertoire only clients: RepertoireDTO(id=null, designation=, tel1=, tel2=, tel3=, adresse=, email=, typeRepertoire=0, typeReglment=0, ife=, ice=, archiver=false, bloquer=false, sysDate=2026-11-21T16:09:46.854Z, dateSuppression=null, observation=, nbrOperationClient=0, plafond=0.0, personnelId=null, personnelDesignation=, villeId=null, villeNomVille=, dateDernierBL=null, canDelete=false)
-2026-11-21 17:09:46 [http-nio-8080-exec-1] INFO  c.k.k.service.PersonnelService - Finding all personnels except admins
-2026-11-21 17:09:46 [http-nio-8080-exec-7] INFO  c.k.k.service.LivraisonService - Searching livraison by common: CommonSearchModel(id=null, searchByDate=false, dateDebut=null, dateFin=null, fournisseurId=null, repertoireId=null, personnelId=null, operateurId=null, stockId=null, absence=false, searchByMatinApresMidi=false, matin=false, apresMidi=false, etatcheque=0, compteCaisse=false, numCheque=, numRemise=, typeRepertoire=0, villeId=0, voitureId=null, typeImprimRepertoire=0)
-2026-11-21 17:09:46 [http-nio-8080-exec-8] INFO  c.k.k.controllers.StockController - Searching stocks: StockDTO(id=null, designation=, sysDate=2026-11-21T16:09:46.840Z, pahtGrossiste=0.0, tva=0.0, pattc=0.0, pvttc=0.0, pvaht=0.0, benifice=0.0, qteStock=0, qteSortie=0, qtePVMin1=0.0, qtePVMin2=0.0, qtePVMin3=0.0, qtePVMin4=0.0, qtePVMin5=0.0, qtePVMin6=0.0, qtePVMin7=0.0, qtePVMin8=0.0, qteFacturer=0, prixVentMin1=0.0, prixVentMin2=0.0, prixVentMin3=0.0, prixVentMin4=0.0, remiseMax1=0.0, remiseMax2=0.0, remiseMax3=0.0, remiseMax4=0.0, prixImport=0.0, commission=0.0, archiver=false, supprimer=false, qteStockImport=0, montant1=0.0, montant2=0.0, montant3=0.0, prime1=0.0, prime2=0.0, prime3=0.0, typeProduit=0, dateSuppression=null, fournisseurId=null, fournisseurDesignation=, prixVenteMinTemp=0.0, canDelete=false)
-2026-11-21 17:09:48 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /livraison/last-num-livraison
-2026-11-21 17:09:48 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing POST /livraison/last-num-livraison
-2026-11-21 17:09:48 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured POST /livraison/last-num-livraison
-2026-11-21 17:09:48 [http-nio-8080-exec-9] INFO  c.k.k.c.LivraisonController - Getting last num livraison
-2026-11-21 17:09:49 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /etablissement
-2026-11-21 17:09:49 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /etablissement
-2026-11-21 17:09:49 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /etablissement
-2026-11-21 17:09:49 [http-nio-8080-exec-3] INFO  c.k.k.c.EtablissementController - Fetching all etablissements
-2026-11-21 17:09:49 [http-nio-8080-exec-3] INFO  c.k.k.service.EtablissementService - Finding all EtablissementDTOs
+2026-11-23 01:34:48 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-23 01:34:49 [main] INFO  o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-11-23 01:34:51 [main] DEBUG c.k.k.config.security.JwtFilter - Filter 'jwtFilter' configured for use
+2026-11-23 01:34:58 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name userDetailsServiceImpl
+2026-11-23 01:34:58 [main] WARN  o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-11-23 01:34:59 [main] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-11-23 01:35:01 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/api'
+2026-11-23 01:35:01 [main] INFO  c.k.k.config.jobs.OptimizeDB - Next cron execution with expression: 0 3 22 * * *
+2026-11-23 01:35:01 [main] INFO  c.k.k.KabirBackendApplication - Started KabirBackendApplication in 28.968 seconds (process running for 30.427)
+2026-11-23 01:35:14 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[.[localhost].[/api] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-11-23 01:35:14 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-11-23 01:35:14 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2026-11-23 01:35:14 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /personnel/auth/admin-exist
+2026-11-23 01:35:14 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /personnel/auth/admin-exist
+2026-11-23 01:35:14 [http-nio-8080-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2026-11-23 01:35:14 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /personnel/auth/admin-exist
+2026-11-23 01:35:14 [http-nio-8080-exec-2] INFO  c.k.k.c.PersonnelController - Checking if an admin exists
+2026-11-23 01:35:20 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /personnel/auth/login
+2026-11-23 01:35:20 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing POST /personnel/auth/login
+2026-11-23 01:35:20 [http-nio-8080-exec-4] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2026-11-23 01:35:20 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured POST /personnel/auth/login
+2026-11-23 01:35:20 [http-nio-8080-exec-4] INFO  c.k.k.c.PersonnelController - Logging in: AuthRequest[email=abdellah.elouarga@gmail.com, password=123]
+2026-11-23 01:35:20 [http-nio-8080-exec-4] INFO  c.k.k.c.PersonnelController - Authenticating user: abdellah.elouarga@gmail.com
+2026-11-23 01:35:20 [http-nio-8080-exec-4] DEBUG o.s.s.a.d.DaoAuthenticationProvider - Authenticated user
+2026-11-23 01:35:20 [http-nio-8080-exec-4] INFO  c.k.k.service.PersonnelService - Finding personnel by email: abdellah.elouarga@gmail.com
+2026-11-23 01:35:24 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /livraison/searchByCommon
+2026-11-23 01:35:24 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /stock/search
+2026-11-23 01:35:24 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /personnel/all-except-admin
+2026-11-23 01:35:24 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /repertoire/search/clients
+2026-11-23 01:35:24 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /ville
+2026-11-23 01:35:24 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing POST /stock/search
+2026-11-23 01:35:24 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing POST /personnel/all-except-admin
+2026-11-23 01:35:24 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /ville
+2026-11-23 01:35:24 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing POST /livraison/searchByCommon
+2026-11-23 01:35:24 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing POST /repertoire/search/clients
+2026-11-23 01:35:24 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured POST /personnel/all-except-admin
+2026-11-23 01:35:24 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured POST /repertoire/search/clients
+2026-11-23 01:35:24 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured POST /stock/search
+2026-11-23 01:35:24 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured POST /livraison/searchByCommon
+2026-11-23 01:35:24 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /ville
+2026-11-23 01:35:24 [http-nio-8080-exec-4] INFO  c.k.k.controllers.VilleController - Fetching all villes (withCount=false)
+2026-11-23 01:35:24 [http-nio-8080-exec-4] INFO  c.k.k.service.VilleService - Finding all villes (withCount=false)
+2026-11-23 01:35:24 [http-nio-8080-exec-1] INFO  c.k.k.c.PersonnelController - Fetching all personnel except admins
+2026-11-23 01:35:24 [http-nio-8080-exec-1] INFO  c.k.k.service.PersonnelService - Finding all personnels except admins
+2026-11-23 01:35:24 [http-nio-8080-exec-10] INFO  c.k.k.c.LivraisonController - Searching livraison by common: CommonSearchModel(id=null, searchByDate=false, dateDebut=null, dateFin=null, fournisseurId=null, repertoireId=null, personnelId=null, operateurId=null, stockId=null, absence=false, searchByMatinApresMidi=false, matin=false, apresMidi=false, etatcheque=0, compteCaisse=false, numCheque=, numRemise=, typeRepertoire=0, villeId=0, voitureId=null, typeImprimRepertoire=0)
+2026-11-23 01:35:24 [http-nio-8080-exec-10] INFO  c.k.k.service.LivraisonService - Searching livraison by common: CommonSearchModel(id=null, searchByDate=false, dateDebut=null, dateFin=null, fournisseurId=null, repertoireId=null, personnelId=null, operateurId=null, stockId=null, absence=false, searchByMatinApresMidi=false, matin=false, apresMidi=false, etatcheque=0, compteCaisse=false, numCheque=, numRemise=, typeRepertoire=0, villeId=0, voitureId=null, typeImprimRepertoire=0)
+2026-11-23 01:35:24 [http-nio-8080-exec-5] INFO  c.k.k.c.RepertoireController - Searching repertoire only clients: RepertoireDTO(id=null, designation=, tel1=, tel2=, tel3=, adresse=, email=, typeRepertoire=0, typeReglment=0, ife=, ice=, archiver=false, bloquer=false, sysDate=2026-11-23T00:35:24.610Z, dateSuppression=null, observation=, nbrOperationClient=0, plafond=0.0, personnelId=null, personnelDesignation=, villeId=null, villeNomVille=, dateDernierBL=null, canDelete=false)
+2026-11-23 01:35:24 [http-nio-8080-exec-2] INFO  c.k.k.controllers.StockController - Searching stocks: StockDTO(id=null, designation=, sysDate=2026-11-23T00:35:24.606Z, pahtGrossiste=0.0, tva=0.0, pattc=0.0, pvttc=0.0, pvaht=0.0, benifice=0.0, qteStock=0, qteSortie=0, qtePVMin1=0.0, qtePVMin2=0.0, qtePVMin3=0.0, qtePVMin4=0.0, qtePVMin5=0.0, qtePVMin6=0.0, qtePVMin7=0.0, qtePVMin8=0.0, qteFacturer=0, prixVentMin1=0.0, prixVentMin2=0.0, prixVentMin3=0.0, prixVentMin4=0.0, remiseMax1=0.0, remiseMax2=0.0, remiseMax3=0.0, remiseMax4=0.0, prixImport=0.0, commission=0.0, archiver=false, supprimer=false, qteStockImport=0, montant1=0.0, montant2=0.0, montant3=0.0, prime1=0.0, prime2=0.0, prime3=0.0, typeProduit=0, dateSuppression=null, fournisseurId=null, fournisseurDesignation=, prixVenteMinTemp=0.0, canDelete=false)
+2026-11-23 01:35:28 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /livraison/last-num-livraison
+2026-11-23 01:35:28 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing POST /livraison/last-num-livraison
+2026-11-23 01:35:28 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured POST /livraison/last-num-livraison
+2026-11-23 01:35:28 [http-nio-8080-exec-7] INFO  c.k.k.c.LivraisonController - Getting last num livraison
+2026-11-23 01:35:28 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /etablissement
+2026-11-23 01:35:28 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /etablissement
+2026-11-23 01:35:28 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /etablissement
+2026-11-23 01:35:28 [http-nio-8080-exec-3] INFO  c.k.k.c.EtablissementController - Fetching all etablissements
+2026-11-23 01:35:28 [http-nio-8080-exec-3] INFO  c.k.k.service.EtablissementService - Finding all EtablissementDTOs
+2026-11-23 01:35:36 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /fournisseur/search
+2026-11-23 01:35:36 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing POST /fournisseur/search
+2026-11-23 01:35:36 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured POST /fournisseur/search
+2026-11-23 01:35:36 [http-nio-8080-exec-4] INFO  c.k.k.c.FournisseurController - Searching fournisseur: FournisseurDTO(id=null, designation=, type=0, tel1=, tel2=, ice=, adresse=, dateSuppression=null, nbrOperationClient=0, archiver=false, supprimer=false, ville=null, canDelete=false)
+2026-11-23 01:36:00 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /stock/exist
+2026-11-23 01:36:00 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing POST /stock/exist
+2026-11-23 01:36:00 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured POST /stock/exist
+2026-11-23 01:36:00 [http-nio-8080-exec-2] INFO  c.k.k.controllers.StockController - Checking if stock exists: StockDTO(id=null, designation=AZ, sysDate=2026-11-23T00:36:00.550Z, pahtGrossiste=0.0, tva=20.0, pattc=100.0, pvttc=120.0, pvaht=0.0, benifice=16.666666666666664, qteStock=0, qteSortie=0, qtePVMin1=0.0, qtePVMin2=0.0, qtePVMin3=0.0, qtePVMin4=0.0, qtePVMin5=0.0, qtePVMin6=0.0, qtePVMin7=0.0, qtePVMin8=0.0, qteFacturer=0, prixVentMin1=0.0, prixVentMin2=0.0, prixVentMin3=0.0, prixVentMin4=0.0, remiseMax1=0.0, remiseMax2=0.0, remiseMax3=0.0, remiseMax4=0.0, prixImport=0.0, commission=0.0, archiver=false, supprimer=false, qteStockImport=0, montant1=0.0, montant2=0.0, montant3=0.0, prime1=0.0, prime2=0.0, prime3=0.0, typeProduit=1, dateSuppression=null, fournisseurId=1, fournisseurDesignation=, prixVenteMinTemp=0.0, canDelete=false)
+2026-11-23 01:36:00 [http-nio-8080-exec-2] INFO  c.k.k.service.StockService - Searching stocks: StockDTO(id=null, designation=AZ, sysDate=2026-11-23T00:36:00.550Z, pahtGrossiste=0.0, tva=20.0, pattc=100.0, pvttc=120.0, pvaht=0.0, benifice=16.666666666666664, qteStock=0, qteSortie=0, qtePVMin1=0.0, qtePVMin2=0.0, qtePVMin3=0.0, qtePVMin4=0.0, qtePVMin5=0.0, qtePVMin6=0.0, qtePVMin7=0.0, qtePVMin8=0.0, qteFacturer=0, prixVentMin1=0.0, prixVentMin2=0.0, prixVentMin3=0.0, prixVentMin4=0.0, remiseMax1=0.0, remiseMax2=0.0, remiseMax3=0.0, remiseMax4=0.0, prixImport=0.0, commission=0.0, archiver=false, supprimer=false, qteStockImport=0, montant1=0.0, montant2=0.0, montant3=0.0, prime1=0.0, prime2=0.0, prime3=0.0, typeProduit=1, dateSuppression=null, fournisseurId=1, fournisseurDesignation=, prixVenteMinTemp=0.0, canDelete=false)
+2026-11-23 01:36:10 [SpringApplicationShutdownHook] INFO  o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-11-23 01:36:10 [tomcat-shutdown] INFO  o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-11-23 01:36:11 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-11-23 01:36:11 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-11-23 01:36:11 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

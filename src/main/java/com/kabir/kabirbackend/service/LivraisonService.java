@@ -209,7 +209,7 @@ public class LivraisonService implements ILivraisonService {
                 for(DetLivraison detStockDepot : detLivraisonDTOOld) {
                     if(null != detStockDepot.getStock() && null != detStockDepot.getStock().getId()) {
                         if(!isPersonnelIsCommercialExterne) {
-                            stockService.updateQteStock(detStockDepot.getStock().getId(), TypeQteToUpdate.QTE_STOCK, new RequestStockQte(detStockDepot.getQteLivrer(),  StockOperation.ADD_TO_STOCK.getValue(), null));
+                            stockService.updateQteStock(detStockDepot.getStock().getId(), TypeQteToUpdate.QTE_STOCK_IMPORT, new RequestStockQte(detStockDepot.getQteLivrer(),  StockOperation.ADD_TO_STOCK.getValue(), null));
                         }
 
                         logger.info("Deleting detail livraison by id: {}", detStockDepot.getId());
@@ -280,7 +280,7 @@ public class LivraisonService implements ILivraisonService {
             for(DetLivraison detLivraison : listToDelete) {
                 if(!isPersonnelIsCommercialExterneOld) {
                     if(null != detLivraison.getStock() && null != detLivraison.getStock().getId()) {
-                        stockService.updateQteStock(detLivraison.getStock().getId(), TypeQteToUpdate.QTE_STOCK, new RequestStockQte(detLivraison.getQteLivrer(), StockOperation.ADD_TO_STOCK.getValue(), null));
+                        stockService.updateQteStock(detLivraison.getStock().getId(), TypeQteToUpdate.QTE_STOCK_IMPORT, new RequestStockQte(detLivraison.getQteLivrer(), StockOperation.ADD_TO_STOCK.getValue(), null));
                     }
                 }
                 detLivraisonRepository.delete(detLivraison);
@@ -307,7 +307,7 @@ public class LivraisonService implements ILivraisonService {
             for(DetLivraison detLivraison : listToSave) {
                 if(!isPersonnelIsCommercialExterne) {
                     if (null == detLivraison.getId()) {
-                        stockService.updateQteStock(detLivraison.getStock().getId(), TypeQteToUpdate.QTE_STOCK, new RequestStockQte(detLivraison.getQteLivrer(), StockOperation.DELETE_FROM_STOCK.getValue(), null));
+                        stockService.updateQteStock(detLivraison.getStock().getId(), TypeQteToUpdate.QTE_STOCK_IMPORT, new RequestStockQte(detLivraison.getQteLivrer(), StockOperation.DELETE_FROM_STOCK.getValue(), null));
                     } else {
                         int qte = detLivraison.getQteLivrer();
                         int operation = 1;//Supprimer from qte stock
@@ -318,7 +318,7 @@ public class LivraisonService implements ILivraisonService {
                                 qte = Math.abs(qte);
                                 operation = 2;//Ajouter from qte stock
                             }
-                            stockService.updateQteStock(detLivraison.getStock().getId(), TypeQteToUpdate.QTE_STOCK, new RequestStockQte(qte, operation, null));
+                            stockService.updateQteStock(detLivraison.getStock().getId(), TypeQteToUpdate.QTE_STOCK_IMPORT, new RequestStockQte(qte, operation, null));
                         }
                     }
                 }

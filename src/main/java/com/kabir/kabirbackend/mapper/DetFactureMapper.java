@@ -21,7 +21,20 @@ public class DetFactureMapper {
     }
 
     public DetFacture toEntity(DetFactureDTO dto) {
-        return modelMapper.map(dto, DetFacture.class);
+        DetFacture entity = new DetFacture();
+        entity.setId(dto.getId());
+        entity.setQteFacturer(dto.getQteFacturer());
+        entity.setRemiseFacture(dto.getRemiseFacture());
+        entity.setPrixVente(dto.getPrixVente());
+        entity.setMontantProduit(dto.getMontantProduit());
+        entity.setBeneficeDH(dto.getBeneficeDH());
+        entity.setBenepourcentage(dto.getBenepourcentage());
+        entity.setTva7(dto.getTva7());
+        entity.setTva20(dto.getTva20());
+        entity.setMontantProduitHT(dto.getMontantProduitHT());
+        entity.setDirectFacture(dto.getDirectFacture());
+        entity.setAvecRemise(dto.isAvecRemise());
+        return entity;
     }
 
 

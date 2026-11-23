@@ -372,7 +372,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="13" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{Montant}.intValue()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Montant}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="364" y="0" width="45" height="30" uuid="4137c624-1f88-4490-a938-805c22328251"/>

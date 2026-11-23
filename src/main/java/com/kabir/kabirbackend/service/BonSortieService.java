@@ -2,13 +2,16 @@ package com.kabir.kabirbackend.service;
 
 import com.kabir.kabirbackend.config.enums.ReportTypeEnum;
 import com.kabir.kabirbackend.config.enums.TypeQteToUpdate;
+import com.kabir.kabirbackend.config.requests.BonSortiePrintRequest;
 import com.kabir.kabirbackend.config.requests.RequestStockQte;
 import com.kabir.kabirbackend.config.responses.BonSortieResponse;
 import com.kabir.kabirbackend.config.searchEntities.CommonSearchModel;
 import com.kabir.kabirbackend.config.util.JasperReportsUtil;
 import com.kabir.kabirbackend.config.util.StaticVariables;
 import com.kabir.kabirbackend.dto.BonSortieDTO;
+import com.kabir.kabirbackend.dto.BonSortieDetailPrintDTO;
 import com.kabir.kabirbackend.dto.BonSortiePrintDTO;
+import com.kabir.kabirbackend.dto.BonSortieSummaryPrintDTO;
 import com.kabir.kabirbackend.dto.DetailBonSortieDTO;
 import com.kabir.kabirbackend.entities.*;
 import com.kabir.kabirbackend.mapper.BonSortieMapper;
@@ -24,10 +27,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -41,6 +48,7 @@ public class BonSortieService implements IBonSortieService {
 
     private final BonSortieRepository bonSortieRepository;
     private final DetailBonSortieRepository detailBonSortieRepository;
+    private final DetLivraisonRepository detLivraisonRepository;
     private final BonSortieMapper bonSortieMapper;
     private final DetailBonSortieMapper detailBonSortieMapper;
     private final StockService stockService;
@@ -55,6 +63,7 @@ public class BonSortieService implements IBonSortieService {
     public BonSortieService(
             BonSortieRepository bonSortieRepository,
             DetailBonSortieRepository detailBonSortieRepository,
+            DetLivraisonRepository detLivraisonRepository,
             BonSortieMapper bonSortieMapper,
             DetailBonSortieMapper detailBonSortieMapper,
             StockService stockService,
@@ -70,6 +79,7 @@ public class BonSortieService implements IBonSortieService {
         this.stockService = stockService;
         this.stockRepository = stockRepository;
         this.detailBonSortieRepository = detailBonSortieRepository;
+        this.detLivraisonRepository = detLivraisonRepository;
         this.repertoireRepository = repertoireRepository;
         this.personnelRepository = personnelRepository;
         this.etablissementService = etablissementService;
@@ -318,6 +328,168 @@ public class BonSortieService implements IBonSortieService {
         parameters.put("fichier", StaticVariables.bundleFR.getBaseBundleName());
 
         return jasperReportsUtil.jasperReportInBytes(rows, parameters, "BonSortie", ReportTypeEnum.PDF, "");
+    }
+
+    /***************************************** Impression des etats "Consulter" ********************************************/
+
+    /**
+     * Port of {@code BonSortieActionBeans.imprimer()}: summary per product
+     * (stockId 0), all products detailed (stockId -1) or one product detailed
+     * (stockId > 0), for one mandatory commercial.
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public byte[] imprimerEtat(BonSortiePrintRequest request) throws Exception {
+        logger.info("Printing bon sortie etat: {}", request);
+
+        if (null == request || null == request.getPersonnelId() || request.getPersonnelId() <= 0) {
+            return JasperReportsUtil.anullerImpr("commercial obligatoire");
+        }
+        Personnel commercial = personnelRepository.findById(request.getPersonnelId()).orElse(null);
+        if (null == commercial) {
+            return JasperReportsUtil.anullerImpr("commercial obligatoire");
+        }
+
+        boolean fallbackDates = null == request.getDateDebut() || null == request.getDateFin();
+        LocalDate today = LocalDate.now();
+        LocalDate dateDebut = fallbackDates ? today.minusDays(365) : request.getDateDebut();
+        LocalDate dateFin = fallbackDates ? today : request.getDateFin();
+        Instant start = dateDebut.atStartOfDay(ZoneId.systemDefault()).toInstant();
+        Instant endExclusive = dateFin.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant();
+
+        // Legacy wording/format differs between supplied dates (du/au, dd-MM-yyyy)
+        // and the automatic one-year fallback (datedebut/dateFin, yyyy-MM-dd).
+        String dateLabelDebut = fallbackDates ? "datedebut" : "du";
+        String dateLabelFin = fallbackDates ? "dateFin" : "au";
+        String dateValueDebut = fallbackDates ? dateDebut.toString() : StaticVariables.dateFormatDayFirst.format(dateDebut);
+        String dateValueFin = fallbackDates ? dateFin.toString() : StaticVariables.dateFormatDayFirst.format(dateFin);
+        String dateDb = StaticVariables.bundleFR.getString(dateLabelDebut) + " : " + dateValueDebut;
+        String dateFn = StaticVariables.bundleFR.getString(dateLabelFin) + " : " + dateValueFin;
+
+        Long stockId = request.getStockId();
+        if (null != stockId && stockId == -1) {
+            return imprimerEtatDetail(commercial, start, endExclusive, dateDebut, dateFin, dateDb, dateFn, null, true);
+        }
+        if (null != stockId && stockId > 0) {
+            Stock stock = stockRepository.findById(stockId).orElse(null);
+            return imprimerEtatDetail(commercial, start, endExclusive, dateDebut, dateFin, dateDb, dateFn, stock, false);
+        }
+        return imprimerEtatSummary(commercial, start, endExclusive, dateDebut, dateFin, dateDb, dateFn);
+    }
+
+    private byte[] imprimerEtatSummary(Personnel commercial, Instant start, Instant endExclusive,
+                                       LocalDate dateDebut, LocalDate dateFin, String dateDb, String dateFn) throws Exception {
+        Map<Long, BonSortieSummaryPrintDTO> byStock = new LinkedHashMap<>();
+        for (Object[] row : detailBonSortieRepository.sumQteByStock(commercial.getId(), start, endExclusive)) {
+            long stockId = toLong(row[0]);
+            byStock.put(stockId, new BonSortieSummaryPrintDTO(
+                    (String) row[1], StaticVariables.toDouble(row[2]), toLong(row[3]), 0L));
+        }
+        for (Object[] row : detLivraisonRepository.sumQteByStock(commercial.getId(), dateDebut, dateFin)) {
+            long stockId = toLong(row[0]);
+            BonSortieSummaryPrintDTO dto = byStock.get(stockId);
+            if (null == dto) {
+                dto = new BonSortieSummaryPrintDTO((String) row[1], StaticVariables.toDouble(row[2]), 0L, 0L);
+                byStock.put(stockId, dto);
+            }
+            dto.setQteVente(toLong(row[3]));
+        }
+
+        List<BonSortieSummaryPrintDTO> rows = new ArrayList<>(byStock.values());
+        rows.sort(Comparator.comparing(BonSortieSummaryPrintDTO::getStock,
+                Comparator.nullsFirst(Comparator.naturalOrder())));
+        if (rows.isEmpty()) {
+            return JasperReportsUtil.anullerImpr(AUCUN_ELEMENT);
+        }
+
+        return jasperReportsUtil.jasperReportInBytes(rows,
+                buildEtatParameters(commercial, dateDb, dateFn, ""), "etatBonSortie", ReportTypeEnum.PDF, "");
+    }
+
+    private byte[] imprimerEtatDetail(Personnel commercial, Instant start, Instant endExclusive,
+                                      LocalDate dateDebut, LocalDate dateFin, String dateDb, String dateFn,
+                                      Stock selectedStock, boolean allProducts) throws Exception {
+        Long stockFilter = allProducts || null == selectedStock ? null : selectedStock.getId();
+        List<BonSortieDetailPrintDTO> rows = new ArrayList<>();
+
+        for (DetailBonSortie detail : detailBonSortieRepository.findPrintDetails(commercial.getId(), start, endExclusive, stockFilter)) {
+            rows.add(new BonSortieDetailPrintDTO(
+                    0,
+                    null != detail.getBonSortie().getDateOperation() ? Date.from(detail.getBonSortie().getDateOperation()) : null,
+                    detail.getBonSortie().getCodeSortie(),
+                    detail.getQteSortie(),
+                    "",
+                    allProducts && null != detail.getStock() ? detail.getStock().getDesignation() : ""));
+        }
+        for (DetLivraison detail : detLivraisonRepository.findPrintDetails(commercial.getId(), dateDebut, dateFin, stockFilter)) {
+            Livraison livraison = detail.getLivraison();
+            rows.add(new BonSortieDetailPrintDTO(
+                    1,
+                    null != livraison.getDateBl() ? Date.from(livraison.getDateBl().atStartOfDay(ZoneId.systemDefault()).toInstant()) : null,
+                    livraison.getCodeBl(),
+                    detail.getQteLivrer(),
+                    null != livraison.getRepertoire() ? livraison.getRepertoire().getDesignation() : "",
+                    allProducts && null != detail.getStock() ? detail.getStock().getDesignation() : ""));
+        }
+
+        rows = groupDetailRows(rows);
+        sortDetailRows(rows, allProducts);
+        if (rows.isEmpty()) {
+            return JasperReportsUtil.anullerImpr(AUCUN_ELEMENT);
+        }
+
+        String produit = null != selectedStock ? selectedStock.getDesignation() : "";
+        String report = allProducts ? "etatBonSortieDetailAll" : "etatBonSortieDetail";
+        return jasperReportsUtil.jasperReportInBytes(rows,
+                buildEtatParameters(commercial, dateDb, dateFn, produit), report, ReportTypeEnum.PDF, "");
+    }
+
+    /**
+     * Both detail reports group on {@code type}, so type rows must stay contiguous
+     * (the all-products report also groups on {@code produit}, hence product first).
+     */
+    static void sortDetailRows(List<BonSortieDetailPrintDTO> rows, boolean allProducts) {
+        Comparator<BonSortieDetailPrintDTO> typeThenDate = Comparator
+                .comparing(BonSortieDetailPrintDTO::getType)
+                .thenComparing(BonSortieDetailPrintDTO::getDate, Comparator.nullsFirst(Comparator.naturalOrder()));
+        if (allProducts) {
+            rows.sort(Comparator.comparing(BonSortieDetailPrintDTO::getProduit,
+                    Comparator.nullsFirst(Comparator.naturalOrder())).thenComparing(typeThenDate));
+        } else {
+            rows.sort(typeThenDate);
+        }
+    }
+
+    /** Legacy grouping by document number, extended with type/product for the all-products report. */
+    private List<BonSortieDetailPrintDTO> groupDetailRows(List<BonSortieDetailPrintDTO> rows) {
+        Map<String, BonSortieDetailPrintDTO> grouped = new LinkedHashMap<>();
+        for (BonSortieDetailPrintDTO row : rows) {
+            String key = row.getType() + "|"
+                    + (null != row.getNum() ? row.getNum() : "") + "|"
+                    + (null != row.getProduit() ? row.getProduit() : "");
+            BonSortieDetailPrintDTO existing = grouped.get(key);
+            if (null == existing) {
+                grouped.put(key, row);
+            } else {
+                existing.setQte(existing.getQte() + row.getQte());
+            }
+        }
+        return new ArrayList<>(grouped.values());
+    }
+
+    private Map<String, Object> buildEtatParameters(Personnel commercial, String dateDb, String dateFn, String produit) {
+        Map<String, Object> parameters = new HashMap<>();
+        StaticVariables.getInfoEtablissement(parameters, etablissementService.findAll(), true);
+        parameters.put("fichier", StaticVariables.bundleFR.getBaseBundleName());
+        parameters.put("dateDb", dateDb);
+        parameters.put("dateFn", dateFn);
+        parameters.put("repertoire", commercial.getDesignation());
+        parameters.put("produit", produit);
+        return parameters;
+    }
+
+    private static long toLong(Object value) {
+        return null == value ? 0L : ((Number) value).longValue();
     }
 
 }

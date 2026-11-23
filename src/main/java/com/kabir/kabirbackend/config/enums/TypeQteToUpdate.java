@@ -6,7 +6,8 @@ public enum TypeQteToUpdate {
     QTE_STOCK_IMPORT(1),
     QTE_STOCK_FACTURER(2),
     QTE_STOCK_SORTIE(3),
-    QTE_STOCK_DEPOT(4);
+    QTE_STOCK_DEPOT(4),
+    FROM_ACHAT_ETRANGER(5);
 
     private final int value;
 

@@ -165,6 +165,8 @@ public class StockService implements IStockService {
                         logger.info("Updating stock qte stock sortie: {}", requestStockQte.qte());
                     } else if (typeQteToUpdate == TypeQteToUpdate.QTE_STOCK_DEPOT) {
                         logger.info("Updating stock qte stock depot: {}", requestStockQte.qte());
+                    } else if (typeQteToUpdate == TypeQteToUpdate.FROM_ACHAT_ETRANGER) {
+                        logger.info("Updating stock qte stock and qte facturer: {}", requestStockQte.qte());
                     }
 
                     updateStock(typeQteToUpdate, stockDTO, requestStockQte);
@@ -315,6 +317,10 @@ public class StockService implements IStockService {
                 break;
             case QTE_STOCK_SORTIE:
                 stockDTO.setQteStockImport(operator == 1 ? stockDTO.getQteStockImport() + qte : stockDTO.getQteStockImport() - qte);
+                break;
+            case FROM_ACHAT_ETRANGER:
+                stockDTO.setQteStock(operator == 1 ? stockDTO.getQteStock() - qte : stockDTO.getQteStock() + qte);
+                stockDTO.setQteFacturer(operator == 1 ? stockDTO.getQteFacturer() - qte : stockDTO.getQteFacturer() + qte);
                 break;
             case QTE_STOCK_DEPOT:
                 stockDTO.setQteStock(operator == 1 ? stockDTO.getQteStock() + qte : stockDTO.getQteStock() - qte);

@@ -212,10 +212,10 @@
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
 				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Arial" size="13"/>
 				</textElement>
-				<textFieldExpression><![CDATA[(($F{repertoireIce} != null && $F{repertoireIce}.length() > 0 && $F{repertoireIce}.trim() != "") ? (" - " + $P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("ice") + " : " + $F{repertoireIce}) : "")]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getBundle($P{fichier}).getString("ice") + " : " + $F{repertoireIce}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -358,7 +358,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="13" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{Montant}.intValue()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Montant}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="393" y="0" width="47" height="30" uuid="4137c624-1f88-4490-a938-805c22328251">

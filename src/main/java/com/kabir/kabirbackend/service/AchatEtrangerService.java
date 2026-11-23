@@ -92,7 +92,7 @@ public class AchatEtrangerService implements IAchatEtrangerService {
             if(CollectionUtils.isNotEmpty(detAchatFactureDTOOld)) {
                 for(DetAchatEtranger detAchatEtranger : detAchatFactureDTOOld) {
                     if(null != detAchatEtranger.getStock() && null != detAchatEtranger.getStock().getId()) {
-                        stockService.updateQteStock(detAchatEtranger.getStock().getId(), TypeQteToUpdate.QTE_STOCK_IMPORT, new RequestStockQte(detAchatEtranger.getQteAchat(), StockOperation.ADD_TO_STOCK.getValue(), null));
+                        stockService.updateQteStock(detAchatEtranger.getStock().getId(), TypeQteToUpdate.FROM_ACHAT_ETRANGER, new RequestStockQte(detAchatEtranger.getQteAchat(), StockOperation.DELETE_FROM_STOCK.getValue(), null));
 
                         logger.info("Deleting detail achat etranger by id: {}", detAchatEtranger.getId());
                         detAchatEtrangerRepository.deleteById(detAchatEtranger.getId());
@@ -175,7 +175,7 @@ public class AchatEtrangerService implements IAchatEtrangerService {
             logger.info("Deleting det achat etranger: {}", listToDelete.size());
             for(DetAchatEtranger detAchatEtranger : listToDelete) {
                 if(null != detAchatEtranger.getStock() && null != detAchatEtranger.getStock().getId()) {
-                    stockService.updateQteStock(detAchatEtranger.getStock().getId(), TypeQteToUpdate.QTE_STOCK_IMPORT, new RequestStockQte(detAchatEtranger.getQteAchat(), StockOperation.ADD_TO_STOCK.getValue(), null));
+                    stockService.updateQteStock(detAchatEtranger.getStock().getId(), TypeQteToUpdate.FROM_ACHAT_ETRANGER, new RequestStockQte(detAchatEtranger.getQteAchat(), StockOperation.DELETE_FROM_STOCK.getValue(), null));
                 }
 
                 detAchatEtrangerRepository.delete(detAchatEtranger);
@@ -201,19 +201,19 @@ public class AchatEtrangerService implements IAchatEtrangerService {
         if(CollectionUtils.isNotEmpty(listToSave)) {
             for(DetAchatEtranger detAchatEtranger : listToSave) {
                 if(null == detAchatEtranger.getId()) {
-                    stockService.updateQteStock(detAchatEtranger.getStock().getId(), TypeQteToUpdate.QTE_STOCK_IMPORT, new RequestStockQte(detAchatEtranger.getQteAchat(),StockOperation.DELETE_FROM_STOCK.getValue(), null));
+                    stockService.updateQteStock(detAchatEtranger.getStock().getId(), TypeQteToUpdate.FROM_ACHAT_ETRANGER, new RequestStockQte(detAchatEtranger.getQteAchat(),StockOperation.ADD_TO_STOCK.getValue(), null));
                 } else {
                     int qte = detAchatEtranger.getQteAchat();
-                    int operation = StockOperation.ADD_TO_STOCK.getValue();
+                    int operation = StockOperation.DELETE_FROM_STOCK.getValue();
                     qte = updateQte(detAchatFactureDTOOld, detAchatEtranger, qte);
 
                     if(qte != 0) {
                         if(qte < 0) {
                             qte = Math.abs(qte);
-                            operation = StockOperation.DELETE_FROM_STOCK.getValue();
+                            operation = StockOperation.ADD_TO_STOCK.getValue();
                         }
 
-                        stockService.updateQteStock(detAchatEtranger.getStock().getId(), TypeQteToUpdate.QTE_STOCK_IMPORT, new RequestStockQte(qte, operation, null));
+                        stockService.updateQteStock(detAchatEtranger.getStock().getId(), TypeQteToUpdate.FROM_ACHAT_ETRANGER, new RequestStockQte(qte, operation, null));
                     }
                 }
 
@@ -236,14 +236,14 @@ public class AchatEtrangerService implements IAchatEtrangerService {
         return qte;
     }
 
-    public List<DetAchatEtranger> getDetStockDepotOldNotAnymore(List<DetAchatEtranger> detAchatFactureDTOOld, List<DetAchatEtrangerDTO> detAchatSimpleDTOs) {
-        if(CollectionUtils.isEmpty(detAchatFactureDTOOld)) {
+    public List<DetAchatEtranger> getDetStockDepotOldNotAnymore(List<DetAchatEtranger> listDetAchatEtrangerOld, List<DetAchatEtrangerDTO> listDetAchatEtranger) {
+        if(CollectionUtils.isEmpty(listDetAchatEtrangerOld)) {
             return new ArrayList<>();
         }
 
-        return detAchatFactureDTOOld.stream()
-                .filter(detStockDepotOld -> detAchatSimpleDTOs.stream()
-                        .noneMatch(detAchatEtrangerDTO -> detAchatEtrangerDTO.getId() != null && detAchatEtrangerDTO.getId().equals(detStockDepotOld.getId())))
+        return listDetAchatEtrangerOld.stream()
+                .filter(detAchatEtrangerOld -> listDetAchatEtranger.stream()
+                        .noneMatch(detAchatEtrangerDTO -> detAchatEtrangerDTO.getId() != null && detAchatEtrangerDTO.getId().equals(detAchatEtrangerOld.getId())))
                 .collect(Collectors.toList());
     }
 
